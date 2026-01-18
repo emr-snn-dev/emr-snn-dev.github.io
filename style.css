@@ -1,192 +1,87 @@
-/* Webフォントの読み込み */
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
 
 :root {
     --honda-red: #cc0000;
     --dark-bg: #1a1a1a;
-    --text-main: #333;
     --light-gray: #f8f8f8;
+    --easing: cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 * {
     box-sizing: border-box;
-    cursor: none; /* デフォルトカーソルを非表示 */
+    cursor: none;
+    /* --- テキスト選択を禁止 --- */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    /* --- 画像のドラッグを禁止 --- */
+    -webkit-user-drag: none;
 }
 
 body {
     margin: 0;
-    padding: 0;
     font-family: 'Helvetica Neue', Arial, sans-serif;
     background-color: #fff;
-    color: var(--text-main);
+    color: #333;
     overflow-x: hidden;
 }
 
 /* カスタムカーソル */
 #cursor-dot, #cursor-outline {
     position: fixed;
-    top: 0;
-    left: 0;
+    top: 0; left: 0;
     transform: translate(-50%, -50%);
     border-radius: 50%;
     z-index: 9999;
     pointer-events: none;
 }
-
-#cursor-dot {
-    width: 6px;
-    height: 6px;
-    background-color: var(--honda-red);
-}
-
+#cursor-dot { width: 6px; height: 6px; background-color: var(--honda-red); }
 #cursor-outline {
-    width: 35px;
-    height: 35px;
+    width: 30px; height: 30px;
     border: 1px solid var(--honda-red);
-    transition: width 0.2s, height 0.2s, background-color 0.2s;
+    transition: all 0.3s var(--easing);
 }
 
 /* ヘッダー */
 header {
-    height: 70vh;
+    height: 100vh;
     background: linear-gradient(135deg, #000 0%, #333 100%);
     display: flex;
     align-items: center;
     justify-content: center;
-    clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
     color: #fff;
-    text-align: center;
 }
 
-.logo-text {
+.logo-animate {
     font-family: 'Orbitron', sans-serif;
     font-size: 5rem;
-    font-weight: 900;
     font-style: italic;
-    letter-spacing: -2px;
-    margin: 0;
+    animation: slideIn 1.2s var(--easing) forwards;
 }
 
-.tagline {
-    font-size: 1.1rem;
-    letter-spacing: 6px;
-    color: var(--honda-red);
-    text-transform: uppercase;
+@keyframes slideIn {
+    0% { opacity: 0; transform: skewX(-20deg) translateX(-100px); }
+    100% { opacity: 1; transform: skewX(-10deg) translateX(0); }
 }
 
 /* ナビゲーション */
-nav {
-    background-color: var(--dark-bg);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    border-bottom: 4px solid var(--honda-red);
-}
-
-nav ul {
-    display: flex;
-    justify-content: center;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
+nav { background: var(--dark-bg); position: sticky; top: 0; z-index: 1000; }
+nav ul { display: flex; justify-content: center; list-style: none; margin: 0; padding: 0; }
 nav a {
-    color: #fff;
-    text-decoration: none;
-    padding: 20px 30px;
-    font-weight: bold;
-    text-transform: uppercase;
-    font-size: 0.85rem;
-    display: block;
-    transition: 0.3s;
+    color: #fff; text-decoration: none; padding: 20px 30px;
+    font-weight: bold; text-transform: uppercase; font-size: 0.8rem;
+    display: block; transition: 0.3s;
 }
+nav a:hover { background: var(--honda-red); transform: skewX(-15deg); }
 
-nav a:hover {
-    background-color: var(--honda-red);
-    transform: skewX(-15deg);
-}
-
-/* メインコンテンツ */
-.container {
-    max-width: 1100px;
-    margin: 80px auto;
-    padding: 0 40px;
-}
-
-.category-tag {
-    font-family: 'Orbitron', sans-serif;
-    color: var(--honda-red);
-    font-weight: bold;
-    font-size: 0.9rem;
-}
-
-h2 {
-    font-size: 3rem;
-    font-style: italic;
-    text-transform: uppercase;
-    margin: 10px 0 30px 0;
-    letter-spacing: -1px;
-}
-
-.content-box {
-    background-color: var(--light-gray);
-    padding: 50px;
-    border-left: 12px solid var(--honda-red);
-}
-
-.grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 30px;
-}
-
-.grid-item {
-    border: 1px solid #eee;
-    padding: 40px;
-    transition: 0.4s;
-}
-
-.grid-item:hover {
-    border-color: var(--honda-red);
-    box-shadow: 15px 15px 0 var(--light-gray);
-}
-
-.grid-item h4 {
-    color: var(--honda-red);
-    font-size: 1.5rem;
-    margin-top: 0;
-}
+/* コンテンツ */
+.container { max-width: 1100px; margin: 80px auto; padding: 0 40px; }
+.content-box { background: var(--light-gray); padding: 50px; border-left: 10px solid var(--honda-red); }
 
 /* フッター */
 footer {
-    background-color: var(--dark-bg);
-    color: #fff;
-    padding: 80px 0;
-    text-align: center;
-    margin-top: 100px;
-}
-
-.copyright {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1.2rem;
-    letter-spacing: 2px;
-}
-
-.admin {
-    color: #555;
-    font-size: 0.75rem;
-    margin-top: 20px;
-}
-
-/* アニメーション用 */
-.reveal {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: 1s ease-out;
-}
-
-.reveal.active {
-    opacity: 1;
-    transform: translateY(0);
+    background: var(--dark-bg); color: #fff; padding: 60px 0;
+    text-align: center; border-top: 8px solid var(--honda-red);
 }
