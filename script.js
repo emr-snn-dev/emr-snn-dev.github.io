@@ -1,14 +1,24 @@
-// A11yモード切り替え
+// A11yモードの厳密制御
 const a11yToggle = document.getElementById('a11y-toggle');
+const a11yArea = document.getElementById('a11y-area');
+
 a11yToggle.addEventListener('change', function() {
     if(this.checked) {
-        document.body.classList.add('a11y-active');
+        // チェックが入った時だけスキップリンクを作成して挿入
+        a11yArea.innerHTML = '<a href="#main-content" class="skip-link-active">SKIP TO CONTENT</a>';
+        document.body.style.cursor = 'auto'; // カーソルを通常に戻す
+        document.getElementById('cursor-outline').style.display = 'none';
+        document.getElementById('cursor-dot').style.display = 'none';
     } else {
-        document.body.classList.remove('a11y-active');
+        // チェックが外れたら削除
+        a11yArea.innerHTML = '';
+        document.body.style.cursor = 'none';
+        document.getElementById('cursor-outline').style.display = 'block';
+        document.getElementById('cursor-dot').style.display = 'block';
     }
 });
 
-// カーソル演出
+// カーソル追従ロジック
 const dot = document.getElementById('cursor-dot');
 const outline = document.getElementById('cursor-outline');
 
@@ -18,13 +28,9 @@ if (window.matchMedia("(hover: hover)").matches) {
         dot.style.top = `${e.clientY}px`;
         outline.animate({ left: `${e.clientX}px`, top: `${e.clientY}px` }, { duration: 400, fill: "forwards" });
     });
-    document.querySelectorAll('.hover-zoom, a').forEach(el => {
-        el.addEventListener('mouseenter', () => { outline.style.width = '80px'; outline.style.height = '80px'; });
-        el.addEventListener('mouseleave', () => { outline.style.width = '40px'; outline.style.height = '40px'; });
-    });
 }
 
-// 露出アニメーション
+// ふわっと出るアニメーション
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
 }, { threshold: 0.1 });
