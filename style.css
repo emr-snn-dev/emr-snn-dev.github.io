@@ -9,45 +9,46 @@
 }
 
 * { box-sizing: border-box; -webkit-user-select: none; user-select: none; }
+
+/* デフォルト（Standard）：テックデザイン */
 body {
     margin: 0; background: var(--white); color: var(--text-main);
-    font-family: "Helvetica Neue", Arial, sans-serif; line-height: 1.8; overflow-x: hidden; cursor: none;
+    font-family: "Helvetica Neue", Arial, sans-serif; line-height: 1.8;
+    overflow-x: hidden;
+    cursor: none; /* テックカーソルを使うため標準は消す */
 }
 
-/* --- ナビゲーション（サイズ大幅強化） --- */
-nav {
-    background: var(--dark-bg);
-    position: sticky; top: 0; z-index: 1000;
-    border-bottom: 2px solid var(--honda-red);
+/* アシストモードがONの時：標準カーソルに戻す */
+body.assist-mode {
+    cursor: auto !important;
 }
-nav ul {
-    display: flex; justify-content: center; list-style: none; margin: 0; padding: 0;
+body.assist-mode * {
+    cursor: auto !important;
 }
+
+/* スタンダード専用要素（カーソルなど）の表示制御 */
+.std-only { display: block; }
+body.assist-mode .std-only { display: none !important; }
+
+/* --- ナビゲーション（拡大版） --- */
+nav { background: var(--dark-bg); position: sticky; top: 0; z-index: 1000; border-bottom: 2px solid var(--honda-red); }
+nav ul { display: flex; justify-content: center; list-style: none; margin: 0; padding: 0; }
 nav a {
-    color: #fff; text-decoration: none;
-    padding: 25px 40px; /* 余白を拡大 */
-    font-family: 'Orbitron';
-    font-size: 1.1rem; /* 0.8remから大幅アップ */
-    font-weight: 700;
-    letter-spacing: 2px;
-    display: block;
-    transition: 0.3s;
+    color: #fff; text-decoration: none; padding: 25px 40px;
+    font-family: 'Orbitron'; font-size: 1.1rem; font-weight: 700;
+    letter-spacing: 2px; display: block; transition: 0.3s;
 }
-nav a:hover {
-    color: var(--honda-red);
-    background: rgba(255,255,255,0.05);
-}
+nav a:hover { color: var(--honda-red); background: rgba(255,255,255,0.05); }
 
-/* --- アクセシビリティ：チェック時のみ動くスタイル --- */
+/* --- アシストモード専用：スキップリンク --- */
 .skip-link-active {
-    position: fixed; top: 10px; left: 10px;
+    position: fixed; top: 15px; left: 15px;
     background: var(--honda-red); color: white;
     padding: 15px 30px; z-index: 100000; text-decoration: none;
-    font-weight: bold; border-radius: 4px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    font-weight: bold; border-radius: 4px; border: 2px solid #fff;
 }
 
-/* --- メインビジュアル & コンテンツ --- */
+/* --- デザイン・アニメーション --- */
 header {
     height: 80vh; background: #000; color: #fff;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -63,31 +64,22 @@ header {
 .hover-zoom:hover { background-color: #000; color: #fff; transform: translateY(-10px); }
 .zoom-text { transition: 0.5s var(--easing); font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 900; }
 
-/* --- フッター・スイッチのデザイン向上 --- */
+/* --- カーソル（Standardのみ） --- */
+#cursor-outline { position: fixed; width: 40px; height: 40px; border: 2px solid var(--honda-red); border-radius: 50%; z-index: 10000; pointer-events: none; mix-blend-mode: difference; background-color: #fff; }
+#cursor-dot { position: fixed; width: 8px; height: 8px; background: var(--honda-red); border-radius: 50%; z-index: 10001; pointer-events: none; }
+
+/* フッター切り替えスイッチ */
 footer { background: #000; padding: 80px 20px; text-align: center; color: #666; }
 .mode-selector { margin-bottom: 40px; }
 .switch-label { font-family: 'Orbitron'; font-size: 0.8rem; color: #aaa; margin-bottom: 15px; }
 .a11y-controller { display: flex; align-items: center; justify-content: center; gap: 15px; }
 .mode-text { font-size: 0.7rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
-
-.switch { position: relative; width: 50px; height: 26px; }
+.switch { position: relative; width: 50px; height: 26px; display: inline-block; }
 .switch input { opacity: 0; width: 0; height: 0; }
-.slider {
-    position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
-    background-color: #333; transition: .4s; border-radius: 34px;
-}
-.slider:before {
-    position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px;
-    background-color: white; transition: .4s; border-radius: 50%;
-}
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #333; transition: .4s; border-radius: 34px; }
+.slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
 input:checked + .slider { background-color: var(--honda-red); }
 input:checked + .slider:before { transform: translateX(24px); }
 
-/* カーソル */
-#cursor-outline { position: fixed; width: 40px; height: 40px; border: 2px solid var(--honda-red); border-radius: 50%; z-index: 10000; pointer-events: none; mix-blend-mode: difference; background-color: #fff; }
-#cursor-dot { position: fixed; width: 8px; height: 8px; background: var(--honda-red); border-radius: 50%; z-index: 10001; pointer-events: none; }
-
-@media (max-width: 768px) {
-    nav a { padding: 15px 20px; font-size: 0.8rem; }
-}
-@media (hover: none) { #cursor-dot, #cursor-outline { display: none; } body { cursor: auto; } }
+@media (max-width: 768px) { nav a { padding: 15px 20px; font-size: 0.9rem; } }
+@media (hover: none) { .std-only { display: none !important; } body { cursor: auto !important; } }
