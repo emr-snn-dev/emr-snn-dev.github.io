@@ -11,18 +11,18 @@
 <div id="loader">
     <div class="loader-content">
         <p class="loader-text">SYSTEM INITIALIZING...</p>
-        <div class="loader-bar"></div>
+        <div class="loader-bar-bg"><div id="loader-progress"></div></div>
     </div>
 </div>
 
-<div id="progress-container"><div id="progress-bar"></div></div>
+<div id="scroll-progress"></div>
 
-<div id="cursor-dot" class="tech-only" aria-hidden="true"></div>
-<div id="cursor-outline" class="tech-only" aria-hidden="true"></div>
+<div id="cursor-dot" class="tech-only"></div>
+<div id="cursor-outline" class="tech-only"></div>
 
-<header role="banner" id="hero">
+<header id="hero">
     <div class="header-inner">
-        <h1 class="logo-animate typing">篠ノ井技術Club</h1>
+        <h1 class="logo-animate">篠ノ井技術Club</h1>
         <p class="tagline-animate">NEXT GENERATION ENGINEERS</p>
     </div>
 </header>
@@ -37,33 +37,31 @@
     </ul>
 </nav>
 
-<main id="main-content" class="container">
-    <article class="reveal">
+<main class="container">
+    <section class="reveal">
         <div class="category-tag">Project Status</div>
         <h2>LOGICAL ENGINEERING</h2>
-        <section class="content-box hover-zoom">
+        <div class="content-box hover-zoom">
             <h3 class="zoom-text">「なぜ？」を、答えに変える。</h3>
-            <p>私たちは、モノづくりへの純粋な好奇心を原動力にするチームです。ただ作るだけでなく「どうすればもっと良くなるのか？」をデータで突き詰め、検証を繰り返すことで、納得できる最適解を導き出します。</p>
-        </section>
-    </article>
+            <p>モノづくりへの純粋な好奇心をデータで裏付ける。私たちのエンジニアリングは、そこから始まります。</p>
+        </div>
+    </section>
 </main>
 
 <footer>
     <div class="footer-wrap">
-        <div class="mode-selector">
-            <p class="switch-label">INTERFACE SETTINGS</p>
-            <div class="controller-grid">
-                <div class="a11y-controller">
-                    <span class="mode-text">Standard</span>
-                    <label class="switch">
-                        <input type="checkbox" id="tech-toggle">
-                        <span class="slider"></span>
-                    </label>
-                    <span class="mode-text">Tech Mode</span>
-                </div>
+        <div class="ui-panel">
+            <p class="panel-title">SYSTEM SETTING</p>
+            <div class="switch-area">
+                <span class="mode-label">Standard</span>
+                <label class="switch">
+                    <input type="checkbox" id="tech-toggle">
+                    <span class="slider"></span>
+                </label>
+                <span class="mode-label">Tech Mode</span>
             </div>
         </div>
-        <p class="copyright">&copy; 篠ノ井技術Club (仮称)</p>
+        <p class="copyright">&copy; 篠ノ井技術Club</p>
     </div>
 </footer>
 
