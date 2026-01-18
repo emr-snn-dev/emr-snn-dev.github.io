@@ -3,27 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 COURSE OUT | STC RACING</title>
+    <title>404 SYSTEM ERROR | STC RACING</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="error-page">
+<body class="error-body">
 
 <div id="cursor-dot"></div>
 <div id="cursor-outline"></div>
 
-<div class="error-container">
-    <div class="error-code">404</div>
-    <div class="error-status">COURSE OUT</div>
-    <p class="error-message">
-        リクエストされたページは、コースの外側にあるようです。<br>
-        マシンの損傷はありません。ピット（ホーム）に戻って再整備しましょう。
-    </p>
-    <a href="index.html" class="btn-pit-in">RETURN TO PIT (HOME)</a>
+<div class="error-screen">
+    <div class="scanline"></div>
+    <div class="error-content">
+        <h1 class="glitch-text" data-text="404">404</h1>
+        <div class="status-code">OUT OF TRACK / SYSTEM ERROR</div>
+        <p class="error-desc">
+            マシンのテレメトリが途絶えました。<br>
+            リクエストされたデータは存在しないか、移動した可能性があります。
+        </p>
+        <div class="action-area">
+            <a href="index.html" class="btn-back">REBOOT & BACK TO HOME</a>
+        </div>
+    </div>
 </div>
-
-<footer class="error-footer">
-    <p>&copy; shinonoi-technology-Club</p>
-</footer>
 
 <script src="script.js"></script>
 </body>
