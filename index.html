@@ -3,23 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STC RACING | Official Site</title>
+    <meta name="description" content="篠ノ井技術Club (仮称) | 私たちの「好き」を、技術で突き詰める。">
+    <title>篠ノ井技術Club | Official Site</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body oncontextmenu="return false;">
 
-<div id="cursor-dot"></div>
-<div id="cursor-outline"></div>
+<a href="#main-content" class="skip-link">本文へジャンプ</a>
 
-<header>
+<div id="cursor-dot" aria-hidden="true"></div>
+<div id="cursor-outline" aria-hidden="true"></div>
+
+<header role="banner">
     <div class="header-inner">
-        <h1 class="logo-animate">STC RACING</h1>
-        <p class="tagline-animate">Succession of Engineering Excellence</p>
+        <h1 class="logo-animate">篠ノ井技術Club</h1>
+        <p class="tagline-animate">NEXT GENERATION ENGINEERS</p>
     </div>
-    <div class="scroll-down">SCROLL</div>
 </header>
 
-<nav id="main-nav">
+<nav id="main-nav" aria-label="ナビゲーション">
     <ul>
         <li><a href="index.html" class="nav-link">Home</a></li>
         <li><a href="machine.html" class="nav-link">Machine</a></li>
@@ -29,39 +31,49 @@
     </ul>
 </nav>
 
-<main class="container">
-    <section class="reveal">
-        <div class="category-tag">01 / Heritage</div>
-        <h2>THE SUCCESSION</h2>
-        <div class="content-box">
+<main id="main-content" class="container">
+    <article class="reveal">
+        <div class="category-tag">Who We Are</div>
+        <h2>LOGICAL ENGINEERING</h2>
+        <section class="content-box hover-zoom">
             <div class="accent-line"></div>
-            <h3>先輩から受け継いだ「魂」</h3>
-            <p>私たちが整備し、走らせるマシンは、歴代の先輩たちが心血を注いで作り上げた知恵の結晶です。この伝統のバトンを止めることなく、さらに磨き上げて長野の地を駆け抜けます。</p>
+            <h3 class="zoom-text">「なぜ？」を、答えに変える。</h3>
+            <p>私たちは、モノづくりが大好きなメンバーが集まったチームです。最初はただ動かすだけで楽しかったけれど、今は「どうすればもっと効率よく動かせるのか？」という問いに、データを使って向き合っています。</p>
+            <p>まだミッションは策定中ですが、自分たちが納得できるまで突き詰める。その楽しさが私たちの原動力です。</p>
+        </section>
+    </article>
+
+    <section class="reveal corporate-section" style="margin-top: 100px;">
+        <div class="category-tag">For Enterprise / Sponsors</div>
+        <h2>TECHNICAL COLLABORATION</h2>
+        <div class="grid">
+            <div class="grid-item hover-zoom">
+                <span class="grid-num">STEP</span>
+                <h4 class="zoom-text">学ぶ、そして超える</h4>
+                <p>私たちはまだ発展途上です。だからこそ、プロの技術や考え方を吸収し、それを検証して自分たちのものにするスピードには自信があります。技術的なアドバイスを頂ける企業の方を探しています。</p>
+            </div>
+            <div class="grid-item hover-zoom">
+                <span class="grid-num">JOIN</span>
+                <h4 class="zoom-text">未来を共に創る</h4>
+                <p>中学生という枠に縛られず、一人の技術者として評価される結果を目指します。私たちの活動を支え、共に技術の面白さを広めてくださるパートナーを募集しています。</p>
+            </div>
         </div>
     </section>
 
-    <section class="reveal" style="margin-top: 80px;">
-        <div class="category-tag">02 / Next Mission</div>
-        <h2>FUTURE TARGETS</h2>
-        <div class="grid">
-            <div class="grid-item">
-                <div class="grid-num">01</div>
-                <h4>エコマラソン長野</h4>
-                <p>地元長野の地で、先輩たちの記録を塗り替えるための挑戦。</p>
-            </div>
-            <div class="grid-item">
-                <div class="grid-num">02</div>
-                <h4>全国大会（もてぎ）</h4>
-                <p>全国の強豪校と技術を競い、エンジニアとしての限界に挑む。</p>
-            </div>
+    <section class="reveal" style="margin-top: 100px;">
+        <div class="category-tag">Visualizing Our Challenge</div>
+        <h2>ANALYTICS</h2>
+        <div class="data-box">
+            <p>自分たちで集めたデータを整理し、次のセッティングを考える。この繰り返しが、確実な進化を生んでいます。</p>
+            
         </div>
     </section>
 </main>
 
 <footer>
-    <div class="footer-content">
-        <p class="copyright">&copy; shinonoi-technology-Club</p>
-        <p class="admin">Managed by Technical High School Students</p>
+    <div class="footer-wrap">
+        <p class="copyright">&copy; 篠ノ井技術Club (仮称)</p>
+        <p class="admin">Independent Technical Project Group / Founded by Students.</p>
     </div>
 </footer>
 
