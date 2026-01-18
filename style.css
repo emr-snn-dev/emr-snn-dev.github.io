@@ -3,67 +3,68 @@
 :root {
     --honda-red: #cc0000;
     --dark-bg: #050505;
-    --text-main: #111111;
     --white: #ffffff;
     --easing: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* --- 初期設定：針あり --- */
 * { box-sizing: border-box; -webkit-user-select: none; user-select: none; }
-body { margin: 0; background: var(--white); color: var(--text-main); font-family: sans-serif; overflow-x: hidden; cursor: auto !important; }
+body { 
+    margin: 0; background: var(--white); color: #111; 
+    font-family: sans-serif; overflow-x: hidden; cursor: auto !important; 
+    transition: background 0.5s, color 0.5s;
+}
 
-/* 1. ローディング */
+/* 1. ローディング演出（画像2枚目の完全再現） */
 #loader {
     position: fixed; inset: 0; background: #000; z-index: 10000;
     display: flex; align-items: center; justify-content: center;
-    transition: opacity 0.8s var(--easing);
 }
-.loader-text { color: var(--honda-red); font-family: 'Orbitron'; font-size: 0.8rem; letter-spacing: 4px; }
-.loader-bar { width: 0; height: 2px; background: var(--honda-red); margin-top: 10px; transition: 0.5s; }
+.loader-text { 
+    color: var(--honda-red); font-family: 'Orbitron'; font-size: 0.9rem; 
+    letter-spacing: 5px; margin-bottom: 20px; text-align: center;
+}
+.loader-bar-bg { width: 200px; height: 1px; background: #222; }
+#loader-progress { width: 0%; height: 100%; background: var(--honda-red); transition: 1.5s var(--easing); }
 
-/* 2. プログレスバー */
-#progress-container { position: fixed; top: 0; left: 0; width: 100%; height: 4px; z-index: 2000; }
-#progress-bar { height: 100%; background: var(--honda-red); width: 0%; }
+/* 2. スクロールバー */
+#scroll-progress { position: fixed; top: 0; left: 0; height: 3px; background: var(--honda-red); z-index: 2000; width: 0; }
 
-/* 3. ナビゲーション */
+/* 3. ナビゲーション（巨大化） */
 nav { background: var(--dark-bg); position: sticky; top: 0; z-index: 1000; border-bottom: 2px solid var(--honda-red); }
 nav ul { display: flex; justify-content: center; list-style: none; margin: 0; padding: 0; }
-nav a { color: #fff; text-decoration: none; padding: 25px 40px; font-family: 'Orbitron'; font-size: 1.1rem; font-weight: 700; display: block; transition: 0.3s; }
+nav a { color: #fff; text-decoration: none; padding: 25px 45px; font-family: 'Orbitron'; font-size: 1.1rem; font-weight: 900; display: block; transition: 0.3s; }
 nav a:hover { background: rgba(255,255,255,0.1); color: var(--honda-red); }
 
-/* 4. ヘッダー演出 */
-header {
-    height: 85vh; background: #000; color: #fff;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
-    overflow: hidden; position: relative;
-}
-
-/* テックモード設定 */
-body.tech-mode { cursor: none !important; background-color: #0c0c0c; color: #eee; }
+/* --- テックモード発動時の変化 --- */
+body.tech-mode { cursor: none !important; background: #0a0a0a; color: #fff; }
 body.tech-mode a, body.tech-mode label { cursor: none !important; }
+
 .tech-only { display: none; position: fixed; pointer-events: none; z-index: 10001; mix-blend-mode: difference; }
 body.tech-mode .tech-only { display: block; }
-#cursor-outline { width: 40px; height: 40px; border: 2px solid var(--honda-red); border-radius: 50%; background: #fff; }
-#cursor-dot { width: 8px; height: 8px; background: var(--honda-red); border-radius: 50%; }
+#cursor-outline { width: 40px; height: 40px; border: 2px solid var(--honda-red); border-radius: 50%; background: #fff; top: 0; left: 0; }
+#cursor-dot { width: 8px; height: 8px; background: var(--honda-red); border-radius: 50%; top: 0; left: 0; }
 
-/* カードデザイン */
+/* デザイン要素 */
+header { height: 80vh; background: #000; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%); }
+.logo-animate { font-family: 'Orbitron'; font-size: clamp(2.5rem, 10vw, 6rem); letter-spacing: 0.1em; }
+
 .container { max-width: 1000px; margin: 80px auto; padding: 0 20px; }
 .hover-zoom { padding: 60px; background: #fafafa; border-left: 10px solid var(--honda-red); transition: 0.5s var(--easing); }
-body.tech-mode .hover-zoom { background: #1a1a1a; color: #fff; }
-.hover-zoom:hover { transform: translateY(-10px) scale(1.02); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+body.tech-mode .hover-zoom { background: #151515; }
+.hover-zoom:hover { transform: translateY(-10px); background: #000; color: #fff; }
+
+/* フッター・スイッチ */
+footer { background: #000; padding: 80px; text-align: center; }
+.panel-title { font-family: 'Orbitron'; color: #444; font-size: 0.7rem; margin-bottom: 20px; }
+.switch { position: relative; width: 60px; height: 30px; display: inline-block; vertical-align: middle; margin: 0 15px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; inset: 0; background: #222; border-radius: 34px; cursor: pointer; transition: 0.4s; }
+.slider:before { content: ""; position: absolute; height: 22px; width: 22px; left: 4px; bottom: 4px; background: #fff; border-radius: 50%; transition: 0.4s; }
+input:checked + .slider { background: var(--honda-red); }
+input:checked + .slider:before { transform: translateX(30px); }
+.mode-label { color: #666; font-family: 'Orbitron'; font-size: 0.8rem; }
 
 /* アニメーション */
-.reveal { opacity: 0; transform: translateY(30px); transition: 1s; }
+.reveal { opacity: 0; transform: translateY(40px); transition: 1s; }
 .reveal.active { opacity: 1; transform: translateY(0); }
-
-/* フッター */
-footer { background: #000; padding: 60px; text-align: center; color: #666; }
-.switch { position: relative; width: 50px; height: 26px; display: inline-block; vertical-align: middle; }
-.switch input { opacity: 0; width: 0; height: 0; }
-.slider { position: absolute; cursor: pointer; inset: 0; background: #333; border-radius: 34px; transition: 0.4s; }
-.slider:before { content: ""; position: absolute; height: 18px; width: 18px; left: 4px; bottom: 4px; background: #fff; border-radius: 50%; transition: 0.4s; }
-input:checked + .slider { background: var(--honda-red); }
-input:checked + .slider:before { transform: translateX(24px); }
-.mode-text { font-family: 'Orbitron'; font-size: 0.7rem; margin: 0 10px; }
-
-@media (max-width: 768px) { nav a { padding: 15px 20px; font-size: 0.8rem; } }
