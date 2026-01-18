@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="篠ノ井技術Club (仮称) | 私たちの「好き」を、技術で突き詰める。">
     <title>篠ノ井技術Club | Official Site</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body oncontextmenu="return false;">
 
-<a href="#main-content" class="skip-link">本文へジャンプ</a>
+<a href="#main-content" class="skip-link a11y-only">本文へジャンプ</a>
 
 <div id="cursor-dot" aria-hidden="true"></div>
 <div id="cursor-outline" aria-hidden="true"></div>
@@ -21,7 +20,7 @@
     </div>
 </header>
 
-<nav id="main-nav" aria-label="ナビゲーション">
+<nav id="main-nav">
     <ul>
         <li><a href="index.html" class="nav-link">Home</a></li>
         <li><a href="machine.html" class="nav-link">Machine</a></li>
@@ -33,47 +32,26 @@
 
 <main id="main-content" class="container">
     <article class="reveal">
-        <div class="category-tag">Who We Are</div>
+        <div class="category-tag">Project Status</div>
         <h2>LOGICAL ENGINEERING</h2>
         <section class="content-box hover-zoom">
             <div class="accent-line"></div>
             <h3 class="zoom-text">「なぜ？」を、答えに変える。</h3>
-            <p>私たちは、モノづくりが大好きなメンバーが集まったチームです。最初はただ動かすだけで楽しかったけれど、今は「どうすればもっと効率よく動かせるのか？」という問いに、データを使って向き合っています。</p>
-            <p>まだミッションは策定中ですが、自分たちが納得できるまで突き詰める。その楽しさが私たちの原動力です。</p>
+            <p>私たちは、モノづくりへの純粋な好奇心を原動力にするチームです。ただ作るだけでなく「どうすればもっと良くなるのか？」をデータで突き詰め、検証を繰り返すことで、納得できる最適解を導き出します。</p>
         </section>
     </article>
-
-    <section class="reveal corporate-section" style="margin-top: 100px;">
-        <div class="category-tag">For Enterprise / Sponsors</div>
-        <h2>TECHNICAL COLLABORATION</h2>
-        <div class="grid">
-            <div class="grid-item hover-zoom">
-                <span class="grid-num">STEP</span>
-                <h4 class="zoom-text">学ぶ、そして超える</h4>
-                <p>私たちはまだ発展途上です。だからこそ、プロの技術や考え方を吸収し、それを検証して自分たちのものにするスピードには自信があります。技術的なアドバイスを頂ける企業の方を探しています。</p>
-            </div>
-            <div class="grid-item hover-zoom">
-                <span class="grid-num">JOIN</span>
-                <h4 class="zoom-text">未来を共に創る</h4>
-                <p>中学生という枠に縛られず、一人の技術者として評価される結果を目指します。私たちの活動を支え、共に技術の面白さを広めてくださるパートナーを募集しています。</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="reveal" style="margin-top: 100px;">
-        <div class="category-tag">Visualizing Our Challenge</div>
-        <h2>ANALYTICS</h2>
-        <div class="data-box">
-            <p>自分たちで集めたデータを整理し、次のセッティングを考える。この繰り返しが、確実な進化を生んでいます。</p>
-            
-        </div>
-    </section>
 </main>
 
 <footer>
     <div class="footer-wrap">
+        <div class="a11y-controller">
+            <label class="switch">
+                <input type="checkbox" id="a11y-toggle">
+                <span class="slider"></span>
+            </label>
+            <span class="switch-label">Accessibility Mode</span>
+        </div>
         <p class="copyright">&copy; 篠ノ井技術Club (仮称)</p>
-        <p class="admin">Independent Technical Project Group / Founded by Students.</p>
     </div>
 </footer>
 
