@@ -8,7 +8,7 @@
 </head>
 <body oncontextmenu="return false;">
 
-<a href="#main-content" class="skip-link a11y-only">本文へジャンプ</a>
+<div id="a11y-area"></div>
 
 <div id="cursor-dot" aria-hidden="true"></div>
 <div id="cursor-outline" aria-hidden="true"></div>
@@ -22,11 +22,11 @@
 
 <nav id="main-nav">
     <ul>
-        <li><a href="index.html" class="nav-link">Home</a></li>
-        <li><a href="machine.html" class="nav-link">Machine</a></li>
-        <li><a href="race.html" class="nav-link">Race</a></li>
-        <li><a href="member.html" class="nav-link">Team</a></li>
-        <li><a href="join.html" class="nav-link">Join</a></li>
+        <li><a href="index.html" class="nav-link">HOME</a></li>
+        <li><a href="machine.html" class="nav-link">MACHINE</a></li>
+        <li><a href="race.html" class="nav-link">RACE</a></li>
+        <li><a href="member.html" class="nav-link">TEAM</a></li>
+        <li><a href="join.html" class="nav-link">JOIN</a></li>
     </ul>
 </nav>
 
@@ -44,12 +44,16 @@
 
 <footer>
     <div class="footer-wrap">
-        <div class="a11y-controller">
-            <label class="switch">
-                <input type="checkbox" id="a11y-toggle">
-                <span class="slider"></span>
-            </label>
-            <span class="switch-label">Accessibility Mode</span>
+        <div class="mode-selector">
+            <p class="switch-label">UI SETTING</p>
+            <div class="a11y-controller">
+                <span class="mode-text">Standard</span>
+                <label class="switch">
+                    <input type="checkbox" id="a11y-toggle">
+                    <span class="slider"></span>
+                </label>
+                <span class="mode-text">Assist</span>
+            </div>
         </div>
         <p class="copyright">&copy; 篠ノ井技術Club (仮称)</p>
     </div>
