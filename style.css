@@ -8,89 +8,77 @@
     --easing: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* 全体 & コピーガード（選択・ドラッグ禁止） */
-* {
-    box-sizing: border-box;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
-}
-
+* { box-sizing: border-box; -webkit-user-select: none; user-select: none; }
 body {
-    margin: 0;
-    background: var(--white);
-    color: var(--text-main);
-    font-family: "Helvetica Neue", Arial, "Hiragino Sans", "BIZ UDPGothic", sans-serif;
-    line-height: 1.8;
-    overflow-x: hidden;
-    cursor: none; /* PC用カスタムカーソル */
+    margin: 0; background: var(--white); color: var(--text-main);
+    font-family: sans-serif; line-height: 1.8; overflow-x: hidden; cursor: none;
 }
 
-/* アクセシビリティ */
+/* --- モード切り替えによる制御 --- */
+.a11y-only {
+    display: none; /* 通常時は存在を消す */
+}
+
+body.a11y-active .a11y-only {
+    display: block;
+}
+
+/* モードONの時だけ出るスキップリンク */
 .skip-link {
-    position: absolute; top: -100px; left: 0; background: var(--honda-red); color: #fff;
-    padding: 10px; z-index: 10005; transition: 0.3s;
+    position: fixed; top: -100px; left: 20px;
+    background: var(--honda-red); color: #fff;
+    padding: 12px 24px; z-index: 10005; text-decoration: none;
+    font-weight: bold; transition: top 0.3s;
 }
-.skip-link:focus { top: 0; }
-a:focus { outline: 3px solid var(--honda-red); outline-offset: 4px; }
+.skip-link:focus { top: 10px; }
 
-/* 反転カスタムカーソル */
+/* --- デザインギミック --- */
 #cursor-outline {
     position: fixed; width: 40px; height: 40px; border: 2px solid var(--honda-red);
     border-radius: 50%; z-index: 10000; pointer-events: none;
     mix-blend-mode: difference; background-color: var(--white);
-    transition: width 0.3s var(--easing), height 0.3s var(--easing), background-color 0.3s;
 }
-#cursor-dot {
-    position: fixed; width: 8px; height: 8px; background: var(--honda-red);
-    border-radius: 50%; z-index: 10001; pointer-events: none;
-}
+#cursor-dot { position: fixed; width: 8px; height: 8px; background: var(--honda-red); border-radius: 50%; z-index: 10001; pointer-events: none; }
 
-/* ヘッダー */
 header {
     height: 85vh; background: #000; color: #fff;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     clip-path: polygon(0 0, 100% 0, 100% 92%, 0 100%);
-    text-align: center; padding: 0 20px;
 }
-.logo-animate { font-family: 'Orbitron'; font-size: clamp(1.8rem, 8vw, 5rem); font-weight: 900; margin: 0; letter-spacing: 0.1em; }
-.tagline-animate { font-family: 'Orbitron'; color: var(--honda-red); letter-spacing: 6px; font-size: 0.8rem; margin-top: 15px; }
+.logo-animate { font-family: 'Orbitron'; font-size: clamp(2rem, 8vw, 5rem); letter-spacing: 0.1em; }
 
-/* ナビゲーション */
-nav { background: var(--dark-bg); position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid #333; }
-nav ul { display: flex; justify-content: center; list-style: none; margin: 0; padding: 0; flex-wrap: wrap; }
-nav a { color: #fff; text-decoration: none; padding: 22px clamp(15px, 3vw, 25px); font-weight: bold; font-size: 0.8rem; letter-spacing: 1px; transition: 0.3s; }
-nav a:hover { color: var(--honda-red); }
+nav { background: var(--dark-bg); position: sticky; top: 0; z-index: 1000; }
+nav ul { display: flex; justify-content: center; list-style: none; margin: 0; padding: 0; }
+nav a { color: #fff; text-decoration: none; padding: 22px 25px; font-weight: bold; font-size: 0.8rem; }
 
-/* コンテナ */
 .container { max-width: 1100px; margin: 80px auto; padding: 0 24px; }
 
-/* 反転・ポップアップ拡大演出 */
 .hover-zoom {
-    padding: clamp(30px, 6vw, 60px); background: #fafafa; border-left: 10px solid var(--honda-red);
-    transition: 0.6s var(--easing); position: relative; overflow: hidden;
+    padding: 60px; background: #fafafa; border-left: 10px solid var(--honda-red);
+    transition: 0.6s var(--easing);
 }
 .hover-zoom:hover { background-color: #000; color: #fff; transform: translateY(-10px); }
-.zoom-text { transition: 0.5s var(--easing); display: block; font-size: clamp(1.4rem, 4vw, 2.2rem); font-weight: 800; margin-bottom: 20px; }
+.zoom-text { transition: 0.5s var(--easing); font-size: 2rem; font-weight: 800; display: block; }
 .hover-zoom:hover .zoom-text { transform: scale(1.05); color: var(--honda-red); }
 
-/* グリッドレイアウト */
-.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-.grid-item { border: 1px solid #eee; padding: 45px; background: #fff; position: relative; transition: 0.5s var(--easing); }
-.grid-num { position: absolute; top: -10px; right: 10px; font-family: 'Orbitron'; font-size: 5rem; color: rgba(0,0,0,0.02); }
-
-/* グラフ・データ枠 */
-.data-box { background: #f0f0f0; padding: 60px 40px; border-radius: 4px; text-align: center; }
-
-/* フェードインアニメーション */
-.reveal { opacity: 0; transform: translateY(30px); transition: 1.2s var(--easing); }
-.reveal.active { opacity: 1; transform: translateY(0); }
-
-/* フッター */
-footer { background: #000; color: #555; padding: 80px 20px; text-align: center; border-top: 1px solid #111; font-size: 0.8rem; }
-
-/* スマホ対応（ホバー演出を無効化） */
-@media (hover: none) {
-    #cursor-dot, #cursor-outline { display: none; }
-    body { cursor: auto; }
+/* --- フッターの切り替えボタン --- */
+.a11y-controller {
+    margin-bottom: 30px; display: flex; align-items: center; justify-content: center; gap: 10px;
 }
+.switch { position: relative; display: inline-block; width: 40px; height: 20px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider {
+    position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #333; transition: .4s; border-radius: 20px;
+}
+.slider:before {
+    position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px;
+    background-color: white; transition: .4s; border-radius: 50%;
+}
+input:checked + .slider { background-color: var(--honda-red); }
+input:checked + .slider:before { transform: translateX(20px); }
+.switch-label { color: #555; font-size: 0.7rem; font-family: 'Orbitron'; }
+
+footer { background: #000; padding: 60px 20px; text-align: center; color: #444; }
+
+@media (hover: none) { #cursor-dot, #cursor-outline { display: none; } body { cursor: auto; } }
