@@ -1,11 +1,12 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // 1. メニューの挿入
+    // 1. メニューの挿入（ポートフォリオを追加）
     const navHTML = `
         <ul id="nav-list">
-            <li><a href="/index.html">TOP</a></li>
-            <li><a href="/blog/index.html">BLOG</a></li>
-            <li><a href="/index.html#about">ABOUT</a></li>
-            <li><a href="/index.html#recruit">RECRUIT</a></li>
+            <li><a href="/index.html">トップ</a></li>
+            <li><a href="/blog/index.html">ブログ</a></li>
+            <li><a href="/portfolio/index.html">実績</a></li>
+            <li><a href="/index.html#about">案内</a></li>
+            <li><a href="/index.html#recruit">募集</a></li>
         </ul>
     `;
     const navElement = document.querySelector('nav');
