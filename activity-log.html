@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>SECURE LOG | 篠ノ井技術クラブ</title>
+    <link rel="stylesheet" href="/style.css">
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+    <style>
+        /* 1. 選択とドラッグを完全に禁止 */
+        body {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none; /* iPhone長押し禁止 */
+        }
+
+        /* 2. 透かし（ウォーターマーク）を画面全体に重ねる */
+        .watermark {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; /* 下の画像は触れるようにする */
+            z-index: 9999;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'><text fill='rgba(0, 174, 239, 0.1)' font-size='12' x='20' y='100' font-family='Orbitron' transform='rotate(-30 100 100)'>SHINONOI TECH CLUB - NO CAPTURE</text></svg>");
+        }
+
+        /* 3. スクショ検知用（PCでPrintScreen等が押された時に真っ暗にする） */
+        @media print {
+            body { display: none !important; }
+        }
+
+        /* 4. 画像の上に透明な板を置く（直接保存を物理的に防ぐ） */
+        .photo-item::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: transparent;
+            z-index: 5;
+        }
+    </style>
+</head>
+<body oncontextmenu="warnSave(); return false;" onkeydown="checkKey(event)">
+
+    <div class="watermark"></div>
+    <div id="nav-container"></div>
+
+    <header style="text-align:center; padding: 40px;">
+        <h1 style="font-family:'Orbitron';">PROTECTED LOG</h1>
+        <p style="color:#ff4757; font-weight:900;">⚠️ スクリーンショット・保存禁止 ⚠️</p>
+    </header>
+
+    <main id="main-content">
+        <div id="auto-gallery" class="gallery-container"></div>
+    </main>
+
+    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+        <span class="close-btn">&times;</span>
+        <img id="lightbox-img" src="">
+    </div>
+
+    <script src="/menu.js"></script>
+    <script>
+        const storage = firebase.storage();
+        const listRef = storage.ref('tournament-photos/');
+        const galleryArea = document.getElementById('auto-gallery');
+
+        listRef.listAll().then((res) => {
+            res.items.forEach((itemRef) => {
+                itemRef.getDownloadURL().then((url) => {
+                    const div = document.createElement('div');
+                    div.className = 'photo-item';
+                    div.innerHTML = `<img src="${url}" class="secure-img" onclick="openLightbox('${url}')">`;
+                    galleryArea.appendChild(div);
+                });
+            });
+        });
+
+        function openLightbox(url) {
+            document.getElementById('lightbox-img').src = url;
+            document.getElementById('lightbox').classList.add('active');
+        }
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+        }
+
+        // 警告メッセージ
+        function warnSave() {
+            alert("セキュリティ保護のため、右クリックおよび画像の保存は禁止されています。");
+        }
+
+        // PCのショートカットキー（Ctrl+S, Ctrl+P, PrintScreen等）をブロック
+        function checkKey(e) {
+            if (e.ctrlKey && (e.key === 's' || e.key === 'p' || e.key === 'u')) {
+                e.preventDefault();
+                alert("この操作は無効化されています。");
+            }
+        }
+
+        // iPhoneのスクショ対策：画面から指が離れた瞬間に一瞬画面を隠すなどの心理的抵抗
+        // ※ハードウェア側のスクショをソフトで止めることはできませんが、
+        // ログに「誰がいつアクセスしたか」を残すようにすると抑止力になります。
+    </script>
+</body>
+</html>
