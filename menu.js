@@ -30,7 +30,7 @@
                 <div id="auth-status-area" class="auth-status"></div>
             </nav>`;
         
-        // 【隠しコマンド】「I」を5回連続タップでログイン画面へ
+        // 【隠しコマンド】ロゴの「I」を5回連続タップでログイン画面へ
         let tapCount = 0;
         let tapTimer;
         const gate = document.getElementById('secret-gate');
@@ -41,7 +41,7 @@
                 window.location.href = "/team/login.html?code=SNN_2026";
                 tapCount = 0;
             }
-            tapTimer = setTimeout(() => { tapCount = 0; }, 2000); // 2秒間操作がないとリセット
+            tapTimer = setTimeout(() => { tapCount = 0; }, 2000);
         };
 
         const toggleBtn = document.getElementById('menu-toggle');
@@ -49,24 +49,42 @@
         toggleBtn.onclick = () => { toggleBtn.classList.toggle('active'); navMenu.classList.toggle('active'); };
     }
 
+    // 認証状態の監視
     firebase.auth().onAuthStateChanged((user) => {
         const area = document.getElementById('auth-status-area');
         const mob = document.getElementById('auth-status-mobile');
+        const statusText = document.getElementById('log-status-text');
 
         if (user) {
+            // ログイン済み
             const name = user.displayName || "メンバー";
-            if (area) area.innerHTML = `<span style="color:#00aeef; font-weight:900;">${name}</span>`;
+            const userDisplay = `<span style="color:#00aeef; font-weight:900;">${name}</span>`;
+            if (area) area.innerHTML = userDisplay;
             if (mob) mob.innerHTML = `<a href="/team/index.html">MY PAGE</a>`;
+            if (statusText) statusText.innerText = "AUTHENTICATED: " + name.toUpperCase();
+            
             createWatermark(name);
             if (document.getElementById('auto-gallery')) loadGithubImages(true);
         } else {
-            // 普段は「LOGIN」ボタンを表示しない（隠しコマンドからのみ行ける）
-            if (area) area.innerHTML = `<span style="color:#486581; font-size:0.7rem;">GUEST MODE</span>`;
-            if (mob) mob.innerHTML = `<span style="color:#486581; font-size:0.8rem; padding:10px;">GUEST MODE</span>`;
+            // 未ログイン（隠しモード以外の時はボタンを表示しない）
+            const urlParams = new URLSearchParams(window.location.search);
+            const isSecret = (urlParams.get('code') === 'SNN_2026');
+            
+            const loginBtn = isSecret ? 
+                `<a href="/team/login.html?code=SNN_2026" style="background:#00aeef; color:#fff; padding:5px 15px; border-radius:50px; text-decoration:none; font-size:0.8rem; font-weight:bold;">LOGIN</a>` :
+                `<span style="color:#486581; font-size:0.7rem;">GUEST MODE</span>`;
+            
+            if (area) area.innerHTML = loginBtn;
+            if (mob) mob.innerHTML = loginBtn;
+            if (statusText) statusText.innerText = "GUEST MODE (LOW-RES PREVIEW)";
+            
+            const oldWm = document.getElementById('dynamic-watermark');
+            if (oldWm) oldWm.remove();
             if (document.getElementById('auto-gallery')) loadGithubImages(false);
         }
     });
 
+    // GitHubから画像取得
     async function loadGithubImages(isHighRes) {
         try {
             const res = await fetch(`https://api.github.com/repos/emr-snn-dev/emr-snn-dev.github.io/contents/images`);
@@ -77,6 +95,7 @@
         } catch (e) { console.error(e); }
     }
 
+    // 透かしの作成
     function createWatermark(name) {
         const old = document.getElementById('dynamic-watermark');
         if (old) old.remove();
