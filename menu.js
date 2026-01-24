@@ -1,16 +1,12 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const nav = document.getElementById('main-nav');
-    
-    // スクロール時の背景透過処理
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 80) {
-            nav.style.backgroundColor = "rgba(10, 10, 10, 0.98)";
-        } else {
-            nav.style.backgroundColor = "var(--dark-bg)";
-        }
-    });
+const menuBtn = document.getElementById('menu-btn');
+const navList = document.getElementById('nav-list');
 
-    // 右クリックと画像ドラッグを禁止してブランドを保護
-    document.addEventListener('contextmenu', e => e.preventDefault());
-    document.addEventListener('dragstart', e => e.preventDefault());
+menuBtn.addEventListener('click', () => {
+    navList.classList.toggle('active');
+});
+
+document.querySelectorAll('#nav-list a').forEach(link => {
+    link.addEventListener('click', () => {
+        navList.classList.remove('active');
+    });
 });
