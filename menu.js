@@ -11,12 +11,16 @@
 
     if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 
+    const urlParams = new URLSearchParams(window.location.search);
+    const accessCode = urlParams.get('code');
+    const isSecretPath = (accessCode === 'SNN_2026');
+
     const navContainer = document.getElementById('nav-container');
     if (navContainer) {
         navContainer.innerHTML = `
             <nav class="global-nav">
                 <div class="nav-brand" style="font-family:'Orbitron'; font-weight:900;">
-                    SHINONO<a href="/team/login.html?code=SNN_2026" style="color:inherit; text-decoration:none;">I</a>
+                    SHINONO<span id="secret-trigger" style="cursor:default;">I</span>
                 </div>
                 <button class="menu-toggle" id="menu-toggle"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button>
                 <ul class="nav-links" id="nav-menu">
@@ -24,12 +28,16 @@
                     <li><a href="/about.html">ABOUT</a></li>
                     <li><a href="/portfolio.html">PORTFOLIO</a></li>
                     <li><a href="/team/index.html">MEMBER</a></li>
-                    <li style="position:relative;"><a href="/activity-log.html">LOG</a><span id="log-new-badge" style="display:none; position:absolute; top:0; right:-5px; width:8px; height:8px; background:#ff4d4d; border-radius:50%; box-shadow:0 0 5px #ff4d4d;"></span></li>
-                    <li id="auth-status-mobile" style="border-top:1px solid rgba(255,255,255,0.1); margin-top:5px; padding-top:5px;"></li>
+                    <li style="position:relative;"><a href="/activity-log.html">LOG</a><span id="log-new-badge" style="display:none; position:absolute; top:0; right:-5px; width:8px; height:8px; background:#ff4d4d; border-radius:50%;"></span></li>
+                    <li id="auth-status-mobile"></li>
                 </ul>
                 <div id="auth-status-area" class="auth-status"></div>
             </nav>`;
         
+        document.getElementById('secret-trigger').onclick = () => {
+            if(isSecretPath) window.location.href = "/team/login.html?code=SNN_2026";
+        };
+
         const toggleBtn = document.getElementById('menu-toggle');
         const navMenu = document.getElementById('nav-menu');
         toggleBtn.onclick = () => { toggleBtn.classList.toggle('active'); navMenu.classList.toggle('active'); };
@@ -38,17 +46,18 @@
     firebase.auth().onAuthStateChanged((user) => {
         const area = document.getElementById('auth-status-area');
         const mob = document.getElementById('auth-status-mobile');
-        const statusText = document.getElementById('log-status-text');
 
         if (user) {
             const name = user.displayName || "メンバー";
             if (area) area.innerHTML = `<span style="color:#00aeef; font-weight:900;">${name}</span>`;
             if (mob) mob.innerHTML = `<a href="/team/index.html">MY PAGE</a>`;
-            if (statusText) statusText.innerText = "AUTHENTICATED: " + name.toUpperCase();
             createWatermark(name);
             loadGithubImages(true);
         } else {
-            const loginBtn = `<a href="/team/login.html?code=SNN_2026" style="background:#00aeef; color:#fff; padding:5px 15px; border-radius:50px; text-decoration:none; font-size:0.8rem; font-weight:bold;">LOGIN</a>`;
+            const loginBtn = isSecretPath ? 
+                `<a href="/team/login.html?code=SNN_2026" style="background:#00aeef; color:#fff; padding:5px 15px; border-radius:50px; text-decoration:none; font-size:0.8rem; font-weight:bold;">LOGIN</a>` :
+                `<span style="color:#486581; font-size:0.7rem;">GUEST MODE</span>`;
+            
             if (area) area.innerHTML = loginBtn;
             if (mob) mob.innerHTML = loginBtn;
             loadGithubImages(false);
@@ -59,14 +68,8 @@
         try {
             const res = await fetch(`https://api.github.com/repos/emr-snn-dev/emr-snn-dev.github.io/contents/images`);
             const files = await res.json();
-            
-            // 最新の画像があるかチェック（NEWバッジ）
-            const lastUpdated = localStorage.getItem('last_log_check');
-            const now = new Date().getTime();
-            // とりあえず「最新24時間以内」ならNEWを出す
             const badge = document.getElementById('log-new-badge');
             if (badge && files.length > 0) badge.style.display = "block"; 
-
             if (typeof renderGallery === "function") renderGallery(files, isHighRes);
         } catch (e) { console.error(e); }
     }
