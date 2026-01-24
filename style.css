@@ -8,6 +8,7 @@ body {
     overflow-x: hidden;
 }
 
+/* カスタムカーソル */
 @media (hover: hover) {
     body { cursor: none; }
     #custom-cursor {
@@ -23,9 +24,29 @@ body {
     }
 }
 
-header { padding: 100px 20px; background: #222; color: #fff; }
-header h1 { font-family: 'Orbitron', sans-serif; font-size: 2.5rem; letter-spacing: 4px; }
+/* 通知トースト */
+#notification {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background-color: #007bff;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 10000;
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+#notification.show { transform: translateX(-50%) translateY(0); }
 
+/* ヘッダー */
+header { padding: 80px 20px; background: #222; color: #fff; }
+header h1 { font-family: 'Orbitron', sans-serif; font-size: 2.2rem; letter-spacing: 2px; margin: 0; }
+
+/* ナビゲーション */
 nav {
     position: sticky;
     top: 0;
@@ -36,12 +57,13 @@ nav {
 }
 nav ul { list-style: none; padding: 0; margin: 0; display: flex; justify-content: center; }
 nav ul li { margin: 0 15px; }
-nav a { text-decoration: none; color: #333; font-weight: bold; }
+nav a { text-decoration: none; color: #333; font-weight: bold; font-size: 0.9rem; }
 
+/* ハンバーガーメニュー */
 .menu-btn {
     display: none;
     width: 30px;
-    height: 24px;
+    height: 20px;
     cursor: pointer;
     position: relative;
     margin-left: auto;
@@ -49,39 +71,53 @@ nav a { text-decoration: none; color: #333; font-weight: bold; }
 }
 .menu-btn span { position: absolute; width: 100%; height: 2px; background: #333; transition: 0.3s; }
 .menu-btn span:nth-child(1) { top: 0; }
-.menu-btn span:nth-child(2) { top: 11px; }
+.menu-btn span:nth-child(2) { top: 9px; }
 .menu-btn span:nth-child(3) { bottom: 0; }
 
 @media (max-width: 768px) {
+    header h1 { font-size: 1.8rem; }
     .menu-btn { display: block; }
-    nav ul { display: none; flex-direction: column; width: 100%; background: #fff; position: absolute; top: 100%; left: 0; padding: 20px 0; }
+    nav ul {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background: #fff;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        padding: 10px 0;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
     nav ul.active { display: flex; }
-    nav ul li { margin: 10px 0; }
+    nav ul li { margin: 15px 0; }
 }
 
+/* メイン */
 main { max-width: 700px; margin: 0 auto; padding: 20px; }
-section { padding: 60px 0; border-bottom: 1px solid #eee; opacity: 0; transform: translateY(30px); transition: 0.8s; }
+section { padding: 50px 0; border-bottom: 1px solid #eee; opacity: 0; transform: translateY(30px); transition: 0.8s; }
 section.is-visible { opacity: 1; transform: translateY(0); }
 
-h2 { font-family: 'Orbitron', sans-serif; color: #007bff; margin-bottom: 30px; }
-.main-list { list-style: none; padding: 0; font-size: 1.5rem; font-weight: bold; margin-bottom: 20px; }
-.news-list { text-align: left; background: #fff; padding: 20px; border-radius: 8px; }
-.date { font-family: 'Orbitron', sans-serif; color: #007bff; }
-dl { text-align: left; background: #fff; padding: 20px; border-radius: 10px; }
-dt { font-weight: bold; color: #007bff; margin-top: 10px; }
+h2 { font-family: 'Orbitron', sans-serif; color: #007bff; margin-bottom: 25px; font-size: 1.5rem; }
+.main-list { list-style: none; padding: 0; font-size: 1.3rem; font-weight: bold; margin-bottom: 20px; }
+.news-list { text-align: left; background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #eee; }
+.date { font-family: 'Orbitron', sans-serif; color: #007bff; font-size: 0.8rem; }
 
-/* 無効化されたボタンのスタイル */
-.button.disabled {
+dl { text-align: left; background: #fff; padding: 20px; border-radius: 10px; border: 1px solid #eee; }
+dt { font-weight: bold; color: #007bff; margin-top: 10px; border-left: 3px solid #007bff; padding-left: 10px; }
+dd { margin-left: 0; padding: 5px 0 10px 13px; font-size: 0.95rem; }
+
+.button {
     display: inline-block;
-    background: #ccc;
-    color: #666;
-    padding: 15px 30px;
+    background: #007bff;
+    color: #fff;
+    padding: 14px 28px;
     border: none;
     border-radius: 5px;
-    text-decoration: none;
     font-weight: bold;
-    margin-top: 20px;
-    cursor: not-allowed; /* 禁止マーク */
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 1rem;
 }
+.button:hover { background: #0056b3; }
 
-footer { padding: 40px; color: #999; }
+footer { padding: 40px; color: #999; font-size: 0.8rem; }
