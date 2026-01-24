@@ -3,17 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>篠ノ井技術Club | Official</title>
+    <title>篠ノ井技術クラブ | 公式サイト</title>
     <link rel="stylesheet" href="/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="loading"><h1>SYSTEM LOADING...</h1></div>
-    <header><h1>SHINONOI TECH CLUB</h1><p>Innovation through Engineering</p></header>
+
+    <header>
+        <h1>篠ノ井技術クラブ</h1>
+        <p>Innovation through Engineering | 2026.04 START</p>
+    </header>
+
     <nav></nav>
-    <main style="height: 2000px; padding: 50px; text-align: center;">
-        <section id="about"><h2>About</h2><p>2026年4月、新しい技術の風が吹く。</p></section>
+
+    <main>
+        <section id="about">
+            <h2>活動内容</h2>
+            <p>篠ノ井技術クラブは、中学生による「モノづくり」の限界に挑戦するグループです。エコカー制作を中心に、プログラミングや電子工作など、技術の楽しさを追求します。</p>
+            <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 30px;">
+                <div class="card" style="flex: 1; min-width: 250px;">
+                    <h3 style="color: #007bff;">エコカー開発</h3>
+                    <p>エネルギー効率を極限まで高めた車体を設計・制作し、大会出場を目指します。</p>
+                </div>
+                <div class="card" style="flex: 1; min-width: 250px;">
+                    <h3 style="color: #007bff;">Web・IT技術</h3>
+                    <p>このサイトの運営をはじめ、活動を支えるシステムを自ら構築します。</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="news" style="margin-top: 80px;">
+            <h2>最新の活動ログ</h2>
+            <div class="card">
+                <span class="card-date">2026.01.24</span>
+                <a href="/blog/index.html" class="card-title">公式Webサイトを公開しました</a>
+                <p>本日から活動の様子をこのサイトで発信していきます。</p>
+            </div>
+            <a href="/blog/index.html" style="text-decoration: none; font-weight: bold;">→ すべてのログを見る</a>
+        </section>
+
+        <section id="portfolio-link" style="margin-top: 80px; padding: 60px 20px; background: #f0f7ff; border-radius: 20px; text-align: center;">
+            <h2 style="border: none; text-align: center; padding: 0;">これまでの実績</h2>
+            <p>私たちが制作してきたマシンやシステムの詳細はこちら。</p>
+            <a href="/portfolio/index.html" class="card-title" style="color: #007bff;">PORTFOLIOページへ</a>
+        </section>
+
+        <section id="recruit" style="margin-top: 80px;">
+            <h2>メンバー募集中</h2>
+            <p>技術に興味がある仲間を探しています。初心者でも「作りたい」気持ちがあれば歓迎します！</p>
+            <div style="text-align: center; margin-top: 30px;">
+                <button onclick="alert('4月の活動開始に合わせて受付を開始します！')" style="padding: 15px 40px; font-size: 1.1rem; background: #007bff; color: #fff; border: none; border-radius: 30px; cursor: pointer; font-weight: bold; transition: 0.3s;">
+                    入会・見学について詳しく
+                </button>
+            </div>
+        </section>
     </main>
+
+    <footer>
+        <p>&copy; 2026 篠ノ井技術クラブ</p>
+    </footer>
+
     <script src="/menu.js"></script>
 </body>
 </html>
