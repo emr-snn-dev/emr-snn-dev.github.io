@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // ユーザー名.github.io の形式なのでルートから指定します
     const navHTML = `
         <div id="menu-btn" class="menu-btn">
             <span></span><span></span><span></span>
@@ -15,18 +16,21 @@ document.addEventListener('DOMContentLoaded', function() {
     if (navElement) {
         navElement.innerHTML = navHTML;
         
-        // メニュー開閉の仕組みもここに統合
+        // ハンバーガーメニューの開閉制御
         const menuBtn = document.getElementById('menu-btn');
         const navList = document.getElementById('nav-list');
         
-        menuBtn.addEventListener('click', () => {
-            navList.classList.toggle('active');
-        });
-
-        document.querySelectorAll('#nav-list a').forEach(link => {
-            link.addEventListener('click', () => {
-                navList.classList.remove('active');
+        if (menuBtn && navList) {
+            menuBtn.addEventListener('click', () => {
+                navList.classList.toggle('active');
             });
-        });
+
+            // メニューリンクをクリックしたら閉じる
+            document.querySelectorAll('#nav-list a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navList.classList.remove('active');
+                });
+            });
+        }
     }
 });
