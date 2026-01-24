@@ -3,68 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>篠ノ井技術Club | Official Site</title>
+    <title>篠ノ井技術Club</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
 </head>
-<body oncontextmenu="return false;">
+<body>
+    <div id="custom-cursor"></div>
 
-<div id="loader">
-    <div class="loader-content">
-        <p class="loader-text">SYSTEM INITIALIZING...</p>
-        <div class="loader-bar-bg"><div id="loader-progress"></div></div>
-    </div>
-</div>
+    <header>
+        <h1>篠ノ井技術Club</h1>
+        <p>2026年4月 活動開始予定</p>
+    </header>
 
-<div id="scroll-progress"></div>
+    <nav>
+        <ul>
+            <li><a href="#about">活動内容</a></li>
+            <li><a href="#news">お知らせ</a></li>
+            <li><a href="#info">活動案内</a></li>
+            <li><a href="#recruit">募集</a></li>
+        </ul>
+    </nav>
 
-<div id="cursor-dot" class="tech-only"></div>
-<div id="cursor-outline" class="tech-only"></div>
+    <main>
+        <section id="about" class="fade-in-section">
+            <h2>活動内容</h2>
+            <ul class="main-list">
+                <li>エコカー制作</li>
+                <li>各種大会参加</li>
+            </ul>
+            <p>バイクのエンジンを使った自作車両で、燃費の限界に挑みます。</p>
+        </section>
 
-<header id="hero">
-    <div class="header-inner">
-        <h1 class="logo-animate">篠ノ井技術Club</h1>
-        <p class="tagline-animate">NEXT GENERATION ENGINEERS</p>
-    </div>
-</header>
-
-<nav id="main-nav">
-    <ul>
-        <li><a href="index.html" class="nav-link">HOME</a></li>
-        <li><a href="machine.html" class="nav-link">MACHINE</a></li>
-        <li><a href="race.html" class="nav-link">RACE</a></li>
-        <li><a href="member.html" class="nav-link">TEAM</a></li>
-        <li><a href="join.html" class="nav-link">JOIN</a></li>
-    </ul>
-</nav>
-
-<main class="container">
-    <section class="reveal">
-        <div class="category-tag">Project Status</div>
-        <h2>LOGICAL ENGINEERING</h2>
-        <div class="content-box hover-zoom">
-            <h3 class="zoom-text">「なぜ？」を、答えに変える。</h3>
-            <p>モノづくりへの純粋な好奇心をデータで裏付ける。私たちのエンジニアリングは、そこから始まります。</p>
-        </div>
-    </section>
-</main>
-
-<footer>
-    <div class="footer-wrap">
-        <div class="ui-panel">
-            <p class="panel-title">SYSTEM SETTING</p>
-            <div class="switch-area">
-                <span class="mode-label">Standard</span>
-                <label class="switch">
-                    <input type="checkbox" id="tech-toggle">
-                    <span class="slider"></span>
-                </label>
-                <span class="mode-label">Tech Mode</span>
+        <section id="news" class="fade-in-section">
+            <h2>お知らせ</h2>
+            <div class="news-list">
+                <div class="news-item">
+                    <span class="date">2026.01.24</span>
+                    <p>ホームページを公開しました。4月からの活動をお楽しみに！</p>
+                </div>
             </div>
-        </div>
-        <p class="copyright">&copy; 篠ノ井技術Club</p>
-    </div>
-</footer>
+        </section>
 
-<script src="script.js"></script>
+        <section id="info" class="fade-in-section">
+            <h2>活動案内</h2>
+            <dl>
+                <dt>場所</dt>
+                <dd>篠ノ井西中学校 金工室</dd>
+                <dt>日時</dt>
+                <dd>毎週土曜日（今後増える可能性あり）</dd>
+                <dt>費用</dt>
+                <dd>活動費：月額2,000円予定（部品代等含む）<br>※大会参加費は別途</dd>
+            </dl>
+        </section>
+
+        <section id="recruit" class="fade-in-section">
+            <h2>メンバー募集</h2>
+            <p>対象：中学生</p>
+            <p>「自分の手で動くものを作りたい」仲間を募集中です。</p>
+            <a href="mailto:your-email@example.com" class="button">入会・見学のお問い合わせ</a>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 篠ノ井技術Club</p>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
