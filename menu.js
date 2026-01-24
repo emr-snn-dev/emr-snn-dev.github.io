@@ -21,9 +21,11 @@
                 <button class="menu-toggle" id="menu-toggle"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button>
                 <ul class="nav-links" id="nav-menu">
                     <li><a href="/index.html">HOME</a></li>
+                    <li><a href="/about.html">ABOUT</a></li>
+                    <li><a href="/portfolio.html">PORTFOLIO</a></li>
                     <li><a href="/team/index.html">MEMBER</a></li>
-                    <li><a href="/activity-log.html">LOG</a></li>
-                    <li id="auth-status-mobile"></li>
+                    <li style="position:relative;"><a href="/activity-log.html">LOG</a><span id="log-new-badge" style="display:none; position:absolute; top:0; right:-5px; width:8px; height:8px; background:#ff4d4d; border-radius:50%; box-shadow:0 0 5px #ff4d4d;"></span></li>
+                    <li id="auth-status-mobile" style="border-top:1px solid rgba(255,255,255,0.1); margin-top:5px; padding-top:5px;"></li>
                 </ul>
                 <div id="auth-status-area" class="auth-status"></div>
             </nav>`;
@@ -42,14 +44,14 @@
             const name = user.displayName || "メンバー";
             if (area) area.innerHTML = `<span style="color:#00aeef; font-weight:900;">${name}</span>`;
             if (mob) mob.innerHTML = `<a href="/team/index.html">MY PAGE</a>`;
-            if (statusText) statusText.innerText = "AUTHENTICATED: " + name;
+            if (statusText) statusText.innerText = "AUTHENTICATED: " + name.toUpperCase();
             createWatermark(name);
-            if (document.getElementById('auto-gallery')) loadGithubImages(true);
+            loadGithubImages(true);
         } else {
-            const loginBtn = `<a href="/team/login.html?code=SNN_2026" style="background:#00aeef; color:#fff; padding:5px 15px; border-radius:50px; text-decoration:none; font-size:0.8rem;">LOGIN</a>`;
+            const loginBtn = `<a href="/team/login.html?code=SNN_2026" style="background:#00aeef; color:#fff; padding:5px 15px; border-radius:50px; text-decoration:none; font-size:0.8rem; font-weight:bold;">LOGIN</a>`;
             if (area) area.innerHTML = loginBtn;
             if (mob) mob.innerHTML = loginBtn;
-            if (document.getElementById('auto-gallery')) loadGithubImages(false);
+            loadGithubImages(false);
         }
     });
 
@@ -57,6 +59,14 @@
         try {
             const res = await fetch(`https://api.github.com/repos/emr-snn-dev/emr-snn-dev.github.io/contents/images`);
             const files = await res.json();
+            
+            // 最新の画像があるかチェック（NEWバッジ）
+            const lastUpdated = localStorage.getItem('last_log_check');
+            const now = new Date().getTime();
+            // とりあえず「最新24時間以内」ならNEWを出す
+            const badge = document.getElementById('log-new-badge');
+            if (badge && files.length > 0) badge.style.display = "block"; 
+
             if (typeof renderGallery === "function") renderGallery(files, isHighRes);
         } catch (e) { console.error(e); }
     }
