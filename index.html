@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>篠ノ井技術Club</title>
+    <title>篠ノ井技術Club | 2026年4月始動</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
 </head>
@@ -12,11 +12,14 @@
 
     <header>
         <h1>篠ノ井技術Club</h1>
-        <p>2026年4月 活動開始予定</p>
+        <p>2026.04 ACTIVITY START</p>
     </header>
 
     <nav>
-        <ul>
+        <div id="menu-btn" class="menu-btn">
+            <span></span><span></span><span></span>
+        </div>
+        <ul id="nav-list">
             <li><a href="#about">活動内容</a></li>
             <li><a href="#news">お知らせ</a></li>
             <li><a href="#info">活動案内</a></li>
@@ -31,7 +34,7 @@
                 <li>エコカー制作</li>
                 <li>各種大会参加</li>
             </ul>
-            <p>バイクのエンジンを使った自作車両で、燃費の限界に挑みます。</p>
+            <p>バイクのエンジンを使った自作車両で、燃費の限界に挑む。</p>
         </section>
 
         <section id="news" class="fade-in-section">
@@ -47,9 +50,9 @@
         <section id="info" class="fade-in-section">
             <h2>活動案内</h2>
             <dl>
-                <dt>場所</dt>
+                <dt>活動場所</dt>
                 <dd>篠ノ井西中学校 金工室</dd>
-                <dt>日時</dt>
+                <dt>活動日</dt>
                 <dd>毎週土曜日（今後増える可能性あり）</dd>
                 <dt>費用</dt>
                 <dd>活動費：月額2,000円予定（部品代等含む）<br>※大会参加費は別途</dd>
@@ -59,8 +62,8 @@
         <section id="recruit" class="fade-in-section">
             <h2>メンバー募集</h2>
             <p>対象：中学生</p>
-            <p>「自分の手で動くものを作りたい」仲間を募集中です。</p>
-            <a href="mailto:your-email@example.com" class="button">入会・見学のお問い合わせ</a>
+            <p>2026年度、第1期メンバーを募集中です。</p>
+            <button class="button disabled" disabled>入会・見学受付（準備中）</button>
         </section>
     </main>
 
@@ -69,5 +72,6 @@
     </footer>
 
     <script src="script.js"></script>
+    <script src="menu.js"></script>
 </body>
 </html>
