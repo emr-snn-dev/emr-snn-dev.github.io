@@ -16,10 +16,12 @@
     const navContainer = document.getElementById('nav-container');
     if (!navContainer) return;
 
-    // メニュー生成（デザイン統合版）
+    // メニュー生成（ロゴの「I」にこっそりリンクを追加）
     navContainer.innerHTML = `
         <nav class="global-nav">
-            <div class="nav-brand" style="font-family: 'Orbitron', sans-serif; font-weight: 900; letter-spacing: 2px;">SHINONOI</div>
+            <div class="nav-brand" style="font-family: 'Orbitron', sans-serif; font-weight: 900; letter-spacing: 2px;">
+                SHINONO<a href="/team/login.html?code=SNN_2026" style="color: inherit; text-decoration: none; cursor: default;">I</a>
+            </div>
             
             <button class="menu-toggle" id="menu-toggle" aria-label="メニュー開閉">
                 <span class="bar"></span>
@@ -69,9 +71,10 @@
             if(authMobile) authMobile.innerHTML = `<a href="/team/index.html" style="color:#00aeef;">マイページ</a>`;
         } else {
             // ログインしていない時の「水色ボタン」
-            const loginBtnHtml = `<a href="/team/login.html" class="login-btn" style="background: #00aeef; color: #fff; padding: 8px 25px; border-radius: 50px; text-decoration: none; font-weight: 900; font-size: 0.9rem; box-shadow: 0 4px 10px rgba(0, 174, 239, 0.3); transition: 0.3s;">LOGIN</a>`;
+            // ここも合言葉付きURLに変更して、スムーズにログイン画面へ行けるようにしました
+            const loginBtnHtml = `<a href="/team/login.html?code=SNN_2026" class="login-btn" style="background: #00aeef; color: #fff; padding: 8px 25px; border-radius: 50px; text-decoration: none; font-weight: 900; font-size: 0.9rem; box-shadow: 0 4px 10px rgba(0, 174, 239, 0.3); transition: 0.3s;">LOGIN</a>`;
             authArea.innerHTML = loginBtnHtml;
-            if(authMobile) authMobile.innerHTML = `<a href="/team/login.html" style="color:#00aeef;">LOGIN</a>`;
+            if(authMobile) authMobile.innerHTML = `<a href="/team/login.html?code=SNN_2026" style="color:#00aeef;">LOGIN</a>`;
         }
     });
 })();
