@@ -11,9 +11,10 @@
 
     if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 
-    const navContainer = document.getElementById('nav-container');
-    if (navContainer) {
-        // 重なりを防ぐため、HTMLの並び順を「ロゴ・ステータス・ボタン」に整理
+    const initMenu = () => {
+        const navContainer = document.getElementById('nav-container');
+        if (!navContainer) return;
+
         navContainer.innerHTML = `
             <nav class="global-nav">
                 <div class="nav-brand" style="font-family:'Orbitron'; font-weight:900; user-select:none;">
@@ -39,24 +40,16 @@
         const toggleBtn = document.getElementById('menu-toggle');
         const navMenu = document.getElementById('nav-menu');
 
-        // メニューの開閉処理
         toggleBtn.onclick = (e) => {
             e.stopPropagation();
             toggleBtn.classList.toggle('active');
             navMenu.classList.toggle('active');
-            
-            // 開いている時は背面スクロールを禁止
-            if(navMenu.classList.contains('active')) {
-                document.body.style.overflow = 'hidden';
-            } else {
-                document.body.style.overflow = '';
-            }
+            document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
         };
 
-        // 【隠しコマンド】ロゴの「I」を5回連続タップ
+        const gate = document.getElementById('secret-gate');
         let tapCount = 0;
         let tapTimer;
-        const gate = document.getElementById('secret-gate');
         gate.onclick = (e) => {
             e.stopPropagation();
             tapCount++;
@@ -68,7 +61,6 @@
             tapTimer = setTimeout(() => { tapCount = 0; }, 2000);
         };
 
-        // メニューの外側をタップしたら閉じる
         document.addEventListener('click', (e) => {
             if (navMenu.classList.contains('active') && !navMenu.contains(e.target) && !toggleBtn.contains(e.target)) {
                 navMenu.classList.remove('active');
@@ -76,42 +68,37 @@
                 document.body.style.overflow = '';
             }
         });
+    };
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initMenu);
+    } else {
+        initMenu();
     }
 
-    // 認証状態の監視
     firebase.auth().onAuthStateChanged((user) => {
         const area = document.getElementById('auth-status-area');
         const mob = document.getElementById('auth-status-mobile');
-        const statusText = document.getElementById('log-status-text');
-
         if (user) {
             const name = user.displayName || "メンバー";
-            const userDisplay = `<span style="color:#00aeef; font-weight:900;">${name}</span>`;
-            if (area) area.innerHTML = userDisplay;
+            if (area) area.innerHTML = `<span style="color:#00aeef; font-weight:900;">${name}</span>`;
             if (mob) mob.innerHTML = `<a href="/team/index.html">MY PAGE</a>`;
-            if (statusText) statusText.innerText = "AUTHENTICATED: " + name.toUpperCase();
-            
             createWatermark(name);
             if (document.getElementById('auto-gallery')) loadGithubImages(true);
         } else {
             const urlParams = new URLSearchParams(window.location.search);
             const isSecret = (urlParams.get('code') === 'SNN_2026');
-            
             const loginBtn = isSecret ? 
                 `<a href="/team/login.html?code=SNN_2026" style="background:#00aeef; color:#fff; padding:5px 15px; border-radius:50px; text-decoration:none; font-size:0.8rem; font-weight:bold;">LOGIN</a>` :
                 `<span style="color:#486581; font-size:0.7rem;">GUEST MODE</span>`;
-            
             if (area) area.innerHTML = loginBtn;
             if (mob) mob.innerHTML = loginBtn;
-            if (statusText) statusText.innerText = "GUEST MODE (LOW-RES PREVIEW)";
-            
             const oldWm = document.getElementById('dynamic-watermark');
             if (oldWm) oldWm.remove();
             if (document.getElementById('auto-gallery')) loadGithubImages(false);
         }
     });
 
-    // GitHubから画像取得
     async function loadGithubImages(isHighRes) {
         try {
             const res = await fetch(`https://api.github.com/repos/emr-snn-dev/emr-snn-dev.github.io/contents/images`);
@@ -122,7 +109,6 @@
         } catch (e) { console.error(e); }
     }
 
-    // 透かしの作成
     function createWatermark(name) {
         const old = document.getElementById('dynamic-watermark');
         if (old) old.remove();
