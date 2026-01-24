@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>クラブ紹介 | 篠ノ井技術クラブ</title>
+    <link rel="stylesheet" href="/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Noto+Sans+JP:wght@900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="loading"><h1>SYSTEM LOADING...</h1></div>
+    <div id="nav-container"></div>
+
+    <main>
+        <section class="card" style="border-top: 10px solid #000;">
+            <h1 style="font-family: 'Orbitron', sans-serif; letter-spacing: 5px; margin-bottom: 30px; font-size: 2.5rem;">ABOUT US</h1>
+            
+            <div style="margin-bottom: 40px;">
+                <h2 style="border-left: 10px solid #4285f4; padding-left: 15px; margin-bottom: 20px; font-weight: 900;">僕たちのチーム</h2>
+                <p style="font-size: 1.4rem; font-weight: 900; line-height: 1.8; color: #111;">
+                    篠ノ井技術クラブは、エコカーの制作や各種大会に参加している中学生チームです。
+                </p>
+            </div>
+
+            <div style="margin-bottom: 40px;">
+                <h2 style="border-left: 10px solid #ea4335; padding-left: 15px; margin-bottom: 20px; font-weight: 900;">活動内容</h2>
+                
+                <div class="schedule-item" style="margin-bottom: 20px;">
+                    <h3 style="margin: 0 0 10px 0; color: #111; font-size: 1.5rem;">🏎️ エコカー制作</h3>
+                    <p style="margin: 0; font-weight: 900; font-size: 1.1rem;">
+                        工具の使い方から設計の考え方まで、自分たちで学びながら取り組んでいます。
+                    </p>
+                </div>
+                
+                <div class="schedule-item">
+                    <h3 style="margin: 0 0 10px 0; color: #111; font-size: 1.5rem;">🏆 参戦大会</h3>
+                    <p style="margin: 0; font-weight: 900; font-size: 1.1rem; line-height: 1.8;">
+                        ・Honda エコ マイレッジ チャレンジ もてぎ大会<br>
+                        ・エコマラソン長野<br>
+                        <span style="color: #666; font-size: 0.9rem;">全国のライバルや大人たちのチームと競い合い、技術を磨いています。</span>
+                    </p>
+                </div>
+            </div>
+
+            <div style="background: #000; color: #fff; padding: 30px; border-radius: 12px; text-align: center;">
+                <h2 style="margin-top: 0; font-weight: 900; color: #4285f4; letter-spacing: 3px; font-size: 1.8rem;">技術で、超えていく。</h2>
+                <p style="font-weight: 900; font-size: 1.2rem; margin-bottom: 0;">
+                    僕たちと一緒に、本気でものづくりを楽しみましょう。
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 篠ノ井技術クラブ</p>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="/menu.js"></script>
+    <script>
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loading');
+            loader.style.opacity = '0';
+            setTimeout(() => { loader.style.visibility = 'hidden'; }, 500);
+        });
+    </script>
+</body>
+</html>
