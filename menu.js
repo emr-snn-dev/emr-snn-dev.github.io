@@ -1,4 +1,4 @@
-(function() {
+function() {
     // Firebase設定
     const firebaseConfig = {
         apiKey: "AIzaSyBwT-Df-5F4Wdyg-nJfg1OPolTMNUN0srg",
