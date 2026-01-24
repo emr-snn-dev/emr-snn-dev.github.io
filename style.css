@@ -2,7 +2,7 @@
 body {
     margin: 0;
     font-family: 'Noto Sans JP', sans-serif;
-    background: #ffffff; /* 清潔感のある白背景 */
+    background: #ffffff;
     color: #333333;
     overflow-x: hidden;
     line-height: 1.8;
@@ -14,7 +14,7 @@ body {
     top: 0; left: 0;
     width: 100%; height: 100%;
     background: #ffffff;
-    display: flex; flex-direction: column;
+    display: flex;
     justify-content: center; align-items: center;
     z-index: 9999;
     transition: opacity 0.5s, visibility 0.5s;
@@ -29,7 +29,8 @@ body {
 
 /* --- ヘッダー --- */
 header { 
-    padding: 100px 20px; 
+    position: relative;
+    padding: 120px 20px; 
     text-align: center; 
     background: linear-gradient(135deg, #f8fbff 0%, #ffffff 100%); 
     border-bottom: 1px solid #eee;
@@ -42,10 +43,30 @@ header h1 {
     font-weight: 700;
 }
 
-header p {
-    color: #666;
-    font-size: 1.1rem;
-    margin-top: 15px;
+/* ヘッダー右上のログインボタン（しかく） */
+.login-box {
+    display: inline-block;
+    padding: 10px 20px;
+    border: 2px solid #007bff;
+    color: #007bff;
+    text-decoration: none;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.8rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    background: transparent;
+}
+
+.login-box:hover {
+    background: #007bff;
+    color: #fff;
+    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.login-box:active {
+    transform: translateY(1px);
 }
 
 /* --- ナビゲーション --- */
@@ -77,7 +98,7 @@ nav {
 
 #nav-list a:hover { color: #007bff; }
 
-/* --- メインレイアウト --- */
+/* --- メインコンテンツ --- */
 main {
     max-width: 900px;
     margin: 0 auto;
@@ -89,6 +110,7 @@ h2 {
     border-left: 6px solid #007bff;
     padding-left: 15px;
     margin-bottom: 40px;
+    font-family: 'Orbitron', sans-serif;
 }
 
 /* --- カードデザイン --- */
@@ -100,29 +122,11 @@ h2 {
     margin-bottom: 30px;
     box-shadow: 0 8px 25px rgba(0,0,0,0.05);
     transition: 0.3s;
-    position: relative;
-    overflow: hidden;
 }
 
 .card:hover {
     transform: translateY(-5px);
     box-shadow: 0 15px 35px rgba(0,123,255,0.1);
-    border-color: #007bff;
-}
-
-.card-date {
-    color: #007bff;
-    font-family: 'Orbitron', sans-serif;
-    font-weight: bold;
-}
-
-.card-title {
-    display: block;
-    margin: 15px 0;
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: #111 !important;
-    text-decoration: none;
 }
 
 /* --- ボタン設定 --- */
@@ -134,14 +138,12 @@ h2 {
     text-decoration: none;
     border-radius: 8px;
     font-weight: bold;
-    text-align: center;
-    transition: 0.3s;
     border: none;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
-.btn:hover {
-    background: #0056b3;
-}
+.btn:hover { background: #0056b3; }
 
 /* --- 処理中アニメーション (Barber Pole) --- */
 .processing {
@@ -166,24 +168,21 @@ h2 {
 /* --- 右下の上に戻るボタン --- */
 #page-top {
     position: fixed;
-    right: 25px;
-    bottom: 25px;
-    width: 55px;
-    height: 55px;
-    background: #ffffff;
+    right: 25px; bottom: 25px;
+    width: 55px; height: 55px;
+    background: #fff;
     border: 2px solid #007bff;
     border-radius: 50%;
     color: #007bff;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: center; align-items: center;
     cursor: pointer;
     text-decoration: none;
     z-index: 2000;
     transition: 0.3s;
     opacity: 0;
     visibility: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    font-size: 0.7rem;
     font-weight: bold;
 }
 
@@ -192,10 +191,7 @@ h2 {
     visibility: visible;
 }
 
-#page-top:hover {
-    background: #007bff;
-    color: #fff;
-}
+#page-top:hover { background: #007bff; color: #fff; }
 
 /* --- フッター --- */
 footer {
@@ -204,11 +200,4 @@ footer {
     background: #fcfcfc;
     color: #888;
     border-top: 1px solid #eee;
-}
-
-/* --- グリッドレイアウト（実績など） --- */
-.portfolio-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
 }
