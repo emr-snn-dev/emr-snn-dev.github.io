@@ -26,8 +26,8 @@
                 <li><a href="/about.html">ABOUT</a></li>
                 <li><a href="/portfolio.html">PORTFOLIO</a></li>
                 <li><a href="/team/index.html">MEMBER</a></li>
-                <li><a href="/activity-log.html">LOG</a></li>
-                <li id="auth-status-mobile"></li>
+                <li><a href="/activity-log.html" style="color:#00aeef; font-weight:bold;">LOG</a></li>
+                <li id="auth-status-mobile" style="border-top:1px solid rgba(255,255,255,0.1); margin-top:10px; padding-top:10px;"></li>
             </ul>
             <div id="auth-status-area" class="auth-status"></div>
         </nav>
@@ -48,7 +48,7 @@
         if (user) {
             const name = user.displayName || "メンバー";
             createWatermark(name);
-            if(statusText) statusText.innerText = "HIGH-RES MODE: " + name.toUpperCase();
+            if(statusText) statusText.innerText = "AUTHENTICATED: " + name.toUpperCase();
             
             const userHtml = `<span style="color:#00aeef; font-weight:900;">${name} さん</span>`;
             if(authArea) authArea.innerHTML = userHtml;
@@ -57,9 +57,9 @@
         } else {
             const oldMark = document.getElementById('dynamic-watermark');
             if (oldMark) oldMark.remove();
-            if(statusText) statusText.innerText = "LOW-RES MODE (LOGIN FOR CLEAR VIEW)";
+            if(statusText) statusText.innerText = "GUEST MODE (LOW-RES PREVIEW)";
 
-            const loginBtn = `<a href="/team/login.html?code=SNN_2026" style="background:#00aeef; color:#fff; padding:5px 15px; border-radius:50px; text-decoration:none; font-size:0.8rem;">LOGIN</a>`;
+            const loginBtn = `<a href="/team/login.html?code=SNN_2026" style="background:#00aeef; color:#fff; padding:6px 18px; border-radius:50px; text-decoration:none; font-size:0.8rem; font-weight:bold;">LOGIN</a>`;
             if(authArea) authArea.innerHTML = loginBtn;
             if(authMobile) authMobile.innerHTML = loginBtn;
             if(document.getElementById('auto-gallery')) loadGithubImages(false);
@@ -72,10 +72,10 @@
         const watermark = document.createElement('div');
         watermark.id = 'dynamic-watermark';
         watermark.style = "position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:99999; opacity:0.1; overflow:hidden; display:flex; flex-wrap:wrap; justify-content:space-around;";
-        for (let i = 0; i < 50; i++) {
+        for (let i = 0; i < 40; i++) {
             const span = document.createElement('span');
             span.innerText = userName + " 閲覧中 ";
-            span.style = "font-size:12px; margin:20px; transform:rotate(-25deg); white-space:nowrap; font-weight:bold; color:#00aeef;";
+            span.style = "font-size:11px; margin:25px; transform:rotate(-25deg); white-space:nowrap; font-weight:bold; color:#00aeef;";
             watermark.appendChild(span);
         }
         document.body.appendChild(watermark);
@@ -93,10 +93,19 @@
                     item.className = 'photo-item';
                     item.style = "position:relative; break-inside:avoid; margin-bottom:12px; border:2px solid #00aeef; border-radius:8px; overflow:hidden; background:#000;";
                     const url = file.download_url;
-                    const blurVal = isHighRes ? "blur(0px)" : "blur(10px)";
+                    
+                    // 未ログイン時は3pxに緩和。顔は見えないが様子はわかる
+                    const blurVal = isHighRes ? "blur(0px)" : "blur(3px) brightness(0.8)";
+                    
+                    let label = "";
+                    if(file.name.includes('_txt')) {
+                        label = `<div style="position:absolute; bottom:0; width:100%; background:rgba(0,174,239,0.7); color:#fff; font-size:9px; text-align:center; padding:3px; z-index:10;">${file.name.split('_txt')[0]}</div>`;
+                    }
+
                     item.innerHTML = `
                         <img src="${url}" style="width:100%; display:block; transition:0.3s; filter:${blurVal};">
                         <div style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:20; cursor:pointer;" onclick="openLightbox('${url}', ${isHighRes})"></div>
+                        ${label}
                     `;
                     galleryArea.appendChild(item);
                 }
