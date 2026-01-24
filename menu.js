@@ -11,16 +11,12 @@
 
     if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const accessCode = urlParams.get('code');
-    const isSecretPath = (accessCode === 'SNN_2026');
-
     const navContainer = document.getElementById('nav-container');
     if (navContainer) {
         navContainer.innerHTML = `
             <nav class="global-nav">
-                <div class="nav-brand" style="font-family:'Orbitron'; font-weight:900;">
-                    SHINONO<span id="secret-trigger" style="cursor:default;">I</span>
+                <div class="nav-brand" style="font-family:'Orbitron'; font-weight:900; user-select:none;">
+                    SHINONO<span id="secret-gate" style="cursor:default; color:inherit;">I</span>
                 </div>
                 <button class="menu-toggle" id="menu-toggle"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button>
                 <ul class="nav-links" id="nav-menu">
@@ -34,8 +30,18 @@
                 <div id="auth-status-area" class="auth-status"></div>
             </nav>`;
         
-        document.getElementById('secret-trigger').onclick = () => {
-            if(isSecretPath) window.location.href = "/team/login.html?code=SNN_2026";
+        // 【隠しコマンド】「I」を5回連続タップでログイン画面へ
+        let tapCount = 0;
+        let tapTimer;
+        const gate = document.getElementById('secret-gate');
+        gate.onclick = () => {
+            tapCount++;
+            clearTimeout(tapTimer);
+            if (tapCount >= 5) {
+                window.location.href = "/team/login.html?code=SNN_2026";
+                tapCount = 0;
+            }
+            tapTimer = setTimeout(() => { tapCount = 0; }, 2000); // 2秒間操作がないとリセット
         };
 
         const toggleBtn = document.getElementById('menu-toggle');
@@ -52,15 +58,12 @@
             if (area) area.innerHTML = `<span style="color:#00aeef; font-weight:900;">${name}</span>`;
             if (mob) mob.innerHTML = `<a href="/team/index.html">MY PAGE</a>`;
             createWatermark(name);
-            loadGithubImages(true);
+            if (document.getElementById('auto-gallery')) loadGithubImages(true);
         } else {
-            const loginBtn = isSecretPath ? 
-                `<a href="/team/login.html?code=SNN_2026" style="background:#00aeef; color:#fff; padding:5px 15px; border-radius:50px; text-decoration:none; font-size:0.8rem; font-weight:bold;">LOGIN</a>` :
-                `<span style="color:#486581; font-size:0.7rem;">GUEST MODE</span>`;
-            
-            if (area) area.innerHTML = loginBtn;
-            if (mob) mob.innerHTML = loginBtn;
-            loadGithubImages(false);
+            // 普段は「LOGIN」ボタンを表示しない（隠しコマンドからのみ行ける）
+            if (area) area.innerHTML = `<span style="color:#486581; font-size:0.7rem;">GUEST MODE</span>`;
+            if (mob) mob.innerHTML = `<span style="color:#486581; font-size:0.8rem; padding:10px;">GUEST MODE</span>`;
+            if (document.getElementById('auto-gallery')) loadGithubImages(false);
         }
     });
 
