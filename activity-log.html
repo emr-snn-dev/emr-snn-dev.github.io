@@ -9,76 +9,54 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
     <style>
-        /* ギャラリーの基本構造 */
+        body {
+            background: #0b1d2e;
+            color: white;
+            margin: 0;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
         .gallery-container {
             column-count: 3;
             column-gap: 12px;
             padding: 20px;
             max-width: 1200px;
             margin: 0 auto;
-            min-height: 500px;
         }
-
-        /* 保存禁止のための基本設定 */
-        body {
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            user-select: none;
-            background: #0b1d2e;
-            color: white;
-            margin: 0;
-        }
-
-        /* 拡大画面（ライトボックス） */
         #lightbox {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.9);
             z-index: 100000;
             justify-content: center;
             align-items: center;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(8px);
         }
-
         #lightbox-img {
             max-width: 90%;
             max-height: 90%;
             object-fit: contain;
-            transition: filter 0.3s ease;
-            border: 1px solid rgba(0, 174, 239, 0.3);
+            border: 1px solid rgba(0, 174, 239, 0.5);
+            transition: filter 0.3s;
         }
-
         .close-btn {
             position: absolute;
-            top: 30px;
-            right: 30px;
-            font-size: 40px;
-            cursor: pointer;
-            color: #00aeef;
-            font-weight: bold;
+            top: 20px; right: 20px;
+            font-size: 40px; color: #00aeef; cursor: pointer;
         }
-
-        @media (max-width: 768px) {
-            .gallery-container { column-count: 2; }
-        }
-        @media (max-width: 480px) {
-            .gallery-container { column-count: 1; }
-        }
+        @media (max-width: 768px) { .gallery-container { column-count: 2; } }
+        @media (max-width: 480px) { .gallery-container { column-count: 1; } }
     </style>
 </head>
-<body oncontextmenu="warnSave(); return false;">
+<body oncontextmenu="alert('画像保存は制限されています'); return false;">
 
     <div id="nav-container"></div>
 
-    <header style="text-align:center; padding: 60px 20px 20px;">
-        <h1 style="font-family:'Orbitron'; text-shadow: 0 0 15px #00aeef; margin: 0; letter-spacing: 3px;">ACTIVITY LOG</h1>
-        <p id="log-status-text" style="color:#00aeef; font-weight:900; font-size: 0.75rem; margin-top: 15px; letter-spacing: 1px;">
-            CHECKING SECURITY LEVEL...
-        </p>
+    <header style="text-align:center; padding: 80px 20px 20px;">
+        <h1 style="font-family:'Orbitron'; text-shadow: 0 0 15px #00aeef; margin: 0;">ACTIVITY LOG</h1>
+        <p id="log-status-text" style="color:#00aeef; font-weight:900; font-size: 0.75rem; margin-top: 15px;">WAITING FOR AUTHENTICATION...</p>
     </header>
 
     <main>
@@ -87,53 +65,24 @@
 
     <div id="lightbox" onclick="closeLightbox()">
         <span class="close-btn">&times;</span>
-        <img id="lightbox-img" src="" oncontextmenu="return false;">
+        <img id="lightbox-img" src="">
     </div>
-
-    <footer style="text-align: center; padding: 60px 0; color: #102a43; font-size: 0.7rem;">
-        <p>© 2026 SHINONOI TECH CLUB / SECURE PORTAL</p>
-    </footer>
 
     <script src="/menu.js"></script>
     <script>
-        // 保存禁止の警告
-        function warnSave() {
-            alert("【Security Alert】\n画像の保存および右クリック操作は制限されています。");
-        }
-
-        // 拡大表示
         function openLightbox(url, isHighRes) {
             const lightbox = document.getElementById('lightbox');
             const img = document.getElementById('lightbox-img');
-            const statusText = document.getElementById('log-status-text');
-            
             img.src = url;
-            
-            if (!isHighRes) {
-                // ログインしていない時の拡大画面（超ボカす）
-                img.style.filter = "blur(20px) grayscale(1)";
-                statusText.innerText = "LOGIN REQUIRED FOR HIGH-RES ACCESS";
-            } else {
-                // ログインしている時の拡大画面
-                img.style.filter = "blur(0px) brightness(1.1)";
-                statusText.innerText = "ENCRYPTED HIGH-RES VIEWING MODE";
-            }
-            
+            // 未ログイン時は6px（うっすら見える）、ログイン時は0
+            img.style.filter = isHighRes ? "none" : "blur(6px) brightness(0.8)";
             lightbox.style.display = 'flex';
-            
-            // 透かしを最前面に
             const wm = document.getElementById('dynamic-watermark');
             if(wm) wm.style.zIndex = "100001";
         }
-
         function closeLightbox() {
             document.getElementById('lightbox').style.display = 'none';
         }
-
-        // スクショ対策の気休め（タブ切り替えで閉じる）
-        document.addEventListener('visibilitychange', () => {
-            if (document.visibilityState === 'hidden') closeLightbox();
-        });
     </script>
 </body>
 </html>
