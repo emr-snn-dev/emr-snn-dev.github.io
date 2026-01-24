@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>会員専用 | 篠ノ井技術クラブ</title>
+    <link rel="stylesheet" href="/style.css">
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+</head>
+<body>
+    <div id="loading"><h1>SYSTEM LOADING...</h1></div>
+    <header><h1>TEAM DASHBOARD</h1><p>部員専用ポータル</p></header>
+    <nav></nav>
+
+    <main id="protected-content" style="display: none;">
+        <section>
+            <h2>部内限定資料</h2>
+            <div class="card">
+                <h3>共有事項</h3>
+                <p>ここはログインした部員のみが閲覧できるエリアです。</p>
+            </div>
+            <button onclick="logout()" class="btn" style="background: #666;">ログアウト</button>
+        </section>
+    </main>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBwT-Df-5F4Wdyg-nJfg1OPolTMNUN0srg",
+            authDomain: "shinonoi-gizyutu.firebaseapp.com",
+            projectId: "shinonoi-gizyutu",
+            storageBucket: "shinonoi-gizyutu.firebasestorage.app",
+            messagingSenderId: "650750036178",
+            appId: "1:650750036178:web:f50da8d54383510b6dc50b"
+        };
+        firebase.initializeApp(firebaseConfig);
+
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                document.getElementById('protected-content').style.display = 'block';
+            } else {
+                window.location.href = "/team/login.html";
+            }
+        });
+
+        function logout() {
+            firebase.auth().signOut().then(() => { window.location.href = "/index.html"; });
+        }
+    </script>
+    <script src="/menu.js"></script>
+</body>
+</html>
