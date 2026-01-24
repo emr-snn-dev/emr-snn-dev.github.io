@@ -9,23 +9,25 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 </head>
 <body>
-    <div id="loading"><h1>SYSTEM LOADING...</h1></div>
     <header><h1>TEAM PORTAL</h1></header>
 
     <main>
         <div class="card" style="max-width: 400px; margin: 0 auto;">
-            <h3 id="form-title" style="text-align: center;">ログイン</h3>
-            <div style="margin-top: 20px;">
-                <input type="email" id="email" class="card" style="width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; box-sizing: border-box;" placeholder="メールアドレス">
-                <input type="password" id="password" class="card" style="width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; box-sizing: border-box;" placeholder="パスワード">
-                
-                <button id="main-btn" onclick="handleAuth()" class="btn" style="width: 100%; margin-top: 20px; border: none;">ログイン</button>
-                
-                <div style="text-align: center; margin-top: 20px;">
-                    <a href="javascript:void(0)" onclick="toggleMode()" id="toggle-text" style="font-size: 0.9rem; color: #007bff; text-decoration: none;">新規登録はこちら</a>
-                </div>
-                <p id="error-msg" style="color: #ff4757; font-size: 0.85rem; margin-top: 15px; text-align: center; font-weight: bold;"></p>
+            <h3 style="text-align: center;">チームログイン</h3>
+            
+            <input type="email" id="email" class="card" style="width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; box-sizing: border-box;" placeholder="メールアドレス">
+            <input type="password" id="password" class="card" style="width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; box-sizing: border-box;" placeholder="パスワード">
+            <button id="main-btn" onclick="handleAuth()" class="btn" style="width: 100%; margin-top: 10px; border: none;">ログイン</button>
+
+            <div style="margin: 20px 0; border-top: 1px solid #eee; padding-top: 20px; text-align: center;">
+                <p style="font-size: 0.8rem; color: #888; margin-bottom: 15px;">または</p>
+                <button id="google-btn" onclick="loginWithGoogle()" class="btn" style="width: 100%; background: #fff; color: #444; border: 1px solid #ddd; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/action/google.svg" width="20">
+                    Googleでログイン
+                </button>
             </div>
+            
+            <p id="error-msg" style="color: #ff4757; font-size: 0.85rem; margin-top: 15px; text-align: center; font-weight: bold;"></p>
         </div>
     </main>
 
@@ -40,43 +42,33 @@
         };
         firebase.initializeApp(firebaseConfig);
 
-        let isLoginMode = true;
+        function setProcessing(id, text) {
+            const btn = document.getElementById(id);
+            btn.innerText = text;
+            btn.classList.add('processing');
+            btn.disabled = true;
+        }
 
-        function toggleMode() {
-            isLoginMode = !isLoginMode;
-            document.getElementById('form-title').innerText = isLoginMode ? "ログイン" : "新規登録申請";
-            document.getElementById('main-btn').innerText = isLoginMode ? "ログイン" : "アカウント作成";
-            document.getElementById('toggle-text').innerText = isLoginMode ? "新規登録はこちら" : "ログインに戻る";
+        function loginWithGoogle() {
+            setProcessing('google-btn', 'Google認証中...');
+            const provider = new firebase.auth.GoogleAuthProvider();
+            firebase.auth().signInWithPopup(provider)
+                .then(() => { window.location.href = "/team/index.html"; })
+                .catch(() => { location.reload(); });
         }
 
         function handleAuth() {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            const btn = document.getElementById('main-btn');
-            
-            btn.innerText = "処理中...";
-            btn.classList.add('processing');
-
-            if (isLoginMode) {
-                firebase.auth().signInWithEmailAndPassword(email, password)
-                    .then(() => { window.location.href = "/team/index.html"; })
-                    .catch((err) => {
-                        btn.innerText = "ログイン";
-                        btn.classList.remove('processing');
-                        document.getElementById('error-msg').innerText = "認証失敗、または未承認です。";
-                    });
-            } else {
-                firebase.auth().createUserWithEmailAndPassword(email, password)
-                    .then(() => {
-                        alert("登録完了！管理者が有効化するまでログインはできません。");
-                        location.reload();
-                    })
-                    .catch((err) => {
-                        btn.innerText = "アカウント作成";
-                        btn.classList.remove('processing');
-                        document.getElementById('error-msg').innerText = "登録エラー。";
-                    });
-            }
+            setProcessing('main-btn', '処理中...');
+            firebase.auth().signInWithEmailAndPassword(email, password)
+                .then(() => { window.location.href = "/team/index.html"; })
+                .catch(() => {
+                    document.getElementById('error-msg').innerText = "ログインに失敗しました。";
+                    document.getElementById('main-btn').innerText = "ログイン";
+                    document.getElementById('main-btn').classList.remove('processing');
+                    document.getElementById('main-btn').disabled = false;
+                });
         }
     </script>
 </body>
