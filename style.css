@@ -1,70 +1,52 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap');
-
-:root {
-    --honda-red: #cc0000;
-    --dark-bg: #050505;
-    --white: #ffffff;
-    --easing: cubic-bezier(0.16, 1, 0.3, 1);
+body {
+    font-family: 'Noto Sans JP', sans-serif;
+    line-height: 1.8;
+    margin: 0;
+    color: #333;
+    background-color: #f8f9fa;
+    text-align: center;
+    overflow-x: hidden;
 }
 
-/* --- 初期設定：針あり --- */
-* { box-sizing: border-box; -webkit-user-select: none; user-select: none; }
-body { 
-    margin: 0; background: var(--white); color: #111; 
-    font-family: sans-serif; overflow-x: hidden; cursor: auto !important; 
-    transition: background 0.5s, color 0.5s;
+@media (hover: hover) {
+    body { cursor: none; }
+    #custom-cursor {
+        width: 20px;
+        height: 20px;
+        background-color: rgba(0, 123, 255, 0.3);
+        border: 2px solid #007bff;
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+        transition: transform 0.1s ease-out;
+    }
 }
 
-/* 1. ローディング演出（画像2枚目の完全再現） */
-#loader {
-    position: fixed; inset: 0; background: #000; z-index: 10000;
-    display: flex; align-items: center; justify-content: center;
-}
-.loader-text { 
-    color: var(--honda-red); font-family: 'Orbitron'; font-size: 0.9rem; 
-    letter-spacing: 5px; margin-bottom: 20px; text-align: center;
-}
-.loader-bar-bg { width: 200px; height: 1px; background: #222; }
-#loader-progress { width: 0%; height: 100%; background: var(--honda-red); transition: 1.5s var(--easing); }
+header { padding: 100px 20px; background: #222; color: #fff; }
+header h1 { font-family: 'Orbitron', sans-serif; font-size: 2.5rem; letter-spacing: 4px; }
 
-/* 2. スクロールバー */
-#scroll-progress { position: fixed; top: 0; left: 0; height: 3px; background: var(--honda-red); z-index: 2000; width: 0; }
+nav { position: sticky; top: 0; background: rgba(255,255,255,0.9); padding: 15px 0; z-index: 100; border-bottom: 1px solid #ddd; }
+nav ul { list-style: none; padding: 0; margin: 0; }
+nav ul li { display: inline; margin: 0 15px; }
+nav a { text-decoration: none; color: #333; font-weight: bold; }
 
-/* 3. ナビゲーション（巨大化） */
-nav { background: var(--dark-bg); position: sticky; top: 0; z-index: 1000; border-bottom: 2px solid var(--honda-red); }
-nav ul { display: flex; justify-content: center; list-style: none; margin: 0; padding: 0; }
-nav a { color: #fff; text-decoration: none; padding: 25px 45px; font-family: 'Orbitron'; font-size: 1.1rem; font-weight: 900; display: block; transition: 0.3s; }
-nav a:hover { background: rgba(255,255,255,0.1); color: var(--honda-red); }
+main { max-width: 700px; margin: 0 auto; padding: 20px; }
+section { padding: 60px 0; border-bottom: 1px solid #eee; opacity: 0; transform: translateY(30px); transition: 0.8s; }
+section.is-visible { opacity: 1; transform: translateY(0); }
 
-/* --- テックモード発動時の変化 --- */
-body.tech-mode { cursor: none !important; background: #0a0a0a; color: #fff; }
-body.tech-mode a, body.tech-mode label { cursor: none !important; }
+h2 { font-family: 'Orbitron', sans-serif; color: #007bff; margin-bottom: 30px; }
 
-.tech-only { display: none; position: fixed; pointer-events: none; z-index: 10001; mix-blend-mode: difference; }
-body.tech-mode .tech-only { display: block; }
-#cursor-outline { width: 40px; height: 40px; border: 2px solid var(--honda-red); border-radius: 50%; background: #fff; top: 0; left: 0; }
-#cursor-dot { width: 8px; height: 8px; background: var(--honda-red); border-radius: 50%; top: 0; left: 0; }
+.main-list { list-style: none; padding: 0; font-size: 1.5rem; font-weight: bold; margin-bottom: 20px; }
 
-/* デザイン要素 */
-header { height: 80vh; background: #000; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%); }
-.logo-animate { font-family: 'Orbitron'; font-size: clamp(2.5rem, 10vw, 6rem); letter-spacing: 0.1em; }
+.news-list { text-align: left; background: #fff; padding: 20px; border-radius: 8px; }
+.news-item { border-bottom: 1px solid #eee; padding: 10px 0; }
+.news-item:last-child { border-bottom: none; }
+.date { font-family: 'Orbitron', sans-serif; color: #007bff; font-size: 0.9rem; }
 
-.container { max-width: 1000px; margin: 80px auto; padding: 0 20px; }
-.hover-zoom { padding: 60px; background: #fafafa; border-left: 10px solid var(--honda-red); transition: 0.5s var(--easing); }
-body.tech-mode .hover-zoom { background: #151515; }
-.hover-zoom:hover { transform: translateY(-10px); background: #000; color: #fff; }
+dl { text-align: left; background: #fff; padding: 20px; border-radius: 10px; }
+dt { font-weight: bold; color: #007bff; margin-top: 10px; }
+dd { margin-left: 0; }
 
-/* フッター・スイッチ */
-footer { background: #000; padding: 80px; text-align: center; }
-.panel-title { font-family: 'Orbitron'; color: #444; font-size: 0.7rem; margin-bottom: 20px; }
-.switch { position: relative; width: 60px; height: 30px; display: inline-block; vertical-align: middle; margin: 0 15px; }
-.switch input { opacity: 0; width: 0; height: 0; }
-.slider { position: absolute; inset: 0; background: #222; border-radius: 34px; cursor: pointer; transition: 0.4s; }
-.slider:before { content: ""; position: absolute; height: 22px; width: 22px; left: 4px; bottom: 4px; background: #fff; border-radius: 50%; transition: 0.4s; }
-input:checked + .slider { background: var(--honda-red); }
-input:checked + .slider:before { transform: translateX(30px); }
-.mode-label { color: #666; font-family: 'Orbitron'; font-size: 0.8rem; }
-
-/* アニメーション */
-.reveal { opacity: 0; transform: translateY(40px); transition: 1s; }
-.reveal.active { opacity: 1; transform: translateY(0); }
+.button { display: inline-block; background: #007bff; color: #fff; padding: 15px 30px; border-radius: 5px; text-decoration: none; font-weight: bold; margin-top: 20px; transition: 0.3s; }
+footer { padding: 40px; color: #999; }
