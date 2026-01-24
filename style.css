@@ -1,32 +1,11 @@
-/* --- 共通設定 --- */
-:root {
-    --primary-blue: #4285f4;
-    --google-red: #ea4335;
-    --google-yellow: #fbbc05;
-    --google-green: #34a853;
-    --bg-dark: #111;
-    --card-bg: #ffffff;
-    --text-main: #333;
-    --text-muted: #666;
-}
-
-body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
-    background-color: #f8f9fa;
-    color: var(--text-main);
-    line-height: 1.6;
-}
-
-/* --- 全ページ共通ナビゲーション (menu.js用) --- */
+/* --- 共通ナビゲーション --- */
 .global-nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: var(--bg-dark);
-    padding: 10px 20px;
-    border-bottom: 1px solid #333;
+    background: #111111; /* 黒背景 */
+    padding: 12px 40px;
+    border-bottom: 2px solid #333;
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -35,25 +14,25 @@ body {
 .nav-links {
     list-style: none;
     display: flex;
-    gap: 20px;
+    gap: 30px;
     margin: 0;
     padding: 0;
 }
 
 .nav-links a {
-    color: #fff;
+    color: #ffffff;
     text-decoration: none;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: bold;
-    letter-spacing: 1px;
-    transition: color 0.3s;
+    letter-spacing: 1.5px;
+    transition: 0.3s;
 }
 
 .nav-links a:hover {
-    color: var(--primary-blue);
+    color: #4285f4; /* Googleブルーで光る */
 }
 
-/* ユーザー情報のバッジ */
+/* --- ユーザーバッジ --- */
 .auth-status {
     display: flex;
     align-items: center;
@@ -64,160 +43,61 @@ body {
     align-items: center;
     gap: 10px;
     background: rgba(255, 255, 255, 0.1);
-    padding: 4px 12px;
+    padding: 6px 15px;
     border-radius: 50px;
     border: 1px solid rgba(255, 255, 255, 0.2);
-    transition: background 0.3s;
 }
 
 .nav-avatar {
-    width: 24px;
-    height: 24px;
+    width: 26px;
+    height: 26px;
     border-radius: 50%;
     border: 1px solid #fff;
     object-fit: cover;
 }
 
 .nav-avatar-icon {
-    font-size: 1rem;
+    font-size: 1.2rem;
     color: #fff;
 }
 
 .user-name-text {
     color: #fff;
-    font-size: 0.8rem;
-    font-weight: 500;
+    font-size: 0.85rem;
+    font-weight: bold;
 }
 
+/* --- ログインボタン --- */
 .nav-login-btn {
-    color: var(--primary-blue);
+    color: #ffffff;
     text-decoration: none;
     font-size: 0.75rem;
     font-weight: bold;
-    padding: 6px 14px;
-    border: 1px solid var(--primary-blue);
+    border: 1px solid #4285f4;
+    padding: 6px 15px;
     border-radius: 4px;
-    transition: all 0.3s ease;
+    background: rgba(66, 133, 244, 0.1);
+    transition: 0.3s;
 }
 
 .nav-login-btn:hover {
-    background: var(--primary-blue);
+    background: #4285f4;
     color: #fff;
-}
-
-/* --- メインコンテンツ・カードデザイン --- */
-main {
-    padding: 20px;
-    max-width: 900px;
-    margin: 0 auto;
-}
-
-.card {
-    background: var(--card-bg);
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    border: 1px solid #eee;
-}
-
-h1, h2, h3 {
-    margin-top: 0;
-}
-
-.card-date {
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    font-weight: bold;
-}
-
-/* --- 掲示板・スケジュール用 --- */
-input[type="text"], input[type="email"], input[type="password"] {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 1rem;
-    margin-bottom: 10px;
-    box-sizing: border-box;
-    transition: border-color 0.3s;
-}
-
-input:focus {
-    outline: none;
-    border-color: var(--primary-blue);
-}
-
-.btn {
-    display: inline-block;
-    background: var(--bg-dark);
-    color: #fff;
-    padding: 12px 24px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: all 0.3s;
-    text-align: center;
-}
-
-.btn:hover {
-    background: #333;
-    transform: translateY(-1px);
-}
-
-/* --- Googleログインボタン特有 --- */
-#google-btn {
-    background: #fff !important;
-    color: #444 !important;
-    border: 1px solid #ddd !important;
-}
-
-#google-btn:hover {
-    background: #f8f9fa !important;
-    border-color: var(--primary-blue) !important;
-    box-shadow: 0 4px 12px rgba(66, 133, 244, 0.15);
-}
-
-/* --- アニメーション --- */
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}
-
-.processing {
-    position: relative;
-    color: transparent !important;
-}
-
-.processing::after {
-    content: "";
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    top: 50%;
-    left: 50%;
-    margin: -10px 0 0 -10px;
-    border: 3px solid rgba(255,255,255,0.3);
-    border-radius: 50%;
-    border-top-color: #fff;
-    animation: spin 0.8s linear infinite;
 }
 
 /* --- スマホ対応 --- */
 @media (max-width: 600px) {
     .global-nav {
-        padding: 10px;
+        padding: 10px 15px;
     }
     .nav-links {
-        gap: 12px;
+        gap: 15px;
     }
     .nav-links a {
         font-size: 0.7rem;
+        letter-spacing: 0.5px;
     }
     .user-name-text {
-        display: none;
-    }
-    .user-badge {
-        padding: 4px 8px;
+        display: none; /* スマホではアイコンのみ */
     }
 }
