@@ -4,7 +4,7 @@ document.addEventListener('mousemove', (e) => {
     cursor.style.top = e.clientY + 'px';
 });
 
-document.querySelectorAll('a, .button').forEach(el => {
+document.querySelectorAll('a, .menu-btn').forEach(el => {
     el.addEventListener('mouseenter', () => cursor.style.transform = 'scale(2.5)');
     el.addEventListener('mouseleave', () => cursor.style.transform = 'scale(1)');
 });
