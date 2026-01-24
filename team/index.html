@@ -7,25 +7,56 @@
     <link rel="stylesheet" href="/style.css">
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <h1>TEAM DASHBOARD</h1>
-        <p>篠ノ井技術クラブ チーム専用エリア</p>
+    <header style="display: flex; justify-content: space-between; align-items: center; padding: 10px 20px;">
+        <h1 style="margin: 0;">TEAM DASHBOARD</h1>
+        
+        <div id="user-profile" style="display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.1); padding: 5px 15px; border-radius: 50px;">
+            <img id="user-photo" src="" alt="" style="width: 32px; height: 32px; border-radius: 50%; border: 1px solid #fff; display: none;">
+            <span id="user-name" style="font-size: 0.85rem; font-weight: bold;">Loading...</span>
+            <button onclick="logout()" style="background: none; border: none; color: #ff4757; font-size: 0.75rem; cursor: pointer; text-decoration: underline;">ログアウト</button>
+        </div>
     </header>
 
     <main id="protected-content" style="display: none;">
         <section>
-            <h2>チーム内連絡</h2>
+            <h2 style="font-family: 'Orbitron', sans-serif;">UPCOMING SCHEDULE</h2>
             <div class="card">
-                <h3>システム稼働中</h3>
-                <p>管理者が有効化したアカウントのみが閲覧可能です。</p>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <li style="padding: 15px 0; border-bottom: 1px solid #eee; display: flex; gap: 20px;">
+                        <div style="text-align: center; min-width: 60px;">
+                            <div style="font-weight: bold; color: #4285f4;">1/31</div>
+                            <div style="font-size: 0.7rem; color: #888;">SAT</div>
+                        </div>
+                        <div>
+                            <div style="font-weight: bold;">定例技術ミーティング</div>
+                            <div style="font-size: 0.8rem; color: #666;">14:00 - 技術室にて</div>
+                        </div>
+                    </li>
+                    <li style="padding: 15px 0; border-bottom: 1px solid #eee; display: flex; gap: 20px;">
+                        <div style="text-align: center; min-width: 60px;">
+                            <div style="font-weight: bold; color: #4285f4;">2/11</div>
+                            <div style="font-size: 0.7rem; color: #888;">WED</div>
+                        </div>
+                        <div>
+                            <div style="font-weight: bold;">ロボコン予備実験</div>
+                            <div style="font-size: 0.8rem; color: #666;">終日 - 工作エリア</div>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </section>
 
-        <div style="text-align: center; margin-top: 60px;">
-            <button onclick="logout()" class="btn" style="background: #444;">ログアウト</button>
-        </div>
+        <section style="margin-top: 40px;">
+            <h2 style="font-family: 'Orbitron', sans-serif;">TEAM FEED</h2>
+            <div class="card">
+                <span class="card-date">2026.01.24</span>
+                <h3>システムログイン方法の追加</h3>
+                <p>Googleアカウントおよびメールアドレスでのログインに対応しました。プロフィールが正しく表示されているか確認してください。</p>
+            </div>
+        </section>
     </main>
 
     <script>
@@ -41,26 +72,36 @@
 
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
+                // アカウントの有効性をサーバーに確認
                 user.reload().then(() => {
-                    // 認証OKなら中身を表示
+                    // 情報の表示
+                    document.getElementById('user-name').innerText = user.displayName || user.email.split('@')[0];
+                    
+                    if (user.photoURL) {
+                        const photoImg = document.getElementById('user-photo');
+                        photoImg.src = user.photoURL;
+                        photoImg.style.display = 'block';
+                    }
+                    
                     document.getElementById('protected-content').style.display = 'block';
                 }).catch(() => {
-                    // アカウント無効（Disabled）の場合
-                    alert("このアカウントは現在承認されていません。");
+                    // アカウントが無効化されている場合
+                    alert("このアカウントは承認されていません。");
                     firebase.auth().signOut().then(() => {
                         window.location.href = "/team/login.html";
                     });
                 });
             } else {
-                // ログインしていない場合はログイン画面へ
                 window.location.href = "/team/login.html";
             }
         });
 
         function logout() {
-            firebase.auth().signOut().then(() => {
-                window.location.href = "/index.html";
-            });
+            if(confirm("ログアウトしますか？")) {
+                firebase.auth().signOut().then(() => {
+                    window.location.href = "/team/login.html";
+                });
+            }
         }
     </script>
 </body>
