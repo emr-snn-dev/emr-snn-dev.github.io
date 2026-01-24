@@ -2,81 +2,138 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ACTIVITY LOG | 篠ノ井技術クラブ</title>
     <link rel="stylesheet" href="/style.css">
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* ギャラリーの基本構造 */
+        .gallery-container {
+            column-count: 3;
+            column-gap: 12px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            min-height: 500px;
+        }
+
+        /* 保存禁止のための基本設定 */
+        body {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+            background: #0b1d2e;
+            color: white;
+            margin: 0;
+        }
+
+        /* 拡大画面（ライトボックス） */
+        #lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 100000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        #lightbox-img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            transition: filter 0.3s ease;
+            border: 1px solid rgba(0, 174, 239, 0.3);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            font-size: 40px;
+            cursor: pointer;
+            color: #00aeef;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .gallery-container { column-count: 2; }
+        }
+        @media (max-width: 480px) {
+            .gallery-container { column-count: 1; }
+        }
+    </style>
 </head>
-<body style="background: #0b1d2e; color: white;" oncontextmenu="warnSave(); return false;">
+<body oncontextmenu="warnSave(); return false;">
 
     <div id="nav-container"></div>
 
-    <header style="text-align:center; padding: 40px;">
-        <h1 style="font-family:'Orbitron'; text-shadow: 0 0 10px #00aeef;">ACTIVITY LOG</h1>
-        <p style="color:#00aeef; font-weight:900;">GITHUB REPO: /images/</p>
+    <header style="text-align:center; padding: 60px 20px 20px;">
+        <h1 style="font-family:'Orbitron'; text-shadow: 0 0 15px #00aeef; margin: 0; letter-spacing: 3px;">ACTIVITY LOG</h1>
+        <p id="log-status-text" style="color:#00aeef; font-weight:900; font-size: 0.75rem; margin-top: 15px; letter-spacing: 1px;">
+            CHECKING SECURITY LEVEL...
+        </p>
     </header>
 
     <main>
         <div id="auto-gallery" class="gallery-container"></div>
     </main>
 
-    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+    <div id="lightbox" onclick="closeLightbox()">
         <span class="close-btn">&times;</span>
-        <img id="lightbox-img" src="">
+        <img id="lightbox-img" src="" oncontextmenu="return false;">
     </div>
+
+    <footer style="text-align: center; padding: 60px 0; color: #102a43; font-size: 0.7rem;">
+        <p>© 2026 SHINONOI TECH CLUB / SECURE PORTAL</p>
+    </footer>
 
     <script src="/menu.js"></script>
     <script>
-        // GitHub APIで /images/ フォルダのファイル一覧を取得
-        const GITHUB_USER = "emr-snn-dev";
-        const GITHUB_REPO = "emr-snn-dev.github.io"; // リポジトリ名
-        const IMAGE_FOLDER = "images"; // 取得したいフォルダ名
-
-        async function loadGithubImages() {
-            const apiUrl = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${IMAGE_FOLDER}`;
-            const galleryArea = document.getElementById('auto-gallery');
-
-            try {
-                const response = await fetch(apiUrl);
-                const files = await response.json();
-
-                files.forEach(file => {
-                    // 画像ファイル（jpg, png, gif, webp）のみを抽出
-                    if (file.name.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
-                        const div = document.createElement('div');
-                        div.className = 'photo-item';
-                        
-                        // 文字表示機能（ファイル名に _txt が含まれる場合）
-                        let label = "";
-                        if(file.name.includes('_txt')) {
-                            const cleanName = file.name.split('_txt')[0];
-                            label = `<div class="photo-label">${cleanName}</div>`;
-                        }
-
-                        // 画像のパスは file.download_url または相対パスを使用
-                        const imgUrl = file.download_url;
-                        div.innerHTML = `<img src="${imgUrl}" class="secure-img" onclick="openLightbox('${imgUrl}')">${label}`;
-                        galleryArea.appendChild(div);
-                    }
-                });
-            } catch (e) {
-                console.error("GitHubからの画像取得に失敗しました:", e);
-            }
-        }
-
-        function openLightbox(url) {
-            document.getElementById('lightbox-img').src = url;
-            document.getElementById('lightbox').classList.add('active');
-        }
-        function closeLightbox() {
-            document.getElementById('lightbox').classList.remove('active');
-        }
+        // 保存禁止の警告
         function warnSave() {
-            alert("セキュリティ保護のため、右クリックおよび画像の保存は禁止されています。");
+            alert("【Security Alert】\n画像の保存および右クリック操作は制限されています。");
         }
 
-        // 実行
-        loadGithubImages();
+        // 拡大表示
+        function openLightbox(url, isHighRes) {
+            const lightbox = document.getElementById('lightbox');
+            const img = document.getElementById('lightbox-img');
+            const statusText = document.getElementById('log-status-text');
+            
+            img.src = url;
+            
+            if (!isHighRes) {
+                // ログインしていない時の拡大画面（超ボカす）
+                img.style.filter = "blur(20px) grayscale(1)";
+                statusText.innerText = "LOGIN REQUIRED FOR HIGH-RES ACCESS";
+            } else {
+                // ログインしている時の拡大画面
+                img.style.filter = "blur(0px) brightness(1.1)";
+                statusText.innerText = "ENCRYPTED HIGH-RES VIEWING MODE";
+            }
+            
+            lightbox.style.display = 'flex';
+            
+            // 透かしを最前面に
+            const wm = document.getElementById('dynamic-watermark');
+            if(wm) wm.style.zIndex = "100001";
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').style.display = 'none';
+        }
+
+        // スクショ対策の気休め（タブ切り替えで閉じる）
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'hidden') closeLightbox();
+        });
     </script>
 </body>
 </html>
