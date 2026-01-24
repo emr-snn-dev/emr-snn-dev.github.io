@@ -34,7 +34,7 @@ body {
     50% { opacity: 0.3; }
 }
 
-/* --- ナビゲーション（PC版） --- */
+/* --- ナビゲーション（PC版：共通レイアウト） --- */
 .global-nav {
     display: flex;
     justify-content: space-between;
@@ -165,7 +165,7 @@ header p {
     border-radius: 2px;
 }
 
-/* --- スマホ対応（下からスライド） --- */
+/* --- スマホ対応（下からスライド・完全統合版） --- */
 @media (max-width: 768px) {
     .global-nav {
         padding: 0 15px;
@@ -194,7 +194,8 @@ header p {
         display: flex;
         position: fixed;
         left: 0;
-        bottom: -110%;
+        bottom: -120%; /* 完全に隠す */
+        top: auto !important; /* PC版の sticky を打ち消す */
         width: 100%;
         height: auto;
         background: #ffffff;
@@ -227,6 +228,7 @@ header p {
         border-radius: 15px;
         text-align: center;
         border: 1px solid #e1e8ed;
+        color: #102a43;
     }
 
     .menu-toggle.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
