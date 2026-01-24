@@ -28,6 +28,7 @@
                 <li><a href="/about.html">ABOUT</a></li>
                 <li><a href="/portfolio.html">PORTFOLIO</a></li>
                 <li><a href="/team/index.html">MEMBER</a></li>
+                <li><a href="/activity-log.html">LOG</a></li>
                 <li id="auth-status-mobile"></li>
             </ul>
             <div id="auth-status-area" class="auth-status"></div>
@@ -44,11 +45,10 @@
     firebase.auth().onAuthStateChanged((user) => {
         const authArea = document.getElementById('auth-status-area');
         const authMobile = document.getElementById('auth-status-mobile');
-        if (!authArea) return;
-
+        
         if (user) {
             const name = user.displayName || "メンバー";
-            createWatermark(name);
+            createWatermark(name); // ログイン時のみ名前透かし
 
             const photo = user.photoURL 
                 ? `<img src="${user.photoURL}" class="nav-avatar" style="width:30px; height:30px; border-radius:50%; margin-right:8px; vertical-align:middle; border:2px solid #00aeef;">` 
@@ -60,13 +60,17 @@
                 </div>`;
             if(authMobile) authMobile.innerHTML = `<a href="/team/index.html" style="color:#00aeef;">マイページ</a>`;
             
-            // ログイン済みならGitHubギャラリーを読み込む（activity-log.htmlの場合）
-            if(document.getElementById('auto-gallery')) {
-                loadGithubImages();
-            }
+            // 高解像度モードで読み込み
+            if(document.getElementById('auto-gallery')) loadGithubImages(true);
         } else {
+            const oldMark = document.getElementById('dynamic-watermark');
+            if (oldMark) oldMark.remove();
+            
             authArea.innerHTML = `<a href="/team/login.html?code=SNN_2026" class="login-btn" style="background: #00aeef; color: #fff; padding: 8px 25px; border-radius: 50px; text-decoration: none; font-weight: 900; font-size: 0.9rem;">LOGIN</a>`;
             if(authMobile) authMobile.innerHTML = `<a href="/team/login.html?code=SNN_2026" style="color:#00aeef;">LOGIN</a>`;
+            
+            // 低解像度モードで読み込み
+            if(document.getElementById('auto-gallery')) loadGithubImages(false);
         }
     });
 
@@ -85,34 +89,34 @@
         document.body.appendChild(watermark);
     }
 
-    // GitHub /images/ フォルダから画像を自動取得
-    async function loadGithubImages() {
+    async function loadGithubImages(isHighRes) {
         const galleryArea = document.getElementById('auto-gallery');
         const user = "emr-snn-dev";
         const repo = "emr-snn-dev.github.io";
         try {
             const response = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/images`);
             const files = await response.json();
-            galleryArea.innerHTML = ""; // 初期化
+            galleryArea.innerHTML = "";
+            
             files.forEach(file => {
                 if (file.name.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
                     const item = document.createElement('div');
                     item.className = 'photo-item';
-                    item.style = "position:relative; break-inside:avoid; margin-bottom:10px; border:2px solid #00aeef; border-radius:8px; overflow:hidden;";
+                    item.style = "position:relative; break-inside:avoid; margin-bottom:10px; border:2px solid #00aeef; border-radius:8px; overflow:hidden; background:#000;";
                     
-                    // 画像のURL
                     const url = file.download_url;
                     
-                    // 文字表示
+                    // ログインしてない時は強くボカす(blur(4px))、ログイン時はクリア(blur(0px))
+                    const filterStyle = isHighRes ? "filter: blur(0px) brightness(1);" : "filter: blur(5px) brightness(0.7);";
+                    
                     let label = "";
                     if(file.name.includes('_txt')) {
                         label = `<div class="photo-label" style="position:absolute; bottom:0; width:100%; background:rgba(0,174,239,0.8); color:#fff; font-size:10px; text-align:center; padding:4px; z-index:10;">${file.name.split('_txt')[0]}</div>`;
                     }
-
-                    // 保存防止ガード（透明な板を画像の上に重ねる）
-                    const guard = `<div style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:5;" onclick="openLightbox('${url}')"></div>`;
                     
-                    item.innerHTML = `<img src="${url}" style="width:100%; display:block; filter:blur(0.2px);">${label}${guard}`;
+                    const guard = `<div style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:20; cursor:pointer;" onclick="openLightbox('${url}', ${isHighRes})"></div>`;
+                    
+                    item.innerHTML = `<img src="${url}" style="width:100%; display:block; transition:0.3s; ${filterStyle}">${label}${guard}`;
                     galleryArea.appendChild(item);
                 }
             });
