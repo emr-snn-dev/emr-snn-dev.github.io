@@ -15,7 +15,7 @@ if (!firebase.apps.length) {
 
 const navContainer = document.getElementById('nav-container');
 
-// ナビゲーションの基本構造を生成
+// ナビゲーションを生成（HTMLに直書きされていた古いメニューは消してください）
 if (navContainer) {
     navContainer.innerHTML = `
         <nav class="global-nav">
@@ -30,13 +30,12 @@ if (navContainer) {
     `;
 }
 
-// ログイン状態を全ページで監視して表示を切り替え
+// ログイン状態を全ページで監視
 firebase.auth().onAuthStateChanged((user) => {
     const authArea = document.getElementById('auth-status-area');
     if (!authArea) return;
 
     if (user) {
-        // ログイン中の表示
         const userName = user.displayName || user.email.split('@')[0];
         const userPhoto = user.photoURL 
             ? `<img src="${user.photoURL}" class="nav-avatar">` 
@@ -49,7 +48,7 @@ firebase.auth().onAuthStateChanged((user) => {
             </div>
         `;
     } else {
-        // 未ログイン時の表示
+        // 未ログイン時はログイン画面へのリンクを表示
         authArea.innerHTML = `
             <a href="/team/login.html" class="nav-login-btn">TEAM LOGIN</a>
         `;
