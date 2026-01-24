@@ -7,82 +7,123 @@
     <link rel="stylesheet" href="/style.css">
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
     <style>
-        body {
-            background: #0b1d2e;
-            color: white;
-            margin: 0;
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            user-select: none;
-        }
-        .gallery-container {
-            column-count: 3;
-            column-gap: 12px;
-            padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        #lightbox {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 100000;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(8px);
-        }
-        #lightbox-img {
-            max-width: 90%;
-            max-height: 90%;
-            object-fit: contain;
-            border: 1px solid rgba(0, 174, 239, 0.5);
-            transition: filter 0.3s;
-        }
-        .close-btn {
-            position: absolute;
-            top: 20px; right: 20px;
-            font-size: 40px; color: #00aeef; cursor: pointer;
-        }
+        body { background: #0b1d2e; color: white; margin: 0; user-select: none; -webkit-user-select: none; }
+        .category-tabs { display: flex; justify-content: center; gap: 10px; padding: 20px; flex-wrap: wrap; }
+        .tab-btn { background: rgba(16, 42, 67, 0.8); border: 1px solid #00aeef; color: #00aeef; padding: 8px 20px; border-radius: 50px; cursor: pointer; font-weight: bold; }
+        .tab-btn.active { background: #00aeef; color: #fff; }
+        .gallery-container { column-count: 3; column-gap: 12px; padding: 20px; max-width: 1200px; margin: 0 auto; }
+        #lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); z-index: 100000; justify-content: center; align-items: center; backdrop-filter: blur(8px); }
+        #lightbox-img { max-width: 90%; max-height: 80%; object-fit: contain; border: 1px solid #00aeef; }
         @media (max-width: 768px) { .gallery-container { column-count: 2; } }
         @media (max-width: 480px) { .gallery-container { column-count: 1; } }
     </style>
 </head>
-<body oncontextmenu="alert('画像保存は制限されています'); return false;">
+<body oncontextmenu="return false;">
 
     <div id="nav-container"></div>
 
-    <header style="text-align:center; padding: 80px 20px 20px;">
-        <h1 style="font-family:'Orbitron'; text-shadow: 0 0 15px #00aeef; margin: 0;">ACTIVITY LOG</h1>
-        <p id="log-status-text" style="color:#00aeef; font-weight:900; font-size: 0.75rem; margin-top: 15px;">WAITING FOR AUTHENTICATION...</p>
+    <header style="text-align:center; padding: 80px 20px 0;">
+        <h1 style="font-family:'Orbitron'; color:#00aeef; margin:0;">ACTIVITY LOG</h1>
+        <p id="log-status-text" style="color:#00aeef; font-weight:900; font-size: 0.7rem; margin-top: 10px;">SECURE ACCESS MODE</p>
     </header>
 
-    <main>
-        <div id="auto-gallery" class="gallery-container"></div>
-    </main>
+    <div class="category-tabs" id="category-tabs">
+        <button class="tab-btn active" onclick="filterGallery('すべて')">すべて</button>
+        <button class="tab-btn" onclick="filterGallery('大会')">大会</button>
+        <button class="tab-btn" onclick="filterGallery('練習')">練習</button>
+        <button class="tab-btn" onclick="filterGallery('その他')">その他</button>
+    </div>
+
+    <main><div id="auto-gallery" class="gallery-container"></div></main>
 
     <div id="lightbox" onclick="closeLightbox()">
-        <span class="close-btn">&times;</span>
         <img id="lightbox-img" src="">
+        <div id="lb-dl-area" style="position: absolute; bottom: 30px;"></div>
     </div>
 
     <script src="/menu.js"></script>
     <script>
+        let allPhotoData = [];
+        let currentIsHighRes = false;
+
+        function renderGallery(files, isHighRes) {
+            allPhotoData = files;
+            currentIsHighRes = isHighRes;
+            filterGallery('すべて');
+        }
+
+        async function toggleLike(fileName) {
+            const user = firebase.auth().currentUser;
+            if (!user) return;
+            const safeKey = fileName.replace(/[.#$[\]]/g, "_");
+            const uid = user.uid;
+            const userLikeRef = firebase.database().ref(`likes/${safeKey}/users/${uid}`);
+            const countRef = firebase.database().ref(`likes/${safeKey}/total`);
+            const snapshot = await userLikeRef.once('value');
+            if (snapshot.exists()) {
+                await userLikeRef.remove();
+                await countRef.transaction(c => (c || 1) - 1);
+            } else {
+                await userLikeRef.set(true);
+                await countRef.transaction(c => (c || 0) + 1);
+            }
+        }
+
+        function filterGallery(category) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.toggle('active', btn.innerText === category));
+            const container = document.getElementById('auto-gallery');
+            container.innerHTML = "";
+
+            allPhotoData.forEach(file => {
+                if (!file.name.match(/\.(jpg|jpeg|png|gif|webp)$/i)) return;
+                if (category !== 'すべて' && !file.name.startsWith(category)) return;
+
+                const safeKey = file.name.replace(/[.#$[\]]/g, "_");
+                const item = document.createElement('div');
+                item.className = 'photo-item';
+                item.style = "position:relative; break-inside:avoid; margin-bottom:12px; border:1px solid #00aeef; border-radius:8px; overflow:hidden; background:#000;";
+                const blurVal = currentIsHighRes ? "blur(0px)" : "blur(3px) brightness(0.8)";
+                
+                const heartHtml = currentIsHighRes ? `
+                    <div id="like-count-${safeKey}" style="position:absolute; bottom:10px; right:10px; z-index:30; background:rgba(0,0,0,0.6); color:#fff; padding:4px 10px; border-radius:20px; font-size:12px; font-weight:bold; cursor:pointer;" onclick="toggleLike('${file.name}')">
+                        <span class="heart-icon">🤍</span> <span class="count-num">0</span>
+                    </div>` : "";
+
+                item.innerHTML = `
+                    ${heartHtml}
+                    <img src="${file.download_url}" style="width:100%; display:block; filter:${blurVal};">
+                    <div style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:20; cursor:pointer;" onclick="openLightbox('${file.download_url}', ${currentIsHighRes})"></div>
+                `;
+                container.appendChild(item);
+
+                if (currentIsHighRes) {
+                    firebase.database().ref(`likes/${safeKey}/total`).on('value', snap => {
+                        const area = document.querySelector(`#like-count-${safeKey} .count-num`);
+                        if (area) area.innerText = snap.val() || 0;
+                    });
+                    const uid = firebase.auth().currentUser.uid;
+                    firebase.database().ref(`likes/${safeKey}/users/${uid}`).on('value', snap => {
+                        const area = document.querySelector(`#like-count-${safeKey}`);
+                        if (area) {
+                            area.querySelector('.heart-icon').innerText = snap.exists() ? "❤️" : "🤍";
+                            area.style.color = snap.exists() ? "#ff4d4d" : "#fff";
+                        }
+                    });
+                }
+            });
+        }
+
         function openLightbox(url, isHighRes) {
-            const lightbox = document.getElementById('lightbox');
             const img = document.getElementById('lightbox-img');
             img.src = url;
-            // 未ログイン時は6px（うっすら見える）、ログイン時は0
-            img.style.filter = isHighRes ? "none" : "blur(6px) brightness(0.8)";
-            lightbox.style.display = 'flex';
-            const wm = document.getElementById('dynamic-watermark');
-            if(wm) wm.style.zIndex = "100001";
+            img.style.filter = isHighRes ? "none" : "blur(8px)";
+            document.getElementById('lb-dl-area').innerHTML = isHighRes ? `<a href="${url}" download style="background:#00aeef; color:white; padding:10px 25px; border-radius:50px; text-decoration:none; font-weight:bold;">DOWNLOAD</a>` : "";
+            document.getElementById('lightbox').style.display = 'flex';
         }
-        function closeLightbox() {
-            document.getElementById('lightbox').style.display = 'none';
-        }
+        function closeLightbox() { document.getElementById('lightbox').style.display = 'none'; }
     </script>
 </body>
 </html>
