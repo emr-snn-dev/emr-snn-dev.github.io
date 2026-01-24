@@ -1,117 +1,59 @@
+/* 全体設定 */
 body {
-    font-family: 'Noto Sans JP', sans-serif;
-    line-height: 1.8;
     margin: 0;
-    color: #333;
-    background-color: #f8f9fa;
-    text-align: center;
+    font-family: 'Noto Sans JP', sans-serif;
+    background: #0a0a0a;
+    color: #eee;
     overflow-x: hidden;
 }
 
-/* 青いカスタムカーソル */
-@media (hover: hover) {
-    body { cursor: none; }
-    #custom-cursor {
-        width: 20px;
-        height: 20px;
-        background-color: rgba(0, 123, 255, 0.3);
-        border: 2px solid #007bff;
-        border-radius: 50%;
-        position: fixed;
-        pointer-events: none;
-        z-index: 9999;
-        transition: transform 0.1s ease-out;
-    }
-}
-
-/* 通知メッセージ */
-#notification {
+/* ローディング画面（最前面 9999） */
+#loading {
     position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%) translateY(100px);
-    background-color: #007bff;
-    color: white;
-    padding: 12px 24px;
-    border-radius: 50px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    z-index: 10000;
-    font-size: 0.9rem;
-    white-space: nowrap;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: #000;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s;
 }
-#notification.show { transform: translateX(-50%) translateY(0); }
 
-header { padding: 80px 20px; background: #222; color: #fff; }
-header h1 { font-family: 'Orbitron', sans-serif; font-size: 2.2rem; letter-spacing: 2px; margin: 0; }
-
+/* ナビゲーション（前面 1000） */
 nav {
     position: sticky;
     top: 0;
-    background: rgba(255,255,255,0.95);
-    padding: 15px 0;
-    z-index: 100;
-    border-bottom: 1px solid #ddd;
-}
-nav ul { list-style: none; padding: 0; margin: 0; display: flex; justify-content: center; }
-nav ul li { margin: 0 15px; }
-nav a { text-decoration: none; color: #333; font-weight: bold; font-size: 0.9rem; }
-
-/* スマホ用メニューボタン */
-.menu-btn {
-    display: none;
-    width: 30px;
-    height: 20px;
-    cursor: pointer;
-    position: relative;
-    margin-left: auto;
-    margin-right: 20px;
-}
-.menu-btn span { position: absolute; width: 100%; height: 2px; background: #333; transition: 0.3s; }
-.menu-btn span:nth-child(1) { top: 0; }
-.menu-btn span:nth-child(2) { top: 9px; }
-.menu-btn span:nth-child(3) { bottom: 0; }
-
-@media (max-width: 768px) {
-    header h1 { font-size: 1.8rem; }
-    .menu-btn { display: block; }
-    nav ul {
-        display: none;
-        flex-direction: column;
-        width: 100%;
-        background: #fff;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        padding: 10px 0;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-    nav ul.active { display: flex; }
-    nav ul li { margin: 15px 0; }
+    width: 100%;
+    background: rgba(10, 10, 10, 0.9);
+    border-bottom: 1px solid #007bff;
+    z-index: 1000;
+    padding: 10px 0;
 }
 
-main { max-width: 700px; margin: 0 auto; padding: 20px; }
-section { padding: 50px 0; border-bottom: 1px solid #eee; opacity: 0; transform: translateY(30px); transition: 0.8s; }
-section.is-visible { opacity: 1; transform: translateY(0); }
+/* メニューの見た目 */
+#nav-list {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    margin: 0; padding: 0;
+}
 
-h2 { font-family: 'Orbitron', sans-serif; color: #007bff; margin-bottom: 25px; font-size: 1.5rem; }
-.main-list { list-style: none; padding: 0; font-size: 1.3rem; font-weight: bold; margin-bottom: 20px; }
-.news-list { text-align: left; background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #eee; }
-.date { font-family: 'Orbitron', sans-serif; color: #007bff; font-size: 0.8rem; }
+#nav-list li { margin: 0 20px; }
 
-dl { text-align: left; background: #fff; padding: 20px; border-radius: 10px; border: 1px solid #eee; }
-dt { font-weight: bold; color: #007bff; margin-top: 10px; border-left: 3px solid #007bff; padding-left: 10px; }
-dd { margin-left: 0; padding: 5px 0 10px 13px; font-size: 0.95rem; }
-
-.button {
-    display: inline-block;
-    background: #007bff;
-    color: #fff;
-    padding: 14px 28px;
-    border: none;
-    border-radius: 5px;
+#nav-list a {
+    text-decoration: none;
+    color: #007bff;
+    font-family: 'Orbitron', sans-serif;
     font-weight: bold;
-    cursor: pointer;
     transition: 0.3s;
 }
-footer { padding: 40px; color: #999; font-size: 0.8rem; }
+
+#nav-list a:hover { color: #fff; text-shadow: 0 0 10px #007bff; }
+
+/* スマホ用ハンバーガー（必要なら） */
+.menu-btn { display: none; cursor: pointer; }
+
+/* その他要素 */
+header { padding: 100px 20px; text-align: center; background: radial-gradient(circle, #001a33 0%, #0a0a0a 100%); }
+h1 { font-family: 'Orbitron', sans-serif; color: #007bff; font-size: 2.5rem; margin: 0; }
+.button { background: transparent; border: 2px solid #007bff; color: #007bff; padding: 10px 25px; cursor: pointer; font-family: 'Orbitron'; }
