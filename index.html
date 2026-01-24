@@ -4,52 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>篠ノ井技術クラブ | 公式サイト</title>
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="loading"><h1>SYSTEM LOADING...</h1></div>
 
     <header>
+        <div style="position: absolute; top: 20px; right: 20px;">
+            <a href="/team/login.html" class="login-box">TEAM LOGIN</a>
+        </div>
         <h1>篠ノ井技術クラブ</h1>
-        <p>Innovation through Engineering | 2026.04 START</p>
+        <p>2026年度、新たなエンジニアリングの挑戦が始まる</p>
     </header>
 
     <nav></nav>
 
     <main>
         <section id="about">
-            <h2>活動内容</h2>
-            <div style="display: flex; gap: 20px; flex-wrap: wrap; margin-top: 30px;">
-                <div class="card" style="flex: 1; min-width: 250px;">
-                    <h3 style="color: #007bff; font-family: 'Orbitron';">ECO CAR</h3>
-                    <p>エコカー制作</p>
-                    <p style="font-size: 0.9rem; color: #666;"></p>
-                </div>
-                <div class="card" style="flex: 1; min-width: 250px;">
-                    <h3 style="color: #007bff; font-family: 'Orbitron';">COMPETITION</h3>
-                    <p>各種大会参加</p>
-                    <p style="font-size: 0.9rem; color: #666;"></p>
-                </div>
-            </div>
-        </section>
-
-        <section id="news" style="margin-top: 80px;">
-            <h2>最新の活動ログ</h2>
+            <h2>ABOUT</h2>
             <div class="card">
-                <span class="card-date">2026.01.24</span>
-                <a href="/blog/index.html" class="card-title">公式Webサイトを公開しました</a>
-                <p>活動記録を随時更新していきます。4月の本格始動に向けた準備状況をお伝えします。</p>
+                <h3>技術で未来を切り拓く</h3>
+                <p>篠ノ井技術クラブは、エコランカーの製作やロボット開発を中心に活動している技術者集団です。</p>
             </div>
         </section>
 
-        <section id="recruit" style="margin-top: 80px;">
-            <h2>メンバー募集中</h2>
-            <p>モノづくりに情熱を燃やす仲間を募集しています。</p>
-            <div style="text-align: center; margin-top: 30px;">
-                <button onclick="alert('4月の活動開始に合わせて受付を開始します！')" style="padding: 15px 40px; font-size: 1.1rem; background: #007bff; color: #fff; border: none; border-radius: 30px; cursor: pointer; font-weight: bold; transition: 0.3s;">
-                    入会・見学のお問い合わせ
-                </button>
+        <section id="recruit" style="margin-top: 50px;">
+            <h2>RECRUIT</h2>
+            <div class="card">
+                <h3>新入部員募集中</h3>
+                <p>設計、溶接、プログラミング、マネジメント。あなたの得意を活かせる場所がここにあります。</p>
+                <a href="/team/login.html" class="btn">新規登録して入部申請</a>
             </div>
         </section>
     </main>
@@ -58,6 +43,24 @@
         <p>&copy; 2026 篠ノ井技術クラブ</p>
     </footer>
 
-    <script src="/menu.js"></script>
+    <a href="#" id="page-top">TOP</a>
+
+    <script src="menu.js"></script>
+    <script>
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loading');
+            loader.style.opacity = '0';
+            loader.style.visibility = 'hidden';
+        });
+
+        const pageTop = document.getElementById('page-top');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                pageTop.classList.add('show');
+            } else {
+                pageTop.classList.remove('show');
+            }
+        });
+    </script>
 </body>
 </html>
