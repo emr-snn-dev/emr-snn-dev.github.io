@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ログイン | 篠ノ井技術クラブ</title>
+    <title>ログイン・登録 | 篠ノ井技術クラブ</title>
     <link rel="stylesheet" href="/style.css">
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
@@ -12,22 +12,24 @@
     <header><h1>TEAM PORTAL</h1></header>
 
     <main>
-        <div class="card" style="max-width: 400px; margin: 0 auto;">
-            <h3 style="text-align: center;">チームログイン</h3>
+        <div class="card" style="max-width: 400px; margin: 0 auto; text-align: center;">
+            <h3>チームメンバー登録 / ログイン</h3>
+            <p style="font-size: 0.9rem; color: #666; margin-bottom: 30px;">
+                Googleアカウントを使用して、チーム専用エリアへアクセスします。
+            </p>
             
-            <input type="email" id="email" class="card" style="width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; box-sizing: border-box;" placeholder="メールアドレス">
-            <input type="password" id="password" class="card" style="width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; box-sizing: border-box;" placeholder="パスワード">
-            <button id="main-btn" onclick="handleAuth()" class="btn" style="width: 100%; margin-top: 10px; border: none;">ログイン</button>
+            <button id="google-btn" onclick="signUpWithGoogle()" class="btn" style="width: 100%; background: #fff; color: #444; border: 2px solid #ddd; display: flex; align-items: center; justify-content: center; gap: 12px; padding: 15px;">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/action/google.svg" width="22">
+                Googleアカウントで続行
+            </button>
 
-            <div style="margin: 20px 0; border-top: 1px solid #eee; padding-top: 20px; text-align: center;">
-                <p style="font-size: 0.8rem; color: #888; margin-bottom: 15px;">または</p>
-                <button id="google-btn" onclick="loginWithGoogle()" class="btn" style="width: 100%; background: #fff; color: #444; border: 1px solid #ddd; display: flex; align-items: center; justify-content: center; gap: 10px;">
-                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/action/google.svg" width="20">
-                    Googleでログイン
-                </button>
-            </div>
+            <p id="error-msg" style="color: #ff4757; font-size: 0.85rem; margin-top: 20px; font-weight: bold;"></p>
             
-            <p id="error-msg" style="color: #ff4757; font-size: 0.85rem; margin-top: 15px; text-align: center; font-weight: bold;"></p>
+            <div style="margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px;">
+                <p style="font-size: 0.75rem; color: #999;">
+                    ※初めての方は、ログイン後に管理者の承認が必要です。
+                </p>
+            </div>
         </div>
     </main>
 
@@ -42,32 +44,28 @@
         };
         firebase.initializeApp(firebaseConfig);
 
-        function setProcessing(id, text) {
-            const btn = document.getElementById(id);
-            btn.innerText = text;
+        function signUpWithGoogle() {
+            const btn = document.getElementById('google-btn');
+            const errorMsg = document.getElementById('error-msg');
+            
+            btn.innerText = "認証中...";
             btn.classList.add('processing');
             btn.disabled = true;
-        }
 
-        function loginWithGoogle() {
-            setProcessing('google-btn', 'Google認証中...');
             const provider = new firebase.auth.GoogleAuthProvider();
+            
+            // ポップアップでGoogleログインを実行
             firebase.auth().signInWithPopup(provider)
-                .then(() => { window.location.href = "/team/index.html"; })
-                .catch(() => { location.reload(); });
-        }
-
-        function handleAuth() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            setProcessing('main-btn', '処理中...');
-            firebase.auth().signInWithEmailAndPassword(email, password)
-                .then(() => { window.location.href = "/team/index.html"; })
-                .catch(() => {
-                    document.getElementById('error-msg').innerText = "ログインに失敗しました。";
-                    document.getElementById('main-btn').innerText = "ログイン";
-                    document.getElementById('main-btn').classList.remove('processing');
-                    document.getElementById('main-btn').disabled = false;
+                .then((result) => {
+                    // 成功したら専用ページへ
+                    window.location.href = "/team/index.html";
+                })
+                .catch((error) => {
+                    console.error(error);
+                    errorMsg.innerText = "登録・ログインに失敗しました。";
+                    btn.innerHTML = '<img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/action/google.svg" width="22"> Googleアカウントで続行';
+                    btn.classList.remove('processing');
+                    btn.disabled = false;
                 });
         }
     </script>
