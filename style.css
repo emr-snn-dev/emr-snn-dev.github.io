@@ -1,150 +1,250 @@
-/* --- UI/UX最適化フォント --- */
+/* --- ベース設定・UIフォント --- */
 body {
     margin: 0;
-    font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
-    background-color: #f4f7f9;
-    color: #1a1a1a;
+    padding: 0;
+    font-family: 'Hiragino Sans', 'Noto Sans JP', 'Meiryo', sans-serif;
+    background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%); /* シルバーグレーの背景 */
+    color: #102a43;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
 }
 
-/* --- 強力なナビゲーションバー --- */
+/* --- ローディング画面 --- */
+#loading {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 20000;
+    transition: 0.5s;
+}
+
+#loading h1 {
+    font-family: 'Orbitron', sans-serif;
+    color: #00aeef;
+    letter-spacing: 10px;
+    font-size: 1.5rem;
+    animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+/* --- ナビゲーション（水色＆シルバー） --- */
 .global-nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #000000;
-    padding: 0 30px;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    padding: 0 5%;
     height: 75px;
     position: sticky;
     top: 0;
     z-index: 10000;
-    border-bottom: 3px solid #333;
+    border-bottom: 3px solid #00aeef;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 
 .nav-brand {
-    color: #fff;
-    font-weight: 900; /* ULTRA太字 */
+    color: #102a43;
+    font-weight: 900;
     font-size: 1.3rem;
     letter-spacing: 1px;
 }
 
-/* --- メニューリンク --- */
 .nav-links {
-    list-style: none;
     display: flex;
-    gap: 25px;
+    list-style: none;
+    gap: 20px;
     margin: 0;
-    padding: 0;
 }
 
 .nav-links a {
-    color: #fff;
+    color: #334e68;
     text-decoration: none;
     font-size: 0.95rem;
-    font-weight: 800; /* 太くはっきりと */
-    padding: 10px 5px;
-    transition: 0.2s;
-}
-
-.nav-links a:hover {
-    color: #4285f4;
-}
-
-/* --- ユーザーバッジ --- */
-.user-badge {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: #222;
-    padding: 6px 16px;
-    border-radius: 8px;
-    border: 1px solid #444;
-}
-
-.nav-avatar {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    border: 2px solid #fff;
-}
-
-.user-name-text {
-    color: #fff;
-    font-size: 0.85rem;
-    font-weight: bold;
-}
-
-/* --- ログインボタン --- */
-.nav-login-btn {
-    color: #fff;
-    background: #4285f4;
-    text-decoration: none;
-    font-size: 0.85rem;
     font-weight: 900;
-    padding: 10px 20px;
-    border-radius: 6px;
     transition: 0.3s;
 }
 
-.nav-login-btn:hover {
-    background: #3367d6;
-    transform: scale(1.05);
+.nav-links a:hover {
+    color: #00aeef;
 }
 
-/* --- スマホ用ハンバーガー設定 --- */
-.menu-toggle {
-    display: none;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 30px;
-    height: 22px;
-    background: none;
+/* --- ヘッダー（中央寄せ） --- */
+header {
+    padding: 100px 20px 60px;
+    text-align: center;
+    background: #ffffff;
+    border-bottom: 1px solid #bcccdc;
+    margin-bottom: 40px;
+}
+
+header h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(2.5rem, 10vw, 5rem);
+    color: #102a43;
+    margin: 0;
+    letter-spacing: 8px;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+header p {
+    font-weight: 900;
+    color: #00aeef;
+    font-size: 1.2rem;
+    margin-top: 15px;
+    letter-spacing: 2px;
+}
+
+/* --- コンテンツ配置 --- */
+main {
+    padding: 0 20px 60px;
+}
+
+/* --- カードデザイン（ULTRA中央寄せ） --- */
+.card {
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 40px 30px;
+    margin: 0 auto 40px;
+    max-width: 850px;
+    width: 100%;
+    box-sizing: border-box;
+    box-shadow: 0 15px 35px rgba(51, 78, 104, 0.1);
+    border: 1px solid #e1e8ed;
+    text-align: center; /* 全て中央寄せ */
+}
+
+.card h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2rem;
+    color: #102a43;
+    margin-bottom: 25px;
+    font-weight: 900;
+    position: relative;
+    display: inline-block;
+}
+
+.card h2::after {
+    content: '';
+    display: block;
+    width: 50%;
+    height: 4px;
+    background: #00aeef;
+    margin: 10px auto 0;
+    border-radius: 2px;
+}
+
+/* --- ボタン（水色グラデーション） --- */
+.btn {
+    display: inline-block;
+    background: linear-gradient(135deg, #00aeef 0%, #00d4ff 100%);
+    color: #ffffff;
+    padding: 18px 45px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 900;
+    font-size: 1.1rem;
+    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 8px 20px rgba(0, 174, 239, 0.3);
     border: none;
     cursor: pointer;
 }
 
-.menu-toggle .bar {
+.btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 174, 239, 0.5);
+    filter: brightness(1.1);
+}
+
+/* --- テーブル（参加要項など） --- */
+.spec-table {
     width: 100%;
-    height: 4px; /* 少し太くして押しやすく */
-    background: #fff;
-    border-radius: 2px;
-    transition: 0.3s;
+    margin: 30px 0;
+    border-radius: 15px;
+    overflow: hidden;
+    border-collapse: collapse;
 }
 
-@media (max-width: 900px) {
-    .menu-toggle { display: flex; order: 3; }
-    .nav-links {
-        display: flex;
-        position: absolute;
-        top: 75px;
-        left: 0;
-        width: 100%;
-        flex-direction: column;
-        background: #000;
-        transform: translateY(-150%);
-        transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        opacity: 0;
-    }
-    .nav-links.active {
-        transform: translateY(0);
-        opacity: 1;
-    }
-    .nav-links li { border-bottom: 1px solid #222; }
-    .nav-links a { padding: 25px; font-size: 1.2rem; text-align: center; }
-    .user-name-text { display: none; }
+.spec-table th {
+    background: #f0f4f8;
+    color: #486581;
+    padding: 20px;
+    text-align: left;
+    width: 30%;
+    font-weight: 900;
+    border-bottom: 1px solid #d9e2ec;
+}
+
+.spec-table td {
+    background: #ffffff;
+    padding: 20px;
+    text-align: left;
+    font-weight: 900;
+    border-bottom: 1px solid #d9e2ec;
+}
+
+/* --- フッター --- */
+footer {
+    text-align: center;
+    padding: 60px 20px;
+    background: #102a43;
+    color: #d9e2ec;
+    font-weight: 900;
+    margin-top: 40px;
+}
+
+/* --- スマホ対応 (レスポンシブ) --- */
+@media (max-width: 768px) {
+    .global-nav { padding: 0 20px; }
+    .nav-links { display: none; } /* スマホメニューはmenu.js側で制御 */
     
-    .menu-toggle.active .bar:nth-child(1) { transform: translateY(9px) rotate(45deg); }
-    .menu-toggle.active .bar:nth-child(2) { opacity: 0; }
-    .menu-toggle.active .bar:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+    header { padding: 80px 15px 40px; }
+    header h1 { letter-spacing: 4px; }
+    
+    .card { padding: 30px 20px; }
+    
+    .spec-table th, .spec-table td {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
+    .spec-table th {
+        background: #f0f4f8;
+        padding: 10px 20px;
+        border-bottom: none;
+    }
 }
 
-/* --- カードデザイン --- */
-.card {
-    background: #fff;
-    border-radius: 12px;
-    padding: 30px;
-    margin: 20px auto;
-    max-width: 800px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+/* ページトップボタン */
+#page-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: #00aeef;
+    color: #fff;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    font-weight: 900;
+    font-size: 0.8rem;
+    opacity: 0;
+    transition: 0.3s;
+    z-index: 9999;
+}
+
+#page-top.show {
+    opacity: 1;
 }
