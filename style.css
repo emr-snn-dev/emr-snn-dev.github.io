@@ -1,8 +1,8 @@
 body {
     margin: 0;
     font-family: 'Noto Sans JP', sans-serif;
-    background: #0a0a0a;
-    color: #eee;
+    background: #ffffff; /* 白背景に変更 */
+    color: #333333; /* 文字を濃いグレーにして読みやすく */
     overflow-x: hidden;
 }
 
@@ -11,11 +11,16 @@ body {
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
-    background: #000;
+    background: #ffffff; /* ローディングも白背景に */
     display: flex; flex-direction: column;
     justify-content: center; align-items: center;
     z-index: 9999;
     transition: opacity 0.5s, visibility 0.5s;
+}
+
+#loading h1 {
+    color: #007bff;
+    font-family: 'Orbitron', sans-serif;
 }
 
 /* ナビゲーション */
@@ -23,10 +28,11 @@ nav {
     position: sticky;
     top: 0;
     width: 100%;
-    background: rgba(10, 10, 10, 0.9);
-    border-bottom: 1px solid #007bff;
+    background: rgba(255, 255, 255, 0.95); /* 半透明の白 */
+    border-bottom: 2px solid #007bff;
     z-index: 1000;
     padding: 10px 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 
 #nav-list {
@@ -40,13 +46,15 @@ nav {
 
 #nav-list a {
     text-decoration: none;
-    color: #007bff;
+    color: #555; /* 通常時は落ち着いた色 */
     font-family: 'Orbitron', sans-serif;
     font-weight: bold;
     transition: 0.3s;
 }
 
-#nav-list a:hover { color: #fff; text-shadow: 0 0 10px #007bff; }
+#nav-list a:hover { 
+    color: #007bff; /* ホバーで青色に */
+}
 
 /* 上に戻るボタン */
 #page-top {
@@ -55,7 +63,7 @@ nav {
     bottom: 20px;
     width: 50px;
     height: 50px;
-    background: rgba(0, 123, 255, 0.2);
+    background: rgba(255, 255, 255, 0.9);
     border: 2px solid #007bff;
     border-radius: 50%;
     color: #007bff;
@@ -69,6 +77,7 @@ nav {
     opacity: 0;
     visibility: hidden;
     font-family: 'Orbitron', sans-serif;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 #page-top.show {
@@ -79,8 +88,33 @@ nav {
 #page-top:hover {
     background: #007bff;
     color: #fff;
-    box-shadow: 0 0 15px #007bff;
 }
 
-header { padding: 100px 20px; text-align: center; background: radial-gradient(circle, #001a33 0%, #0a0a0a 100%); }
-h1 { font-family: 'Orbitron', sans-serif; color: #007bff; margin: 0; }
+header { 
+    padding: 100px 20px; 
+    text-align: center; 
+    background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%); 
+}
+
+h1 { 
+    font-family: 'Orbitron', sans-serif; 
+    color: #007bff; 
+    margin: 0; 
+    letter-spacing: 2px;
+}
+
+main h2 {
+    border-left: 5px solid #007bff;
+    padding-left: 15px;
+    text-align: left;
+    max-width: 800px;
+    margin: 40px auto;
+}
+
+footer {
+    text-align: center;
+    padding: 40px;
+    background: #f8f9fa;
+    color: #999;
+    font-size: 0.8rem;
+}
