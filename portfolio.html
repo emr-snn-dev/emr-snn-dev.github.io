@@ -7,202 +7,156 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Noto+Sans+JP:wght@900&display=swap" rel="stylesheet">
     <style>
-        /* ポートフォリオ専用の追加スタイル */
-        .project-hero {
-            background: linear-gradient(rgba(255,255,255,0.8), rgba(255,255,255,0.8)), url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&q=80&w=1000'); /* メカニカルな背景イメージ */
-            background-size: cover;
-            background-position: center;
-            padding: 80px 20px;
-            text-align: center;
-            border-bottom: 5px solid #00aeef;
+        /* 画像保存・ドラッグ禁止 */
+        img {
+            -webkit-touch-callout: none;
+            -webkit-user-drag: none;
+            user-select: none;
         }
 
-        .category-tab {
+        /* 拡大（ライトボックス） */
+        #lightbox {
+            display: none;
+            position: fixed;
+            z-index: 30000;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+            cursor: zoom-out;
+        }
+        #lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            pointer-events: none; /* 拡大中も保存不可 */
+        }
+
+        /* LOGINボタンのデザイン */
+        .login-btn {
+            background: #00aeef;
+            color: #fff !important;
+            padding: 8px 25px !important;
+            border-radius: 50px;
+            font-weight: 900;
+            box-shadow: 0 4px 10px rgba(0, 174, 239, 0.3);
+        }
+
+        /* 押せないカテゴリ表示 */
+        .category-display {
             display: flex;
             justify-content: center;
             gap: 15px;
-            margin: -30px auto 40px;
-            position: relative;
-            z-index: 10;
+            margin: 40px 0;
         }
-
-        .tab-item {
-            background: #ffffff;
-            border: 2px solid #00aeef;
-            color: #00aeef;
-            padding: 10px 25px;
-            border-radius: 50px;
-            font-weight: 900;
+        .display-item {
+            background: #fff;
+            padding: 8px 20px;
+            border-radius: 5px;
             font-size: 0.9rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            font-weight: 900;
+            border: 1px solid #ddd;
+            color: #333;
         }
 
-        .project-section {
-            max-width: 1000px;
+        /* カードレイアウト */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            max-width: 1100px;
             margin: 0 auto;
             padding: 20px;
         }
-
-        .ultra-card {
-            background: #ffffff;
-            border-radius: 30px;
+        .p-card {
+            background: #fff;
+            border-radius: 15px;
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            border: 1px solid #e1e8ed;
-            margin-bottom: 60px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            border: 1px solid #eee;
         }
-
-        .ultra-card-image {
+        .p-image {
             width: 100%;
-            height: 300px;
-            background: #d9e2ec;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 5rem;
-            position: relative;
+            height: 250px;
+            object-fit: cover;
+            cursor: zoom-in;
+            border-bottom: 4px solid #00aeef;
         }
+        .p-content { padding: 25px; text-align: left; }
+        .p-specs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+        .spec-unit { background: #f8f9fa; padding: 10px; border-radius: 8px; text-align: center; }
 
-        .ultra-card-image::after {
-            content: "TECHNICAL DATA OK";
-            position: absolute;
-            bottom: 10px;
-            right: 20px;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.7rem;
-            color: #00aeef;
-            opacity: 0.5;
-        }
-
-        .ultra-card-content {
-            padding: 40px;
-        }
-
-        .ultra-card-content h3 {
-            font-size: 2rem;
-            margin: 0 0 15px 0;
-            color: #102a43;
-        }
-
-        .project-meta {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 20px;
-            font-size: 0.9rem;
-            color: #00aeef;
-            font-weight: 900;
-        }
-
-        .project-description {
-            font-weight: 700;
-            color: #486581;
-            line-height: 1.8;
-            margin-bottom: 30px;
-        }
-
-        .spec-box {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            background: #f0f4f8;
-            padding: 20px;
-            border-radius: 20px;
-        }
-
-        .spec-item {
-            text-align: center;
-        }
-
-        .spec-label {
-            display: block;
-            font-size: 0.7rem;
-            color: #9fb3c8;
-            margin-bottom: 5px;
-        }
-
-        .spec-value {
-            display: block;
-            font-size: 1.1rem;
-            color: #102a43;
-            font-weight: 900;
-        }
-
-        @media (max-width: 600px) {
-            .ultra-card-content { padding: 25px; }
-            .ultra-card-content h3 { font-size: 1.5rem; }
-            .category-tab { flex-wrap: wrap; }
-        }
+        @media (max-width: 500px) { .portfolio-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
-<body>
-    <div id="loading"><h1>PORTFOLIO</h1></div>
-    <div id="nav-container"></div>
+<body oncontextmenu="return false;"> <div id="loading"><h1>PORTFOLIO</h1></div>
 
-    <section class="project-hero">
-        <h1 style="font-family: 'Orbitron', sans-serif; letter-spacing: 10px; margin: 0; font-size: 3rem;">PROJECTS</h1>
-        <p style="font-weight: 900; color: #00aeef; margin-top: 10px;">篠ノ井技術クラブ・活動の軌跡</p>
-    </section>
-
-    <div class="category-tab">
-        <div class="tab-item">Race</div>
-        <div class="tab-item">Build</div>
-        <div class="tab-item">System</div>
+    <div id="lightbox" onclick="this.style.display='none'">
+        <img id="lightbox-img" src="" alt="">
     </div>
 
-    <main class="project-section">
-        <article class="ultra-card">
-            <div class="ultra-card-image" style="background: linear-gradient(45deg, #d9e2ec, #f0f4f8);">🏎️</div>
-            <div class="ultra-card-content">
-                <div class="project-meta">
-                    <span>2025.6</span>
-                    <span>栃木県・もてぎ</span>
-                </div>
-                <h3>Honda エコ マイレッジ チャレンジ</h3>
-                <p class="project-description">
-                    全国から強豪が集まるもてぎ大会。
-                </p>
-                <div class="spec-box">
-                    <div class="spec-item"><span class="spec-label">RESULT</span><span class="spec-value">完走</span></div>
-                    <div class="spec-item"><span class="spec-label">DRIVER</span><span class="spec-value">S.Member</span></div>
-                    <div class="spec-item"><span class="spec-label">ENGINE</span><span class="spec-value">50cc Custom</span></div>
-                </div>
-            </div>
-        </article>
+    <nav class="global-nav">
+        <div class="nav-brand">SHINONOI</div>
+        <div class="nav-links">
+            <a href="index.html">HOME</a>
+            <a href="Portfolio.html">PORTFOLIO</a>
+            <a href="about.html">ABOUT</a>
+            <a href="login.html" class="login-btn">LOGIN</a>
+        </div>
+    </nav>
 
-        <article class="ultra-card">
-            <div class="ultra-card-image" style="background: linear-gradient(45deg, #e1f5fe, #ffffff);">🏔️</div>
-            <div class="ultra-card-content">
-                <div class="project-meta">
-                    <span>2025.11</span>
-                    <span>長野県</span>
-                </div>
-                <h3>エコマラソン長野</h3>
-                <p class="project-description">
-                    地元・長野で開催された大会。
-                </p>
-                <div class="spec-box">
-                    <div class="spec-item"><span class="spec-label">AREA</span><span class="spec-value">Nagano</span></div>
-                    <div class="spec-item"><span class="spec-label">TYPE</span><span class="spec-value">Eco-Run</span></div>
-                    <div class="spec-item"><span class="spec-label">TEAM</span><span class="spec-value">SN-WEST</span></div>
+    <header style="text-align:center; padding: 60px 20px;">
+        <h1 style="font-family:'Orbitron'; font-size: 3.5rem; margin:0;">PORTFOLIO</h1>
+        <p style="font-weight:900; color:#666;">僕たちの挑戦と、技術の記録</p>
+    </header>
+
+    <div class="category-display">
+        <div class="display-item">Race</div>
+        <div class="display-item">Build</div>
+        <div class="display-item">System</div>
+    </div>
+
+    <main class="portfolio-grid">
+        <article class="p-card">
+            <img src="images/race1.jpg" class="p-image" onclick="openLightbox(this.src)">
+            <div class="p-content">
+                <span style="background:#00aeef; color:#fff; padding:3px 10px; border-radius:50px; font-size:0.7rem;">ECO-RUN</span>
+                <h2 style="font-size:1.5rem; margin:10px 0;">エコマイレッジもてぎ</h2>
+                <p style="font-size:0.9rem; color:#486581; margin-bottom:20px;">栃木県で開催される全国大会。自分たちで設計・整備したマシンで完走を目指します。</p>
+                <div class="p-specs">
+                    <div class="spec-unit"><span style="font-size:0.6rem; color:#999;">STATUS</span><br><b>完走</b></div>
+                    <div class="spec-unit"><span style="font-size:0.6rem; color:#999;">PLACE</span><br><b>もてぎ</b></div>
+                    <div class="spec-unit"><span style="font-size:0.6rem; color:#999;">YEAR</span><br><b>2025</b></div>
                 </div>
             </div>
         </article>
     </main>
 
-    <footer>
-        <p>© 2026 篠ノ井技術クラブ</p>
+    <footer style="text-align:center; padding: 60px; color:#999; font-weight:900;">
+        © 2026 篠ノ井技術クラブ
     </footer>
 
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <script src="menu.js"></script>
     <script>
+        // 拡大表示機能
+        function openLightbox(src) {
+            const lightbox = document.getElementById('lightbox');
+            const img = document.getElementById('lightbox-img');
+            img.src = src;
+            lightbox.style.display = 'flex';
+        }
+
+        // ローディング解除
         window.addEventListener('load', () => {
-            const loader = document.getElementById('loading');
-            loader.style.opacity = '0';
-            setTimeout(() => { loader.style.visibility = 'hidden'; }, 500);
+            document.getElementById('loading').style.opacity = '0';
+            setTimeout(() => { document.getElementById('loading').style.display = 'none'; }, 500);
+        });
+
+        // 保存ショートカット制限
+        window.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'p')) {
+                e.preventDefault();
+            }
         });
     </script>
 </body>
