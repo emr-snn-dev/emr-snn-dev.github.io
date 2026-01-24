@@ -5,63 +5,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>篠ノ井技術クラブ | 公式サイト</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Noto+Sans+JP:wght@400;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Noto+Sans+JP:wght@900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div id="loading"><h1>SYSTEM LOADING...</h1></div>
+    <div id="loading"><h1>LOADING</h1></div>
 
     <div id="nav-container"></div>
 
     <header>
-        <h1>篠ノ井技術クラブ</h1>
-        <p>2026年度、新たなエンジニアリングの挑戦が始まる</p>
+        <h1>SHINONOI</h1>
+        <p>篠ノ井技術クラブ</p>
+        <div style="margin-top: 30px;">
+            <span style="background: #e1f5fe; color: #00aeef; padding: 5px 15px; border-radius: 20px; font-weight: 900; font-size: 0.8rem;">2026 EDITION</span>
+        </div>
     </header>
 
     <main>
-        <section id="about">
+        <section class="card">
             <h2>ABOUT</h2>
-            <div class="card">
-                <h3>技術で未来を切り拓く</h3>
-                <p>篠ノ井技術クラブは、エコランカーの制作、各種大会に参加しているチームです。</p>
-            </div>
+            <p style="font-size: 1.2rem; font-weight: 800; color: #486581;">
+                僕たちは、エコカー制作や大会に挑む中学生チームです。
+            </p>
+            <p>
+                「もてぎ大会」や「エコマラソン長野」に向け、日々マシンを磨いています。
+            </p>
+            <a href="about.html" class="btn" style="margin-top: 20px;">詳しく知る</a>
         </section>
 
-        <section id="recruit" style="margin-top: 50px;">
+        <div id="dynamic-banner"></div>
+
+        <section id="recruit" class="card" style="background: linear-gradient(to bottom, #fff, #f0f9ff);">
             <h2>RECRUIT</h2>
-            <div class="card">
-                <h3>クラブメンバー募集中</h3>
-                <p>私たちは共に技術を磨く仲間を募集しています。</p>
-                <a href="/team/login.html" class="btn">新規登録して参加申請</a>
-            </div>
+            <p style="font-weight: 800;">一緒に挑戦する仲間を募集しています。</p>
+            <a href="/team/login.html" class="btn">新規登録・参加申請</a>
         </section>
     </main>
 
-    <footer>
+    <footer style="text-align: center; padding: 50px 20px; color: #9fb3c8; font-weight: 900;">
         <p>&copy; 2026 篠ノ井技術クラブ</p>
     </footer>
 
-    <a href="#" id="page-top">TOP</a>
-
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-    
     <script src="menu.js"></script>
-
     <script>
+        // ローディング解除
         window.addEventListener('load', () => {
             const loader = document.getElementById('loading');
             loader.style.opacity = '0';
-            setTimeout(() => {
-                loader.style.visibility = 'hidden';
-            }, 500);
+            setTimeout(() => { loader.style.visibility = 'hidden'; }, 500);
         });
 
-        const pageTop = document.getElementById('page-top');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) {
-                pageTop.classList.add('show');
-            } else {
-                pageTop.classList.remove('show');
+        // ログイン状態に応じたバナー切り替え
+        firebase.auth().onAuthStateChanged((user) => {
+            const banner = document.getElementById('dynamic-banner');
+            if (user) {
+                banner.innerHTML = `
+                    <section class="card" style="border: 2px solid #00aeef; background: #f0f9ff;">
+                        <h2 style="color: #00aeef;">MEMBER AREA</h2>
+                        <p style="font-weight: 800;">ログイン中です。メンバー専用情報にアクセスできます。</p>
+                        <a href="/team/index.html" class="btn">メンバーページへ</a>
+                    </section>`;
             }
         });
     </script>
