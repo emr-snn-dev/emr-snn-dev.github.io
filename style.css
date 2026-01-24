@@ -1,17 +1,19 @@
+/* --- 基本設定 --- */
 body {
     margin: 0;
     font-family: 'Noto Sans JP', sans-serif;
-    background: #ffffff; /* 白背景に変更 */
-    color: #333333; /* 文字を濃いグレーにして読みやすく */
+    background: #ffffff; /* 清潔感のある白 */
+    color: #333333; /* 読みやすい濃いグレー */
     overflow-x: hidden;
+    line-height: 1.8;
 }
 
-/* ローディング画面 */
+/* --- ローディング画面 --- */
 #loading {
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
-    background: #ffffff; /* ローディングも白背景に */
+    background: #ffffff;
     display: flex; flex-direction: column;
     justify-content: center; align-items: center;
     z-index: 9999;
@@ -21,18 +23,42 @@ body {
 #loading h1 {
     color: #007bff;
     font-family: 'Orbitron', sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 4px;
 }
 
-/* ナビゲーション */
+/* --- ヘッダー領域 --- */
+header { 
+    padding: 100px 20px; 
+    text-align: center; 
+    background: linear-gradient(135deg, #f8fbff 0%, #ffffff 100%); 
+    border-bottom: 1px solid #eee;
+}
+
+header h1 { 
+    font-size: 2.8rem;
+    color: #007bff; 
+    margin: 0;
+    font-weight: 700;
+}
+
+header p {
+    color: #666;
+    font-size: 1.1rem;
+    margin-top: 15px;
+    letter-spacing: 1px;
+}
+
+/* --- ナビゲーション --- */
 nav {
     position: sticky;
     top: 0;
     width: 100%;
-    background: rgba(255, 255, 255, 0.95); /* 半透明の白 */
+    background: rgba(255, 255, 255, 0.95);
     border-bottom: 2px solid #007bff;
     z-index: 1000;
-    padding: 10px 0;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    padding: 12px 0;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.05);
 }
 
 #nav-list {
@@ -42,28 +68,75 @@ nav {
     margin: 0; padding: 0;
 }
 
-#nav-list li { margin: 0 20px; }
+#nav-list li { margin: 0 15px; }
 
 #nav-list a {
     text-decoration: none;
-    color: #555; /* 通常時は落ち着いた色 */
-    font-family: 'Orbitron', sans-serif;
+    color: #444;
+    font-size: 0.95rem;
     font-weight: bold;
     transition: 0.3s;
 }
 
 #nav-list a:hover { 
-    color: #007bff; /* ホバーで青色に */
+    color: #007bff;
 }
 
-/* 上に戻るボタン */
+/* --- メインコンテンツ --- */
+main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 20px;
+}
+
+h2 {
+    color: #333;
+    border-left: 6px solid #007bff;
+    padding-left: 15px;
+    margin-bottom: 30px;
+}
+
+/* --- ブログ・実績カードの共通設定 --- */
+.card {
+    background: #fff;
+    border: 1px solid #eee;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,123,255,0.1);
+    border-color: #007bff;
+}
+
+.card-date {
+    color: #007bff;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.card-title {
+    display: block;
+    margin: 10px 0;
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #222;
+    text-decoration: none;
+}
+
+/* --- 上に戻るボタン --- */
 #page-top {
     position: fixed;
-    right: 20px;
-    bottom: 20px;
+    right: 25px;
+    bottom: 25px;
     width: 50px;
     height: 50px;
-    background: rgba(255, 255, 255, 0.9);
+    background: #ffffff;
     border: 2px solid #007bff;
     border-radius: 50%;
     color: #007bff;
@@ -76,8 +149,7 @@ nav {
     transition: 0.3s;
     opacity: 0;
     visibility: hidden;
-    font-family: 'Orbitron', sans-serif;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
 #page-top.show {
@@ -88,33 +160,14 @@ nav {
 #page-top:hover {
     background: #007bff;
     color: #fff;
+    transform: scale(1.1);
 }
 
-header { 
-    padding: 100px 20px; 
-    text-align: center; 
-    background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%); 
-}
-
-h1 { 
-    font-family: 'Orbitron', sans-serif; 
-    color: #007bff; 
-    margin: 0; 
-    letter-spacing: 2px;
-}
-
-main h2 {
-    border-left: 5px solid #007bff;
-    padding-left: 15px;
-    text-align: left;
-    max-width: 800px;
-    margin: 40px auto;
-}
-
+/* --- フッター --- */
 footer {
     text-align: center;
-    padding: 40px;
-    background: #f8f9fa;
-    color: #999;
-    font-size: 0.8rem;
+    padding: 60px 20px;
+    background: #fcfcfc;
+    color: #888;
+    border-top: 1px solid #eee;
 }
