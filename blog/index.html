@@ -3,20 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Activity Log | 篠ノ井技術Club</title>
+    <title>活動ログ | 篠ノ井技術クラブ</title>
     <link rel="stylesheet" href="/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="loading"><h1>SYSTEM LOADING...</h1></div>
-    <header><h1>ACTIVITY LOG</h1></header>
+
+    <header>
+        <h1>ACTIVITY LOG</h1>
+        <p>篠ノ井技術クラブの活動記録と開発の軌跡</p>
+    </header>
+
     <nav></nav>
-    <main style="max-width: 800px; margin: 0 auto; padding: 40px; height: 1500px;">
-        <div style="border: 1px solid #333; padding: 20px; border-radius: 10px;">
-            <span style="color: #007bff; font-family: 'Orbitron';">2026.01.24</span>
-            <h3><a href="/blog/01.html" style="color: #fff; text-decoration: none;">Webサイト公開</a></h3>
-        </div>
+
+    <main>
+        <section>
+            <h2>最新の記事</h2>
+            
+            <div class="card">
+                <span class="card-date">2026.01.24</span>
+                <a href="/blog/01.html" class="card-title">公式Webサイトを公開しました</a>
+                <p>篠ノ井技術クラブの公式情報発信サイトを公開。部員による自作サイトとして、今後エコカー制作の進捗や大会情報などを発信していきます。4月の本格始動に向け、コンテンツを拡充予定です。</p>
+                <div style="margin-top: 20px;">
+                    <a href="/blog/01.html" style="color: #007bff; text-decoration: none; font-weight: bold; font-size: 0.9rem;">記事を詳しく読む →</a>
+                </div>
+            </div>
+
+            <div class="card" style="opacity: 0.6; border-style: dashed;">
+                <span class="card-date">COMING SOON</span>
+                <span class="card-title" style="color: #999;">次回の更新をお楽しみに</span>
+                <p>エコカーの設計、部品調達の様子、テスト走行の記録など、リアルな活動を順次アップロードしていきます。</p>
+            </div>
+        </section>
     </main>
+
+    <footer>
+        <p>&copy; 2026 篠ノ井技術クラブ</p>
+    </footer>
+
     <script src="/menu.js"></script>
 </body>
 </html>
