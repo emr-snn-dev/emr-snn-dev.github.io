@@ -9,7 +9,7 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-/* --- ローディング画面 --- */
+/* --- ローディング --- */
 #loading {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
@@ -18,10 +18,9 @@ body {
     justify-content: center;
     align-items: center;
     z-index: 20000;
-    transition: 0.5s;
 }
 
-/* --- ナビゲーション (共通 & PC版) --- */
+/* --- ナビゲーション (PC & 共通) --- */
 .global-nav {
     display: flex;
     justify-content: space-between;
@@ -34,7 +33,6 @@ body {
     top: 0;
     z-index: 10000;
     border-bottom: 3px solid #00aeef;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 
 .nav-brand {
@@ -55,17 +53,11 @@ body {
 .nav-links a {
     color: #334e68;
     text-decoration: none;
-    font-size: 0.95rem;
     font-weight: 900;
     transition: 0.3s;
 }
 
-.auth-status {
-    font-weight: 900;
-    font-size: 0.9rem;
-}
-
-/* ハンバーガーボタン */
+/* --- ハンバーガーボタン --- */
 .menu-toggle {
     display: none;
     flex-direction: column;
@@ -75,8 +67,7 @@ body {
     background: transparent;
     border: none;
     cursor: pointer;
-    z-index: 10001;
-    padding: 0;
+    z-index: 10002;
 }
 
 .menu-toggle .bar {
@@ -84,38 +75,34 @@ body {
     height: 3px;
     background-color: #00aeef;
     border-radius: 10px;
-    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: 0.3s;
 }
 
-/* --- スマホ専用 (下からスライド) --- */
+/* --- スマホ専用設定 (768px以下) --- */
 @media (max-width: 768px) {
     .global-nav {
-        padding: 0 20px;
-        position: relative;
-    }
-
-    .auth-status {
-        position: absolute;
-        right: 65px;
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 0.75rem;
-        z-index: 10001;
-        margin: 0;
+        padding: 0 15px;
     }
 
     .menu-toggle {
         display: flex;
-        position: relative;
-        z-index: 10002;
     }
 
+    .auth-status {
+        position: absolute;
+        right: 60px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 0.75rem;
+        font-weight: 900;
+    }
+
+    /* 下からスライドするメニュー */
     .nav-links {
         display: flex;
         position: fixed;
         left: 0;
-        bottom: -110%; /* 画面外に隠す */
-        top: auto;      /* PC版のtopを打ち消し */
+        bottom: -110%; /* 完全に隠す */
         width: 100%;
         height: auto;
         background: #ffffff;
@@ -125,7 +112,7 @@ body {
         gap: 15px;
         z-index: 9999;
         border-radius: 30px 30px 0 0;
-        box-shadow: 0 -10px 40px rgba(0,0,0,0.2);
+        box-shadow: 0 -15px 30px rgba(0,0,0,0.15);
         transition: bottom 0.5s cubic-bezier(0.19, 1, 0.22, 1);
         pointer-events: none;
     }
@@ -137,13 +124,11 @@ body {
 
     .nav-links li {
         width: 85%;
-        list-style: none;
     }
 
     .nav-links a {
         display: block;
-        padding: 18px;
-        font-size: 1.1rem;
+        padding: 16px;
         background: #f8fafc;
         border-radius: 15px;
         text-align: center;
@@ -151,27 +136,8 @@ body {
         color: #102a43;
     }
 
+    /* ボタンのアニメーション */
     .menu-toggle.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
     .menu-toggle.active .bar:nth-child(2) { opacity: 0; }
     .menu-toggle.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 }
-
-/* ページトップボタン */
-#page-top {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    background: #00aeef;
-    color: #fff;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none;
-    opacity: 0;
-    transition: 0.3s;
-    z-index: 9999;
-}
-#page-top.show { opacity: 1; }
