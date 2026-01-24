@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ログイン・登録 | 篠ノ井技術クラブ</title>
+    <title>ログイン | 篠ノ井技術クラブ</title>
     <link rel="stylesheet" href="/style.css">
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
@@ -13,13 +13,20 @@
     <header><h1>TEAM PORTAL</h1></header>
 
     <main>
-        <div class="card" style="max-width: 420px; margin: 0 auto; text-align: center; border-top: 4px solid #4285f4;">
-            <h3 style="font-family: 'Orbitron', sans-serif; letter-spacing: 1px;">TEAM ACCESS</h3>
-            <p style="font-size: 0.9rem; color: #666; margin-bottom: 30px;">
-                最新のGoogleアカウント連携を使用して、<br>チームエリアにログインまたは新規登録します。
-            </p>
+        <div class="card" style="max-width: 400px; margin: 0 auto;">
+            <h3 style="text-align: center; font-family: 'Orbitron', sans-serif;">TEAM LOGIN</h3>
             
-            <button id="google-btn" onclick="signUpWithGoogle()" class="btn" style="width: 100%; background: #fff; color: #444; border: 1px solid #ddd; display: flex; align-items: center; justify-content: center; gap: 12px; padding: 15px; cursor: pointer; transition: all 0.3s ease;">
+            <div id="email-login-area">
+                <input type="email" id="email" class="card" style="width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; box-sizing: border-box;" placeholder="メールアドレス">
+                <input type="password" id="password" class="card" style="width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; box-sizing: border-box;" placeholder="パスワード">
+                <button id="main-btn" onclick="handleAuth()" class="btn" style="width: 100%; margin-top: 10px; border: none;">ログイン</button>
+            </div>
+
+            <div style="margin: 25px 0; border-top: 1px solid #eee; position: relative; text-align: center;">
+                <span style="position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: #fff; padding: 0 15px; color: #aaa; font-size: 0.8rem;">OR</span>
+            </div>
+
+            <button id="google-btn" onclick="loginWithGoogle()" class="btn" style="width: 100%; background: #fff; color: #444; border: 1px solid #ddd; display: flex; align-items: center; justify-content: center; gap: 12px; padding: 15px; cursor: pointer; transition: all 0.3s ease;">
                 <svg width="22" height="22" viewBox="0 0 24 24">
                     <defs>
                         <linearGradient id="g-logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -34,17 +41,10 @@
                     <path fill="url(#g-logo-grad)" d="M5.84 14.11c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.09H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.91l3.66-2.8z"/>
                     <path fill="url(#g-logo-grad)" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.09l3.66 2.84c.86-2.59 3.29-4.55 6.16-4.55z"/>
                 </svg>
-                <span style="font-weight: bold;">Googleアカウントで続行</span>
+                <span style="font-weight: bold;">Googleでログイン</span>
             </button>
-
-            <p id="error-msg" style="color: #ff4757; font-size: 0.85rem; margin-top: 20px; font-weight: bold; min-height: 1.2em;"></p>
             
-            <div style="margin-top: 30px; border-top: 1px solid #f0f0f0; padding-top: 20px;">
-                <p style="font-size: 0.75rem; color: #aaa; line-height: 1.4;">
-                    ※初めてアクセスした際は自動的にチームメンバーとして登録されます。<br>
-                    その後、管理者の承認が完了するまで機能は制限されます。
-                </p>
-            </div>
+            <p id="error-msg" style="color: #ff4757; font-size: 0.85rem; margin-top: 15px; text-align: center; font-weight: bold;"></p>
         </div>
     </main>
 
@@ -59,28 +59,34 @@
         };
         firebase.initializeApp(firebaseConfig);
 
-        function signUpWithGoogle() {
-            const btn = document.getElementById('google-btn');
-            const errorMsg = document.getElementById('error-msg');
-            
-            errorMsg.innerText = "";
-            btn.style.opacity = "0.7";
-            btn.style.pointerEvents = "none";
+        function setProcessing(id, text) {
+            const btn = document.getElementById(id);
+            btn.innerText = text;
             btn.classList.add('processing');
+            btn.disabled = true;
+        }
 
-            const provider = new firebase.auth.GoogleAuthProvider();
+        // メール・パスワード認証
+        function handleAuth() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            setProcessing('main-btn', '認証中...');
             
-            firebase.auth().signInWithPopup(provider)
-                .then(() => {
-                    window.location.href = "/team/index.html";
-                })
-                .catch((error) => {
-                    console.error(error);
-                    errorMsg.innerText = "認証に失敗しました。";
-                    btn.style.opacity = "1";
-                    btn.style.pointerEvents = "auto";
-                    btn.classList.remove('processing');
+            firebase.auth().signInWithEmailAndPassword(email, password)
+                .then(() => { window.location.href = "/team/index.html"; })
+                .catch(() => {
+                    document.getElementById('error-msg').innerText = "ログインに失敗しました。";
+                    location.reload();
                 });
+        }
+
+        // Google認証
+        function loginWithGoogle() {
+            setProcessing('google-btn', 'Google通信中...');
+            const provider = new firebase.auth.GoogleAuthProvider();
+            firebase.auth().signInWithPopup(provider)
+                .then(() => { window.location.href = "/team/index.html"; })
+                .catch(() => { location.reload(); });
         }
     </script>
 </body>
