@@ -3,42 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>チーム専用エリア | 篠ノ井技術クラブ</title>
+    <title>チーム専用 | 篠ノ井技術クラブ</title>
     <link rel="stylesheet" href="/style.css">
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 </head>
 <body>
-    <div id="loading"><h1>CHECKING AUTHENTICATION...</h1></div>
-
     <header>
         <h1>TEAM DASHBOARD</h1>
         <p>篠ノ井技術クラブ チーム専用エリア</p>
     </header>
 
-    <nav></nav>
-
     <main id="protected-content" style="display: none;">
         <section>
             <h2>チーム内連絡</h2>
             <div class="card">
-                <span class="card-date">2026.01.24</span>
                 <h3>システム稼働中</h3>
-                <p>このページは、管理者が有効化したアカウントのみが閲覧できるチーム専用のダッシュボードです。</p>
-            </div>
-        </section>
-
-        <section style="margin-top: 40px;">
-            <h2>共有リソース</h2>
-            <div class="portfolio-grid">
-                <div class="card">
-                    <h4>チーム設計図</h4>
-                    <p>共有フォルダ内の最新CADデータを参照してください。</p>
-                </div>
-                <div class="card">
-                    <h4>活動ログ</h4>
-                    <p>これまでのプロジェクト進行状況を確認できます。</p>
-                </div>
+                <p>管理者が有効化したアカウントのみが閲覧可能です。</p>
             </div>
         </section>
 
@@ -46,10 +27,6 @@
             <button onclick="logout()" class="btn" style="background: #444;">ログアウト</button>
         </div>
     </main>
-
-    <footer>
-        <p>&copy; 2026 篠ノ井技術クラブ</p>
-    </footer>
 
     <script>
         const firebaseConfig = {
@@ -62,27 +39,20 @@
         };
         firebase.initializeApp(firebaseConfig);
 
-        const protectedContent = document.getElementById('protected-content');
-        const loader = document.getElementById('loading');
-
-        // ログイン状態とアカウント有効性を監視
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
-                // アカウントの最新状態（無効化されていないか）をFirebaseサーバーに確認
                 user.reload().then(() => {
-                    // 正常ならコンテンツを表示
-                    protectedContent.style.display = 'block';
-                    loader.style.opacity = '0';
-                    loader.style.visibility = 'hidden';
-                }).catch((error) => {
-                    // アカウントが無効化（Disabled）されている場合はここに入る
-                    alert("このアカウントは現在承認されていないか、無効化されています。");
+                    // 認証OKなら中身を表示
+                    document.getElementById('protected-content').style.display = 'block';
+                }).catch(() => {
+                    // アカウント無効（Disabled）の場合
+                    alert("このアカウントは現在承認されていません。");
                     firebase.auth().signOut().then(() => {
                         window.location.href = "/team/login.html";
                     });
                 });
             } else {
-                // そもそもログインしていない場合はログイン画面へ
+                // ログインしていない場合はログイン画面へ
                 window.location.href = "/team/login.html";
             }
         });
@@ -93,6 +63,5 @@
             });
         }
     </script>
-    <script src="/menu.js"></script>
 </body>
 </html>
