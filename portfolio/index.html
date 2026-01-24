@@ -7,42 +7,37 @@
     <link rel="stylesheet" href="/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* 実績ページ専用の追加スタイル */
         .portfolio-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
-            max-width: 1000px;
-            margin: 40px auto;
-            padding: 0 20px;
+            margin-top: 40px;
         }
-        .portfolio-item {
-            background: #fff;
-            border: 1px solid #eee;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            transition: 0.3s;
-        }
-        .portfolio-item:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 25px rgba(0,119,255,0.1);
-        }
-        .portfolio-img {
+        .portfolio-image {
             width: 100%;
             height: 200px;
             background: #f0f7ff;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
+            margin-bottom: 20px;
             color: #007bff;
-            font-family: 'Orbitron';
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            border: 1px dashed #007bff;
         }
-        .portfolio-info {
-            padding: 20px;
-            text-align: left;
+        .tag {
+            display: inline-block;
+            background: #007bff;
+            color: #fff;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            margin-bottom: 10px;
+            font-weight: bold;
         }
-        .portfolio-info h3 { margin: 0 0 10px 0; color: #333; }
-        .portfolio-info p { margin: 0; color: #666; font-size: 0.9rem; }
     </style>
 </head>
 <body>
@@ -50,29 +45,44 @@
 
     <header>
         <h1>PORTFOLIO</h1>
-        <p>篠ノ井技術クラブの制作実績</p>
+        <p>篠ノ井技術クラブ 制作実績・活動記録</p>
     </header>
 
     <nav></nav>
 
     <main>
-        <div class="portfolio-grid">
-            <div class="portfolio-item">
-                <div class="portfolio-img">COMING SOON</div>
-                <div class="portfolio-info">
-                    <h3>エコカー A-01</h3>
-                    <p>引き継いだエコカー</p>
+        <section>
+            <h2>PROJECTS</h2>
+            <div class="portfolio-grid">
+                
+                <div class="card">
+                    <div class="portfolio-image">IMAGE: ECO CAR A-01</div>
+                    <div class="tag">MACHINE</div>
+                    <h3 class="card-title" style="font-size: 1.4rem;">エコカー A-01 プロトタイプ</h3>
+                    <p>アルミ合金フレームを採用し、総重量の軽量化を徹底。空気抵抗を最小限に抑えたカウル設計により、エネルギー効率を最大化しました。</p>
                 </div>
-            </div>
-            <div class="portfolio-item">
-                <div class="portfolio-img">WEB SYSTEM</div>
-                <div class="portfolio-info">
-                    <h3>公式Webサイト</h3>
-                    <p>自ら構築した、活動発信用のサイバーパンク風Webサイト。</p>
+
+                <div class="card">
+                    <div class="portfolio-image">IMAGE: SYSTEM</div>
+                    <div class="tag">WEB</div>
+                    <h3 class="card-title" style="font-size: 1.4rem;">クラブ公式サイト</h3>
+                    <p>部員がゼロから設計・開発。HTML/CSS/JSを使用し、保守性の高いコードで構築されています。活動の透明性を高めるための情報発信基地です。</p>
                 </div>
+
+                <div class="card">
+                    <div class="portfolio-image">COMING SOON</div>
+                    <div class="tag">EVENT</div>
+                    <h3 class="card-title" style="font-size: 1.4rem;">2026年度 大会参戦</h3>
+                    <p>2026年夏の大会に向けて現在マシンをアップデート中。レースデータのリアルタイム解析システムの導入を予定しています。</p>
+                </div>
+
             </div>
-        </div>
+        </section>
     </main>
+
+    <footer>
+        <p>&copy; 2026 篠ノ井技術クラブ</p>
+    </footer>
 
     <script src="/menu.js"></script>
 </body>
