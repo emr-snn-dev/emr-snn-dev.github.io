@@ -12,7 +12,7 @@
     <style>
         body { background: #0b1d2e; color: white; margin: 0; user-select: none; -webkit-user-select: none; }
         .category-tabs { display: flex; justify-content: center; gap: 10px; padding: 20px; flex-wrap: wrap; }
-        .tab-btn { background: rgba(16, 42, 67, 0.8); border: 1px solid #00aeef; color: #00aeef; padding: 8px 20px; border-radius: 50px; cursor: pointer; font-weight: bold; }
+        .tab-btn { background: rgba(16, 42, 67, 0.8); border: 1px solid #00aeef; color: #00aeef; padding: 8px 20px; border-radius: 50px; cursor: pointer; font-weight: bold; border: 1px solid #00aeef; transition: 0.3s; }
         .tab-btn.active { background: #00aeef; color: #fff; }
         .gallery-container { column-count: 3; column-gap: 12px; padding: 20px; max-width: 1200px; margin: 0 auto; }
         #lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); z-index: 100000; justify-content: center; align-items: center; backdrop-filter: blur(8px); }
@@ -22,9 +22,7 @@
     </style>
 </head>
 <body oncontextmenu="return false;">
-
     <div id="nav-container"></div>
-
     <header style="text-align:center; padding: 80px 20px 0;">
         <h1 style="font-family:'Orbitron'; color:#00aeef; margin:0;">ACTIVITY LOG</h1>
         <p id="log-status-text" style="color:#00aeef; font-weight:900; font-size: 0.7rem; margin-top: 10px;">SECURE ACCESS MODE</p>
@@ -32,9 +30,9 @@
 
     <div class="category-tabs" id="category-tabs">
         <button class="tab-btn active" onclick="filterGallery('すべて')">すべて</button>
+        <button class="tab-btn" onclick="filterGallery('ランキング')">❤️ランキング</button>
         <button class="tab-btn" onclick="filterGallery('大会')">大会</button>
         <button class="tab-btn" onclick="filterGallery('練習')">練習</button>
-        <button class="tab-btn" onclick="filterGallery('その他')">その他</button>
     </div>
 
     <main><div id="auto-gallery" class="gallery-container"></div></main>
@@ -48,11 +46,25 @@
     <script>
         let allPhotoData = [];
         let currentIsHighRes = false;
+        let photoLikes = {}; // ハートの数を保持
 
         function renderGallery(files, isHighRes) {
             allPhotoData = files;
             currentIsHighRes = isHighRes;
-            filterGallery('すべて');
+            
+            // 初回読み込み時に全画像のいいね数を取得
+            if(isHighRes) {
+                const dbRef = firebase.database().ref('likes');
+                dbRef.on('value', (snap) => {
+                    const data = snap.val() || {};
+                    Object.keys(data).forEach(key => {
+                        photoLikes[key] = data[key].total || 0;
+                    });
+                    filterGallery(document.querySelector('.tab-btn.active').innerText);
+                });
+            } else {
+                filterGallery('すべて');
+            }
         }
 
         async function toggleLike(fileName) {
@@ -73,23 +85,32 @@
         }
 
         function filterGallery(category) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.toggle('active', btn.innerText === category));
             const container = document.getElementById('auto-gallery');
             container.innerHTML = "";
+            
+            let displayData = [...allPhotoData];
 
-            allPhotoData.forEach(file => {
+            if (category === 'ランキング') {
+                displayData.sort((a, b) => {
+                    const keyA = a.name.replace(/[.#$[\]]/g, "_");
+                    const keyB = b.name.replace(/[.#$[\]]/g, "_");
+                    return (photoLikes[keyB] || 0) - (photoLikes[keyA] || 0);
+                });
+            } else if (category !== 'すべて') {
+                displayData = displayData.filter(f => f.name.startsWith(category));
+            }
+
+            displayData.forEach(file => {
                 if (!file.name.match(/\.(jpg|jpeg|png|gif|webp)$/i)) return;
-                if (category !== 'すべて' && !file.name.startsWith(category)) return;
-
                 const safeKey = file.name.replace(/[.#$[\]]/g, "_");
                 const item = document.createElement('div');
                 item.className = 'photo-item';
                 item.style = "position:relative; break-inside:avoid; margin-bottom:12px; border:1px solid #00aeef; border-radius:8px; overflow:hidden; background:#000;";
-                const blurVal = currentIsHighRes ? "blur(0px)" : "blur(3px) brightness(0.8)";
                 
+                const blurVal = currentIsHighRes ? "blur(0px)" : "blur(3px) brightness(0.8)";
                 const heartHtml = currentIsHighRes ? `
                     <div id="like-count-${safeKey}" style="position:absolute; bottom:10px; right:10px; z-index:30; background:rgba(0,0,0,0.6); color:#fff; padding:4px 10px; border-radius:20px; font-size:12px; font-weight:bold; cursor:pointer;" onclick="toggleLike('${file.name}')">
-                        <span class="heart-icon">🤍</span> <span class="count-num">0</span>
+                        <span class="heart-icon">🤍</span> <span class="count-num">${photoLikes[safeKey] || 0}</span>
                     </div>` : "";
 
                 item.innerHTML = `
@@ -98,21 +119,6 @@
                     <div style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:20; cursor:pointer;" onclick="openLightbox('${file.download_url}', ${currentIsHighRes})"></div>
                 `;
                 container.appendChild(item);
-
-                if (currentIsHighRes) {
-                    firebase.database().ref(`likes/${safeKey}/total`).on('value', snap => {
-                        const area = document.querySelector(`#like-count-${safeKey} .count-num`);
-                        if (area) area.innerText = snap.val() || 0;
-                    });
-                    const uid = firebase.auth().currentUser.uid;
-                    firebase.database().ref(`likes/${safeKey}/users/${uid}`).on('value', snap => {
-                        const area = document.querySelector(`#like-count-${safeKey}`);
-                        if (area) {
-                            area.querySelector('.heart-icon').innerText = snap.exists() ? "❤️" : "🤍";
-                            area.style.color = snap.exists() ? "#ff4d4d" : "#fff";
-                        }
-                    });
-                }
             });
         }
 
