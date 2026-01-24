@@ -2,7 +2,7 @@
 body {
     margin: 0;
     font-family: 'Noto Sans JP', sans-serif;
-    background: #ffffff;
+    background: #ffffff; /* 清潔感のある白背景 */
     color: #333333;
     overflow-x: hidden;
     line-height: 1.8;
@@ -77,7 +77,7 @@ nav {
 
 #nav-list a:hover { color: #007bff; }
 
-/* --- メインコンテンツ --- */
+/* --- メインレイアウト --- */
 main {
     max-width: 900px;
     margin: 0 auto;
@@ -121,11 +121,49 @@ h2 {
     margin: 15px 0;
     font-size: 1.8rem;
     font-weight: bold;
-    color: #111 !important; /* 黒で固定 */
+    color: #111 !important;
     text-decoration: none;
 }
 
-/* --- 上に戻るボタン --- */
+/* --- ボタン設定 --- */
+.btn {
+    display: inline-block;
+    padding: 15px 30px;
+    background: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    text-align: center;
+    transition: 0.3s;
+    border: none;
+}
+
+.btn:hover {
+    background: #0056b3;
+}
+
+/* --- 処理中アニメーション (Barber Pole) --- */
+.processing {
+    pointer-events: none;
+    opacity: 0.8;
+    background: repeating-linear-gradient(
+        45deg,
+        #007bff,
+        #007bff 10px,
+        #008cff 10px,
+        #008cff 20px
+    ) !important;
+    background-size: 200% 200% !important;
+    animation: barberpole 2s linear infinite;
+}
+
+@keyframes barberpole {
+    from { background-position: 0 0; }
+    to { background-position: 100% 100%; }
+}
+
+/* --- 右下の上に戻るボタン --- */
 #page-top {
     position: fixed;
     right: 25px;
@@ -146,6 +184,7 @@ h2 {
     opacity: 0;
     visibility: hidden;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    font-weight: bold;
 }
 
 #page-top.show {
@@ -165,4 +204,11 @@ footer {
     background: #fcfcfc;
     color: #888;
     border-top: 1px solid #eee;
+}
+
+/* --- グリッドレイアウト（実績など） --- */
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
 }
