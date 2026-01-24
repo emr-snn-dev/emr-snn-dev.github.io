@@ -3,29 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 SYSTEM ERROR | STC RACING</title>
+    <title>404 - Page Not Found | 篠ノ井技術Club</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        .error-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 80vh;
+        }
+        .error-code {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 8rem;
+            color: #d32f2f;
+            margin: 0;
+            line-height: 1;
+        }
+        .error-msg {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+        }
+    </style>
 </head>
-<body class="error-body">
+<body>
+    <div id="custom-cursor"></div>
 
-<div id="cursor-dot"></div>
-<div id="cursor-outline"></div>
-
-<div class="error-screen">
-    <div class="scanline"></div>
-    <div class="error-content">
-        <h1 class="glitch-text" data-text="404">404</h1>
-        <div class="status-code">OUT OF TRACK / SYSTEM ERROR</div>
-        <p class="error-desc">
-            マシンのテレメトリが途絶えました。<br>
-            リクエストされたデータは存在しないか、移動した可能性があります。
-        </p>
-        <div class="action-area">
-            <a href="index.html" class="btn-back">REBOOT & BACK TO HOME</a>
-        </div>
+    <div class="error-container">
+        <h1 class="error-code">404</h1>
+        <p class="error-msg">SYSTEM ERROR: ページが見つかりません</p>
+        <p>URLが間違っているか、ページが移動した可能性があります。</p>
+        <a href="index.html" class="button">トップページに戻る</a>
     </div>
-</div>
 
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
