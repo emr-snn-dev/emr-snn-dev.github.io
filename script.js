@@ -11,17 +11,19 @@ document.querySelectorAll('a, button, .menu-btn').forEach(el => {
     el.addEventListener('mouseleave', () => cursor.style.transform = 'scale(1)');
 });
 
-// 募集停止メッセージ
+// ボタンを押した時のメッセージ表示
 function showClosedMessage() {
     const note = document.getElementById('notification');
     note.innerText = "ただいま募集しておりません。4月の開始をお待ちください。";
     note.classList.add('show');
+    
+    // 3秒後に隠す
     setTimeout(() => {
         note.classList.remove('show');
     }, 3000);
 }
 
-// フェードインアニメーション
+// スクロール時のフェードイン
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) entry.target.classList.add('is-visible');
