@@ -4,135 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>篠ノ井技術Club | 2026年4月始動</title>
-    
+    <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
-
-    <style>
-        /* --- CSS: デザイン設定 --- */
-        body {
-            font-family: 'Noto Sans JP', sans-serif;
-            line-height: 1.8;
-            margin: 0;
-            color: #333;
-            background-color: #f8f9fa;
-            text-align: center;
-            overflow-x: hidden;
-        }
-
-        /* ローディング画面 */
-        #loading {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: #111;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            z-index: 10000;
-            transition: opacity 0.8s ease, visibility 0.8s;
-        }
-        #loading.loaded { opacity: 0; visibility: hidden; }
-        .loader {
-            width: 50px; height: 50px;
-            border: 5px solid rgba(0, 123, 255, 0.2);
-            border-top: 5px solid #007bff;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        #loading p { color: #007bff; font-family: 'Orbitron', sans-serif; letter-spacing: 2px; }
-
-        /* カスタムカーソル */
-        @media (hover: hover) {
-            body { cursor: none; }
-            #custom-cursor {
-                width: 20px; height: 20px;
-                background: rgba(0, 123, 255, 0.3);
-                border: 2px solid #007bff;
-                border-radius: 50%;
-                position: fixed;
-                pointer-events: none;
-                z-index: 9999;
-                transition: transform 0.1s ease-out;
-            }
-        }
-
-        /* 通知メッセージ */
-        #notification {
-            position: fixed;
-            bottom: 20px; left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: #007bff;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 50px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 10000;
-            font-size: 0.9rem;
-            white-space: nowrap;
-        }
-        #notification.show { transform: translateX(-50%) translateY(0); }
-
-        /* ヘッダー・ナビ */
-        header { padding: 80px 20px; background: #222; color: #fff; }
-        header h1 { font-family: 'Orbitron', sans-serif; font-size: 2.2rem; letter-spacing: 2px; margin: 0; }
-        
-        nav {
-            position: sticky; top: 0;
-            background: rgba(255,255,255,0.95);
-            padding: 15px 0; z-index: 100;
-            border-bottom: 1px solid #ddd;
-        }
-        nav ul { list-style: none; padding: 0; margin: 0; display: flex; justify-content: center; }
-        nav ul li { margin: 0 15px; }
-        nav a { text-decoration: none; color: #333; font-weight: bold; }
-
-        /* スマホメニューボタン */
-        .menu-btn {
-            display: none; width: 30px; height: 20px; cursor: pointer;
-            position: relative; margin-left: auto; margin-right: 20px;
-        }
-        .menu-btn span { position: absolute; width: 100%; height: 2px; background: #333; transition: 0.3s; }
-        .menu-btn span:nth-child(1) { top: 0; }
-        .menu-btn span:nth-child(2) { top: 9px; }
-        .menu-btn span:nth-child(3) { bottom: 0; }
-
-        @media (max-width: 768px) {
-            .menu-btn { display: block; }
-            nav ul {
-                display: none; flex-direction: column; width: 100%;
-                background: #fff; position: absolute; top: 100%; left: 0;
-                padding: 10px 0; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            }
-            nav ul.active { display: flex; }
-            nav ul li { margin: 15px 0; }
-        }
-
-        /* コンテンツエリア */
-        main { max-width: 700px; margin: 0 auto; padding: 20px; }
-        section { padding: 50px 0; border-bottom: 1px solid #eee; opacity: 0; transform: translateY(30px); transition: 0.8s; }
-        section.is-visible { opacity: 1; transform: translateY(0); }
-
-        h2 { font-family: 'Orbitron', sans-serif; color: #007bff; margin-bottom: 25px; }
-        .main-list { list-style: none; padding: 0; font-size: 1.3rem; font-weight: bold; }
-        .news-list { text-align: left; background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #eee; }
-        dl { text-align: left; background: #fff; padding: 20px; border-radius: 10px; border: 1px solid #eee; }
-        dt { font-weight: bold; color: #007bff; margin-top: 10px; }
-
-        .button {
-            display: inline-block; background: #007bff; color: #fff;
-            padding: 14px 28px; border: none; border-radius: 5px;
-            font-weight: bold; cursor: pointer; transition: 0.3s;
-        }
-        footer { padding: 40px; color: #999; font-size: 0.8rem; }
-    </style>
 </head>
 <body>
-
-    <div id="loading">
-        <div class="loader"></div>
-        <p>SYSTEM LOADING...</p>
-    </div>
-
+    <div id="loading"><div class="loader"></div><p>SYSTEM LOADING...</p></div>
     <div id="custom-cursor"></div>
     <div id="notification"></div>
 
@@ -141,110 +17,22 @@
         <p>2026.04 ACTIVITY START</p>
     </header>
 
-    <nav>
-        <div id="menu-btn" class="menu-btn">
-            <span></span><span></span><span></span>
-        </div>
-        <ul id="nav-list">
-            <li><a href="#about">活動内容</a></li>
-            <li><a href="#news">お知らせ</a></li>
-            <li><a href="#info">活動案内</a></li>
-            <li><a href="#recruit">募集</a></li>
-        </ul>
-    </nav>
+    <nav></nav>
 
     <main>
         <section id="about" class="fade-in-section">
             <h2>活動内容</h2>
-            <ul class="main-list">
-                <li>エコカー制作</li>
-                <li>各種大会参加</li>
-            </ul>
-            <p>バイクのエンジンを使った自作車両で、燃費の限界に挑む。</p>
+            <ul class="main-list"><li>エコカー制作</li><li>各種大会参加</li></ul>
         </section>
-
-        <section id="news" class="fade-in-section">
-            <h2>お知らせ</h2>
-            <div class="news-list">
-                <div class="news-item">
-                    <span style="font-family: 'Orbitron'; color: #007bff;">2026.01.24</span>
-                    <p>ホームページを公開しました。4月からの活動をお楽しみに！</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="info" class="fade-in-section">
-            <h2>活動案内</h2>
-            <dl>
-                <dt>活動場所</dt>
-                <dd>篠ノ井西中学校 金工室</dd>
-                <dt>活動日</dt>
-                <dd>毎週土曜日（今後増える可能性あり）</dd>
-                <dt>費用</dt>
-                <dd>月額2,000円予定（部品代等含む）<br>※大会参加費は別途</dd>
-            </dl>
-        </section>
-
         <section id="recruit" class="fade-in-section">
             <h2>メンバー募集</h2>
-            <p>対象：中学生</p>
-            <p>2026年度、第1期メンバーを募集中です。</p>
             <button class="button" onclick="showClosedMessage()">入会・見学のお問い合わせ</button>
         </section>
     </main>
 
-    <footer>
-        <p>&copy; 2026 篠ノ井技術Club</p>
-    </footer>
+    <footer><p>&copy; 2026 篠ノ井技術Club</p></footer>
 
-    <script>
-        /* --- JS: 動作設定 --- */
-
-        // ローディング解除
-        window.addEventListener('load', () => {
-            document.getElementById('loading').classList.add('loaded');
-        });
-
-        // カスタムカーソル
-        const cursor = document.getElementById('custom-cursor');
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
-
-        // ホバーエフェクト
-        document.querySelectorAll('a, button, .menu-btn').forEach(el => {
-            el.addEventListener('mouseenter', () => cursor.style.transform = 'scale(2.5)');
-            el.addEventListener('mouseleave', () => cursor.style.transform = 'scale(1)');
-        });
-
-        // スマホメニュー開閉
-        const menuBtn = document.getElementById('menu-btn');
-        const navList = document.getElementById('nav-list');
-        menuBtn.addEventListener('click', () => {
-            navList.classList.toggle('active');
-        });
-        document.querySelectorAll('#nav-list a').forEach(link => {
-            link.addEventListener('click', () => navList.classList.remove('active'));
-        });
-
-        // 募集停止メッセージ
-        function showClosedMessage() {
-            const note = document.getElementById('notification');
-            note.innerText = "ただいま募集しておりません。4月の開始をお待ちください。";
-            note.classList.add('show');
-            setTimeout(() => {
-                note.classList.remove('show');
-            }, 3000);
-        }
-
-        // フェードインアニメーション
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('is-visible');
-            });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.fade-in-section').forEach(s => observer.observe(s));
-    </script>
+    <script src="script.js"></script>
+    <script src="navi.js"></script>
 </body>
 </html>
