@@ -3,95 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ログイン | 篠ノ井技術クラブ</title>
+    <title>CLUB LOGIN | 篠ノ井技術クラブ</title>
     <link rel="stylesheet" href="/style.css">
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&display=swap" rel="stylesheet">
+    <style>
+        body { background: #0b1d2e; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: sans-serif; overflow: hidden; }
+        .login-card { background: rgba(16, 42, 67, 0.9); padding: 40px; border-radius: 20px; border: 1px solid #00aeef; box-shadow: 0 0 30px rgba(0, 174, 239, 0.4); text-align: center; width: 90%; max-width: 350px; }
+        .club-logo { width: 100px; height: 100px; margin-bottom: 20px; filter: drop-shadow(0 0 10px #00aeef); }
+        .club-title { font-family: 'Orbitron'; color: #00aeef; font-size: 1.2rem; margin-bottom: 30px; letter-spacing: 2px; }
+        input[type="password"] { width: 100%; padding: 12px; margin-bottom: 20px; background: #0b1d2e; border: 1px solid #486581; border-radius: 8px; color: white; text-align: center; box-sizing: border-box; outline: none; }
+        .enter-btn { width: 100%; padding: 12px; background: #00aeef; color: white; border: none; border-radius: 8px; font-weight: 900; cursor: pointer; transition: 0.3s; }
+        .enter-btn:disabled { background: #486581; cursor: not-allowed; }
+        #lock-msg { color: #ff4d4d; font-size: 0.8rem; margin-top: 10px; display: none; }
+    </style>
 </head>
 <body>
-    <header><h1>TEAM PORTAL</h1></header>
-
-    <main>
-        <div id="lock-screen" style="display: none; text-align: center; margin-top: 100px;">
-            <div style="font-size: 3rem;">🔒</div>
-            <h2 style="font-family: 'Orbitron', sans-serif;">ACCESS DENIED</h2>
-            <p style="color: #666;">このページを表示する権限がありません。<br>招待URLを確認してください。</p>
-            <a href="/index.html" style="color: #4285f4; text-decoration: none; font-size: 0.9rem;">トップページへ戻る</a>
-        </div>
-
-        <div id="login-card" class="card" style="max-width: 400px; margin: 0 auto; display: none; border-top: 5px solid #4285f4;">
-            <h3 style="text-align: center; font-family: 'Orbitron', sans-serif; letter-spacing: 2px;">MEMBER LOGIN</h3>
-            
-            <div id="email-login-area">
-                <input type="email" id="email" style="width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; box-sizing: border-box; border-radius: 8px;" placeholder="メールアドレス">
-                <input type="password" id="password" style="width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; box-sizing: border-box; border-radius: 8px;" placeholder="パスワード">
-                <button onclick="handleAuth()" class="btn" style="width: 100%; margin-top: 10px; border-radius: 8px;">ログイン</button>
-            </div>
-
-            <div style="margin: 30px 0; border-top: 1px solid #eee; position: relative; text-align: center;">
-                <span style="position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: #fff; padding: 0 15px; color: #bbb; font-size: 0.7rem; font-weight: bold;">OR CONNECT WITH</span>
-            </div>
-
-            <button id="google-btn" onclick="loginWithGoogle()" class="btn" style="width: 100%; background: #fff; color: #444; border: 1px solid #ddd; display: flex; align-items: center; justify-content: center; gap: 12px; padding: 14px; border-radius: 8px; font-weight: bold;">
-                <svg width="20" height="20" viewBox="0 0 24 24">
-                    <defs>
-                        <linearGradient id="g-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#ea4335" />
-                            <stop offset="33%" style="stop-color:#fbbc05" />
-                            <stop offset="66%" style="stop-color:#34a853" />
-                            <stop offset="100%" style="stop-color:#4285f4" />
-                        </linearGradient>
-                    </defs>
-                    <path fill="url(#g-grad)" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                    <path fill="url(#g-grad)" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-1 .67-2.26 1.07-3.71 1.07-2.87 0-5.3-1.94-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                    <path fill="url(#g-grad)" d="M5.84 14.11c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.09H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.91l3.66-2.8z"/>
-                    <path fill="url(#g-grad)" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.09l3.66 2.84c.86-2.59 3.29-4.55 6.16-4.55z"/>
-                </svg>
-                Googleでログイン
-            </button>
-            <p id="error-msg" style="color: #ff4757; font-size: 0.8rem; margin-top: 15px; text-align: center; font-weight: bold;"></p>
-        </div>
-    </main>
 
     <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyBwT-Df-5F4Wdyg-nJfg1OPolTMNUN0srg",
-            authDomain: "shinonoi-gizyutu.firebaseapp.com",
-            projectId: "shinonoi-gizyutu",
-            storageBucket: "shinonoi-gizyutu.firebasestorage.app",
-            messagingSenderId: "650750036178",
-            appId: "1:650750036178:web:f50da8d54383510b6dc50b"
-        };
-        firebase.initializeApp(firebaseConfig);
-
-        // --- URLパラメータ認証（難読化） ---
-        // 手順1で生成した文字列をここに貼り付ける
-        const ENCODED_KEY = "U05OXzIwMjY="; 
-        
+        // URLパラメータチェック：不正アクセスは即ホームへ
         const urlParams = new URLSearchParams(window.location.search);
-        const userCode = urlParams.get('code');
+        if (urlParams.get('code') !== 'SNN_2026') {
+            window.location.href = "/index.html";
+        }
+    </script>
 
-        // 入力された code を変換して比較
-        if (userCode && btoa(userCode) === ENCODED_KEY) {
-            document.getElementById('login-card').style.display = 'block';
-        } else {
-            document.getElementById('lock-screen').style.display = 'block';
+    <div class="login-card">
+        <img src="/images/logo.png" alt="LOGO" class="club-logo">
+        <div class="club-title">MEMBER ONLY</div>
+        <input type="password" id="club-pass" placeholder="PASSWORD">
+        <button id="login-btn" class="enter-btn" onclick="checkClubPassword()">LOGIN</button>
+        <div id="lock-msg">失敗しすぎたため5分間ロックされています</div>
+    </div>
+
+    <script src="/menu.js"></script>
+    <script>
+        const MAX_ATTEMPTS = 5;
+        const LOCK_TIME = 5 * 60 * 1000; // 5分（ミリ秒）
+
+        function checkLock() {
+            const lockUntil = localStorage.getItem('login_lock_until');
+            if (lockUntil && Date.now() < lockUntil) {
+                document.getElementById('login-btn').disabled = true;
+                document.getElementById('lock-msg').style.display = 'block';
+                return true;
+            }
+            document.getElementById('login-btn').disabled = false;
+            document.getElementById('lock-msg').style.display = 'none';
+            return false;
         }
 
-        function handleAuth() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            firebase.auth().signInWithEmailAndPassword(email, password)
-                .then(() => { window.location.href = "/team/index.html"; })
-                .catch(() => { document.getElementById('error-msg').innerText = "ログイン失敗。アドレスかパスワードが違います。"; });
-        }
+        // ページ読み込み時にロック確認
+        setInterval(checkLock, 1000);
 
-        function loginWithGoogle() {
-            const provider = new firebase.auth.GoogleAuthProvider();
-            firebase.auth().signInWithPopup(provider)
-                .then(() => { window.location.href = "/team/index.html"; })
-                .catch((e) => { console.error(e); });
+        async function checkClubPassword() {
+            if (checkLock()) return;
+
+            const inputPass = document.getElementById('club-pass').value;
+            const guestEmail = "guest@snn.example.com"; 
+            const guestPass = "shinonoi2026"; 
+
+            if (inputPass === guestPass) {
+                try {
+                    const result = await firebase.auth().signInWithEmailAndPassword(guestEmail, guestPass);
+                    localStorage.removeItem('login_attempts');
+                    localStorage.removeItem('login_lock_until');
+                    window.location.href = "/activity-log.html";
+                } catch (e) { alert("認証エラー"); }
+            } else {
+                let attempts = parseInt(localStorage.getItem('login_attempts') || 0) + 1;
+                localStorage.setItem('login_attempts', attempts);
+                
+                if (attempts >= MAX_ATTEMPTS) {
+                    const lockUntil = Date.now() + LOCK_TIME;
+                    localStorage.setItem('login_lock_until', lockUntil);
+                    alert("5回失敗しました。5分間ロックします。");
+                    checkLock();
+                } else {
+                    alert("パスワードが違います。残り: " + (MAX_ATTEMPTS - attempts) + "回");
+                }
+            }
         }
     </script>
 </body>
