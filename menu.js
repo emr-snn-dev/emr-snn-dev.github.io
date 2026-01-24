@@ -1,8 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // 1. メニューの挿入
     const navHTML = `
-        <div id="menu-btn" class="menu-btn">
-            <span></span><span></span><span></span>
-        </div>
         <ul id="nav-list">
             <li><a href="/index.html">TOP</a></li>
             <li><a href="/blog/index.html">BLOG</a></li>
@@ -10,20 +8,36 @@ document.addEventListener('DOMContentLoaded', function() {
             <li><a href="/index.html#recruit">RECRUIT</a></li>
         </ul>
     `;
-    
     const navElement = document.querySelector('nav');
-    if (navElement) {
-        navElement.innerHTML = navHTML;
-        
-        // ローディング終了後にメニューを表示させる制御
-        window.addEventListener('load', () => {
-            const loader = document.getElementById('loading');
-            if(loader) {
-                setTimeout(() => {
-                    loader.style.opacity = '0';
-                    setTimeout(() => { loader.style.visibility = 'hidden'; }, 500);
-                }, 1000);
-            }
-        });
-    }
+    if (navElement) navElement.innerHTML = navHTML;
+
+    // 2. 上に戻るボタンの生成と制御
+    const topBtn = document.createElement('a');
+    topBtn.id = 'page-top';
+    topBtn.innerHTML = '▲';
+    document.body.appendChild(topBtn);
+
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+            topBtn.classList.add('show');
+        } else {
+            topBtn.classList.remove('show');
+        }
+    });
+
+    topBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // 3. ローディング画面の解除
+    window.addEventListener('load', () => {
+        const loader = document.getElementById('loading');
+        if(loader) {
+            setTimeout(() => {
+                loader.style.opacity = '0';
+                setTimeout(() => { loader.style.visibility = 'hidden'; }, 500);
+            }, 1000);
+        }
+    });
 });
