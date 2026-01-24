@@ -8,7 +8,7 @@ body {
     overflow-x: hidden;
 }
 
-/* カスタムカーソル */
+/* 青いカスタムカーソル */
 @media (hover: hover) {
     body { cursor: none; }
     #custom-cursor {
@@ -24,7 +24,7 @@ body {
     }
 }
 
-/* 通知トースト */
+/* 通知メッセージ */
 #notification {
     position: fixed;
     bottom: 20px;
@@ -42,11 +42,9 @@ body {
 }
 #notification.show { transform: translateX(-50%) translateY(0); }
 
-/* ヘッダー */
 header { padding: 80px 20px; background: #222; color: #fff; }
 header h1 { font-family: 'Orbitron', sans-serif; font-size: 2.2rem; letter-spacing: 2px; margin: 0; }
 
-/* ナビゲーション */
 nav {
     position: sticky;
     top: 0;
@@ -59,7 +57,7 @@ nav ul { list-style: none; padding: 0; margin: 0; display: flex; justify-content
 nav ul li { margin: 0 15px; }
 nav a { text-decoration: none; color: #333; font-weight: bold; font-size: 0.9rem; }
 
-/* ハンバーガーメニュー */
+/* スマホ用メニューボタン */
 .menu-btn {
     display: none;
     width: 30px;
@@ -92,7 +90,6 @@ nav a { text-decoration: none; color: #333; font-weight: bold; font-size: 0.9rem
     nav ul li { margin: 15px 0; }
 }
 
-/* メイン */
 main { max-width: 700px; margin: 0 auto; padding: 20px; }
 section { padding: 50px 0; border-bottom: 1px solid #eee; opacity: 0; transform: translateY(30px); transition: 0.8s; }
 section.is-visible { opacity: 1; transform: translateY(0); }
@@ -116,8 +113,5 @@ dd { margin-left: 0; padding: 5px 0 10px 13px; font-size: 0.95rem; }
     font-weight: bold;
     cursor: pointer;
     transition: 0.3s;
-    font-size: 1rem;
 }
-.button:hover { background: #0056b3; }
-
 footer { padding: 40px; color: #999; font-size: 0.8rem; }
