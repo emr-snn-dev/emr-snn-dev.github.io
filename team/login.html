@@ -9,15 +9,24 @@
 </head>
 <body>
     <div id="loading"><h1>SYSTEM LOADING...</h1></div>
-    <header><h1>TEAM LOGIN</h1></header>
+    <header>
+        <h1>TEAM LOGIN</h1>
+        <p>会員認証</p>
+    </header>
 
     <main>
-        <div class="card" style="max-width: 400px; margin: 0 auto; text-align: center;">
-            <h3>会員IDログイン</h3>
-            <input type="email" id="email" placeholder="メールアドレス" class="card" style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd;">
-            <input type="password" id="password" placeholder="パスワード" class="card" style="width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd;">
-            <button onclick="login()" class="btn" style="width: 100%;">ログイン</button>
-            <p id="error-msg" style="color: red; font-size: 0.8rem; margin-top: 10px;"></p>
+        <div class="card" style="max-width: 400px; margin: 0 auto;">
+            <h3 style="text-align: center;">ログイン</h3>
+            <div style="margin-top: 20px;">
+                <label style="font-size: 0.8rem; font-weight: bold;">会員ID（メールアドレス）</label>
+                <input type="email" id="email" class="card" style="width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; box-sizing: border-box;">
+                
+                <label style="font-size: 0.8rem; font-weight: bold;">パスワード</label>
+                <input type="password" id="password" class="card" style="width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; box-sizing: border-box;">
+                
+                <button onclick="login()" class="btn" style="width: 100%; margin-top: 20px; border: none; cursor: pointer;">ログイン</button>
+                <p id="error-msg" style="color: #ff4757; font-size: 0.85rem; margin-top: 15px; text-align: center; font-weight: bold;"></p>
+            </div>
         </div>
     </main>
 
@@ -35,11 +44,15 @@
         function login() {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
+            const errorMsg = document.getElementById('error-msg');
+
             firebase.auth().signInWithEmailAndPassword(email, password)
-                .then(() => { window.location.href = "/team/index.html"; })
+                .then(() => {
+                    window.location.href = "/team/index.html";
+                })
                 .catch((error) => {
                     console.error(error);
-                    document.getElementById('error-msg').innerText = "IDまたはパスワードが正しくありません。";
+                    errorMsg.innerText = "認証に失敗しました。IDまたはパスワードを確認してください。";
                 });
         }
     </script>
