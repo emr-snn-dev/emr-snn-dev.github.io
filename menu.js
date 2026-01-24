@@ -1,46 +1,57 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // 1. 共通メニューの挿入
-    const navHTML = `
-        <ul id="nav-list">
-            <li><a href="/index.html">トップ</a></li>
-            <li><a href="/blog/index.html">ブログ</a></li>
-            <li><a href="/portfolio/index.html">実績</a></li>
-            <li><a href="/index.html#about">案内</a></li>
-            <li><a href="/index.html#recruit">募集</a></li>
-        </ul>
+// Firebase設定
+const firebaseConfig = {
+    apiKey: "AIzaSyBwT-Df-5F4Wdyg-nJfg1OPolTMNUN0srg",
+    authDomain: "shinonoi-gizyutu.firebaseapp.com",
+    projectId: "shinonoi-gizyutu",
+    storageBucket: "shinonoi-gizyutu.firebasestorage.app",
+    messagingSenderId: "650750036178",
+    appId: "1:650750036178:web:f50da8d54383510b6dc50b"
+};
+
+// 二重初期化防止
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
+
+const navContainer = document.getElementById('nav-container');
+
+// ナビゲーションの基本構造を生成
+if (navContainer) {
+    navContainer.innerHTML = `
+        <nav class="global-nav">
+            <ul class="nav-links">
+                <li><a href="/index.html">HOME</a></li>
+                <li><a href="/about.html">ABOUT</a></li>
+                <li><a href="/projects.html">PROJECTS</a></li>
+                <li><a href="/team/index.html">TEAM</a></li>
+            </ul>
+            <div id="auth-status-area" class="auth-status"></div>
+        </nav>
     `;
-    const nav = document.querySelector('nav');
-    if (nav) nav.innerHTML = navHTML;
+}
 
-    // 2. 上に戻るボタンの生成
-    const topBtn = document.createElement('a');
-    topBtn.id = 'page-top';
-    topBtn.innerHTML = '▲';
-    document.body.appendChild(topBtn);
+// ログイン状態を全ページで監視して表示を切り替え
+firebase.auth().onAuthStateChanged((user) => {
+    const authArea = document.getElementById('auth-status-area');
+    if (!authArea) return;
 
-    // スクロール時の表示・非表示
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 300) {
-            topBtn.classList.add('show');
-        } else {
-            topBtn.classList.remove('show');
-        }
-    });
+    if (user) {
+        // ログイン中の表示
+        const userName = user.displayName || user.email.split('@')[0];
+        const userPhoto = user.photoURL 
+            ? `<img src="${user.photoURL}" class="nav-avatar">` 
+            : `<span class="nav-avatar-icon">👤</span>`;
 
-    // スムーススクロール
-    topBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-
-    // 3. ローディング画面の解除
-    window.addEventListener('load', () => {
-        const loader = document.getElementById('loading');
-        if (loader) {
-            setTimeout(() => {
-                loader.style.opacity = '0';
-                setTimeout(() => { loader.style.visibility = 'hidden'; }, 500);
-            }, 800);
-        }
-    });
+        authArea.innerHTML = `
+            <div class="user-badge">
+                ${userPhoto}
+                <span class="user-name-text">${userName}</span>
+            </div>
+        `;
+    } else {
+        // 未ログイン時の表示
+        authArea.innerHTML = `
+            <a href="/team/login.html" class="nav-login-btn">TEAM LOGIN</a>
+        `;
+    }
 });
