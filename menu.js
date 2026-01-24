@@ -1,5 +1,5 @@
 (function() {
-    // 1. Firebaseの設定
+    // Firebase設定
     const firebaseConfig = {
         apiKey: "AIzaSyBwT-Df-5F4Wdyg-nJfg1OPolTMNUN0srg",
         authDomain: "shinonoi-gizyutu.firebaseapp.com",
@@ -9,7 +9,6 @@
         appId: "1:650750036178:web:f50da8d54383510b6dc50b"
     };
 
-    // Firebaseの二重初期化を防止
     if (!firebase.apps.length) {
         firebase.initializeApp(firebaseConfig);
     }
@@ -17,10 +16,10 @@
     const navContainer = document.getElementById('nav-container');
     if (!navContainer) return;
 
-    // 2. ナビゲーションの構造を作成
+    // 日本語メニューの生成
     navContainer.innerHTML = `
         <nav class="global-nav">
-            <div class="nav-brand">SHINONOI</div>
+            <div class="nav-brand">篠ノ井技術クラブ</div>
             
             <button class="menu-toggle" id="menu-toggle" aria-label="メニュー開閉">
                 <span class="bar"></span>
@@ -29,17 +28,16 @@
             </button>
 
             <ul class="nav-links" id="nav-menu">
-                <li><a href="/index.html">HOME</a></li>
-                <li><a href="/about.html">ABOUT</a></li>
-                <li><a href="/projects.html">PROJECTS</a></li>
-                <li><a href="/team/index.html">TEAM</a></li>
+                <li><a href="/index.html">ホーム</a></li>
+                <li><a href="/about.html">クラブ紹介</a></li>
+                <li><a href="/projects.html">活動実績</a></li>
+                <li><a href="/team/index.html">メンバー専用</a></li>
             </ul>
             
             <div id="auth-status-area" class="auth-status"></div>
         </nav>
     `;
 
-    // 3. ハンバーガーメニューの制御
     const toggleBtn = document.getElementById('menu-toggle');
     const navMenu = document.getElementById('nav-menu');
     
@@ -48,25 +46,25 @@
         navMenu.classList.toggle('active');
     });
 
-    // 4. ログイン状態の監視と表示
+    // ログイン状態の日本語表示
     firebase.auth().onAuthStateChanged((user) => {
         const authArea = document.getElementById('auth-status-area');
         if (!authArea) return;
 
         if (user) {
-            const name = user.displayName || user.email.split('@')[0];
+            const name = user.displayName || "メンバー";
             const photo = user.photoURL 
                 ? `<img src="${user.photoURL}" class="nav-avatar">` 
-                : `<span class="nav-avatar-icon" style="color:white;font-size:1.2rem;">👤</span>`;
+                : `<span class="nav-avatar-icon">👤</span>`;
 
             authArea.innerHTML = `
                 <div class="user-badge">
                     ${photo}
-                    <span class="user-name-text">${name}</span>
+                    <span class="user-name-text">${name} さん</span>
                 </div>
             `;
         } else {
-            authArea.innerHTML = `<a href="/team/login.html" class="nav-login-btn">LOGIN</a>`;
+            authArea.innerHTML = `<a href="/team/login.html" class="nav-login-btn">ログイン</a>`;
         }
     });
 })();
