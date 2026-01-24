@@ -76,6 +76,28 @@ body {
     color: #00aeef;
 }
 
+/* --- ハンバーガーボタン（スマホ用） --- */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 25px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 10001;
+    padding: 0;
+}
+
+.menu-toggle .bar {
+    width: 100%;
+    height: 3px;
+    background-color: #00aeef;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
 /* --- ヘッダー（中央寄せ） --- */
 header {
     padding: 100px 20px 60px;
@@ -119,7 +141,7 @@ main {
     box-sizing: border-box;
     box-shadow: 0 15px 35px rgba(51, 78, 104, 0.1);
     border: 1px solid #e1e8ed;
-    text-align: center; /* 全て中央寄せ */
+    text-align: center;
 }
 
 .card h2 {
@@ -204,11 +226,39 @@ footer {
 /* --- スマホ対応 (レスポンシブ) --- */
 @media (max-width: 768px) {
     .global-nav { padding: 0 20px; }
-    .nav-links { display: none; } /* スマホメニューはmenu.js側で制御 */
+    
+    .menu-toggle { display: flex; } /* ボタン表示 */
+
+    /* スライドメニューの設定 */
+    .nav-links {
+        display: flex;
+        position: fixed;
+        right: -100%; /* 最初は画面の外に隠す */
+        top: 75px;
+        height: calc(100vh - 75px);
+        width: 80%; /* 横幅を少し抑えるとかっこいい */
+        background: rgba(255, 255, 255, 0.98);
+        flex-direction: column;
+        align-items: center;
+        padding-top: 50px;
+        gap: 35px;
+        z-index: 9999;
+        transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* ヌルッと動く設定 */
+        box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+    }
+
+    /* activeがついたら右からスライドイン */
+    .nav-links.active {
+        right: 0;
+    }
+
+    /* ハンバーガーアニメーション */
+    .menu-toggle.active .bar:nth-child(1) { transform: rotate(45deg) translate(5px, 6px); }
+    .menu-toggle.active .bar:nth-child(2) { opacity: 0; }
+    .menu-toggle.active .bar:nth-child(3) { transform: rotate(-45deg) translate(5px, -6px); }
     
     header { padding: 80px 15px 40px; }
     header h1 { letter-spacing: 4px; }
-    
     .card { padding: 30px 20px; }
     
     .spec-table th, .spec-table td {
@@ -216,7 +266,6 @@ footer {
         width: 100%;
         box-sizing: border-box;
     }
-    
     .spec-table th {
         background: #f0f4f8;
         padding: 10px 20px;
