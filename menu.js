@@ -13,33 +13,39 @@
 
     const navContainer = document.getElementById('nav-container');
     if (navContainer) {
+        // 重なりを防ぐため、HTMLの並び順を「ロゴ・ステータス・ボタン」に整理
         navContainer.innerHTML = `
             <nav class="global-nav">
                 <div class="nav-brand" style="font-family:'Orbitron'; font-weight:900; user-select:none;">
                     SHINONO<span id="secret-gate" style="cursor:default; color:inherit;">I</span>
                 </div>
-                <button class="menu-toggle" id="menu-toggle"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button>
+                <div id="auth-status-area" class="auth-status"></div>
+                <button class="menu-toggle" id="menu-toggle">
+                    <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+                </button>
                 <ul class="nav-links" id="nav-menu">
                     <li><a href="/index.html">HOME</a></li>
                     <li><a href="/about.html">ABOUT</a></li>
                     <li><a href="/portfolio.html">PORTFOLIO</a></li>
                     <li><a href="/team/index.html">MEMBER</a></li>
-                    <li style="position:relative;"><a href="/activity-log.html">LOG</a><span id="log-new-badge" style="display:none; position:absolute; top:0; right:-5px; width:8px; height:8px; background:#ff4d4d; border-radius:50%;"></span></li>
+                    <li style="position:relative;">
+                        <a href="/activity-log.html">LOG</a>
+                        <span id="log-new-badge" style="display:none; position:absolute; top:0; right:-5px; width:8px; height:8px; background:#ff4d4d; border-radius:50%;"></span>
+                    </li>
                     <li id="auth-status-mobile"></li>
                 </ul>
-                <div id="auth-status-area" class="auth-status"></div>
             </nav>`;
         
         const toggleBtn = document.getElementById('menu-toggle');
         const navMenu = document.getElementById('nav-menu');
 
-        // メニューの開閉
+        // メニューの開閉処理
         toggleBtn.onclick = (e) => {
-            e.stopPropagation(); // 背景クリックイベントの連鎖を防ぐ
+            e.stopPropagation();
             toggleBtn.classList.toggle('active');
             navMenu.classList.toggle('active');
             
-            // メニューが開いている時は背面を固定
+            // 開いている時は背面スクロールを禁止
             if(navMenu.classList.contains('active')) {
                 document.body.style.overflow = 'hidden';
             } else {
@@ -62,7 +68,7 @@
             tapTimer = setTimeout(() => { tapCount = 0; }, 2000);
         };
 
-        // メニューの外側（背景）をタップしたら閉じる
+        // メニューの外側をタップしたら閉じる
         document.addEventListener('click', (e) => {
             if (navMenu.classList.contains('active') && !navMenu.contains(e.target) && !toggleBtn.contains(e.target)) {
                 navMenu.classList.remove('active');
@@ -72,6 +78,7 @@
         });
     }
 
+    // 認証状態の監視
     firebase.auth().onAuthStateChanged((user) => {
         const area = document.getElementById('auth-status-area');
         const mob = document.getElementById('auth-status-mobile');
@@ -89,6 +96,7 @@
         } else {
             const urlParams = new URLSearchParams(window.location.search);
             const isSecret = (urlParams.get('code') === 'SNN_2026');
+            
             const loginBtn = isSecret ? 
                 `<a href="/team/login.html?code=SNN_2026" style="background:#00aeef; color:#fff; padding:5px 15px; border-radius:50px; text-decoration:none; font-size:0.8rem; font-weight:bold;">LOGIN</a>` :
                 `<span style="color:#486581; font-size:0.7rem;">GUEST MODE</span>`;
@@ -103,6 +111,7 @@
         }
     });
 
+    // GitHubから画像取得
     async function loadGithubImages(isHighRes) {
         try {
             const res = await fetch(`https://api.github.com/repos/emr-snn-dev/emr-snn-dev.github.io/contents/images`);
@@ -113,6 +122,7 @@
         } catch (e) { console.error(e); }
     }
 
+    // 透かしの作成
     function createWatermark(name) {
         const old = document.getElementById('dynamic-watermark');
         if (old) old.remove();
