@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // 1. メニューの挿入（ポートフォリオを追加）
+    // 1. 共通メニューの挿入
     const navHTML = `
         <ul id="nav-list">
             <li><a href="/index.html">トップ</a></li>
@@ -9,15 +9,16 @@ document.addEventListener('DOMContentLoaded', function() {
             <li><a href="/index.html#recruit">募集</a></li>
         </ul>
     `;
-    const navElement = document.querySelector('nav');
-    if (navElement) navElement.innerHTML = navHTML;
+    const nav = document.querySelector('nav');
+    if (nav) nav.innerHTML = navHTML;
 
-    // 2. 上に戻るボタンの生成と制御
+    // 2. 上に戻るボタンの生成
     const topBtn = document.createElement('a');
     topBtn.id = 'page-top';
     topBtn.innerHTML = '▲';
     document.body.appendChild(topBtn);
 
+    // スクロール時の表示・非表示
     window.addEventListener('scroll', () => {
         if (window.scrollY > 300) {
             topBtn.classList.add('show');
@@ -26,6 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // スムーススクロール
     topBtn.addEventListener('click', (e) => {
         e.preventDefault();
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -34,11 +36,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // 3. ローディング画面の解除
     window.addEventListener('load', () => {
         const loader = document.getElementById('loading');
-        if(loader) {
+        if (loader) {
             setTimeout(() => {
                 loader.style.opacity = '0';
                 setTimeout(() => { loader.style.visibility = 'hidden'; }, 500);
-            }, 1000);
+            }, 800);
         }
     });
 });
