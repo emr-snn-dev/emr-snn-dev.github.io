@@ -1,35 +1,39 @@
+/* --- UI/UX最適化フォント --- */
 body {
     margin: 0;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    background-color: #f8f9fa;
+    font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+    background-color: #f4f7f9;
+    color: #1a1a1a;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
 }
 
-/* ナビゲーションバー */
+/* --- 強力なナビゲーションバー --- */
 .global-nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #111;
-    padding: 0 40px;
-    height: 70px;
+    background: #000000;
+    padding: 0 30px;
+    height: 75px;
     position: sticky;
     top: 0;
     z-index: 10000;
-    border-bottom: 2px solid #333;
+    border-bottom: 3px solid #333;
 }
 
 .nav-brand {
     color: #fff;
-    font-weight: 900;
-    font-size: 1.2rem;
-    letter-spacing: 2px;
+    font-weight: 900; /* ULTRA太字 */
+    font-size: 1.3rem;
+    letter-spacing: 1px;
 }
 
-/* メニューリスト（PC） */
+/* --- メニューリンク --- */
 .nav-links {
     list-style: none;
     display: flex;
-    gap: 30px;
+    gap: 25px;
     margin: 0;
     padding: 0;
 }
@@ -37,132 +41,110 @@ body {
 .nav-links a {
     color: #fff;
     text-decoration: none;
-    font-size: 0.85rem;
-    font-weight: bold;
-    letter-spacing: 1px;
-    transition: 0.3s;
+    font-size: 0.95rem;
+    font-weight: 800; /* 太くはっきりと */
+    padding: 10px 5px;
+    transition: 0.2s;
 }
 
 .nav-links a:hover {
     color: #4285f4;
 }
 
-/* ユーザー表示エリア */
-.auth-status {
-    display: flex;
-    align-items: center;
-}
-
+/* --- ユーザーバッジ --- */
 .user-badge {
     display: flex;
     align-items: center;
-    gap: 8px;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 5px 12px;
-    border-radius: 50px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    gap: 10px;
+    background: #222;
+    padding: 6px 16px;
+    border-radius: 8px;
+    border: 1px solid #444;
 }
 
 .nav-avatar {
-    width: 24px;
-    height: 24px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
-    object-fit: cover;
+    border: 2px solid #fff;
 }
 
 .user-name-text {
     color: #fff;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     font-weight: bold;
 }
 
+/* --- ログインボタン --- */
 .nav-login-btn {
-    color: #4285f4;
+    color: #fff;
+    background: #4285f4;
     text-decoration: none;
-    font-size: 0.75rem;
-    font-weight: bold;
-    border: 1px solid #4285f4;
-    padding: 6px 14px;
-    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 900;
+    padding: 10px 20px;
+    border-radius: 6px;
     transition: 0.3s;
 }
 
 .nav-login-btn:hover {
-    background: #4285f4;
-    color: #fff;
+    background: #3367d6;
+    transform: scale(1.05);
 }
 
-/* スマホ用ボタン */
+/* --- スマホ用ハンバーガー設定 --- */
 .menu-toggle {
     display: none;
     flex-direction: column;
     justify-content: space-between;
     width: 30px;
-    height: 20px;
+    height: 22px;
     background: none;
     border: none;
     cursor: pointer;
-    padding: 0;
 }
 
 .menu-toggle .bar {
     width: 100%;
-    height: 3px;
+    height: 4px; /* 少し太くして押しやすく */
     background: #fff;
+    border-radius: 2px;
     transition: 0.3s;
-    border-radius: 10px;
 }
 
-/* レスポンシブ設定 */
-@media (max-width: 850px) {
-    .global-nav {
-        padding: 0 20px;
-    }
-
-    .menu-toggle {
-        display: flex;
-        order: 3;
-    }
-
+@media (max-width: 900px) {
+    .menu-toggle { display: flex; order: 3; }
     .nav-links {
         display: flex;
         position: absolute;
-        top: 70px;
+        top: 75px;
         left: 0;
         width: 100%;
         flex-direction: column;
-        background: #111;
-        gap: 0;
-        border-top: 1px solid #333;
+        background: #000;
         transform: translateY(-150%);
-        transition: transform 0.4s ease;
+        transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         opacity: 0;
-        pointer-events: none;
     }
-
     .nav-links.active {
         transform: translateY(0);
         opacity: 1;
-        pointer-events: auto;
     }
-
-    .nav-links li {
-        width: 100%;
-        border-bottom: 1px solid #222;
-    }
-
-    .nav-links a {
-        display: block;
-        padding: 20px;
-        font-size: 1.1rem;
-    }
-
-    .user-name-text {
-        display: none;
-    }
-
-    /* ボタンアニメーション（バツ印） */
-    .menu-toggle.active .bar:nth-child(1) { transform: translateY(8.5px) rotate(45deg); }
+    .nav-links li { border-bottom: 1px solid #222; }
+    .nav-links a { padding: 25px; font-size: 1.2rem; text-align: center; }
+    .user-name-text { display: none; }
+    
+    .menu-toggle.active .bar:nth-child(1) { transform: translateY(9px) rotate(45deg); }
     .menu-toggle.active .bar:nth-child(2) { opacity: 0; }
-    .menu-toggle.active .bar:nth-child(3) { transform: translateY(-8.5px) rotate(-45deg); }
+    .menu-toggle.active .bar:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+}
+
+/* --- カードデザイン --- */
+.card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 30px;
+    margin: 20px auto;
+    max-width: 800px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
 }
