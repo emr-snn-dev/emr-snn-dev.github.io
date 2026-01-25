@@ -13,7 +13,6 @@
 
     const navContainer = document.getElementById('nav-container');
     if (navContainer) {
-        // 重なりを防ぐため、HTMLの並び順を「ロゴ・ステータス・ボタン」に整理
         navContainer.innerHTML = `
             <nav class="global-nav">
                 <div class="nav-brand" style="font-family:'Orbitron'; font-weight:900; user-select:none;">
@@ -39,17 +38,20 @@
         const toggleBtn = document.getElementById('menu-toggle');
         const navMenu = document.getElementById('nav-menu');
 
-        // メニューの開閉処理
+        // メニューの開閉処理（スマホ版の動作不全を確実に修正）
         toggleBtn.onclick = (e) => {
             e.stopPropagation();
+            const isActive = navMenu.classList.toggle('active');
             toggleBtn.classList.toggle('active');
-            navMenu.classList.toggle('active');
             
-            // 開いている時は背面スクロールを禁止
-            if(navMenu.classList.contains('active')) {
+            // 下からせり出す動きを完結させ、背面スクロールを固定
+            if(isActive) {
                 document.body.style.overflow = 'hidden';
+                // CSSの bottom: -120% から 0 への変化をJS側でも確実にトリガー
+                navMenu.style.bottom = '0';
             } else {
                 document.body.style.overflow = '';
+                navMenu.style.bottom = '';
             }
         };
 
@@ -73,6 +75,7 @@
             if (navMenu.classList.contains('active') && !navMenu.contains(e.target) && !toggleBtn.contains(e.target)) {
                 navMenu.classList.remove('active');
                 toggleBtn.classList.remove('active');
+                navMenu.style.bottom = '';
                 document.body.style.overflow = '';
             }
         });
