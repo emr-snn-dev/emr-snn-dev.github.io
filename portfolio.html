@@ -72,7 +72,7 @@
             object-fit: cover;
             cursor: zoom-in;
             border-bottom: 4px solid #00aeef;
-            background: #f0f0f0; /* 画像がない時の背景 */
+            background: #f0f0f0;
         }
         .p-content { padding: 25px; text-align: left; }
         .p-specs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
@@ -118,32 +118,33 @@
                 </div>
             </div>
         </article>
+    </main>
 
-        </main>
-
-    <footer style="text-align:center; padding: 80px 20px 120px; color:#999; font-weight:900;">
+    <footer style="text-align:center; padding: 80px 20px 150px; color:#999; font-weight:900;">
         © 2026 篠ノ井技術クラブ
     </footer>
 
     <script src="menu.js"></script>
     <script>
-        // 拡大表示機能
+        // 画像を拡大する機能
         function openLightbox(src) {
-            if(!src) return;
+            if(!src || src.includes('COMING SOON')) return;
             const lightbox = document.getElementById('lightbox');
             const img = document.getElementById('lightbox-img');
             img.src = src;
             lightbox.style.display = 'flex';
         }
 
-        // ローディング解除
+        // 読み込み完了後にローディング画面を消す
         window.addEventListener('load', () => {
             const loader = document.getElementById('loading');
-            loader.style.opacity = '0';
-            setTimeout(() => { loader.style.display = 'none'; }, 500);
+            if(loader) {
+                loader.style.opacity = '0';
+                setTimeout(() => { loader.style.display = 'none'; }, 500);
+            }
         });
 
-        // 保存ショートカット制限
+        // ページ保存などのショートカットを制限
         window.addEventListener('keydown', (e) => {
             if ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'p')) {
                 e.preventDefault();
