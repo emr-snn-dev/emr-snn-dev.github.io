@@ -82,7 +82,7 @@ body {
     font-size: 0.9rem;
 }
 
-/* --- ハンバーガーボタン --- */
+/* --- ハンバーガーボタン（スマホ時はJSで制御） --- */
 .menu-toggle {
     display: none;
     flex-direction: column;
@@ -165,29 +165,39 @@ header p {
     border-radius: 2px;
 }
 
-/* --- スマホ対応（下からスライド・完全統合版） --- */
+/* --- スマホ対応（ボトムラインメニュー形式） --- */
 @media (max-width: 768px) {
+    body {
+        padding-bottom: 70px; /* ボトムバーの高さ分を確保 */
+    }
+
     .global-nav {
         padding: 0 15px;
-        position: relative;
     }
 
     .nav-brand {
         font-size: 1.1rem;
-        z-index: 10002;
     }
 
-    .auth-status {
-        position: absolute;
-        right: 60px;
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 0.75rem;
+    /* ボトムメニューバー */
+    #mobile-bottom-bar {
+        display: flex !important;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 60px;
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(10px);
+        border-top: 3px solid #00aeef;
+        z-index: 10005;
+        justify-content: space-around;
+        align-items: center;
+        box-shadow: 0 -2px 15px rgba(0,0,0,0.1);
     }
 
     .menu-toggle {
-        display: flex;
-        z-index: 10002;
+        display: none !important; /* ヘッダーのボタンは非表示 */
     }
 
     .nav-links {
@@ -195,23 +205,25 @@ header p {
         position: fixed;
         left: 0;
         bottom: -120%; /* 完全に隠す */
-        top: auto !important; /* PC版の sticky を打ち消す */
+        top: auto !important;
         width: 100%;
         height: auto;
+        max-height: 75vh;
         background: #ffffff;
         flex-direction: column;
         align-items: center;
-        padding: 40px 0 60px;
+        padding: 30px 0 40px;
         gap: 15px;
-        z-index: 9999;
+        z-index: 10004;
         border-radius: 30px 30px 0 0;
-        box-shadow: 0 -15px 30px rgba(0,0,0,0.15);
+        box-shadow: 0 -10px 30px rgba(0,0,0,0.2);
         transition: bottom 0.5s cubic-bezier(0.19, 1, 0.22, 1);
         pointer-events: none;
+        overflow-y: auto;
     }
 
     .nav-links.active {
-        bottom: 0;
+        bottom: 60px; /* ボトムバーのすぐ上に表示 */
         pointer-events: auto;
     }
 
@@ -222,25 +234,23 @@ header p {
 
     .nav-links a {
         display: block;
-        padding: 16px;
-        font-size: 1.1rem;
+        padding: 14px;
+        font-size: 1rem;
         background: #f8fafc;
-        border-radius: 15px;
+        border-radius: 12px;
         text-align: center;
         border: 1px solid #e1e8ed;
         color: #102a43;
+        font-weight: 900;
+        text-decoration: none;
     }
-
-    .menu-toggle.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-    .menu-toggle.active .bar:nth-child(2) { opacity: 0; }
-    .menu-toggle.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 }
 
 /* ページトップボタン */
 #page-top {
     position: fixed;
-    bottom: 30px;
-    right: 30px;
+    bottom: 80px; /* ボトムバーの上 */
+    right: 20px;
     background: #00aeef;
     color: #fff;
     width: 50px;
