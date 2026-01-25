@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>おしらせ・資料 | 篠ノ井技術クラブ</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Noto+Sans+JP:wght@900&display=swap" rel="stylesheet">
+    <style>
+        .news-container { max-width: 1000px; margin: 40px auto; padding: 20px; }
+        
+        .news-card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            margin-bottom: 40px;
+            overflow: hidden;
+            border: 1px solid #eee;
+        }
+        
+        .news-header {
+            padding: 20px 25px;
+            background: #f8f9fa;
+            border-bottom: 2px solid #00aeef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .news-title { margin: 0; font-size: 1.2rem; font-weight: 900; }
+        .news-date { font-family: 'Orbitron'; font-size: 0.9rem; color: #666; }
+
+        /* PDF表示エリア */
+        .pdf-viewer-area {
+            width: 100%;
+            height: 500px;
+            background: #e4e4e4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* スマホ・PC共通のダウンロードボタン */
+        .action-area {
+            padding: 20px;
+            display: flex;
+            gap: 15px;
+            background: #fff;
+        }
+
+        .btn-pdf {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 900;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-view { background: #00aeef; color: #fff; }
+        .btn-download { background: #333; color: #fff; }
+        .btn-view:hover { opacity: 0.8; }
+
+        /* ナビゲーション */
+        .global-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background: #fff;
+            border-bottom: 2px solid #000;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .nav-brand { font-family: 'Orbitron'; font-weight: 900; font-size: 1.5rem; letter-spacing: 2px; }
+        .nav-links { display: flex; gap: 20px; align-items: center; }
+        .nav-links a { text-decoration: none; color: #000; font-weight: 900; font-size: 0.9rem; }
+        .login-btn { background: #00aeef; color: #fff !important; padding: 8px 25px !important; border-radius: 50px; }
+
+        @media (max-width: 600px) {
+            .pdf-viewer-area { display: none; } /* スマホではプレビューを隠してボタンのみにする */
+            .action-area { flex-direction: column; }
+            .news-header { flex-direction: column; align-items: flex-start; gap: 5px; }
+        }
+    </style>
+</head>
+<body>
+    <div id="loading"><h1>INFORMATION</h1></div>
+
+    <nav class="global-nav">
+        <div class="nav-brand">SHINONOI</div>
+        <div class="nav-links">
+            <a href="index.html">HOME</a>
+            <a href="portfolio.html">PORTFOLIO</a>
+            <a href="news.html">NEWS</a>
+            <a href="guide.html">GUIDE</a>
+            <a href="about.html">ABOUT</a>
+            <a href="login.html" class="login-btn">LOGIN</a>
+        </div>
+    </nav>
+
+    <header style="text-align:center; padding: 60px 20px;">
+        <h1 style="font-family:'Orbitron'; font-size: 3rem; margin:0; letter-spacing: 5px;">NEWS / DOCS</h1>
+        <p style="font-weight:900; color:#666; margin-top: 10px;">活動資料・各種届出</p>
+    </header>
+
+    <main class="news-container">
+        <article class="news-card">
+            <div class="news-header">
+                <h2 class="news-title">📄 入部・加入届（2026年度版）</h2>
+                <span class="news-date">2026.04.01</span>
+            </div>
+            <div class="pdf-viewer-area">
+                <iframe src="pdf/entry_form.pdf" width="100%" height="100%" style="border: none;"></iframe>
+            </div>
+            <div class="action-area">
+                <a href="pdf/entry_form.pdf" target="_blank" class="btn-pdf btn-view">大きな画面で見る</a>
+                <a href="pdf/entry_form.pdf" download class="btn-pdf btn-download">保存・印刷する</a>
+            </div>
+        </article>
+
+        <article class="news-card">
+            <div class="news-header">
+                <h2 class="news-title">📘 クラブ活動ガイドブック</h2>
+                <span class="news-date">2026.04.01</span>
+            </div>
+            <div class="pdf-viewer-area">
+                <iframe src="pdf/club_guide.pdf" width="100%" height="100%" style="border: none;"></iframe>
+            </div>
+            <div class="action-area">
+                <a href="pdf/club_guide.pdf" target="_blank" class="btn-pdf btn-view">大きな画面で見る</a>
+                <a href="pdf/club_guide.pdf" download class="btn-pdf btn-download">保存・印刷する</a>
+            </div>
+        </article>
+    </main>
+
+    <footer style="text-align:center; padding: 60px; color:#999; font-weight:900;">© 2026 篠ノ井技術クラブ</footer>
+
+    <script>
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loading');
+            loader.style.opacity = '0';
+            setTimeout(() => { loader.style.display = 'none'; }, 500);
+        });
+    </script>
+</body>
+</html>
