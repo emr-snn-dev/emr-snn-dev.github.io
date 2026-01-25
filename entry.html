@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Noto+Sans+JP:wght@900&display=swap" rel="stylesheet">
     <style>
+        /* フォームの外枠 */
         .form-wrapper {
             max-width: 900px;
             margin: 30px auto;
@@ -17,11 +18,12 @@
             border: 1px solid #eee;
         }
 
-        /* Googleフォーム専用レスポンシブコンテナ */
+        /* フォーム本体のレスポンシブ設定 */
         .iframe-container {
             position: relative;
             width: 100%;
-            height: 1500px; /* 項目数に合わせて長めに設定 */
+            /* フォームの長さに合わせてここを調整（1800pxくらいあれば安心） */
+            height: 1800px;
             -webkit-overflow-scrolling: touch;
         }
         .iframe-container iframe {
@@ -49,30 +51,29 @@
 
         @media (max-width: 600px) {
             .form-wrapper { margin: 10px; border-radius: 10px; }
-            .iframe-container { height: 1800px; } /* スマホではさらに縦長に */
+            .iframe-container { height: 2200px; } /* スマホでは項目が縦に並ぶのでさらに長く */
             header h1 { font-size: 2.2rem !important; }
             .global-nav { padding: 15px 20px; }
         }
     </style>
 </head>
 <body oncontextmenu="return false;">
-    <div id="loading"><h1>FORM LOADING...</h1></div>
+    <div id="loading"><h1>ENTRY FORM</h1></div>
 
     <nav class="global-nav">
         <div class="nav-brand">SHINONOI</div>
         <div class="nav-links">
             <a href="index.html">HOME</a>
-            <a href="portfolio.html">PORTFOLIO</a>
             <a href="news.html">NEWS</a>
             <a href="guide.html">GUIDE</a>
+            <a href="entry.html" style="color:#00aeef;">JOIN US</a>
             <a href="about.html">ABOUT</a>
-            <a href="login.html" class="login-btn">LOGIN</a>
         </div>
     </nav>
 
     <header style="text-align:center; padding: 60px 20px;">
         <h1 style="font-family:'Orbitron'; font-size: 3.5rem; margin:0; letter-spacing: 5px;">ADMISSION</h1>
-        <p style="font-weight:900; color:#666; margin-top: 10px;">加入申し込みフォーム</p>
+        <p style="font-weight:900; color:#666; margin-top: 10px;">加入申し込み（他校・地域からも受付中）</p>
     </header>
 
     <main class="form-wrapper">
@@ -80,16 +81,9 @@
             ※送信前に必ず保護者の方の同意を得てください。
         </div>
         <div class="iframe-container">
-            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScOABxnKKWIYlpD-iAuyR8JIOuAkMlMW61DgE0-xdKttvnPH/viewform?embedded=true" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます…</iframe>
+            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScOABxnKKWIYlpD-iAuyR8JIOuAkMlMW61DgE0-xdKttvnPHw/viewform?embedded=true" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます…</iframe>
         </div>
     </main>
-
-    <section style="max-width: 900px; margin: 20px auto; padding: 20px; font-weight: 900; color: #555; line-height: 1.6; text-align: center;">
-        <p>
-            申し込み後、1週間以内に折り返しご連絡いたします。<br>
-            連絡がない場合は、お手数ですが再度お問い合わせください。
-        </p>
-    </section>
 
     <footer style="text-align:center; padding: 80px 20px; color:#999; font-weight:900;">
         © 2026 篠ノ井技術クラブ
