@@ -7,23 +7,11 @@
     <link rel="stylesheet" href="/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Noto+Sans+JP:wght@900&display=swap" rel="stylesheet">
     <style>
-        /* 参加要項テーブルのスマホ対応 */
         @media (max-width: 600px) {
-            .spec-table tr { 
-                display: flex; 
-                flex-direction: column; 
-                border-bottom: 2px solid #eee; 
-            }
-            .spec-table th { 
-                width: 100% !important; 
-                padding: 10px 20px !important; 
-            }
-            .spec-table td { 
-                padding: 10px 20px 20px !important; 
-            }
-            .about-title { 
-                font-size: 2rem !important; 
-            }
+            .spec-table tr { display: flex; flex-direction: column; border-bottom: 2px solid #eee; }
+            .spec-table th { width: 100% !important; padding: 10px 20px !important; }
+            .spec-table td { padding: 10px 20px 20px !important; }
+            .about-title { font-size: 2rem !important; }
         }
     </style>
 </head>
@@ -61,30 +49,35 @@
             <div style="margin-top: 60px; border-top: 2px solid #eee; padding-top: 40px;">
                 <h2 style="text-align: center; font-weight: 900; font-size: 1.8rem; margin-bottom: 30px; color: #000;">募集要項</h2>
                 <table class="spec-table" style="width: 100%; border-collapse: collapse; font-weight: 900; margin-bottom: 30px;">
-                    <tr style="border-bottom: 1px solid #eee;">
-                        <th style="text-align: left; padding: 20px; background: #f8f9fa; width: 30%;">対象</th>
-                        <td style="padding: 20px;">ものづくりに興味がある中学生</td>
-                    </tr>
-                    <tr style="border-bottom: 1px solid #eee;">
-                        <th style="text-align: left; padding: 20px; background: #f8f9fa;">必要なもの</th>
-                        <td style="padding: 20px;">やる気と、汚れてもいい服</td>
-                    </tr>
-                    <tr style="border-bottom: 1px solid #eee;">
-                        <th style="text-align: left; padding: 20px; background: #f8f9fa;">活動場所</th>
-                        <td style="padding: 20px;">篠ノ井西中学校 金工室</td>
-                    </tr>
+                    <tr style="border-bottom: 1px solid #eee;"><th style="text-align: left; padding: 20px; background: #f8f9fa; width: 30%;">対象</th><td style="padding: 20px;">ものづくりに興味がある中学生</td></tr>
+                    <tr style="border-bottom: 1px solid #eee;"><th style="text-align: left; padding: 20px; background: #f8f9fa;">必要なもの</th><td style="padding: 20px;">やる気と、汚れてもいい服</td></tr>
+                    <tr style="border-bottom: 1px solid #eee;"><th style="text-align: left; padding: 20px; background: #f8f9fa;">活動場所</th><td style="padding: 20px;">篠ノ井西中学校 金工室</td></tr>
                 </table>
 
                 <div id="map-area" style="width: 100%; border-radius: 12px; overflow: hidden; border: 2px solid #000; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                     <iframe 
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3206.8428414995955!2d138.13409837648356!3d36.557973081498684!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x601d83ba0eb3bdd1%3A0x532a1f5c0ac8b650!2z6ZW36YeO5biC56uL56篠5Y-j6KW_5Lit5a2m5qCh!5e0!3m2!1sja!2sjp!4v1716281234567!5m2!1sja!2sjp" 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3204.621453073998!2d138.13689627629555!3d36.56306548109062!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x601d87ba933583e1%3A0x532a1c5c0ac8b650!2z6ZW36YeO5biC56uL56篠5Lit566h6KW_5Lit5a2m5qCh!5e0!3m2!1sja!2sjp!4v1710000000000!5m2!1sja!2sjp" 
                         width="100%" height="350" style="border:0; vertical-align: bottom;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
                     </iframe>
                 </div>
 
                 <div id="bottom-action-area" style="margin-top: 40px; text-align: center;">
-                    <p style="font-weight: 900; margin-bottom: 20px;">まずは見学・体験から受け付けています。</p>
-                    <a href="/index.html#recruit" class="btn" style="padding: 15px 30px; font-size: 1.1rem; display: inline-block; width: 80%; max-width: 300px;">入部申請はこちら</a>
+                    <div style="background: #f1f5f9; padding: 20px; border-radius: 12px; border: 2px dashed #cbd5e1; margin-bottom: 40px;">
+                        <p style="font-weight: 900; color: #64748b; margin-bottom: 10px; font-size: 1.1rem;">2026年4月より活動開始予定</p>
+                        <p style="font-size: 0.9rem; color: #94a3b8; font-weight: 900;">現在、本格始動に向けて準備を進めています。<br>見学・体験の受付開始までしばらくお待ちください。</p>
+                        <div style="margin-top: 20px; padding: 15px 30px; font-size: 1.1rem; display: inline-block; width: 80%; max-width: 300px; background: #cbd5e1; color: #fff; border-radius: 8px; cursor: not-allowed; font-weight: 900;">PREPARING...</div>
+                    </div>
+
+                    <div style="display: flex; justify-content: center; gap: 30px; padding-bottom: 20px;">
+                        <a href="https://x.com/shinonishi_tec?s=21" target="_blank" style="text-decoration: none; color: #000; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                            <div style="width: 55px; height: 55px; background: #000; border-radius: 14px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.6rem; font-weight: bold;">X</div>
+                            <span style="font-size: 0.75rem; font-weight: 900;">X</span>
+                        </a>
+                        <a href="https://www.instagram.com/shinonishi_tec?igsh=MTVmOHR5enFnY2V6dQ%3D%3D&utm_source=qr" target="_blank" style="text-decoration: none; color: #000; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                            <div style="width: 55px; height: 55px; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); border-radius: 14px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.8rem;">📸</div>
+                            <span style="font-size: 0.75rem; font-weight: 900;">Instagram</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
