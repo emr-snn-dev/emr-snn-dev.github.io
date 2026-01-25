@@ -3,76 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>おしらせ・資料 | 篠ノ井技術クラブ</title>
+    <title>NEWS | 篠ノ井技術クラブ</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Noto+Sans+JP:wght@900&display=swap" rel="stylesheet">
     <style>
-        .news-container { max-width: 1000px; margin: 40px auto; padding: 20px; }
-        
-        /* 加入申込への誘導バナー */
-        .entry-banner {
-            background: linear-gradient(135deg, #00aeef, #0076a3);
-            color: #fff;
-            padding: 40px;
-            border-radius: 20px;
-            text-align: center;
-            margin-bottom: 50px;
-            box-shadow: 0 10px 30px rgba(0,174,239,0.3);
+        .news-container { 
+            max-width: 1000px; 
+            margin: 0 auto; 
+            padding: 80px 20px;
+            min-height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
-        .entry-banner h2 { font-family: 'Orbitron'; margin-bottom: 15px; }
-        .entry-btn {
+
+        /* 加入申込への誘導セクション */
+        .join-us-banner {
+            background: #000;
+            color: #fff;
+            padding: 80px 40px;
+            border-radius: 30px;
+            text-align: center;
+            border: 2px solid #00aeef;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+        }
+        
+        .join-us-banner::before {
+            content: "NEXT STAGE";
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            font-family: 'Orbitron';
+            font-size: 8rem;
+            color: rgba(0, 174, 239, 0.05);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .join-content { position: relative; z-index: 1; }
+        .join-content h2 { 
+            font-family: 'Orbitron'; 
+            font-size: 3.5rem; 
+            margin-bottom: 20px;
+            letter-spacing: 8px;
+        }
+        .join-content p { 
+            font-weight: 900; 
+            margin-bottom: 40px; 
+            color: #ccc;
+            font-size: 1.1rem;
+            line-height: 2;
+        }
+        
+        .entry-link-btn {
             display: inline-block;
+            background: #00aeef;
+            color: #fff;
+            padding: 20px 60px;
+            border-radius: 100px;
+            text-decoration: none;
+            font-weight: 900;
+            font-size: 1.4rem;
+            transition: 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+            border: none;
+        }
+
+        .entry-link-btn:hover {
             background: #fff;
             color: #00aeef;
-            padding: 15px 40px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 900;
-            font-size: 1.2rem;
-            transition: 0.3s;
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(0,174,239,0.5);
         }
-        .entry-btn:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-
-        .news-card {
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            margin-bottom: 40px;
-            overflow: hidden;
-            border: 1px solid #eee;
-        }
-        .news-header {
-            padding: 20px 25px;
-            background: #f8f9fa;
-            border-bottom: 2px solid #00aeef;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .pdf-viewer-area {
-            width: 100%;
-            height: 500px;
-            background: #e4e4e4;
-        }
-        .action-area {
-            padding: 20px;
-            display: flex;
-            gap: 15px;
-        }
-        .btn-pdf {
-            flex: 1;
-            text-align: center;
-            padding: 15px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 900;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        .btn-view { background: #00aeef; color: #fff; }
-        .btn-download { background: #333; color: #fff; }
 
         .global-nav {
             display: flex;
@@ -85,63 +88,45 @@
             top: 0;
             z-index: 1000;
         }
-        .nav-brand { font-family: 'Orbitron'; font-weight: 900; font-size: 1.5rem; }
-        .nav-links { display: flex; gap: 20px; align-items: center; }
-        .nav-links a { text-decoration: none; color: #000; font-weight: 900; font-size: 0.9rem; }
+        .nav-brand { font-family: 'Orbitron'; font-weight: 900; font-size: 1.5rem; letter-spacing: 2px; }
+        .nav-links a { text-decoration: none; color: #000; font-weight: 900; margin-left: 25px; font-size: 0.85rem; }
 
         @media (max-width: 600px) {
-            .pdf-viewer-area { display: none; }
-            .action-area { flex-direction: column; }
-            .entry-banner { padding: 30px 20px; }
+            .news-container { padding: 40px 15px; }
+            .join-us-banner { padding: 60px 20px; }
+            .join-content h2 { font-size: 2rem; letter-spacing: 4px; }
+            .entry-link-btn { width: 80%; padding: 15px 20px; font-size: 1.1rem; }
+            .global-nav { padding: 15px 20px; }
         }
     </style>
 </head>
-<body>
-    <div id="loading"><h1>INFORMATION</h1></div>
-
+<body oncontextmenu="return false;">
     <nav class="global-nav">
         <div class="nav-brand">SHINONOI</div>
         <div class="nav-links">
             <a href="index.html">HOME</a>
-            <a href="news.html">NEWS</a>
+            <a href="news.html" style="color:#00aeef;">NEWS</a>
             <a href="guide.html">GUIDE</a>
-            <a href="entry.html" style="color:#00aeef;">JOIN US</a>
+            <a href="entry.html">JOIN US</a>
             <a href="about.html">ABOUT</a>
         </div>
     </nav>
 
     <main class="news-container">
-        <section class="entry-banner">
-            <h2>JOIN THE TEAM</h2>
-            <p style="font-weight:900; margin-bottom:20px;">他校からの参加も大歓迎！WEBから申し込み可能です。</p>
-            <a href="entry.html" class="entry-btn">加入申し込みフォームへ</a>
+        <section class="join-us-banner">
+            <div class="join-content">
+                <h2>ADMISSION</h2>
+                <p>
+                    篠ノ井技術クラブでは、新入部員および他校からの参加者を募集しています。<br>
+                    活動内容の詳細や、正式な申し込みは以下のフォームから。
+                </p>
+                <a href="entry.html" class="entry-link-btn">JOIN THE TEAM</a>
+            </div>
         </section>
-
-        <article class="news-card">
-            <div class="news-header">
-                <h2 style="margin:0; font-size:1.2rem;">📅 2026年度 活動カレンダー</h2>
-                <span style="font-family:'Orbitron'; color:#666;">2026.04.01</span>
-            </div>
-            <div class="pdf-viewer-area">
-                <iframe src="pdf/schedule.pdf" width="100%" height="100%" style="border: none;"></iframe>
-            </div>
-            <div class="action-area">
-                <a href="pdf/schedule.pdf" target="_blank" class="btn-pdf btn-view">全画面で見る</a>
-                <a href="pdf/schedule.pdf" download class="btn-pdf btn-download">PDFを保存</a>
-            </div>
-        </article>
     </main>
 
-    <footer style="text-align:center; padding: 60px; color:#999; font-weight:900;">
+    <footer style="text-align:center; padding: 100px 20px 40px; color:#999; font-weight:900;">
         © 2026 篠ノ井技術クラブ
     </footer>
-
-    <script>
-        window.addEventListener('load', () => {
-            const loader = document.getElementById('loading');
-            loader.style.opacity = '0';
-            setTimeout(() => { loader.style.display = 'none'; }, 500);
-        });
-    </script>
 </body>
 </html>
