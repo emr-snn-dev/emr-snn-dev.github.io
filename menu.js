@@ -42,10 +42,14 @@ if (navContainer) {
         
         if(isActive) {
             document.body.style.overflow = 'hidden';
-            navMenu.style.bottom = '60px'; // ボトムバーの高さ分上げる
+            navMenu.style.bottom = '60px';
+            navMenu.style.opacity = '1';
+            navMenu.style.pointerEvents = 'auto';
         } else {
             document.body.style.overflow = '';
             navMenu.style.bottom = '-120%';
+            navMenu.style.opacity = '0';
+            navMenu.style.pointerEvents = 'none';
         }
     };
 
@@ -56,19 +60,34 @@ if (navContainer) {
         if (window.innerWidth <= 768) {
             if (bottomBar) bottomBar.style.display = 'flex';
             if (toggleBtn) toggleBtn.style.display = 'none';
+            
+            navMenu.style.display = 'flex';
             navMenu.style.position = 'fixed';
             navMenu.style.left = '0';
             navMenu.style.width = '100%';
+            
             if (!navMenu.classList.contains('active')) {
                 navMenu.style.bottom = '-120%';
+                navMenu.style.opacity = '0';
+                navMenu.style.pointerEvents = 'none';
             } else {
                 navMenu.style.bottom = '60px';
+                navMenu.style.opacity = '1';
+                navMenu.style.pointerEvents = 'auto';
             }
         } else {
+            // PC版の設定（強制リセット）
             if (bottomBar) bottomBar.style.display = 'none';
-            if (toggleBtn) toggleBtn.style.display = 'flex';
-            navMenu.style.position = '';
-            navMenu.style.bottom = '';
+            if (toggleBtn) toggleBtn.style.display = 'none'; 
+            
+            navMenu.style.display = 'flex';
+            navMenu.style.position = 'static';
+            navMenu.style.bottom = 'auto';
+            navMenu.style.width = 'auto';
+            navMenu.style.opacity = '1';
+            navMenu.style.pointerEvents = 'auto';
+            navMenu.classList.remove('active');
+            document.body.style.overflow = '';
         }
     };
 
@@ -96,6 +115,8 @@ if (navContainer) {
             navMenu.classList.remove('active');
             if (toggleBtn) toggleBtn.classList.remove('active');
             navMenu.style.bottom = '-120%';
+            navMenu.style.opacity = '0';
+            navMenu.style.pointerEvents = 'none';
             document.body.style.overflow = '';
         }
     });
@@ -112,21 +133,17 @@ firebase.auth().onAuthStateChanged((user) => {
         if (area) area.innerHTML = userDisplay;
         if (mob) mob.innerHTML = `<a href="/team/index.html">MY PAGE</a>`;
         if (statusText) statusText.innerText = "AUTHENTICATED: " + name.toUpperCase();
-        
         createWatermark(name);
         if (document.getElementById('auto-gallery')) loadGithubImages(true);
     } else {
         const urlParams = new URLSearchParams(window.location.search);
         const isSecret = (urlParams.get('code') === 'SNN_2026');
-        
         const loginBtn = isSecret ? 
             `<a href="/team/login.html?code=SNN_2026" style="background:#00aeef; color:#fff; padding:5px 15px; border-radius:50px; text-decoration:none; font-size:0.8rem; font-weight:bold;">LOGIN</a>` :
             `<span style="color:#486581; font-size:0.7rem;">GUEST MODE</span>`;
-        
         if (area) area.innerHTML = loginBtn;
         if (mob) mob.innerHTML = loginBtn;
         if (statusText) statusText.innerText = "GUEST MODE (LOW-RES PREVIEW)";
-        
         const oldWm = document.getElementById('dynamic-watermark');
         if (oldWm) oldWm.remove();
         if (document.getElementById('auto-gallery')) loadGithubImages(false);
