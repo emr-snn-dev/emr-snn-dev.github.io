@@ -3,14 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>加入申込 | 篠ノ井技術クラブ</title>
+    <title>加入申込について | 篠ノ井技術クラブ</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Noto+Sans+JP:wght@900&display=swap" rel="stylesheet">
     <style>
-        /* フォームの外枠 */
-        .form-wrapper {
+        .notice-section {
             max-width: 900px;
-            margin: 30px auto;
+            margin: 40px auto;
+            padding: 40px 20px;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            border-top: 8px solid #00aeef;
+        }
+        
+        .form-section {
+            max-width: 900px;
+            margin: 40px auto;
             background: #fff;
             border-radius: 20px;
             overflow: hidden;
@@ -18,12 +28,10 @@
             border: 1px solid #eee;
         }
 
-        /* フォーム本体のレスポンシブ設定 */
         .iframe-container {
             position: relative;
             width: 100%;
-            /* フォームの長さに合わせてここを調整（1800pxくらいあれば安心） */
-            height: 1800px;
+            height: 1500px;
             -webkit-overflow-scrolling: touch;
         }
         .iframe-container iframe {
@@ -47,13 +55,12 @@
         .nav-brand { font-family: 'Orbitron'; font-weight: 900; font-size: 1.5rem; letter-spacing: 2px; }
         .nav-links { display: flex; gap: 20px; align-items: center; }
         .nav-links a { text-decoration: none; color: #000; font-weight: 900; font-size: 0.85rem; }
-        .login-btn { background: #00aeef; color: #fff !important; padding: 8px 25px !important; border-radius: 50px; }
 
         @media (max-width: 600px) {
-            .form-wrapper { margin: 10px; border-radius: 10px; }
-            .iframe-container { height: 2200px; } /* スマホでは項目が縦に並ぶのでさらに長く */
+            .notice-section { margin: 20px; padding: 30px 15px; }
+            .form-section { margin: 10px; }
+            .iframe-container { height: 1800px; }
             header h1 { font-size: 2.2rem !important; }
-            .global-nav { padding: 15px 20px; }
         }
     </style>
 </head>
@@ -73,15 +80,26 @@
 
     <header style="text-align:center; padding: 60px 20px;">
         <h1 style="font-family:'Orbitron'; font-size: 3.5rem; margin:0; letter-spacing: 5px;">ADMISSION</h1>
-        <p style="font-weight:900; color:#666; margin-top: 10px;">加入申し込み</p>
+        <p style="font-weight:900; color:#666; margin-top: 10px;">加入申し込み・お問い合わせ</p>
     </header>
 
-    <main class="form-wrapper">
-        <div style="background: #fdfdfd; padding: 20px; border-bottom: 1px solid #eee; font-size: 0.85rem; font-weight: 900; color: #e74c3c; text-align: center;">
-            ※送信前に必ず保護者の方の同意を得てください。
-        </div>
-        <div class="iframe-container">
-            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScOABxnKKWIYlpD-iAuyR8JIOuAkMlMW61DgE0-xdKttvnPHw/viewform?embedded=true" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます…</iframe>
+    <main>
+        <section class="notice-section">
+            <h2 style="font-weight:900; color:#333;">📢 現在は次期募集の準備期間です</h2>
+            <p style="font-weight:900; color:#666; line-height:1.8;">
+                本格的な募集開始は **2026年4月** を予定しております。<br>
+                事前のご相談や、入部を検討されている方は、以下のフォームより<br>
+                必要事項を入力の上、送信してください。
+            </p>
+        </section>
+
+        <div class="form-section">
+            <div style="background: #fdfdfd; padding: 20px; border-bottom: 1px solid #eee; font-size: 0.85rem; font-weight: 900; color: #e74c3c; text-align: center;">
+                ※他校からの参加希望もこちらから受け付けています。
+            </div>
+            <div class="iframe-container">
+                <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScOABxnKKWIYlpD-iAuyR8JIOuAkMlMW61DgE0-xdKttvnPHw/viewform?embedded=true" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます…</iframe>
+            </div>
         </div>
     </main>
 
