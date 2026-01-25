@@ -32,6 +32,29 @@
             pointer-events: none;
         }
 
+        /* ナビゲーション（直接埋め込み版） */
+        .global-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background: #fff;
+            border-bottom: 2px solid #000;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .nav-brand { font-family: 'Orbitron'; font-weight: 900; font-size: 1.5rem; letter-spacing: 2px; }
+        .nav-links { display: flex; gap: 25px; align-items: center; }
+        .nav-links a { text-decoration: none; color: #000; font-weight: 900; font-size: 0.9rem; }
+        .login-btn {
+            background: #00aeef;
+            color: #fff !important;
+            padding: 8px 25px !important;
+            border-radius: 50px;
+            box-shadow: 0 4px 10px rgba(0, 174, 239, 0.3);
+        }
+
         /* 押せないカテゴリ表示 */
         .category-display {
             display: flex;
@@ -78,7 +101,13 @@
         .p-specs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
         .spec-unit { background: #f8f9fa; padding: 10px; border-radius: 8px; text-align: center; }
 
+        /* スマホ用メニュー表示調整 */
         @media (max-width: 600px) {
+            .global-nav { padding: 15px 20px; }
+            .nav-brand { font-size: 1.2rem; }
+            .nav-links { gap: 12px; }
+            .nav-links a:not(.login-btn) { font-size: 0.75rem; }
+            .login-btn { padding: 6px 15px !important; font-size: 0.75rem; }
             .portfolio-grid { grid-template-columns: 1fr; }
             header h1 { font-size: 2.5rem !important; }
         }
@@ -87,7 +116,15 @@
 <body oncontextmenu="return false;">
     <div id="loading"><h1>PORTFOLIO LOADING...</h1></div>
     
-    <div id="nav-container"></div>
+    <nav class="global-nav">
+        <div class="nav-brand">SHINONOI</div>
+        <div class="nav-links">
+            <a href="index.html">HOME</a>
+            <a href="portfolio.html">PORTFOLIO</a>
+            <a href="about.html">ABOUT</a>
+            <a href="login.html" class="login-btn">LOGIN</a>
+        </div>
+    </nav>
 
     <div id="lightbox" onclick="this.style.display='none'">
         <img id="lightbox-img" src="" alt="">
@@ -120,13 +157,12 @@
         </article>
     </main>
 
-    <footer style="text-align:center; padding: 80px 20px 150px; color:#999; font-weight:900;">
+    <footer style="text-align:center; padding: 80px 20px 100px; color:#999; font-weight:900;">
         © 2026 篠ノ井技術クラブ
     </footer>
 
-    <script src="menu.js"></script>
     <script>
-        // 画像を拡大する機能
+        // 拡大表示機能
         function openLightbox(src) {
             if(!src || src.includes('COMING SOON')) return;
             const lightbox = document.getElementById('lightbox');
@@ -135,7 +171,7 @@
             lightbox.style.display = 'flex';
         }
 
-        // 読み込み完了後にローディング画面を消す
+        // ローディング解除
         window.addEventListener('load', () => {
             const loader = document.getElementById('loading');
             if(loader) {
@@ -144,7 +180,7 @@
             }
         });
 
-        // ページ保存などのショートカットを制限
+        // 保存制限
         window.addEventListener('keydown', (e) => {
             if ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'p')) {
                 e.preventDefault();
