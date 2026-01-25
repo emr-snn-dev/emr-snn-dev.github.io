@@ -7,23 +7,11 @@
     <link rel="stylesheet" href="/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Noto+Sans+JP:wght@900&display=swap" rel="stylesheet">
     <style>
-        /* 参加要項テーブルのスマホ対応 */
         @media (max-width: 600px) {
-            .spec-table tr {
-                display: flex;
-                flex-direction: column;
-                border-bottom: 2px solid #eee;
-            }
-            .spec-table th {
-                width: 100% !important;
-                padding: 10px 20px !important;
-            }
-            .spec-table td {
-                padding: 10px 20px 20px !important;
-            }
-            .about-title {
-                font-size: 2rem !important;
-            }
+            .spec-table tr { display: flex; flex-direction: column; border-bottom: 2px solid #eee; }
+            .spec-table th { width: 100% !important; padding: 10px 20px !important; }
+            .spec-table td { padding: 10px 20px 20px !important; }
+            .about-title { font-size: 2rem !important; }
         }
     </style>
 </head>
@@ -44,14 +32,10 @@
 
             <div style="margin-bottom: 40px;">
                 <h2 style="border-left: 10px solid #ea4335; padding-left: 15px; margin-bottom: 20px; font-weight: 900;">活動内容</h2>
-                
                 <div class="schedule-item" style="margin-bottom: 20px; padding: 15px; background: #fdfdfd; border-radius: 8px;">
                     <h3 style="margin: 0 0 10px 0; color: #111; font-size: 1.4rem;">🏎️ エコカー制作</h3>
-                    <p style="margin: 0; font-weight: 900; font-size: 1rem;">
-                        工具の使い方から設計の考え方まで、自分たちで学びながら取り組んでいます。
-                    </p>
+                    <p style="margin: 0; font-weight: 900; font-size: 1rem;">工具の使い方から設計の考え方まで、自分たちで学びながら取り組んでいます。</p>
                 </div>
-                
                 <div class="schedule-item" style="padding: 15px; background: #fdfdfd; border-radius: 8px;">
                     <h3 style="margin: 0 0 10px 0; color: #111; font-size: 1.4rem;">🏆 参戦大会</h3>
                     <p style="margin: 0; font-weight: 900; font-size: 1rem; line-height: 1.8;">
@@ -64,35 +48,20 @@
 
             <div style="margin-top: 60px; border-top: 2px solid #eee; padding-top: 40px;">
                 <h2 style="text-align: center; font-weight: 900; font-size: 1.8rem; margin-bottom: 30px; color: #000;">募集要項</h2>
-                
                 <table class="spec-table" style="width: 100%; border-collapse: collapse; font-weight: 900; margin-bottom: 30px;">
-                    <tr style="border-bottom: 1px solid #eee;">
-                        <th style="text-align: left; padding: 20px; background: #f8f9fa; width: 30%;">対象</th>
-                        <td style="padding: 20px;">ものづくりに興味がある中学生</td>
-                    </tr>
-                    <tr style="border-bottom: 1px solid #eee;">
-                        <th style="text-align: left; padding: 20px; background: #f8f9fa;">必要なもの</th>
-                        <td style="padding: 20px;">やる気と、汚れてもいい服</td>
-                    </tr>
-                    <tr style="border-bottom: 1px solid #eee;">
-                        <th style="text-align: left; padding: 20px; background: #f8f9fa;">活動場所</th>
-                        <td style="padding: 20px;">篠ノ井西中学校 金工室</td>
-                    </tr>
+                    <tr style="border-bottom: 1px solid #eee;"><th style="text-align: left; padding: 20px; background: #f8f9fa; width: 30%;">対象</th><td style="padding: 20px;">ものづくりに興味がある中学生</td></tr>
+                    <tr style="border-bottom: 1px solid #eee;"><th style="text-align: left; padding: 20px; background: #f8f9fa;">必要なもの</th><td style="padding: 20px;">やる気と、汚れてもいい服</td></tr>
+                    <tr style="border-bottom: 1px solid #eee;"><th style="text-align: left; padding: 20px; background: #f8f9fa;">活動場所</th><td style="padding: 20px;">篠ノ井西中学校 金工室</td></tr>
                 </table>
 
-                <div style="width: 100%; border-radius: 12px; overflow: hidden; border: 2px solid #000; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                <div id="map-area" style="width: 100%; border-radius: 12px; overflow: hidden; border: 2px solid #000; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                     <iframe 
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3204.3435198030993!2d138.1256360762963!3d36.56157128120387!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x601d86ba0ed7bd01%3A0x532a1c5c0ac8b650!2z6ZW36YeO5biC56uL56篠5Lit5biM6KW_5Lit5a2m5qCh!5e0!3m2!1sja!2sjp!4v1716500000000!5m2!1sja!2sjp" 
-                        width="100%" 
-                        height="350" 
-                        style="border:0; vertical-align: bottom;" 
-                        allowfullscreen="" 
-                        loading="lazy" 
-                        referrerpolicy="no-referrer-when-downgrade">
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3202.484179374026!2d138.12513907641214!3d36.56581458102325!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x601d8100778f5669%3A0xc3b53f64c672b1a8!2z6ZW36YeO5biC56uL566篠5be76KW_5Lit5a2m5qCh!5e0!3m2!1sja!2sjp!4v1710000000000!5m2!1sja!2sjp" 
+                        width="100%" height="350" style="border:0; vertical-align: bottom;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
                     </iframe>
                 </div>
 
-                <div style="margin-top: 40px; text-align: center;">
+                <div id="bottom-action-area" style="margin-top: 40px; text-align: center;">
                     <p style="font-weight: 900; margin-bottom: 20px;">まずは見学・体験から受け付けています。</p>
                     <a href="/index.html#recruit" class="btn" style="padding: 15px 30px; font-size: 1.1rem; display: inline-block; width: 80%; max-width: 300px;">入部申請はこちら</a>
                 </div>
@@ -100,9 +69,7 @@
         </section>
     </main>
 
-    <footer>
-        <p>&copy; 2026 篠ノ井技術クラブ</p>
-    </footer>
+    <footer><p>© 2026 篠ノ井技術クラブ</p></footer>
 
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
