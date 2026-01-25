@@ -9,6 +9,30 @@
     <style>
         .news-container { max-width: 1000px; margin: 40px auto; padding: 20px; }
         
+        /* 加入申込への誘導バナー */
+        .entry-banner {
+            background: linear-gradient(135deg, #00aeef, #0076a3);
+            color: #fff;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 50px;
+            box-shadow: 0 10px 30px rgba(0,174,239,0.3);
+        }
+        .entry-banner h2 { font-family: 'Orbitron'; margin-bottom: 15px; }
+        .entry-btn {
+            display: inline-block;
+            background: #fff;
+            color: #00aeef;
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 900;
+            font-size: 1.2rem;
+            transition: 0.3s;
+        }
+        .entry-btn:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+
         .news-card {
             background: #fff;
             border-radius: 12px;
@@ -17,7 +41,6 @@
             overflow: hidden;
             border: 1px solid #eee;
         }
-        
         .news-header {
             padding: 20px 25px;
             background: #f8f9fa;
@@ -26,28 +49,16 @@
             justify-content: space-between;
             align-items: center;
         }
-        
-        .news-title { margin: 0; font-size: 1.2rem; font-weight: 900; }
-        .news-date { font-family: 'Orbitron'; font-size: 0.9rem; color: #666; }
-
-        /* PDF表示エリア */
         .pdf-viewer-area {
             width: 100%;
             height: 500px;
             background: #e4e4e4;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
-
-        /* スマホ・PC共通のダウンロードボタン */
         .action-area {
             padding: 20px;
             display: flex;
             gap: 15px;
-            background: #fff;
         }
-
         .btn-pdf {
             flex: 1;
             text-align: center;
@@ -55,18 +66,14 @@
             border-radius: 8px;
             text-decoration: none;
             font-weight: 900;
-            transition: 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
         }
-
         .btn-view { background: #00aeef; color: #fff; }
         .btn-download { background: #333; color: #fff; }
-        .btn-view:hover { opacity: 0.8; }
 
-        /* ナビゲーション */
         .global-nav {
             display: flex;
             justify-content: space-between;
@@ -78,15 +85,14 @@
             top: 0;
             z-index: 1000;
         }
-        .nav-brand { font-family: 'Orbitron'; font-weight: 900; font-size: 1.5rem; letter-spacing: 2px; }
+        .nav-brand { font-family: 'Orbitron'; font-weight: 900; font-size: 1.5rem; }
         .nav-links { display: flex; gap: 20px; align-items: center; }
         .nav-links a { text-decoration: none; color: #000; font-weight: 900; font-size: 0.9rem; }
-        .login-btn { background: #00aeef; color: #fff !important; padding: 8px 25px !important; border-radius: 50px; }
 
         @media (max-width: 600px) {
-            .pdf-viewer-area { display: none; } /* スマホではプレビューを隠してボタンのみにする */
+            .pdf-viewer-area { display: none; }
             .action-area { flex-direction: column; }
-            .news-header { flex-direction: column; align-items: flex-start; gap: 5px; }
+            .entry-banner { padding: 30px 20px; }
         }
     </style>
 </head>
@@ -97,50 +103,38 @@
         <div class="nav-brand">SHINONOI</div>
         <div class="nav-links">
             <a href="index.html">HOME</a>
-            <a href="portfolio.html">PORTFOLIO</a>
             <a href="news.html">NEWS</a>
             <a href="guide.html">GUIDE</a>
+            <a href="entry.html" style="color:#00aeef;">JOIN US</a>
             <a href="about.html">ABOUT</a>
-            <a href="login.html" class="login-btn">LOGIN</a>
         </div>
     </nav>
 
-    <header style="text-align:center; padding: 60px 20px;">
-        <h1 style="font-family:'Orbitron'; font-size: 3rem; margin:0; letter-spacing: 5px;">NEWS / DOCS</h1>
-        <p style="font-weight:900; color:#666; margin-top: 10px;">活動資料・各種届出</p>
-    </header>
-
     <main class="news-container">
-        <article class="news-card">
-            <div class="news-header">
-                <h2 class="news-title">📄 入部・加入届（2026年度版）</h2>
-                <span class="news-date">2026.04.01</span>
-            </div>
-            <div class="pdf-viewer-area">
-                <iframe src="pdf/entry_form.pdf" width="100%" height="100%" style="border: none;"></iframe>
-            </div>
-            <div class="action-area">
-                <a href="pdf/entry_form.pdf" target="_blank" class="btn-pdf btn-view">大きな画面で見る</a>
-                <a href="pdf/entry_form.pdf" download class="btn-pdf btn-download">保存・印刷する</a>
-            </div>
-        </article>
+        <section class="entry-banner">
+            <h2>JOIN THE TEAM</h2>
+            <p style="font-weight:900; margin-bottom:20px;">他校からの参加も大歓迎！WEBから申し込み可能です。</p>
+            <a href="entry.html" class="entry-btn">加入申し込みフォームへ</a>
+        </section>
 
         <article class="news-card">
             <div class="news-header">
-                <h2 class="news-title">📘 クラブ活動ガイドブック</h2>
-                <span class="news-date">2026.04.01</span>
+                <h2 style="margin:0; font-size:1.2rem;">📅 2026年度 活動カレンダー</h2>
+                <span style="font-family:'Orbitron'; color:#666;">2026.04.01</span>
             </div>
             <div class="pdf-viewer-area">
-                <iframe src="pdf/club_guide.pdf" width="100%" height="100%" style="border: none;"></iframe>
+                <iframe src="pdf/schedule.pdf" width="100%" height="100%" style="border: none;"></iframe>
             </div>
             <div class="action-area">
-                <a href="pdf/club_guide.pdf" target="_blank" class="btn-pdf btn-view">大きな画面で見る</a>
-                <a href="pdf/club_guide.pdf" download class="btn-pdf btn-download">保存・印刷する</a>
+                <a href="pdf/schedule.pdf" target="_blank" class="btn-pdf btn-view">全画面で見る</a>
+                <a href="pdf/schedule.pdf" download class="btn-pdf btn-download">PDFを保存</a>
             </div>
         </article>
     </main>
 
-    <footer style="text-align:center; padding: 60px; color:#999; font-weight:900;">© 2026 篠ノ井技術クラブ</footer>
+    <footer style="text-align:center; padding: 60px; color:#999; font-weight:900;">
+        © 2026 篠ノ井技術クラブ
+    </footer>
 
     <script>
         window.addEventListener('load', () => {
