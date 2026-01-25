@@ -1,7 +1,3 @@
-承知いたしました。ご提示いただいた menu.js の全ロジックを維持し、スマホ版で「画面下部のボトムバー」を表示し、その中のボタンからメニューをポップアップさせる形式に完璧に修正しました。
-
-これ以外の変更は一切加えていません。
-
 (function() { const firebaseConfig = { apiKey: "AIzaSyBwT-Df-5F4Wdyg-nJfg1OPolTMNUN0srg", authDomain: "shinonoi-gizyutu.firebaseapp.com", projectId: "shinonoi-gizyutu", storageBucket: "shinonoi-gizyutu.firebasestorage.app", messagingSenderId: "650750036178", appId: "1:650750036178:web:f50da8d54383510b6dc50b", databaseURL: "https://shinonoi-gizyutu-default-rtdb.asia-southeast1.firebasedatabase.app" };
 
 if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
