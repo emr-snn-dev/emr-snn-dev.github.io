@@ -3,78 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEWS | 篠ノ井技術クラブ</title>
+    <title>JOIN US | 篠ノ井技術クラブ</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Noto+Sans+JP:wght@900&display=swap" rel="stylesheet">
     <style>
-        .news-container { 
-            max-width: 1000px; 
-            margin: 0 auto; 
-            padding: 80px 20px;
-            min-height: 60vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+        .form-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
         }
 
-        /* 加入申込への誘導セクション */
-        .join-us-banner {
+        /* 案内メッセージエリア */
+        .entry-notice {
             background: #000;
             color: #fff;
-            padding: 80px 40px;
-            border-radius: 30px;
+            padding: 40px;
+            border-radius: 20px 20px 0 0;
             text-align: center;
             border: 2px solid #00aeef;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            border-bottom: none;
         }
-        
-        .join-us-banner::before {
-            content: "NEXT STAGE";
-            position: absolute;
-            top: -20px;
-            right: -20px;
-            font-family: 'Orbitron';
-            font-size: 8rem;
-            color: rgba(0, 174, 239, 0.05);
-            z-index: 0;
-            pointer-events: none;
-        }
+        .entry-notice h1 { font-family: 'Orbitron'; font-size: 2.5rem; margin-bottom: 10px; letter-spacing: 5px; }
+        .entry-notice p { font-weight: 900; color: #00aeef; margin: 0; }
 
-        .join-content { position: relative; z-index: 1; }
-        .join-content h2 { 
-            font-family: 'Orbitron'; 
-            font-size: 3.5rem; 
-            margin-bottom: 20px;
-            letter-spacing: 8px;
-        }
-        .join-content p { 
-            font-weight: 900; 
-            margin-bottom: 40px; 
-            color: #ccc;
-            font-size: 1.1rem;
-            line-height: 2;
-        }
-        
-        .entry-link-btn {
-            display: inline-block;
-            background: #00aeef;
-            color: #fff;
-            padding: 20px 60px;
-            border-radius: 100px;
-            text-decoration: none;
-            font-weight: 900;
-            font-size: 1.4rem;
-            transition: 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-            border: none;
-        }
-
-        .entry-link-btn:hover {
+        /* フォーム外枠 */
+        .form-wrapper {
             background: #fff;
-            color: #00aeef;
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 15px 30px rgba(0,174,239,0.5);
+            border-radius: 0 0 20px 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            border: 2px solid #00aeef;
+            border-top: 1px solid #333;
+        }
+
+        /* Googleフォーム専用レスポンシブコンテナ */
+        .iframe-container {
+            position: relative;
+            width: 100%;
+            height: 1600px; /* フォームの長さに合わせて調整 */
+            -webkit-overflow-scrolling: touch;
+        }
+        .iframe-container iframe {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            border: none;
         }
 
         .global-nav {
@@ -92,11 +65,10 @@
         .nav-links a { text-decoration: none; color: #000; font-weight: 900; margin-left: 25px; font-size: 0.85rem; }
 
         @media (max-width: 600px) {
-            .news-container { padding: 40px 15px; }
-            .join-us-banner { padding: 60px 20px; }
-            .join-content h2 { font-size: 2rem; letter-spacing: 4px; }
-            .entry-link-btn { width: 80%; padding: 15px 20px; font-size: 1.1rem; }
+            .entry-notice h1 { font-size: 1.8rem; }
+            .iframe-container { height: 2000px; }
             .global-nav { padding: 15px 20px; }
+            .nav-links a { margin-left: 10px; font-size: 0.7rem; }
         }
     </style>
 </head>
@@ -105,27 +77,27 @@
         <div class="nav-brand">SHINONOI</div>
         <div class="nav-links">
             <a href="index.html">HOME</a>
-            <a href="news.html" style="color:#00aeef;">NEWS</a>
+            <a href="news.html">NEWS</a>
             <a href="guide.html">GUIDE</a>
-            <a href="entry.html">JOIN US</a>
+            <a href="entry.html" style="color:#00aeef;">JOIN US</a>
             <a href="about.html">ABOUT</a>
         </div>
     </nav>
 
-    <main class="news-container">
-        <section class="join-us-banner">
-            <div class="join-content">
-                <h2>ADMISSION</h2>
-                <p>
-                    篠ノ井技術クラブでは、新入部員および他校からの参加者を募集しています。<br>
-                    活動内容の詳細や、正式な申し込みは以下のフォームから。
-                </p>
-                <a href="entry.html" class="entry-link-btn">JOIN THE TEAM</a>
-            </div>
+    <main class="form-container">
+        <section class="entry-notice">
+            <h1>ADMISSION</h1>
+            <p>加入申し込み・お問い合わせフォーム</p>
         </section>
+
+        <div class="form-wrapper">
+            <div class="iframe-container">
+                <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScOABxnKKWIYlpD-iAuyR8JIOuAkMlMW61DgE0-xdKttvnPHw/viewform?embedded=true" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます…</iframe>
+            </div>
+        </div>
     </main>
 
-    <footer style="text-align:center; padding: 100px 20px 40px; color:#999; font-weight:900;">
+    <footer style="text-align:center; padding: 60px 20px; color:#999; font-weight:900;">
         © 2026 篠ノ井技術クラブ
     </footer>
 </body>
