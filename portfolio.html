@@ -32,7 +32,7 @@
             pointer-events: none;
         }
 
-        /* ナビゲーション（直接埋め込み版） */
+        /* 統一ナビゲーション */
         .global-nav {
             display: flex;
             justify-content: space-between;
@@ -45,17 +45,16 @@
             z-index: 1000;
         }
         .nav-brand { font-family: 'Orbitron'; font-weight: 900; font-size: 1.5rem; letter-spacing: 2px; }
-        .nav-links { display: flex; gap: 25px; align-items: center; }
-        .nav-links a { text-decoration: none; color: #000; font-weight: 900; font-size: 0.9rem; }
+        .nav-links { display: flex; gap: 20px; align-items: center; }
+        .nav-links a { text-decoration: none; color: #000; font-weight: 900; font-size: 0.85rem; }
         .login-btn {
             background: #00aeef;
             color: #fff !important;
             padding: 8px 25px !important;
             border-radius: 50px;
-            box-shadow: 0 4px 10px rgba(0, 174, 239, 0.3);
         }
 
-        /* 押せないカテゴリ表示 */
+        /* カテゴリ表示 */
         .category-display {
             display: flex;
             justify-content: center;
@@ -101,14 +100,12 @@
         .p-specs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
         .spec-unit { background: #f8f9fa; padding: 10px; border-radius: 8px; text-align: center; }
 
-        /* スマホ用メニュー表示調整 */
         @media (max-width: 600px) {
             .global-nav { padding: 15px 20px; }
             .nav-brand { font-size: 1.2rem; }
             .nav-links { gap: 12px; }
             .nav-links a:not(.login-btn) { font-size: 0.75rem; }
-            .login-btn { padding: 6px 15px !important; font-size: 0.75rem; }
-            .portfolio-grid { grid-template-columns: 1fr; }
+            .login-btn { padding: 6px 15px !important; font-size: 0.7rem; }
             header h1 { font-size: 2.5rem !important; }
         }
     </style>
@@ -120,7 +117,9 @@
         <div class="nav-brand">SHINONOI</div>
         <div class="nav-links">
             <a href="index.html">HOME</a>
-            <a href="portfolio.html">PORTFOLIO</a>
+            <a href="news.html">NEWS</a>
+            <a href="guide.html">GUIDE</a>
+            <a href="entry.html" style="color:#00aeef;">JOIN US</a>
             <a href="about.html">ABOUT</a>
             <a href="login.html" class="login-btn">LOGIN</a>
         </div>
@@ -157,12 +156,11 @@
         </article>
     </main>
 
-    <footer style="text-align:center; padding: 80px 20px 100px; color:#999; font-weight:900;">
+    <footer style="text-align:center; padding: 100px 20px 40px; color:#999; font-weight:900;">
         © 2026 篠ノ井技術クラブ
     </footer>
 
     <script>
-        // 拡大表示機能
         function openLightbox(src) {
             if(!src || src.includes('COMING SOON')) return;
             const lightbox = document.getElementById('lightbox');
@@ -171,7 +169,6 @@
             lightbox.style.display = 'flex';
         }
 
-        // ローディング解除
         window.addEventListener('load', () => {
             const loader = document.getElementById('loading');
             if(loader) {
@@ -180,7 +177,6 @@
             }
         });
 
-        // 保存制限
         window.addEventListener('keydown', (e) => {
             if ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'p')) {
                 e.preventDefault();
