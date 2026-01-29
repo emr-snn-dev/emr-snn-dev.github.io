@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>バッジ一覧</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 30px;
+            line-height: 2;
+        }
+        .section-title {
+            font-size: 18px;
+            border-left: 4px solid #333;
+            padding-left: 10px;
+            margin-top: 30px;
+        }
+        .badge-list {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .badge {
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+        }
+        /* 安心・信頼系 */
+        .official { background-color: #1a73e8; color: white; }
+        .secure { background-color: #e6f4ea; color: #1e8e3e; border: 1px solid #1e8e3e; }
+        .https { background-color: #f1f3f4; color: #5f6368; border: 1px solid #dadce0; }
+        .no-ads { background-color: #fff7e0; color: #b05a00; }
+        .free { background-color: #e8f0fe; color: #1967d2; }
+        /* 技術・スマホ系 */
+        .tech { background-color: #2d3436; color: #dfe6e9; font-family: monospace; border-bottom: 2px solid #00cec9; }
+        .mobile { background-color: #6c5ce7; color: white; border-radius: 20px; }
+    </style>
+</head>
+<body>
+
+    <div class="section-title">🛡 信頼・安心系</div>
+    <div class="badge-list">
+        <span class="badge official">公式サイト</span>
+        <span class="badge secure">安全 / Secure</span>
+        <span class="badge https">HTTPS対応</span>
+        <span class="badge no-ads">広告なし</span>
+        <span class="badge free">無料 / Free</span>
+    </div>
+
+    <div class="section-title">🛠 技術・対応系</div>
+    <div class="badge-list">
+        <span class="badge tech">HTML / CSS / JavaScript</span>
+        <span class="badge tech">Firebase使用</span>
+        <span class="badge tech">レスポンシブ対応</span>
+        <span class="badge mobile">スマホ対応 📱</span>
+    </div>
+
+</body>
+</html>
