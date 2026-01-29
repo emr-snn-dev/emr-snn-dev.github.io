@@ -1,15 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
     const navHTML = `
-        <nav class="special-bottom-nav">
-            <div class="nav-brand">SHINONOI</div>
-            <div class="nav-links">
-                <a href="index.html" class="nav-item">Home</a>
-                <a href="news.html" class="nav-item">News</a>
-                <a href="guide.html" class="nav-item">Guide</a>
-                <a href="entry.html" class="nav-item active-btn">JOIN US</a>
-                <a href="portfolio.html" class="nav-item">Portfolio</a>
-                <a href="about.html" class="nav-item">About</a>
-                <a href="login.html" class="nav-item login-btn">LOGIN</a>
+        <nav class="status-bar-nav">
+            <div class="status-inner">
+                <a href="index.html">HOME</a>
+                <a href="news.html">NEWS</a>
+                <a href="guide.html">GUIDE</a>
+                <a href="portfolio.html" class="current">PORT</a>
+                <a href="entry.html" class="join-link">JOIN</a>
+                <a href="about.html">ABOUT</a>
             </div>
         </nav>
     `;
@@ -18,53 +16,76 @@ document.addEventListener('DOMContentLoaded', () => {
     if (placeholder) {
         placeholder.innerHTML = navHTML;
         
-        // 下部固定用のスタイルをJSから直接注入（CSSをいじらなくて済むように）
         const style = document.createElement('style');
         style.textContent = `
-            .special-bottom-nav {
+            .status-bar-nav {
                 position: fixed;
-                bottom: 20px;
-                left: 50%;
-                transform: translateX(-50%);
-                width: 90%;
-                max-width: 800px;
-                background: rgba(255, 255, 255, 0.95);
-                backdrop-filter: blur(10px);
-                border: 2px solid #000;
-                border-radius: 100px;
+                bottom: 20px; /* 下から浮かせて誤操作防止 */
+                left: 0;
+                width: 100%;
+                z-index: 999999;
                 display: flex;
-                justify-content: space-between;
+                justify-content: center;
+                pointer-events: none; /* バー以外を触れるように */
+            }
+
+            .status-inner {
+                pointer-events: auto; /* ここだけ反応させる */
+                width: 95%;
+                max-width: 600px;
+                height: 60px; /* スマホで押しやすい高さ */
+                background: rgba(0, 0, 0, 0.9);
+                backdrop-filter: blur(10px);
+                border: 1px solid #00aeef;
+                border-radius: 12px;
+                display: flex;
                 align-items: center;
-                padding: 10px 25px;
-                z-index: 50000;
-                box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+                justify-content: space-around;
+                padding: 0 10px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             }
-            .nav-item {
+
+            .status-inner a {
                 text-decoration: none;
-                color: #000;
-                font-weight: 900;
-                font-size: 0.8rem;
+                color: #fff;
                 font-family: 'Orbitron', sans-serif;
-                padding: 8px 12px;
-                transition: 0.3s;
+                font-size: 0.75rem;
+                font-weight: 900;
+                letter-spacing: 1px;
+                
+                /* 押しやすくするための設定 */
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex: 1;
+                height: 100%; /* バーの高さ全域をボタンにする */
+                transition: 0.2s;
+                -webkit-tap-highlight-color: transparent; /* スマホの青い枠を消す */
             }
-            .active-btn {
+
+            /* 押した時の反応 */
+            .status-inner a:active {
+                background: rgba(0, 174, 239, 0.2);
+                transform: scale(0.95);
+            }
+
+            .status-inner a.current {
+                color: #00aeef;
+                border-bottom: 2px solid #00aeef;
+            }
+
+            .join-link {
                 color: #00aeef !important;
             }
-            .login-btn {
-                background: #00aeef;
-                color: #fff !important;
-                border-radius: 50px;
-                padding: 8px 20px !important;
-            }
-            @media (max-width: 600px) {
-                .special-bottom-nav {
-                    padding: 8px 15px;
-                    bottom: 10px;
+
+            @media (max-width: 480px) {
+                .status-inner {
+                    height: 50px;
+                    width: 98%;
                 }
-                .nav-brand { display: none; } /* スマホではロゴを消してボタンを広く */
-                .nav-links { width: 100%; display: flex; justify-content: space-around; }
-                .nav-item { font-size: 0.65rem; padding: 5px; }
+                .status-inner a {
+                    font-size: 0.65rem;
+                }
             }
         `;
         document.head.appendChild(style);
