@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex,nofollow"> <title>DEV-CONSOLE | SHINONOI TECH</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <script src="../../js/special-menu.js" defer></script>
+    <script src="../../js/animations.js" defer></script>
+    
+    <style>
+        :root {
+            --dev-green: #00ff41;
+            --dev-bg: #050505;
+        }
+
+        body {
+            background: var(--dev-bg);
+            color: var(--dev-green);
+            font-family: 'Courier New', monospace; /* 開発用フォント */
+            padding: 20px;
+        }
+
+        .dev-header {
+            border-bottom: 2px solid var(--dev-green);
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        .dev-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .dev-card {
+            border: 1px solid #222;
+            padding: 15px;
+            background: #111;
+        }
+
+        .dev-card h2 {
+            font-size: 0.9rem;
+            color: #fff;
+            margin-top: 0;
+            border-bottom: 1px solid #222;
+            padding-bottom: 5px;
+        }
+
+        /* 数値検証用シミュレーター */
+        .calc-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            font-size: 0.8rem;
+        }
+
+        input[type="number"] {
+            background: #000;
+            border: 1px solid var(--dev-green);
+            color: var(--dev-green);
+            width: 80px;
+            text-align: right;
+        }
+
+        .result-box {
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(0, 255, 65, 0.1);
+            text-align: center;
+            font-weight: bold;
+        }
+
+        /* ログ出力風のデザイン */
+        .system-log {
+            height: 150px;
+            background: #000;
+            overflow-y: scroll;
+            font-size: 0.7rem;
+            padding: 10px;
+            color: #888;
+            border: 1px solid #222;
+        }
+    </style>
+</head>
+<body>
+
+<div class="dev-header">
+    <h1>DEBUGGING & SIMULATION CONSOLE</h1>
+    <p>SYSTEM-VERSION: 2026.1.29 / AUTH: DEVELOPER-ONLY</p>
+</div>
+
+<div class="dev-grid">
+    <section class="dev-card">
+        <h2>WEIGHT CALCULATION</h2>
+        <div class="calc-row">
+            <span>FRAME:</span>
+            <input type="number" id="val1" value="12.5" oninput="calculate()"> kg
+        </div>
+        <div class="calc-row">
+            <span>MOTOR / BATTERY:</span>
+            <input type="number" id="val2" value="8.2" oninput="calculate()"> kg
+        </div>
+        <div class="calc-row">
+            <span>COWL / OTHER:</span>
+            <input type="number" id="val3" value="5.4" oninput="calculate()"> kg
+        </div>
+        <div class="result-box">
+            TOTAL: <span id="total-weight">0</span> kg
+        </div>
+    </section>
+
+    <section class="dev-card">
+        <h2>SYSTEM LOG</h2>
+        <div class="system-log" id="log-box">
+            [INFO] 19:56:01 Initializing dev-console...<br>
+            [INFO] 19:56:02 Loading CSS variables...<br>
+            [WARN] 19:56:03 Prototype data hidden from public.<br>
+            [OK] Connection secure.
+        </div>
+    </section>
+
+    <section class="dev-card">
+        <h2>COLOR PALETTE</h2>
+        <div style="display: flex; gap: 5px;">
+            <div style="width:30px; height:30px; background:#00aeef;"></div>
+            <div style="width:30px; height:30px; background:#00ff41;"></div>
+            <div style="width:30px; height:30px; background:#ff0000;"></div>
+            <div style="width:30px; height:30px; background:#ffffff;"></div>
+            <div style="width:30px; height:30px; background:#333333;"></div>
+        </div>
+    </section>
+</div>
+
+<div id="nav-placeholder"></div>
+
+<script>
+    // 簡易計算機能
+    function calculate() {
+        const v1 = parseFloat(document.getElementById('val1').value) || 0;
+        const v2 = parseFloat(document.getElementById('val2').value) || 0;
+        const v3 = parseFloat(document.getElementById('val3').value) || 0;
+        document.getElementById('total-weight').innerText = (v1 + v2 + v3).toFixed(1);
+    }
+    // 初期実行
+    calculate();
+
+    // ログに現在時刻を追加する遊び心
+    setInterval(() => {
+        const log = document.getElementById('log-box');
+        const now = new Date().toLocaleTimeString();
+        log.innerHTML += `<br>[IDLE] ${now} Monitoring system status...`;
+        log.scrollTop = log.scrollHeight;
+    }, 10000);
+</script>
+
+</body>
+</html>
