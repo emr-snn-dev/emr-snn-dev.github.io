@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RESULTS | 篠ノ井技術クラブ</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Noto+Sans+JP:wght@400;900&display=swap" rel="stylesheet">
     <style>
+        /* ローディング画面のスタイル（Aboutと統一） */
         #loading {
             position: fixed;
             top: 0; left: 0;
@@ -27,6 +28,7 @@
             padding: 0 20px;
         }
 
+        /* ABOUTのデザインを踏襲した実績カード */
         .results-card {
             background: #fff;
             color: #000;
@@ -49,42 +51,21 @@
         .rank-suffix { font-size: 2rem; color: #00aeef; font-family: 'Orbitron'; }
         .record-num { font-size: 4.5rem; font-weight: 900; color: #000; line-height: 1; font-family: 'Orbitron'; }
         
-        .motegi-info {
-            margin-top: 40px;
-            padding: 20px;
-            border-left: 5px solid #000;
-            background: #fafafa;
-        }
-        .course-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-        .stat-item {
-            padding: 10px;
-            background: #fff;
-            border: 1px solid #eee;
-            text-align: center;
-        }
-        .stat-item label { display: block; font-size: 0.7rem; color: #888; font-family: 'Orbitron'; }
-        .stat-item span { font-weight: 900; font-size: 1.1rem; }
-
         @media (max-width: 600px) {
             .rank-num { font-size: 5rem; }
             .record-num { font-size: 3rem; }
             .results-card { padding: 25px; }
+            .spec-table tr { display: flex; flex-direction: column; }
         }
     </style>
 </head>
 <body oncontextmenu="return false;">
 
     <div id="loading"><h1>DATA LOADING...</h1></div>
-    
     <div id="nav-container"></div>
 
     <main class="results-main">
-        <section class="results-card animate-trigger">
+        <section class="results-card">
             <h1 style="font-family: 'Orbitron', sans-serif; letter-spacing: 5px; margin-bottom: 10px; font-size: 2.5rem; font-weight: 900;">RESULTS</h1>
             <p style="font-weight: 900; color: #888; font-size: 0.9rem; margin-bottom: 40px;">MOTEGI COMPETITION RECORD</p>
             
@@ -106,40 +87,32 @@
                         <span style="font-size: 1.2rem; color: #888; margin-left: 10px; font-family: 'Orbitron';">km / L</span>
                     </div>
                 </div>
-
-                <div class="motegi-info">
-                    <h3 style="margin: 0; font-weight: 900; font-size: 1.1rem;">会場：モビリティリゾートもてぎ</h3>
-                    <div class="course-stats">
-                        <div class="stat-item"><label>DISTANCE</label><span>規定距離 走行</span></div>
-                        <div class="stat-item"><label>AVG SPEED</label><span>25km/h以上</span></div>
-                        <div class="stat-item"><label>WEATHER</label><span>FINE</span></div>
-                    </div>
-                </div>
             </div>
 
             <div style="margin-top: 40px; padding: 25px; background: #000; color: #fff; border-radius: 4px;">
-                <h3 style="margin:0 0 10px 0; font-weight: 900; color: #00aeef; font-family: 'Orbitron'; font-size: 1rem;">ENGINEER'S NOTE</h3>
+                <h3 style="margin:0 0 10px 0; font-weight: 900; color: #00aeef; font-family: 'Orbitron'; font-size: 1rem;">NEXT MISSION</h3>
                 <p style="margin:0; font-weight: 900; line-height: 1.6; font-size: 0.9rem;">
-                    もてぎ大会のコース特性に合わせ、駆動系の低フリクション化を徹底。498.000km/Lという記録は、妥協なき整備の結果です。
+                    もてぎ大会での498km/Lを糧に、さらなる高みへ。次年度は「リッター600km」突破を目標に、機体の全パーツを見直します。
                 </p>
             </div>
         </section>
     </main>
 
     <footer style="text-align:center; padding: 40px; color:#888; font-size:0.7rem; font-family:'Orbitron';">
-        © 2026 SHINONOI TECHNICAL CLUB / PERFORMANCE DATA
+        © 2026 篠ノ井技術クラブ
     </footer>
 
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-    
-    <script src="js/special-menu.js"></script>
-    <script src="js/animations.js"></script>
+    <script src="/menu.js"></script>
     <script>
+        // ローダーの解除（Aboutページと同一）
         window.addEventListener('load', () => {
             const loader = document.getElementById('loading');
-            loader.style.opacity = '0';
-            setTimeout(() => { loader.style.visibility = 'hidden'; }, 500);
+            if(loader) {
+                loader.style.opacity = '0';
+                setTimeout(() => { loader.style.visibility = 'hidden'; }, 500);
+            }
         });
     </script>
 </body>
