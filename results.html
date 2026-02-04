@@ -47,10 +47,8 @@
 
         .rank-num { font-size: 8rem; font-weight: 900; color: #000; line-height: 1; font-family: 'Orbitron'; }
         .rank-suffix { font-size: 2rem; color: #00aeef; font-family: 'Orbitron'; }
-
         .record-num { font-size: 4.5rem; font-weight: 900; color: #000; line-height: 1; font-family: 'Orbitron'; }
         
-        /* もてぎ大会セクション */
         .motegi-info {
             margin-top: 40px;
             padding: 20px;
@@ -82,22 +80,24 @@
 <body oncontextmenu="return false;">
 
     <div id="loading"><h1>DATA LOADING...</h1></div>
+    
     <div id="nav-container"></div>
 
     <main class="results-main">
         <section class="results-card animate-trigger">
             <h1 style="font-family: 'Orbitron', sans-serif; letter-spacing: 5px; margin-bottom: 10px; font-size: 2.5rem; font-weight: 900;">RESULTS</h1>
-            <p style="font-weight: 900; color: #888; font-size: 0.9rem; margin-bottom: 40px;">NATIONAL COMPETITION RECORD</p>
+            <p style="font-weight: 900; color: #888; font-size: 0.9rem; margin-bottom: 40px;">MOTEGI COMPETITION RECORD</p>
             
             <div style="margin-bottom: 40px;">
-                <h2 style="border-left: 10px solid #00aeef; padding-left: 15px; margin-bottom: 10px; font-weight: 900;">Honda エコ マイレッジ チャレンジ 2025</h2>
-                <p style="font-weight: 900; color: #444;">第44回 全国大会 / 中学校クラス</p>
+                <h2 style="border-left: 10px solid #00aeef; padding-left: 15px; margin-bottom: 10px; font-weight: 900;">2025年度 大会結果</h2>
+                <p style="font-weight: 900; color: #444;">Honda エコ マイレッジ チャレンジ もてぎ大会</p>
+                <p style="font-size: 0.8rem; color: #888;">中学校クラス</p>
                 
                 <div class="score-board">
                     <div class="rank-highlight">
                         <span style="display: block; font-size: 0.9rem; color: #888; letter-spacing: 2px; font-family: 'Orbitron';">OFFICIAL RANKING</span>
                         <span class="rank-num">3</span><span class="rank-suffix">rd</span>
-                        <p style="font-weight: 900; margin-top: 10px; color: #00aeef;">全国第3位入賞</p>
+                        <p style="font-weight: 900; margin-top: 10px; color: #00aeef;">第3位入賞</p>
                     </div>
 
                     <div style="border-top: 2px solid #ddd; padding-top: 20px; margin-top: 20px;">
@@ -108,14 +108,11 @@
                 </div>
 
                 <div class="motegi-info">
-                    <h3 style="margin: 0; font-weight: 900; font-size: 1.1rem;">会場：モビリティリゾートもてぎ（スーパースピードウェイ）</h3>
-                    <p style="font-size: 0.85rem; line-height: 1.6; margin-top: 10px; font-weight: 900;">
-                        1周約2.4kmのオーバルコースを規定時間内に走行。高低差と風向きを考慮した精密なアクセルワークが求められる国内最高峰の舞台。
-                    </p>
+                    <h3 style="margin: 0; font-weight: 900; font-size: 1.1rem;">会場：モビリティリゾートもてぎ</h3>
                     <div class="course-stats">
-                        <div class="stat-item"><label>DISTANCE</label><span>7 試技 (規定距離)</span></div>
+                        <div class="stat-item"><label>DISTANCE</label><span>規定距離 走行</span></div>
                         <div class="stat-item"><label>AVG SPEED</label><span>25km/h以上</span></div>
-                        <div class="stat-item"><label>WEATHER</label><span>FINE (晴れ)</span></div>
+                        <div class="stat-item"><label>WEATHER</label><span>FINE</span></div>
                     </div>
                 </div>
             </div>
@@ -123,19 +120,20 @@
             <div style="margin-top: 40px; padding: 25px; background: #000; color: #fff; border-radius: 4px;">
                 <h3 style="margin:0 0 10px 0; font-weight: 900; color: #00aeef; font-family: 'Orbitron'; font-size: 1rem;">ENGINEER'S NOTE</h3>
                 <p style="margin:0; font-weight: 900; line-height: 1.6; font-size: 0.9rem;">
-                    もてぎ特有の長い直線での慣性走行を最大化するため、ベアリングの脱脂とチェーンのテンションを極限まで調整。498km/Lという結果は、全メンバーの整備精度の賜物です。
+                    もてぎ大会のコース特性に合わせ、駆動系の低フリクション化を徹底。498.000km/Lという記録は、妥協なき整備の結果です。
                 </p>
             </div>
         </section>
     </main>
 
     <footer style="text-align:center; padding: 40px; color:#888; font-size:0.7rem; font-family:'Orbitron';">
-        © 2026 SHINONOI TECHNICAL CLUB / MOTEGI PERFORMANCE DATA
+        © 2026 SHINONOI TECHNICAL CLUB / PERFORMANCE DATA
     </footer>
 
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-    <script src="js/menu.js"></script>
+    
+    <script src="js/special-menu.js"></script>
     <script src="js/animations.js"></script>
     <script>
         window.addEventListener('load', () => {
