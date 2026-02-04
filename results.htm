@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RESULTS | 篠ノ井技術クラブ</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Noto+Sans+JP:wght@900&display=swap" rel="stylesheet">
+    <script src="js/animations.js" defer></script>
+    <style>
+        .results-container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+        
+        .page-title {
+            font-family: 'Orbitron';
+            font-size: 3rem;
+            border-left: 8px solid #00aeef;
+            padding-left: 20px;
+            margin-bottom: 50px;
+        }
+
+        /* 殿堂入りカード */
+        .hall-of-fame {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            border: 1px solid #333;
+            padding: 50px;
+            margin-bottom: 60px;
+            position: relative;
+            box-shadow: 0 0 50px rgba(0, 174, 239, 0.1);
+        }
+
+        .hall-of-fame::before {
+            content: "TOP ACHIEVEMENT";
+            position: absolute;
+            top: 20px; right: 20px;
+            font-family: 'Orbitron';
+            color: #00aeef;
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+        }
+
+        .main-result-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+
+        .rank-box { text-align: left; }
+        .rank-label { font-family: 'Orbitron'; color: #888; font-size: 1rem; }
+        .rank-v { font-family: 'Orbitron'; font-size: 8rem; font-weight: 900; line-height: 1; color: #fff; }
+        .rank-u { font-family: 'Orbitron'; font-size: 2rem; color: #00aeef; }
+
+        .data-box { text-align: right; }
+        .fuel-v { font-family: 'Orbitron'; font-size: 5rem; font-weight: 900; color: #00aeef; }
+        .fuel-u { font-family: 'Orbitron'; font-size: 1.5rem; color: #888; }
+
+        /* 過去ログ用テーブル */
+        .history-section h3 { font-family: 'Orbitron'; color: #555; margin-bottom: 20px; }
+        .history-table { width: 100%; border-collapse: collapse; }
+        .history-table th { font-family: 'Orbitron'; color: #00aeef; text-align: left; padding: 15px; border-bottom: 2px solid #222; }
+        .history-table td { padding: 15px; border-bottom: 1px solid #222; font-size: 0.9rem; }
+        .history-table tr:hover { background: rgba(0, 174, 239, 0.05); }
+
+        @media (max-width: 768px) {
+            .main-result-flex { flex-direction: column; text-align: center; }
+            .data-box { text-align: center; }
+            .rank-v { font-size: 6rem; }
+            .fuel-v { font-size: 4rem; }
+        }
+    </style>
+</head>
+<body oncontextmenu="return false;">
+
+<nav class="global-nav">
+    <div class="nav-brand">SHINONOI TECH</div>
+    <div class="nav-links">
+        <a href="index.html">HOME</a>
+        <a href="results.html" style="color:#00aeef;">RESULTS</a>
+        <a href="guide.html">GUIDE</a>
+        <a href="portfolio.html">PORT</a>
+        <a href="entry.html">JOIN</a>
+    </div>
+</nav>
+
+<main class="results-container">
+    <h1 class="page-title animate-trigger">RESULTS</h1>
+
+    <section class="hall-of-fame animate-trigger">
+        <div class="event-info" style="margin-bottom: 20px;">
+            <p style="color:#888; font-family:'Orbitron'; margin:0;">2025.10.12 @ Mobility Resort MOTEGI</p>
+            <h2 style="margin:5px 0; font-size:1.5rem;">Honda Eco Mileage Challenge 全国大会</h2>
+        </div>
+
+        <div class="main-result-flex">
+            <div class="rank-box">
+                <span class="rank-label">GROUP 1 (MIDDLE SCHOOL)</span><br>
+                <span class="rank-v">3</span><span class="rank-u">RD</span>
+            </div>
+            
+            <div class="data-box">
+                <span class="rank-label">OFFICIAL RECORD</span><br>
+                <span class="fuel-v"><span class="count" data-target="498.000">0</span></span><span class="fuel-u">km/L</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="history-section animate-trigger">
+        <h3>ARCHIVES</h3>
+        <table class="history-table">
+            <thead>
+                <tr>
+                    <th>YEAR</th>
+                    <th>EVENT</th>
+                    <th>RANK</th>
+                    <th>RECORD</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2024</td>
+                    <td>もてぎ大会 Group 1</td>
+                    <td>8th</td>
+                    <td>412.350 km/L</td>
+                </tr>
+                <tr>
+                    <td>2023</td>
+                    <td>もてぎ大会 Group 1</td>
+                    <td>12th</td>
+                    <td>385.120 km/L</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</main>
+
+<footer style="text-align:center; padding: 60px 20px; color:#333; font-family:'Orbitron'; font-size:0.7rem;">
+    © 2026 SHINONOI TECHNICAL CLUB / RACING LOGS
+</footer>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RESULTS | 篠ノ井技術クラブ</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Noto+Sans+JP:wght@900&display=swap" rel="stylesheet">
+    <script src="js/animations.js" defer></script>
+    <style>
+        .results-container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+        
+        .page-title {
+            font-family: 'Orbitron';
+            font-size: 3rem;
+            border-left: 8px solid #00aeef;
+            padding-left: 20px;
+            margin-bottom: 50px;
+        }
+
+        /* 殿堂入りカード */
+        .hall-of-fame {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            border: 1px solid #333;
+            padding: 50px;
+            margin-bottom: 60px;
+            position: relative;
+            box-shadow: 0 0 50px rgba(0, 174, 239, 0.1);
+        }
+
+        .hall-of-fame::before {
+            content: "TOP ACHIEVEMENT";
+            position: absolute;
+            top: 20px; right: 20px;
+            font-family: 'Orbitron';
+            color: #00aeef;
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+        }
+
+        .main-result-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+
+        .rank-box { text-align: left; }
+        .rank-label { font-family: 'Orbitron'; color: #888; font-size: 1rem; }
+        .rank-v { font-family: 'Orbitron'; font-size: 8rem; font-weight: 900; line-height: 1; color: #fff; }
+        .rank-u { font-family: 'Orbitron'; font-size: 2rem; color: #00aeef; }
+
+        .data-box { text-align: right; }
+        .fuel-v { font-family: 'Orbitron'; font-size: 5rem; font-weight: 900; color: #00aeef; }
+        .fuel-u { font-family: 'Orbitron'; font-size: 1.5rem; color: #888; }
+
+        /* 過去ログ用テーブル */
+        .history-section h3 { font-family: 'Orbitron'; color: #555; margin-bottom: 20px; }
+        .history-table { width: 100%; border-collapse: collapse; }
+        .history-table th { font-family: 'Orbitron'; color: #00aeef; text-align: left; padding: 15px; border-bottom: 2px solid #222; }
+        .history-table td { padding: 15px; border-bottom: 1px solid #222; font-size: 0.9rem; }
+        .history-table tr:hover { background: rgba(0, 174, 239, 0.05); }
+
+        @media (max-width: 768px) {
+            .main-result-flex { flex-direction: column; text-align: center; }
+            .data-box { text-align: center; }
+            .rank-v { font-size: 6rem; }
+            .fuel-v { font-size: 4rem; }
+        }
+    </style>
+</head>
+<body oncontextmenu="return false;">
+
+<nav class="global-nav">
+    <div class="nav-brand">SHINONOI TECH</div>
+    <div class="nav-links">
+        <a href="index.html">HOME</a>
+        <a href="results.html" style="color:#00aeef;">RESULTS</a>
+        <a href="guide.html">GUIDE</a>
+        <a href="portfolio.html">PORT</a>
+        <a href="entry.html">JOIN</a>
+    </div>
+</nav>
+
+<main class="results-container">
+    <h1 class="page-title animate-trigger">RESULTS</h1>
+
+    <section class="hall-of-fame animate-trigger">
+        <div class="event-info" style="margin-bottom: 20px;">
+            <p style="color:#888; font-family:'Orbitron'; margin:0;">2025.10.12 @ Mobility Resort MOTEGI</p>
+            <h2 style="margin:5px 0; font-size:1.5rem;">Honda Eco Mileage Challenge 全国大会</h2>
+        </div>
+
+        <div class="main-result-flex">
+            <div class="rank-box">
+                <span class="rank-label">GROUP 1 (MIDDLE SCHOOL)</span><br>
+                <span class="rank-v">3</span><span class="rank-u">RD</span>
+            </div>
+            
+            <div class="data-box">
+                <span class="rank-label">OFFICIAL RECORD</span><br>
+                <span class="fuel-v"><span class="count" data-target="498.000">0</span></span><span class="fuel-u">km/L</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="history-section animate-trigger">
+        <h3>ARCHIVES</h3>
+        <table class="history-table">
+            <thead>
+                <tr>
+                    <th>YEAR</th>
+                    <th>EVENT</th>
+                    <th>RANK</th>
+                    <th>RECORD</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2024</td>
+                    <td>もてぎ大会 Group 1</td>
+                    <td>8th</td>
+                    <td>412.350 km/L</td>
+                </tr>
+                <tr>
+                    <td>2023</td>
+                    <td>もてぎ大会 Group 1</td>
+                    <td>12th</td>
+                    <td>385.120 km/L</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</main>
+
+<footer style="text-align:center; padding: 60px 20px; color:#333; font-family:'Orbitron'; font-size:0.7rem;">
+    © 2026 SHINONOI TECHNICAL CLUB / RACING LOGS
+</footer>
+
+</body>
+</html>
