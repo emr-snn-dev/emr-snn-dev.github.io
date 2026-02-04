@@ -4,27 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JOIN US | 篠ノ井技術クラブ</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Noto+Sans+JP:wght@900&display=swap" rel="stylesheet">
     <style>
+        /* フォーム全体のレスポンシブ調整 */
         .form-container {
             max-width: 900px;
             margin: 40px auto;
             padding: 0 20px;
         }
 
-        /* 案内メッセージエリア */
+        /* 案内メッセージエリア（ロゴ追加） */
         .entry-notice {
             background: #000;
             color: #fff;
-            padding: 40px;
+            padding: 40px 20px;
             border-radius: 20px 20px 0 0;
             text-align: center;
             border: 2px solid #00aeef;
             border-bottom: none;
         }
-        .entry-notice h1 { font-family: 'Orbitron'; font-size: 2.5rem; margin-bottom: 10px; letter-spacing: 5px; }
-        .entry-notice p { font-weight: 900; color: #00aeef; margin: 0; }
+
+        /* ロゴの表示 */
+        .entry-logo {
+            width: 80px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        .entry-notice h1 { 
+            font-family: 'Orbitron'; 
+            font-size: clamp(1.5rem, 5vw, 2.5rem); /* 画面幅でサイズ自動調整 */
+            margin-bottom: 10px; 
+            letter-spacing: 5px; 
+        }
+        .entry-notice p { font-weight: 900; color: #00aeef; margin: 0; font-size: 0.9rem; }
 
         /* フォーム外枠 */
         .form-wrapper {
@@ -36,13 +50,20 @@
             border-top: 1px solid #333;
         }
 
-        /* Googleフォーム専用レスポンシブコンテナ */
+        /* iframeレスポンシブ対応 */
         .iframe-container {
             position: relative;
             width: 100%;
-            height: 1600px; /* フォームの長さに合わせて調整 */
-            -webkit-overflow-scrolling: touch;
+            /* スマホとPCで高さを変える */
+            height: 1200px; 
         }
+        
+        /* 縦長のスマホで見切れないように高さを確保 */
+        @media (max-width: 768px) {
+            .iframe-container { height: 1800px; }
+            .entry-notice { padding: 30px 15px; }
+        }
+
         .iframe-container iframe {
             position: absolute;
             top: 0; left: 0;
@@ -50,55 +71,64 @@
             border: none;
         }
 
+        /* ナビゲーションのレスポンシブ化 */
         .global-nav {
             display: flex;
+            flex-wrap: wrap; /* 折り返し許可 */
             justify-content: space-between;
             align-items: center;
-            padding: 20px 40px;
+            padding: 15px 40px;
             background: #fff;
             border-bottom: 2px solid #000;
             position: sticky;
             top: 0;
             z-index: 1000;
         }
-        .nav-brand { font-family: 'Orbitron'; font-weight: 900; font-size: 1.5rem; letter-spacing: 2px; }
-        .nav-links a { text-decoration: none; color: #000; font-weight: 900; margin-left: 25px; font-size: 0.85rem; }
+        
+        .nav-brand { font-family: 'Orbitron'; font-weight: 900; font-size: 1.2rem; }
+        .nav-links { display: flex; gap: 15px; }
+        .nav-links a { text-decoration: none; color: #000; font-weight: 900; font-size: 0.75rem; }
 
         @media (max-width: 600px) {
-            .entry-notice h1 { font-size: 1.8rem; }
-            .iframe-container { height: 2000px; }
-            .global-nav { padding: 15px 20px; }
-            .nav-links a { margin-left: 10px; font-size: 0.7rem; }
+            .global-nav { padding: 10px 15px; justify-content: center; gap: 10px; }
+            .nav-brand { width: 100%; text-align: center; margin-bottom: 5px; }
+            .nav-links { justify-content: center; flex-wrap: wrap; }
+            .nav-links a { margin: 0; font-size: 0.65rem; }
         }
     </style>
 </head>
 <body oncontextmenu="return false;">
+
     <nav class="global-nav">
-        <div class="nav-brand">SHINONOI</div>
+        <div class="nav-brand">SHINONOI TECH</div>
         <div class="nav-links">
             <a href="index.html">HOME</a>
             <a href="news.html">NEWS</a>
-            <a href="guide.html">GUIDE</a>
-            <a href="entry.html" style="color:#00aeef;">JOIN US</a>
+            <a href="portfolio.html">PORT</a>
+            <a href="entry.html" style="color:#00aeef;">JOIN</a>
             <a href="about.html">ABOUT</a>
         </div>
     </nav>
 
     <main class="form-container">
         <section class="entry-notice">
+            <img src="img/common/logo.png" alt="Logo" class="entry-logo">
             <h1>ADMISSION</h1>
-            <p>加入申し込み・お問い合わせフォーム</p>
+            <p>2026年度 新入部員・プロジェクトメンバー募集</p>
         </section>
 
         <div class="form-wrapper">
             <div class="iframe-container">
-                <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScOABxnKKWIYlpD-iAuyR8JIOuAkMlMW61DgE0-xdKttvnPHw/viewform?embedded=true" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます…</iframe>
+                <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScOABxnKKWIYlpD-iAuyR8JIOuAkMlMW61DgE0-xdKttvnPHw/viewform?embedded=true">
+                    読み込んでいます…
+                </iframe>
             </div>
         </div>
     </main>
 
-    <footer style="text-align:center; padding: 60px 20px; color:#999; font-weight:900;">
-        © 2026 篠ノ井技術クラブ
+    <footer style="text-align:center; padding: 40px 20px; color:#999; font-size:0.7rem;">
+        © 2026 SHINONOI TECHNICAL CLUB
     </footer>
+
 </body>
 </html>
