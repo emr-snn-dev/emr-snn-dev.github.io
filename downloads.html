@@ -8,87 +8,49 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Noto+Sans+JP:wght@400;900&display=swap" rel="stylesheet">
     <style>
         #loading {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: #000;
-            color: #00aeef;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            transition: 0.5s;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; color: #00aeef;
+            display: flex; align-items: center; justify-content: center;
+            z-index: 2000; transition: 0.5s;
         }
         #loading h1 { font-family: 'Orbitron'; letter-spacing: 5px; font-size: 1.5rem; }
 
-        .dl-main {
-            max-width: 900px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-
+        .dl-main { max-width: 900px; margin: 40px auto; padding: 0 20px; }
         .dl-card {
-            background: #fff;
-            color: #000;
-            border-top: 10px solid #00aeef;
-            padding: 40px;
-            border-radius: 4px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            background: #fff; color: #000; border-top: 10px solid #00aeef;
+            padding: 40px; border-radius: 4px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
-        .dl-list { margin-top: 30px; }
-
-        .dl-item {
-            padding: 30px;
-            border-bottom: 2px solid #f0f0f0;
-        }
+        .dl-item { padding: 30px 0; border-bottom: 2px solid #f0f0f0; }
         .dl-item:last-child { border-bottom: none; }
 
-        .dl-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 20px;
-        }
-
         .dl-info { display: flex; flex-direction: column; }
-        .dl-name { font-weight: 900; font-size: 1.3rem; color: #000; }
-        .dl-desc { font-size: 0.85rem; color: #666; margin-top: 8px; font-weight: bold; }
-        .dl-meta { font-size: 0.7rem; color: #aaa; font-family: 'Orbitron'; margin-top: 5px; }
+        .dl-name { font-weight: 900; font-size: 1.3rem; color: #000; display: block; }
+        .dl-desc { font-size: 0.85rem; color: #666; margin-top: 5px; font-weight: 900; display: block; }
 
-        .dl-actions { display: flex; gap: 10px; }
+        .dl-actions { display: flex; gap: 10px; margin-top: 15px; }
 
         .btn {
-            padding: 10px 20px;
-            text-decoration: none;
-            font-family: 'Orbitron';
-            font-size: 0.75rem;
-            font-weight: 900;
-            border-radius: 4px;
-            transition: 0.3s;
-            text-align: center;
-            display: inline-block;
+            padding: 10px 20px; text-decoration: none; font-family: 'Orbitron';
+            font-size: 0.75rem; font-weight: 900; border-radius: 4px;
+            transition: 0.3s; text-align: center; cursor: pointer;
+            border: none; display: inline-block;
         }
-        .btn-view { background: #eee; color: #000; cursor: pointer; border: 1px solid #ddd; }
+        .btn-view { background: #eee; color: #000; border: 1px solid #ddd; }
         .btn-view:hover { background: #ddd; }
         .btn-dl { background: #000; color: #fff; }
         .btn-dl:hover { background: #00aeef; }
 
         .preview-container {
-            display: none;
-            margin-top: 20px;
-            border: 1px solid #eee;
-            border-radius: 4px;
-            overflow: hidden;
-            background: #fafafa;
+            display: none; margin-top: 20px; border: 2px solid #00aeef;
+            border-radius: 4px; overflow: hidden; background: #fafafa;
         }
         .preview-container.active { display: block; }
-        .preview-container iframe { width: 100%; height: 500px; border: none; }
+        .preview-container iframe { width: 100%; height: 600px; border: none; }
 
         @media (max-width: 600px) {
-            .dl-header { flex-direction: column; gap: 20px; }
             .dl-actions { width: 100%; flex-direction: column; }
-            .btn { width: 100%; box-sizing: border-box; }
+            .btn { width: 100%; }
         }
     </style>
 </head>
@@ -99,30 +61,49 @@
 
     <main class="dl-main">
         <section class="dl-card">
-            <h1 style="font-family: 'Orbitron', sans-serif; letter-spacing: 5px; margin-bottom: 10px; font-size: 2.5rem; font-weight: 900;">DOWNLOAD</h1>
-            <p style="font-weight: 900; color: #888; font-size: 0.9rem; margin-bottom: 40px;">DOCUMENTS & RESOURCES</p>
+            <h1 style="font-family: 'Orbitron'; letter-spacing: 5px; font-weight: 900; margin: 0;">DOWNLOAD</h1>
+            <p style="font-weight: 900; color: #888; margin: 10px 0 40px 0;">DOCUMENTS & FORMS</p>
             
             <div class="dl-list">
                 <div class="dl-item">
-                    <div class="dl-header">
-                        <div class="dl-info">
-                            <span class="dl-name">2026年度 入部申込書</span>
-                            <span class="dl-desc">自署名・健康状況確認・備考欄を含む正式版</span>
-                            <span class="dl-meta">PDF / A4 SIZE / FOR NEW MEMBERS</span>
-                        </div>
-                        <div class="dl-actions">
-                            <button class="btn btn-view" onclick="togglePreview('preview-entry')">VIEW PDF</button>
-                            <a href="docs/2026_entry_form.pdf" class="btn btn-dl" download>DOWNLOAD</a>
-                        </div>
+                    <div class="dl-info">
+                        <span class="dl-name">2026年度 入部申込書（提出用）</span>
+                        <span class="dl-desc">1ページ目のみの白紙フォーマットです。A4で印刷してください。</span>
                     </div>
-                    <div id="preview-entry" class="preview-container">
-                        <iframe src="docs/2026_entry_form.pdf"></iframe>
+                    <div class="dl-actions">
+                        <button class="btn btn-view" onclick="togglePreview('preview-single')">PREVIEW</button>
+                        <a href="docs/2026_entry_form_single.pdf" class="btn btn-dl" download>DOWNLOAD PDF</a>
+                    </div>
+                    <div id="preview-single" class="preview-container">
+                        <iframe src="docs/2026_entry_form_single.pdf"></iframe>
                     </div>
                 </div>
+
+                <div class="dl-item" style="background: #fdfdfd; padding: 20px; border: 1px solid #eee; margin-top: 20px;">
+                    <div class="dl-info">
+                        <span class="dl-name">入部申込書 一括パック（記入例付き）</span>
+                        <span class="dl-desc">提出用と書き方の見本がセットになっています。確認に便利です。</span>
+                    </div>
+                    <div class="dl-actions">
+                        <button class="btn btn-view" onclick="togglePreview('preview-all')">VIEW ALL PAGES</button>
+                        <a href="docs/entry_form_all.pdf" class="btn btn-dl" download>DOWNLOAD ALL</a>
+                    </div>
+                    <div id="preview-all" class="preview-container">
+                        <iframe src="docs/entry_form_all.pdf"></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 40px; padding: 20px; background: #000; color: #fff; border-radius: 4px;">
+                <p style="margin:0; font-size: 0.75rem; font-weight: 900; line-height: 1.6; font-family: 'Orbitron';">
+                    SYSTEM NOTICE: PLEASE USE A4 SIZE PAPER FOR PRINTING. ALL FORMS MUST BE SIGNED MANUALLY.
+                </p>
             </div>
         </section>
     </main>
 
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <script src="/menu.js"></script>
     <script>
         function togglePreview(id) {
