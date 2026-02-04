@@ -39,97 +39,96 @@
         .dl-list { margin-top: 30px; }
 
         .dl-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 25px;
-            border-bottom: 1px solid #eee;
-            transition: 0.2s;
+            padding: 30px;
+            border-bottom: 2px solid #f0f0f0;
         }
-        .dl-item:hover { background: #f8f9fa; }
+        .dl-item:last-child { border-bottom: none; }
+
+        .dl-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
 
         .dl-info { display: flex; flex-direction: column; }
-        .dl-name { font-weight: 900; font-size: 1.2rem; color: #000; }
-        .dl-desc { font-size: 0.85rem; color: #666; margin-top: 5px; }
+        .dl-name { font-weight: 900; font-size: 1.3rem; color: #000; }
+        .dl-desc { font-size: 0.85rem; color: #666; margin-top: 8px; font-weight: bold; }
         .dl-meta { font-size: 0.7rem; color: #aaa; font-family: 'Orbitron'; margin-top: 5px; }
 
-        .dl-button {
-            background: #000;
-            color: #fff;
-            padding: 12px 25px;
+        .dl-actions { display: flex; gap: 10px; }
+
+        .btn {
+            padding: 10px 20px;
             text-decoration: none;
             font-family: 'Orbitron';
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 900;
             border-radius: 4px;
             transition: 0.3s;
-            border: none;
-            cursor: pointer;
+            text-align: center;
+            display: inline-block;
         }
-        .dl-button:hover { background: #00aeef; }
+        .btn-view { background: #eee; color: #000; cursor: pointer; border: 1px solid #ddd; }
+        .btn-view:hover { background: #ddd; }
+        .btn-dl { background: #000; color: #fff; }
+        .btn-dl:hover { background: #00aeef; }
+
+        .preview-container {
+            display: none;
+            margin-top: 20px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            overflow: hidden;
+            background: #fafafa;
+        }
+        .preview-container.active { display: block; }
+        .preview-container iframe { width: 100%; height: 500px; border: none; }
 
         @media (max-width: 600px) {
-            .dl-item { flex-direction: column; align-items: flex-start; gap: 15px; }
-            .dl-button { width: 100%; text-align: center; }
+            .dl-header { flex-direction: column; gap: 20px; }
+            .dl-actions { width: 100%; flex-direction: column; }
+            .btn { width: 100%; box-sizing: border-box; }
         }
     </style>
 </head>
 <body oncontextmenu="return false;">
 
-    <div id="loading"><h1>DATA ACCESSING...</h1></div>
+    <div id="loading"><h1>ACCESSING DATABASE...</h1></div>
     <div id="nav-container"></div>
 
     <main class="dl-main">
         <section class="dl-card">
             <h1 style="font-family: 'Orbitron', sans-serif; letter-spacing: 5px; margin-bottom: 10px; font-size: 2.5rem; font-weight: 900;">DOWNLOAD</h1>
-            <p style="font-weight: 900; color: #888; font-size: 0.9rem; margin-bottom: 40px;">DOCUMENTS & ASSETS</p>
+            <p style="font-weight: 900; color: #888; font-size: 0.9rem; margin-bottom: 40px;">DOCUMENTS & RESOURCES</p>
             
             <div class="dl-list">
                 <div class="dl-item">
-                    <div class="dl-info">
-                        <span class="dl-name">2026年度 入部申込書</span>
-                        <span class="dl-desc">自署名・保護者承諾・健康状況確認を含む正式版</span>
-                        <span class="dl-meta">FILE TYPE: PDF / SIZE: A4</span>
+                    <div class="dl-header">
+                        <div class="dl-info">
+                            <span class="dl-name">2026年度 入部申込書</span>
+                            <span class="dl-desc">自署名・健康状況確認・備考欄を含む正式版</span>
+                            <span class="dl-meta">PDF / A4 SIZE / FOR NEW MEMBERS</span>
+                        </div>
+                        <div class="dl-actions">
+                            <button class="btn btn-view" onclick="togglePreview('preview-entry')">VIEW PDF</button>
+                            <a href="docs/2026_entry_form.pdf" class="btn btn-dl" download>DOWNLOAD</a>
+                        </div>
                     </div>
-                    <a href="docs/2026_entry_form.pdf" class="dl-button" download>DOWNLOAD</a>
-                </div>
-
-                <div class="dl-item">
-                    <div class="dl-info">
-                        <span class="dl-name">篠ノ井技術クラブ 活動規約</span>
-                        <span class="dl-desc">兼部禁止ルールや安全基準についての詳細資料</span>
-                        <span class="dl-meta">FILE TYPE: PDF</span>
+                    <div id="preview-entry" class="preview-container">
+                        <iframe src="docs/2026_entry_form.pdf"></iframe>
                     </div>
-                    <a href="docs/club_rules.pdf" class="dl-button" download>DOWNLOAD</a>
                 </div>
-
-                <div class="dl-item">
-                    <div class="dl-info">
-                        <span class="dl-name">もてぎ大会 走行データシート</span>
-                        <span class="dl-desc">498.000km/Lを達成した際のセッティングログ</span>
-                        <span class="dl-meta">FILE TYPE: PDF</span>
-                    </div>
-                    <a href="docs/motegi_data_2025.pdf" class="dl-button" download>DOWNLOAD</a>
-                </div>
-            </div>
-
-            <div style="margin-top: 50px; padding: 25px; background: #f1f5f9; border-radius: 4px; border: 2px dashed #cbd5e1;">
-                <h3 style="margin:0 0 10px 0; font-family:'Orbitron'; font-size:0.9rem;">NOTICE</h3>
-                <p style="margin:0; font-size: 0.8rem; font-weight: 900; color: #64748b; line-height: 1.6;">
-                    資料の閲覧にはPDFリーダーが必要です。ダウンロードした申込書はA4サイズで印刷し、必要事項を記入・自署の上、金工室の顧問まで提出してください。
-                </p>
             </div>
         </section>
     </main>
 
-    <footer style="text-align:center; padding: 40px; color:#888; font-size:0.7rem; font-family:'Orbitron';">
-        © 2026 SHINONOI TECHNICAL CLUB / RESOURCE CENTER
-    </footer>
-
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <script src="/menu.js"></script>
     <script>
+        function togglePreview(id) {
+            const container = document.getElementById(id);
+            container.classList.toggle('active');
+        }
         window.addEventListener('load', () => {
             const loader = document.getElementById('loading');
             if(loader) {
