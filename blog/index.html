@@ -2,60 +2,163 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>BLOG | 篠ノ井技術クラブ</title>
     <link rel="stylesheet" href="/style.css">
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.0/marked.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Noto+Sans+JP:wght@400;900&display=swap" rel="stylesheet">
     <style>
-        body { background: #0b1d2e; color: white; margin: 0; font-family: sans-serif; }
-        .main-layout { max-width: 1000px; margin: 0 auto; padding: 100px 20px; }
-        .blog-card { background: rgba(16, 42, 67, 0.4); border: 1px solid #1e3a5f; padding: 20px; border-radius: 10px; cursor: pointer; margin-bottom: 20px; }
-        .category-label { background: #00aeef; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; }
-        #blog-viewer { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; overflow-y: auto; }
-        .viewer-inner { max-width: 800px; margin: 50px auto; background: #0b1d2e; padding: 30px; border-radius: 15px; }
-        /* 画像を表示する設定 */
-        .markdown-body img { display: block; max-width: 100%; height: auto; margin: 20px 0; border-radius: 8px; }
+        body { background: #0b1d2e; color: white; margin: 0; font-family: 'Noto Sans JP', sans-serif; }
+        .main-layout { display: grid; grid-template-columns: 1fr 300px; gap: 40px; max-width: 1200px; margin: 0 auto; padding: 120px 20px 60px; }
+        
+        /* Sidebar Styles */
+        .sidebar { position: sticky; top: 100px; height: fit-content; }
+        .side-widget { background: rgba(16, 42, 67, 0.5); border: 1px solid #1e3a5f; border-radius: 15px; padding: 20px; margin-bottom: 25px; }
+        .widget-title { font-family: 'Orbitron'; font-size: 0.9rem; color: #00aeef; border-bottom: 1px solid #1e3a5f; padding-bottom: 10px; margin-bottom: 15px; letter-spacing: 2px; }
+        .cat-list { list-style: none; padding: 0; margin: 0; }
+        .cat-item { padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; transition: 0.3s; color: #94a3b8; font-size: 0.9rem; }
+        .cat-item:hover { color: #00aeef; }
+        .cat-item.active { color: #00aeef; font-weight: 900; }
+        
+        /* Blog Card Styles */
+        .blog-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+        .blog-card { background: rgba(16, 42, 67, 0.4); border-radius: 12px; border: 1px solid #1e3a5f; transition: 0.3s; cursor: pointer; padding: 25px; }
+        .blog-card:hover { border-color: #00aeef; background: rgba(16, 42, 67, 0.6); }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .category-label { background: #00aeef; font-size: 0.65rem; font-family: 'Orbitron'; padding: 2px 10px; border-radius: 4px; font-weight: 900; color: white; }
+        .date-text { font-size: 0.75rem; color: #00aeef; font-family: 'Orbitron'; }
+        .blog-card h3 { font-size: 1.2rem; margin: 0; color: #fff; line-height: 1.4; }
+
+        /* Viewer Styles */
+        #blog-viewer { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 15, 25, 0.98); z-index: 10000; overflow-y: auto; backdrop-filter: blur(15px); }
+        .viewer-inner { max-width: 800px; margin: 40px auto; background: #0b1d2e; padding: 40px; border-radius: 20px; border: 1px solid #1e3a5f; }
+        .markdown-body img { display: block; max-width: 100%; height: auto; border-radius: 10px; margin: 25px auto; border: 1px solid #1e3a5f; }
+
+        @media (max-width: 900px) {
+            .main-layout { grid-template-columns: 1fr; padding-top: 80px; }
+            .sidebar { order: -1; position: static; }
+        }
     </style>
 </head>
 <body>
     <div id="nav-container"></div>
+
     <main class="main-layout">
-        <div id="blog-list"></div>
+        <section class="content-area">
+            <div id="blog-list" class="blog-grid">
+                <p>LOADING ARTICLES...</p>
+            </div>
+        </section>
+
+        <aside class="sidebar">
+            <div class="side-widget">
+                <h2 class="widget-title">CATEGORIES</h2>
+                <ul class="cat-list" id="category-list">
+                    <li class="cat-item active" data-cat="ALL" onclick="filterCategory('ALL', this)">ALL POSTS</li>
+                </ul>
+            </div>
+        </aside>
     </main>
+
     <div id="blog-viewer">
         <div class="viewer-inner">
-            <button onclick="closePost()">CLOSE</button>
+            <button onclick="closePost()" style="float:right; background:#ff4d4d; color:white; border:none; padding:10px 25px; border-radius:50px; cursor:pointer; font-family:'Orbitron'; font-weight:900;">CLOSE</button>
             <div id="post-content" class="markdown-body"></div>
         </div>
     </div>
+
     <script src="/menu.js"></script>
+
     <script>
         const REPO = "emr-snn-dev/emr-snn-dev.github.io";
+        let allPosts = [];
+
         async function initBlog() {
-            const res = await fetch(`https://api.github.com/repos/${REPO}/contents/blog`);
-            const files = await res.json();
-            const mdFiles = files.filter(f => f.name.endsWith('.md')).reverse();
-            const list = document.getElementById('blog-list');
-            
-            for (const f of mdFiles) {
-                const name = f.name.split('.')[0];
-                const category = name.match(/\[(.*?)\]/)?.[1] || 'TECH';
-                const title = name.replace(/\[.*?\]/, '').replace(/^\d+_/, '').replace(/-/g, ' ');
-                
-                const card = document.createElement('div');
-                card.className = 'blog-card';
-                card.onclick = () => openPost(f.download_url);
-                card.innerHTML = `<span class="category-label">${category}</span><h3>${title}</h3>`;
-                list.appendChild(card);
+            try {
+                const res = await fetch(`https://api.github.com/repos/${REPO}/contents/blog`);
+                const files = await res.json();
+                const mdFiles = files.filter(f => f.name.endsWith('.md')).reverse();
+                const categories = new Set();
+
+                allPosts = mdFiles.map(f => {
+                    const fileName = f.name.replace('.md', '');
+                    
+                    // カテゴリー抽出: [大会] などを取得
+                    const catMatch = fileName.match(/\[(.*?)\]/);
+                    const category = catMatch ? catMatch[1] : 'TECH';
+                    
+                    // タイトル抽出: 日付と[]を除去
+                    const title = fileName
+                        .replace(/^\d+_/, '')
+                        .replace(/\[.*?\]/, '')
+                        .replace(/_/g, ' ')
+                        .trim();
+
+                    // 日付抽出: 先頭8桁
+                    const dateMatch = fileName.match(/^(\d{8})/);
+                    const date = dateMatch ? dateMatch[1] : '20260206';
+
+                    categories.add(category);
+                    return { url: f.download_url, date, category, title };
+                });
+
+                // カテゴリーリスト生成
+                const catList = document.getElementById('category-list');
+                categories.forEach(cat => {
+                    const li = document.createElement('li');
+                    li.className = 'cat-item';
+                    li.innerText = cat;
+                    li.onclick = () => filterCategory(cat, li);
+                    catList.appendChild(li);
+                });
+
+                renderPosts(allPosts);
+            } catch (e) {
+                document.getElementById('blog-list').innerHTML = "Failed to load articles.";
             }
         }
+
+        function renderPosts(data) {
+            const list = document.getElementById('blog-list');
+            list.innerHTML = data.map(p => `
+                <article class="blog-card" data-cat="${p.category}" onclick="openPost('${p.url}')">
+                    <div class="card-header">
+                        <span class="date-text">${p.date}</span>
+                        <span class="category-label">${p.category}</span>
+                    </div>
+                    <h3>${p.title}</h3>
+                </article>
+            `).join('');
+        }
+
+        function filterCategory(cat, el) {
+            document.querySelectorAll('.cat-item').forEach(i => i.classList.remove('active'));
+            el.classList.add('active');
+            
+            document.querySelectorAll('.blog-card').forEach(card => {
+                if (cat === 'ALL' || card.getAttribute('data-cat') === cat) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
         async function openPost(url) {
             document.getElementById('blog-viewer').style.display = 'block';
+            document.body.style.overflow = 'hidden';
             const res = await fetch(url);
             const md = await res.text();
             document.getElementById('post-content').innerHTML = marked.parse(md);
         }
-        function closePost() { document.getElementById('blog-viewer').style.display = 'none'; }
+
+        function closePost() {
+            document.getElementById('blog-viewer').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
         window.onload = initBlog;
     </script>
 </body>
