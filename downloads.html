@@ -15,30 +15,35 @@
         .dl-header { text-align: center; margin-bottom: 40px; }
         .dl-header h1 { font-family: 'Orbitron'; color: #00aeef; font-size: 2.5rem; margin: 0; letter-spacing: 4px; }
         
+        /* フィルター */
         .filter-group { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 30px; position: sticky; top: 70px; z-index: 100; background: rgba(11, 29, 46, 0.9); padding: 10px 0; backdrop-filter: blur(10px); }
         .filter-btn { background: #162a43; border: 1px solid #334155; color: #94a3b8; padding: 8px 20px; border-radius: 30px; font-family: 'Orbitron'; font-size: 0.7rem; cursor: pointer; transition: 0.3s; font-weight: 900; }
-        .filter-btn.active { background: #00aeef; color: white; border-color: #00aeef; box-shadow: 0 0 20px rgba(0, 174, 239, 0.5); }
+        .filter-btn.active { background: #00aeef; color: white; border-color: #00aeef; }
 
-        #auth-msg { background: rgba(255, 77, 77, 0.1); border: 1px solid #ff4d4d; color: #ff4d4d; padding: 15px; text-align: center; border-radius: 8px; margin-bottom: 30px; font-size: 0.8rem; font-weight: bold; display: none; }
+        #auth-msg { background: rgba(0, 174, 239, 0.1); border: 1px solid #00aeef; color: #00aeef; padding: 15px; text-align: center; border-radius: 8px; margin-bottom: 30px; font-size: 0.8rem; font-weight: bold; display: none; }
         
+        /* カードデザイン */
         .dl-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
-        .dl-card { background: rgba(16, 42, 67, 0.8); border: 1px solid #333; padding: 25px; border-radius: 15px; transition: 0.4s; display: flex; flex-direction: column; position: relative; overflow: hidden; }
-        .dl-card.unlocked { border-color: #1e3a5f; }
-        .dl-card.unlocked:hover { border-color: #00aeef; transform: translateY(-5px); background: rgba(20, 50, 80, 0.9); }
+        .dl-card { background: rgba(16, 42, 67, 0.8); border: 1px solid #333; padding: 15px; border-radius: 15px; transition: 0.4s; display: flex; flex-direction: column; position: relative; overflow: hidden; }
         .dl-card.hidden { display: none; }
 
-        .tag { font-family: 'Orbitron'; font-size: 0.6rem; padding: 3px 10px; border-radius: 4px; margin-bottom: 10px; display: inline-block; width: fit-content; font-weight: 900; }
-        .tag-photo { background: rgba(0, 174, 239, 0.2); color: #00aeef; border: 1px solid #00aeef; }
-        .tag-file { background: rgba(148, 163, 184, 0.1); color: #94a3b8; border: 1px solid #334155; }
+        /* プレビュー画像エリア */
+        .preview-box { width: 100%; aspect-ratio: 16/9; background: #05101a; border-radius: 8px; margin-bottom: 15px; overflow: hidden; position: relative; }
+        .preview-img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s filter ease; }
+        .is-locked .preview-img { filter: blur(15px) grayscale(0.5); pointer-events: none; }
+        .lock-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 1.5rem; opacity: 0; transition: 0.3s; pointer-events: none; }
+        .is-locked .lock-icon { opacity: 0.5; }
 
-        .file-name { font-weight: 900; font-size: 1.1rem; margin-bottom: 20px; line-height: 1.3; color: #fff; min-height: 2.6em; }
+        .tag { font-family: 'Orbitron'; font-size: 0.55rem; padding: 2px 8px; border-radius: 4px; margin-bottom: 10px; display: inline-block; width: fit-content; font-weight: 900; border: 1px solid; }
+        .tag-photo { background: rgba(0, 174, 239, 0.1); color: #00aeef; border-color: #00aeef; }
+        .tag-file { background: rgba(148, 163, 184, 0.1); color: #94a3b8; border-color: #475569; }
+
+        .file-name { font-weight: 900; font-size: 1rem; margin-bottom: 15px; line-height: 1.3; color: #fff; min-height: 2.6em; }
         
-        .btn-dl { margin-top: auto; display: block; width: 100%; padding: 14px; border-radius: 8px; text-align: center; text-decoration: none; font-weight: 900; font-family: 'Orbitron'; transition: 0.3s; font-size: 0.8rem; border: none; letter-spacing: 1px; }
+        .btn-dl { margin-top: auto; display: block; width: 100%; padding: 12px; border-radius: 6px; text-align: center; text-decoration: none; font-weight: 900; font-family: 'Orbitron'; transition: 0.3s; font-size: 0.75rem; border: none; }
         .btn-locked { background: #1e293b; color: #475569; cursor: not-allowed; }
-        .btn-active { background: #00aeef; color: white; cursor: pointer; box-shadow: 0 4px 15px rgba(0, 174, 239, 0.3); }
+        .btn-active { background: #00aeef; color: white; cursor: pointer; box-shadow: 0 4px 12px rgba(0, 174, 239, 0.3); }
         .btn-active:hover { background: #fff; color: #00aeef; }
-        
-        .dl-info { font-size: 0.65rem; color: #64748b; margin-top: 15px; font-family: 'Orbitron'; display: flex; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px; }
     </style>
 </head>
 <body oncontextmenu="return false;">
@@ -47,10 +52,10 @@
     <main class="dl-container">
         <header class="dl-header">
             <h1>DOWNLOADS</h1>
-            <p id="log-status-text" style="color:#00aeef; font-weight:900; font-size: 0.7rem; margin-top: 10px; letter-spacing: 2px;">FILE SYNC SYSTEM</p>
+            <p id="log-status-text" style="color:#00aeef; font-weight:900; font-size: 0.7rem; margin-top: 10px; letter-spacing: 2px;">SECURE PREVIEW MODE</p>
         </header>
 
-        <div id="auth-msg">⚠ 部員専用データにアクセスするにはログインしてください</div>
+        <div id="auth-msg">⚠ ログインするとプレビューのぼかしが解除され、保存が可能になります</div>
 
         <div id="filter-area" class="filter-group">
             <button class="filter-btn active" onclick="applyFilter('all', this)">ALL</button>
@@ -59,8 +64,7 @@
         </div>
 
         <div id="main-grid" class="dl-grid">
-            <p style="text-align:center; color:#475569; font-family:'Orbitron'; padding: 50px;">INITIALIZING...</p>
-        </div>
+            </div>
     </main>
 
     <script src="/menu.js"></script>
@@ -78,30 +82,33 @@
             const imgsFormatted = imgs.filter(f => f.type === 'file' && f.name.match(/\.(jpg|jpeg|png|webp|heic|gif)$/i)).map(f => ({...f, category: 'PHOTO'}));
             
             masterData = [...docsFormatted, ...imgsFormatted];
-            render(masterData);
+            render();
         }
 
-        function render(data) {
+        function render() {
             const user = firebase.auth().currentUser;
             const grid = document.getElementById('main-grid');
             
-            grid.innerHTML = data.map(file => {
+            grid.innerHTML = masterData.map(file => {
                 const isPhoto = file.category === 'PHOTO';
                 const cleanName = file.name.split('.')[0].replace(/_/g, ' ');
                 const ext = file.name.split('.').pop().toUpperCase();
                 
+                // 画像の場合はプレビューを表示、PDFなどの場合はアイコン的なプレビューを表示
+                const previewSrc = isPhoto ? file.download_url : 'https://placehold.jp/24/162a43/94a3b8/300x168.png?text=' + ext;
+
                 return `
-                    <div class="dl-card unlocked" data-cat="${file.category}">
+                    <div class="dl-card ${user ? '' : 'is-locked'}" data-cat="${file.category}">
+                        <div class="preview-box">
+                            <img src="${previewSrc}" class="preview-img" loading="lazy">
+                            <div class="lock-icon">🔒</div>
+                        </div>
                         <span class="tag ${isPhoto ? 'tag-photo' : 'tag-file'}">${file.category}</span>
                         <span class="file-name">${cleanName}</span>
                         ${user ? 
-                            `<a href="${file.download_url}" class="btn-dl btn-active" download="${file.name}">DOWNLOAD ${ext}</a>` :
-                            `<div class="btn-dl btn-locked">LOCKED</div>`
+                            `<a href="${file.download_url}" class="btn-dl btn-active" download="${file.name}">DOWNLOAD</a>` :
+                            `<div class="btn-dl btn-locked">LOGIN TO VIEW</div>`
                         }
-                        <div class="dl-info">
-                            <span>${(file.size / 1024).toFixed(0)} KB</span>
-                            <span>${ext}</span>
-                        </div>
                     </div>
                 `;
             }).join('');
@@ -110,20 +117,13 @@
         function applyFilter(cat, btn) {
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            
-            const cards = document.querySelectorAll('.dl-card');
-            cards.forEach(card => {
-                if (cat === 'all' || card.dataset.cat === cat) {
-                    card.classList.remove('hidden');
-                } else {
-                    card.classList.add('hidden');
-                }
+            document.querySelectorAll('.dl-card').forEach(card => {
+                card.classList.toggle('hidden', cat !== 'all' && card.dataset.cat !== cat);
             });
         }
 
         firebase.auth().onAuthStateChanged((user) => {
-            const msg = document.getElementById('auth-msg');
-            if (msg) msg.style.display = user ? 'none' : 'block';
+            document.getElementById('auth-msg').style.display = user ? 'none' : 'block';
             syncFiles();
         });
     </script>
