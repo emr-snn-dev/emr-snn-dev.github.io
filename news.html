@@ -7,22 +7,49 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Noto+Sans+JP:wght@900&display=swap" rel="stylesheet">
     <style>
+        /* ベース設定 */
+        body { margin: 0; padding: 0; overflow-x: hidden; }
+
+        /* ナビゲーションのレスポンス化 */
+        .global-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background: #fff;
+            border-bottom: 2px solid #000;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .nav-brand { font-family: 'Orbitron'; font-weight: 900; font-size: 1.5rem; letter-spacing: 2px; }
+        .nav-links { display: flex; flex-wrap: wrap; justify-content: flex-end; }
+        .nav-links a { 
+            text-decoration: none; 
+            color: #000; 
+            font-weight: 900; 
+            margin-left: 15px; 
+            font-size: clamp(0.7rem, 2vw, 0.85rem); 
+            white-space: nowrap;
+        }
+
+        /* コンテナのレスポンス化 */
         .news-container { 
             max-width: 1000px; 
             margin: 0 auto; 
-            padding: 80px 20px;
+            padding: clamp(40px, 10vw, 80px) 20px;
             min-height: 60vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
         }
 
-        /* 加入申込への誘導セクション */
+        /* バナーのレスポンス化 */
         .join-us-banner {
             background: #000;
             color: #fff;
-            padding: 80px 40px;
-            border-radius: 30px;
+            padding: clamp(40px, 8vw, 80px) clamp(20px, 5vw, 40px);
+            border-radius: clamp(15px, 4vw, 30px);
             text-align: center;
             border: 2px solid #00aeef;
             position: relative;
@@ -33,39 +60,44 @@
         .join-us-banner::before {
             content: "NEXT STAGE";
             position: absolute;
-            top: -20px;
-            right: -20px;
+            top: -10%;
+            right: -5%;
             font-family: 'Orbitron';
-            font-size: 8rem;
+            font-size: clamp(4rem, 15vw, 8rem);
             color: rgba(0, 174, 239, 0.05);
             z-index: 0;
             pointer-events: none;
+            white-space: nowrap;
         }
 
         .join-content { position: relative; z-index: 1; }
         .join-content h2 { 
             font-family: 'Orbitron'; 
-            font-size: 3.5rem; 
+            font-size: clamp(1.8rem, 6vw, 3.5rem); 
             margin-bottom: 20px;
-            letter-spacing: 8px;
+            letter-spacing: clamp(4px, 1vw, 8px);
         }
         .join-content p { 
             font-weight: 900; 
             margin-bottom: 40px; 
             color: #ccc;
-            font-size: 1.1rem;
-            line-height: 2;
+            font-size: clamp(0.85rem, 2.5vw, 1.1rem);
+            line-height: 1.8;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
+        /* ボタンのレスポンス化 */
         .entry-link-btn {
             display: inline-block;
             background: #00aeef;
             color: #fff;
-            padding: 20px 60px;
+            padding: clamp(12px, 3vw, 20px) clamp(30px, 8vw, 60px);
             border-radius: 100px;
             text-decoration: none;
             font-weight: 900;
-            font-size: 1.4rem;
+            font-size: clamp(0.9rem, 3vw, 1.4rem);
             transition: 0.4s cubic-bezier(0.22, 1, 0.36, 1);
             border: none;
         }
@@ -73,30 +105,16 @@
         .entry-link-btn:hover {
             background: #fff;
             color: #00aeef;
-            transform: translateY(-5px) scale(1.05);
+            transform: translateY(-5px);
             box-shadow: 0 15px 30px rgba(0,174,239,0.5);
         }
 
-        .global-nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 40px;
-            background: #fff;
-            border-bottom: 2px solid #000;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        .nav-brand { font-family: 'Orbitron'; font-weight: 900; font-size: 1.5rem; letter-spacing: 2px; }
-        .nav-links a { text-decoration: none; color: #000; font-weight: 900; margin-left: 25px; font-size: 0.85rem; }
-
-        @media (max-width: 600px) {
-            .news-container { padding: 40px 15px; }
-            .join-us-banner { padding: 60px 20px; }
-            .join-content h2 { font-size: 2rem; letter-spacing: 4px; }
-            .entry-link-btn { width: 80%; padding: 15px 20px; font-size: 1.1rem; }
-            .global-nav { padding: 15px 20px; }
+        /* モバイル特化調整 */
+        @media (max-width: 480px) {
+            .global-nav { flex-direction: column; gap: 10px; padding: 10px; }
+            .nav-links { justify-content: center; margin: 0; }
+            .nav-links a { margin: 5px 8px; }
+            .join-content p { text-align: justify; }
         }
     </style>
 </head>
@@ -125,7 +143,7 @@
         </section>
     </main>
 
-    <footer style="text-align:center; padding: 100px 20px 40px; color:#999; font-weight:900;">
+    <footer style="text-align:center; padding: 60px 20px 40px; color:#999; font-weight:900; font-size: 0.8rem;">
         © 2026 篠ノ井技術クラブ
     </footer>
 </body>
