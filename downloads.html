@@ -11,20 +11,28 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Noto+Sans+JP:wght@400;900&display=swap" rel="stylesheet">
     <style>
         body { background: #0b1d2e; color: white; margin: 0; font-family: 'Noto Sans JP', sans-serif; }
-        .dl-container { max-width: 900px; margin: 0 auto; padding: 100px 20px 40px; }
+        .dl-container { max-width: 1000px; margin: 0 auto; padding: 100px 20px 40px; }
         .dl-header { text-align: center; margin-bottom: 50px; }
         .dl-header h1 { font-family: 'Orbitron'; color: #00aeef; font-size: 2.5rem; margin: 0; }
-        #auth-required-msg { background: rgba(255, 77, 77, 0.1); border: 1px solid #ff4d4d; color: #ff4d4d; padding: 20px; text-align: center; border-radius: 8px; font-weight: bold; margin-bottom: 30px; display: none; font-size: 0.9rem; }
-        .dl-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
-        .dl-card { background: rgba(16, 42, 67, 0.8); border: 1px solid #333; padding: 20px; border-radius: 12px; transition: 0.3s; position: relative; overflow: hidden; }
-        .dl-card.unlocked { border-color: #00aeef; box-shadow: 0 0 15px rgba(0, 174, 239, 0.1); }
-        .file-type { font-family: 'Orbitron'; font-size: 0.7rem; color: #00aeef; margin-bottom: 10px; display: block; letter-spacing: 1px; }
-        .file-name { font-weight: 900; font-size: 1.1rem; margin-bottom: 15px; display: block; height: 3em; overflow: hidden; }
-        .btn-dl { display: inline-block; width: 100%; padding: 12px; border-radius: 6px; text-align: center; text-decoration: none; font-weight: 900; font-family: 'Orbitron'; transition: 0.3s; box-sizing: border-box; font-size: 0.8rem; }
+        #auth-required-msg { background: rgba(255, 77, 77, 0.1); border: 1px solid #ff4d4d; color: #ff4d4d; padding: 20px; text-align: center; border-radius: 8px; font-weight: bold; margin-bottom: 30px; display: none; }
+        
+        .dl-section-title { font-family: 'Orbitron'; font-size: 1.2rem; color: #00aeef; border-left: 4px solid #00aeef; padding-left: 15px; margin: 40px 0 20px; letter-spacing: 2px; }
+        .dl-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+        
+        .dl-card { background: rgba(16, 42, 67, 0.8); border: 1px solid #333; padding: 20px; border-radius: 12px; transition: 0.3s; position: relative; display: flex; flex-direction: column; }
+        .dl-card.unlocked { border-color: #00aeef; box-shadow: 0 4px 20px rgba(0, 174, 239, 0.1); }
+        
+        .file-type { font-family: 'Orbitron'; font-size: 0.65rem; color: #00aeef; margin-bottom: 8px; display: block; opacity: 0.8; }
+        .file-name { font-weight: 900; font-size: 1rem; margin-bottom: 15px; display: block; min-height: 2.4em; line-height: 1.2; word-break: break-all; }
+        
+        .btn-dl { margin-top: auto; display: inline-block; width: 100%; padding: 12px; border-radius: 6px; text-align: center; text-decoration: none; font-weight: 900; font-family: 'Orbitron'; transition: 0.3s; box-sizing: border-box; font-size: 0.75rem; }
         .btn-locked { background: #334155; color: #94a3b8; cursor: not-allowed; }
         .btn-active { background: #00aeef; color: #fff; box-shadow: 0 4px 15px rgba(0, 174, 239, 0.3); }
-        .btn-active:hover { background: #fff; color: #00aeef; }
-        .dl-info { font-size: 0.7rem; color: #94a3b8; margin-top: 10px; display: block; font-family: 'Orbitron'; }
+        .btn-active:hover { background: #fff; color: #00aeef; transform: translateY(-2px); }
+        
+        .dl-info { font-size: 0.65rem; color: #94a3b8; margin-top: 10px; display: block; font-family: 'Orbitron'; text-align: right; }
+        .loading-text { color: #94a3b8; font-family: 'Orbitron'; font-size: 0.8rem; animation: blink 1.5s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
     </style>
 </head>
 <body oncontextmenu="return false;">
@@ -37,71 +45,81 @@
         </header>
 
         <div id="auth-required-msg">
-            ⚠ 部員限定の資料が含まれています。閲覧にはログインが必要です。
+            ⚠ ACCESS DENIED: 部員専用のデータが含まれています。ログインが必要です。
         </div>
 
-        <div class="dl-grid">
-            <div class="dl-card unlocked">
-                <span class="file-type">PUBLIC / PDF</span>
-                <span class="file-name">2026年度 部活動紹介パンフレット</span>
-                <a href="/docs/guide2026.pdf" class="btn-dl btn-active">VIEW PDF</a>
-                <span class="dl-info">SIZE: 1.2MB / PUBLIC</span>
-            </div>
+        <h2 class="dl-section-title">DOCUMENTS (PDF)</h2>
+        <div id="pdf-grid" class="dl-grid">
+            <p class="loading-text">SCANNING DOCS FOLDER...</p>
+        </div>
 
-            <div class="dl-card" data-auth="true">
-                <span class="file-type">INTERNAL / ZIP</span>
-                <span class="file-name">燃費競技大会 走行データ・分析シート</span>
-                <a href="#" class="btn-dl btn-locked">LOCKED</a>
-                <span class="dl-info">SIZE: 4.5MB / MEMBERS</span>
-            </div>
-
-            <div class="dl-card" data-auth="true">
-                <span class="file-type">INTERNAL / XLSX</span>
-                <span class="file-name">エコカー2026 スペック管理表 (Ver1.2)</span>
-                <a href="#" class="btn-dl btn-locked">LOCKED</a>
-                <span class="dl-info">SIZE: 240KB / MEMBERS</span>
-            </div>
-
-            <div class="dl-card" data-auth="true">
-                <span class="file-type">INTERNAL / PDF</span>
-                <span class="file-name">技術室機材 取扱・安全マニュアル</span>
-                <a href="#" class="btn-dl btn-locked">LOCKED</a>
-                <span class="dl-info">SIZE: 890KB / MEMBERS</span>
-            </div>
+        <h2 class="dl-section-title">ACTIVITY LOG IMAGES</h2>
+        <div id="photo-grid" class="dl-grid">
+            <p class="loading-text">SCANNING IMAGES FOLDER...</p>
         </div>
     </main>
 
     <script src="/menu.js"></script>
     <script>
-        // menu.jsのFirebase Auth状態に応じてボタンを切り替える
-        firebase.auth().onAuthStateChanged((user) => {
-            const cards = document.querySelectorAll('[data-auth="true"]');
-            const msg = document.getElementById('auth-required-msg');
-            
-            if (user) {
-                if (msg) msg.style.display = 'none';
-                cards.forEach((card, index) => {
-                    card.classList.add('unlocked');
-                    const btn = card.querySelector('.btn-dl');
-                    btn.classList.remove('btn-locked');
-                    btn.classList.add('btn-active');
-                    btn.innerText = 'DOWNLOAD';
-                    
-                    // indexに応じてURLを設定
-                    if(index === 0) btn.href = "/secure/log_data_2025.zip";
-                    if(index === 1) btn.href = "/secure/spec_sheet_2026.xlsx";
-                    if(index === 2) btn.href = "/secure/safety_manual.pdf";
-                });
-            } else {
-                if (msg) msg.style.display = 'block';
-                cards.forEach(card => {
-                    card.classList.remove('unlocked');
-                    const btn = card.querySelector('.btn-dl');
-                    btn.classList.add('btn-locked');
-                    btn.innerText = 'LOCKED';
-                    btn.href = "#";
-                });
+        const REPO_OWNER = "emr-snn-dev";
+        const REPO_NAME = "emr-snn-dev.github.io";
+
+        // スキャン対象の拡張子設定
+        const PDF_EXT = ['.pdf'];
+        const IMG_EXT = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.heic'];
+
+        async function fetchGithubFiles(path) {
+            try {
+                const response = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}`);
+                if (!response.ok) return [];
+                return await response.json();
+            } catch (e) {
+                return [];
             }
+        }
+
+        function createCard(file, isLocked) {
+            const ext = file.name.split('.').pop().toUpperCase();
+            const cleanName = file.name.substring(0, file.name.lastIndexOf('.')).replace(/_/g, ' ');
+            const fileSize = (file.size / 1024).toFixed(1);
+            
+            return `
+                <div class="dl-card ${isLocked ? '' : 'unlocked'}">
+                    <span class="file-type">${ext} FILE</span>
+                    <span class="file-name">${cleanName}</span>
+                    ${isLocked ? 
+                        `<div class="btn-dl btn-locked">LOCKED</div>` : 
+                        `<a href="${file.download_url}" class="btn-dl btn-active" download="${file.name}">DOWNLOAD</a>`
+                    }
+                    <span class="dl-info">SIZE: ${fileSize} KB</span>
+                </div>
+            `;
+        }
+
+        firebase.auth().onAuthStateChanged(async (user) => {
+            const msg = document.getElementById('auth-required-msg');
+            const pdfGrid = document.getElementById('pdf-grid');
+            const photoGrid = document.getElementById('photo-grid');
+            
+            if (msg) msg.style.display = user ? 'none' : 'block';
+
+            // 同時並行でフォルダ取得
+            const [docsData, imagesData] = await Promise.all([
+                fetchGithubFiles('docs'),
+                fetchGithubFiles('images')
+            ]);
+
+            // PDFの表示
+            const pdfFiles = docsData.filter(f => PDF_EXT.some(ext => f.name.toLowerCase().endsWith(ext)));
+            pdfGrid.innerHTML = pdfFiles.length ? 
+                pdfFiles.map(f => createCard(f, !user)).join('') : 
+                '<p style="color:#555;">NO DOCUMENTS FOUND.</p>';
+
+            // 画像の表示
+            const imgFiles = imagesData.filter(f => IMG_EXT.some(ext => f.name.toLowerCase().endsWith(ext)));
+            photoGrid.innerHTML = imgFiles.length ? 
+                imgFiles.map(f => createCard(f, !user)).join('') : 
+                '<p style="color:#555;">NO IMAGES FOUND.</p>';
         });
     </script>
 </body>
