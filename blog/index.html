@@ -11,39 +11,31 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Noto+Sans+JP:wght@400;900&display=swap" rel="stylesheet">
     <style>
         body { background: #0b1d2e; color: white; margin: 0; font-family: 'Noto Sans JP', sans-serif; }
-        
         .main-layout { display: grid; grid-template-columns: 1fr 300px; gap: 40px; max-width: 1200px; margin: 0 auto; padding: 120px 20px 60px; }
-        
-        /* サイドバー */
         .sidebar { position: sticky; top: 100px; height: fit-content; }
         .side-widget { background: rgba(16, 42, 67, 0.5); border: 1px solid #1e3a5f; border-radius: 15px; padding: 20px; margin-bottom: 25px; }
         .widget-title { font-family: 'Orbitron'; font-size: 0.9rem; color: #00aeef; border-bottom: 1px solid #1e3a5f; padding-bottom: 10px; margin-bottom: 15px; letter-spacing: 2px; }
-        
         .cat-list { list-style: none; padding: 0; margin: 0; }
         .cat-item { padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; transition: 0.3s; color: #94a3b8; font-size: 0.9rem; }
-        .cat-item:hover { color: #00aeef; padding-left: 5px; }
+        .cat-item:hover { color: #00aeef; }
         .cat-item.active { color: #00aeef; font-weight: 900; }
-
-        /* ブロググリッド */
-        .blog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; }
-        .blog-card { background: rgba(16, 42, 67, 0.4); border-radius: 15px; overflow: hidden; border: 1px solid #1e3a5f; transition: 0.4s; cursor: pointer; display: flex; flex-direction: column; }
-        .blog-card.hidden { display: none; }
-        .blog-card:hover { transform: translateY(-8px); border-color: #00aeef; }
         
-        .card-img-box { width: 100%; aspect-ratio: 16/9; position: relative; overflow: hidden; }
-        .card-img { width: 100%; height: 100%; object-fit: cover; }
-        .category-tag { position: absolute; top: 10px; left: 10px; background: #00aeef; font-size: 0.6rem; font-family: 'Orbitron'; padding: 3px 10px; border-radius: 4px; font-weight: 900; }
-
-        .card-content { padding: 20px; }
-        .card-content h3 { font-size: 1.1rem; margin: 0 0 10px 0; line-height: 1.4; }
-        .card-content p { font-size: 0.85rem; color: #94a3b8; line-height: 1.6; height: 3.2em; overflow: hidden; }
-
-        /* モーダル表示 */
+        .blog-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+        .blog-card { background: rgba(16, 42, 67, 0.4); border-radius: 12px; border: 1px solid #1e3a5f; transition: 0.3s; cursor: pointer; padding: 25px; }
+        .blog-card:hover { border-color: #00aeef; background: rgba(16, 42, 67, 0.6); }
+        
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .category-label { background: #00aeef; font-size: 0.6rem; font-family: 'Orbitron'; padding: 2px 8px; border-radius: 4px; font-weight: 900; color: white; }
+        .date-text { font-size: 0.75rem; color: #00aeef; font-family: 'Orbitron'; }
+        
+        .blog-card h3 { font-size: 1.2rem; margin: 0 0 10px 0; line-height: 1.4; color: #fff; }
+        .blog-card p { font-size: 0.9rem; color: #94a3b8; line-height: 1.6; margin: 0; }
+        
         #blog-viewer { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 15, 25, 0.98); z-index: 10000; overflow-y: auto; backdrop-filter: blur(15px); }
         .viewer-inner { max-width: 800px; margin: 40px auto; background: #0b1d2e; padding: 40px; border-radius: 20px; border: 1px solid #1e3a5f; }
-        .markdown-body img { max-width: 100%; border-radius: 10px; }
+        
+        .markdown-body img { display: none !important; }
 
-        /* レスポンシブ対応 */
         @media (max-width: 900px) {
             .main-layout { grid-template-columns: 1fr; }
             .sidebar { order: -1; position: static; }
@@ -54,24 +46,18 @@
 </head>
 <body>
     <div id="nav-container"></div>
-
     <main class="main-layout">
         <section class="content-area">
             <div id="blog-list" class="blog-grid">
-                <p>LOADING ARTICLES...</p>
+                <p>LOADING ARTICLES</p>
             </div>
         </section>
-
         <aside class="sidebar">
             <div class="side-widget">
                 <h2 class="widget-title">CATEGORIES</h2>
                 <ul class="cat-list" id="category-list">
                     <li class="cat-item active" onclick="filterCategory('ALL')">ALL POSTS</li>
                 </ul>
-            </div>
-            <div class="side-widget">
-                <h2 class="widget-title">ABOUT CLUB</h2>
-                <p style="font-size: 0.8rem; color: #94a3b8; line-height: 1.6;">篠ノ井技術クラブの活動日誌。ロボット製作、プログラミング、大会の様子を更新中。</p>
             </div>
         </aside>
     </main>
@@ -92,29 +78,29 @@
             const res = await fetch(`https://api.github.com/repos/${REPO}/contents/blog`);
             const files = await res.json();
             const mdFiles = files.filter(f => f.name.endsWith('.md')).reverse();
-
             const categories = new Set();
-            const list = document.getElementById('blog-list');
-            
+
             allPosts = await Promise.all(mdFiles.map(async f => {
                 const name = f.name.split('.')[0];
                 const parts = name.split('_');
                 const date = parts[0];
-                // カテゴリ取得：[機械]のような形式を想定
                 const catMatch = name.match(/\[(.*?)\]/);
                 const category = catMatch ? catMatch[1] : 'TECH';
                 const title = parts[1] ? parts[1].replace(/\[.*?\]/, '').replace(/-/g, ' ') : 'Report';
-                
                 categories.add(category);
 
                 const cRes = await fetch(f.download_url);
                 const text = await cRes.text();
-                const img = text.match(/!\[.*?\]\((.*?)\)/)?.[1] || 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500';
+                
+                const cleanText = text
+                    .replace(/!\[.*?\]\(.*?\)/g, '')
+                    .replace(/<img.*?>/g, '')
+                    .replace(/[#*`]/g, '')
+                    .trim();
 
-                return { ...f, date, category, title, thumb: img, excerpt: text.substring(0, 100).replace(/[#*`]/g, '') };
+                return { ...f, date, category, title, excerpt: cleanText.substring(0, 150) };
             }));
 
-            // カテゴリボタン生成
             const catList = document.getElementById('category-list');
             categories.forEach(cat => {
                 const li = document.createElement('li');
@@ -123,7 +109,6 @@
                 li.onclick = () => filterCategory(cat, li);
                 catList.appendChild(li);
             });
-
             renderPosts(allPosts);
         }
 
@@ -131,15 +116,12 @@
             const list = document.getElementById('blog-list');
             list.innerHTML = data.map(p => `
                 <article class="blog-card" data-cat="${p.category}" onclick="openPost('${p.download_url}')">
-                    <div class="card-img-box">
-                        <img src="${p.thumb}" class="card-img">
-                        <span class="category-tag">${p.category}</span>
+                    <div class="card-header">
+                        <span class="date-text">${p.date}</span>
+                        <span class="category-label">${p.category}</span>
                     </div>
-                    <div class="card-content">
-                        <span style="font-size:0.7rem; color:#00aeef; font-family:'Orbitron';">${p.date}</span>
-                        <h3>${p.title}</h3>
-                        <p>${p.excerpt}...</p>
-                    </div>
+                    <h3>${p.title}</h3>
+                    <p>${p.excerpt}</p>
                 </article>
             `).join('');
         }
@@ -147,9 +129,8 @@
         function filterCategory(cat, el) {
             document.querySelectorAll('.cat-item').forEach(i => i.classList.remove('active'));
             if(el) el.classList.add('active');
-            
             document.querySelectorAll('.blog-card').forEach(card => {
-                card.style.display = (cat === 'ALL' || card.dataset.cat === cat) ? 'flex' : 'none';
+                card.style.display = (cat === 'ALL' || card.dataset.cat === cat) ? 'block' : 'none';
             });
         }
 
@@ -158,7 +139,8 @@
             document.body.style.overflow = 'hidden';
             const res = await fetch(url);
             const md = await res.text();
-            document.getElementById('post-content').innerHTML = marked.parse(md);
+            const noImgMd = md.replace(/!\[.*?\]\(.*?\)/g, '').replace(/<img.*?>/g, '');
+            document.getElementById('post-content').innerHTML = marked.parse(noImgMd);
         }
 
         function closePost() {
