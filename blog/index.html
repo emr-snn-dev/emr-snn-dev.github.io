@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/style.css">
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.0/marked.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Noto+Sans+JP:wght@400;900&display=swap" rel="stylesheet">
     <style id="security-styles">
@@ -15,43 +16,44 @@
         .markdown-body img { pointer-events: none; -webkit-touch-callout: none; }
     </style>
     <style>
-        /* レイアウト */
         .main-layout { display: grid; grid-template-columns: 1fr 300px; gap: 40px; max-width: 1200px; margin: 0 auto; padding: 120px 20px 60px; }
         .sidebar { position: sticky; top: 100px; height: fit-content; }
         .side-widget { background: rgba(16, 42, 67, 0.5); border: 1px solid #1e3a5f; border-radius: 15px; padding: 20px; margin-bottom: 25px; }
-        .widget-title { font-family: 'Orbitron'; font-size: 0.9rem; color: #00aeef; border-bottom: 1px solid #1e3a5f; padding-bottom: 10px; margin-bottom: 15px; letter-spacing: 2px; }
+        .widget-title { font-family: 'Orbitron'; font-size: 0.8rem; color: #00aeef; border-bottom: 1px solid #1e3a5f; padding-bottom: 10px; margin-bottom: 15px; letter-spacing: 2px; font-weight: 900; }
         
-        /* カテゴリー */
-        .cat-list { list-style: none; padding: 0; margin: 0; }
-        .cat-item { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; color: #94a3b8; font-size: 0.8rem; border-radius: 5px; transition: 0.3s; }
-        .cat-item.active { background: #00aeef; color: white; font-weight: 900; }
-        
+        /* 閲覧数 */
+        .live-counter { background: rgba(255, 0, 0, 0.1); color: #ff4d4d; border: 1px solid #ff4d4d; padding: 5px 12px; border-radius: 5px; font-family: 'Orbitron'; font-size: 0.75rem; font-weight: 900; display: inline-block; margin-bottom: 15px; }
+        .live-dot { height: 8px; width: 8px; background-color: #ff4d4d; border-radius: 50%; display: inline-block; margin-right: 5px; animation: blink 1s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+        /* カレンダー予定 */
+        .event-item { display: flex; gap: 15px; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .event-day { display: block; font-family: 'Orbitron'; font-size: 1.1rem; color: #00aeef; font-weight: 900; line-height: 1; }
+        .event-month { display: block; font-family: 'Orbitron'; font-size: 0.5rem; color: #94a3b8; }
+        .event-title { display: block; font-size: 0.8rem; font-weight: 900; color: white; line-height: 1.3; }
+
+        /* 広告 */
+        .ad-widget { border: 1px solid #00aeef; box-shadow: 0 0 10px rgba(0, 174, 239, 0.2); background: rgba(0, 174, 239, 0.05); }
+        .ad-content img { width: 100%; border-radius: 8px; filter: brightness(0.8); cursor: pointer; transition: 0.3s; }
+
         /* ブログカード */
         .blog-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
         .blog-card { background: rgba(16, 42, 67, 0.4); border-radius: 12px; border: 1px solid #1e3a5f; padding: 25px; cursor: pointer; transition: 0.3s; }
         .blog-card:hover { border-color: #00aeef; transform: translateY(-3px); }
         .category-label { display: inline-block; background: #00aeef; color: white; font-family: 'Orbitron'; font-size: 0.6rem; font-weight: 900; padding: 2px 10px; border-radius: 4px; }
-        .date-text { color: #00aeef; font-family: 'Orbitron'; font-size: 0.8rem; }
+        .cat-list { list-style: none; padding: 0; margin: 0; }
+        .cat-item { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; color: #94a3b8; font-size: 0.8rem; border-radius: 5px; }
+        .cat-item.active { background: #00aeef; color: white; font-weight: 900; }
 
-        /* 写真表示・スライダー */
-        .markdown-body img { display: block; max-width: 90%; max-height: 55vh; width: auto; height: auto; border-radius: 10px; margin: 25px auto; border: 1px solid #1e3a5f; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        /* スライダー & ビューワー */
         .photo-slider { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 10px; padding: 10px 0; scrollbar-width: none; }
         .photo-slider img { flex: 0 0 85%; scroll-snap-align: center; max-height: 50vh; object-fit: contain; background: #050f19; margin: 0; }
-
-        /* ビューワー */
         #blog-viewer { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 15, 25, 0.98); z-index: 10000; overflow-y: auto; backdrop-filter: blur(15px); }
         .viewer-inner { max-width: 850px; margin: 40px auto; background: #0b1d2e; padding: 40px; border-radius: 20px; border: 1px solid #1e3a5f; position: relative; }
         .close-btn { position: sticky; top: 0; float: right; background: #ff4d4d; color: white; border: none; padding: 10px 25px; border-radius: 50px; cursor: pointer; z-index: 10001; font-family: 'Orbitron'; font-weight: 900; }
+        #copy-toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: #00aeef; color: white; padding: 12px 30px; border-radius: 50px; display: none; z-index: 200000; font-weight: 900; animation: fadeInUp 0.3s; }
 
-        /* 共有・ナビ */
-        .share-container { margin: 30px 0; padding-top: 20px; border-top: 1px dashed #1e3a5f; text-align: center; }
-        .share-copy-btn { background: rgba(0, 174, 239, 0.1); border: 1px solid #00aeef; color: #00aeef; padding: 10px 25px; border-radius: 50px; cursor: pointer; font-family: 'Orbitron'; font-weight: 900; font-size: 0.8rem; transition: 0.3s; }
-        .share-copy-btn:hover { background: #00aeef; color: white; }
-        .copy-success { border-color: #00ff88 !important; color: #00ff88 !important; }
-        .post-nav { display: flex; justify-content: space-between; margin-top: 30px; }
-        .nav-btn { background: none; border: 1px solid #00aeef; color: #00aeef; padding: 8px 20px; border-radius: 5px; cursor: pointer; font-family: 'Orbitron'; }
-
-        @media (max-width: 900px) { .main-layout { grid-template-columns: 1fr; padding-top: 80px; } .sidebar { order: -1; } .viewer-inner { margin: 10px; padding: 20px; } }
+        @media (max-width: 900px) { .main-layout { grid-template-columns: 1fr; } .sidebar { order: -1; } }
     </style>
 </head>
 <body oncontextmenu="return false;">
@@ -61,9 +63,20 @@
 
     <main class="main-layout">
         <section class="content-area"><div id="blog-list" class="blog-grid">UPDATING...</div></section>
+        
         <aside class="sidebar">
+            <div class="side-widget ad-widget">
+                <h2 class="widget-title">SPONSOR</h2>
+                <div class="ad-content"><img src="https://via.placeholder.com/300x150/1e3a5f/00aeef?text=SHINOI+ECO-CAR" alt="AD"></div>
+            </div>
+
+            <div class="side-widget">
+                <div class="live-counter"><span class="live-dot"></span>LIVE: <span id="online-count">1</span> USERS</div>
+                <h2 class="widget-title">SCHEDULE</h2>
+                <div id="event-display">LOADING...</div>
+            </div>
+
             <div class="side-widget"><h2 class="widget-title">CATEGORIES</h2><ul class="cat-list" id="category-list"></ul></div>
-            <div class="side-widget"><h2 class="widget-title">STATUS</h2><p id="status-text" style="font-size: 0.8rem; color: #94a3b8;">AUTO REFRESH: ON</p></div>
         </aside>
     </main>
 
@@ -71,31 +84,58 @@
         <div class="viewer-inner">
             <button class="close-btn" onclick="closePost()">CLOSE</button>
             <div id="post-content" class="markdown-body"></div>
-            <div class="share-container"><button class="share-copy-btn" id="copy-btn" onclick="copyURL()">SHARE URL</button></div>
-            <div class="post-nav" id="post-navigation"></div>
+            <div style="text-align:center; margin:30px 0;"><button style="background:none; border:1px solid #00aeef; color:#00aeef; padding:10px 25px; border-radius:50px; cursor:pointer;" onclick="copyURL()" id="copy-btn">SHARE URL</button></div>
+            <div id="post-navigation" style="display:flex; justify-content:space-between;"></div>
         </div>
     </div>
+
+    <div id="copy-toast">URLをコピーしました</div>
 
     <script src="/menu.js"></script>
 
     <script>
+        const REPO = "emr-snn-dev/emr-snn-dev.github.io";
+        const CAL_ID = "373a1a4fda869bb27bafd57df85f2736ac20bb224e6733897f74bc1e221647a@group.calendar.google.com";
+        const API_K = "AQ.Ab8RN6LfDBSjoikeSI1C0D09OaytknKr9IfWrwNvx0dpoz45OA"; // ユーザー提供のキー
+
         let isAuth = false;
         let postsData = [];
-        const REPO = "emr-snn-dev/emr-snn-dev.github.io";
+
+        // 閲覧数
+        function initLiveCounter() {
+            const db = firebase.database();
+            const onlineRef = db.ref('.info/connected');
+            const userRef = db.ref('presence').push();
+            onlineRef.on('value', snap => { if(snap.val()) { userRef.onDisconnect().remove(); userRef.set(true); } });
+            db.ref('presence').on('value', snap => { document.getElementById('online-count').innerText = snap.numChildren(); });
+        }
+
+        // カレンダー自動取得
+        async function fetchCalendar() {
+            try {
+                const now = new Date().toISOString();
+                const url = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(CAL_ID)}/events?key=${API_K}&timeMin=${now}&maxResults=5&singleEvents=true&orderBy=startTime`;
+                const res = await fetch(url);
+                const data = await res.json();
+                const container = document.getElementById('event-display');
+                if (data.items && data.items.length > 0) {
+                    container.innerHTML = data.items.map(item => {
+                        const start = new Date(item.start.dateTime || item.start.date);
+                        return `<div class="event-item"><div><span class="event-day">${start.getDate()}</span><span class="event-month">${start.toLocaleString('en-us',{month:'SHORT'}).toUpperCase()}</span></div><div><span class="event-title">${item.summary}</span></div></div>`;
+                    }).join('');
+                } else { container.innerHTML = '<p style="font-size:0.7rem; color:#94a3b8;">予定なし</p>'; }
+            } catch (e) { document.getElementById('event-display').innerHTML = '<p style="font-size:0.7rem; color:#ff4d4d;">LOAD ERROR</p>'; }
+        }
 
         firebase.auth().onAuthStateChanged((user) => {
             isAuth = !!user;
-            const styleTag = document.getElementById('security-styles');
-            const statusBox = document.getElementById('status-text');
             if (user) {
-                styleTag.innerHTML = `body { background: #0b1d2e; color: white; margin: 0; font-family: 'Noto Sans JP', sans-serif; }`;
+                document.getElementById('security-styles').innerHTML = `body { background: #0b1d2e; color: white; margin: 0; font-family: 'Noto Sans JP'; }`;
                 document.oncontextmenu = null;
-                statusBox.innerHTML = `<span style="color:#00aeef; font-weight:900;">AUTHENTICATED</span>`;
-            } else {
-                document.oncontextmenu = () => { return false; };
-                statusBox.innerHTML = `<span style="color:#ff4d4d;">READ ONLY MODE</span>`;
             }
             initBlog();
+            initLiveCounter();
+            fetchCalendar();
         });
 
         async function initBlog() {
@@ -104,37 +144,25 @@
                 const files = await res.json();
                 const mdFiles = files.filter(f => f.name.endsWith('.md')).reverse();
                 const cats = new Set();
-                
                 postsData = mdFiles.map((f, i) => {
                     const name = f.name.replace('.md', '');
-                    const catMatch = name.match(/\[(.*?)\]/);
-                    const c = catMatch ? catMatch[1] : 'ETC';
+                    const c = name.match(/\[(.*?)\]/)?.[1] || 'ETC';
                     cats.add(c);
-                    const t = name.replace(/^\d+_/, '').replace(/\[.*?\]/, '').replace(/_/g, ' ').trim();
-                    return { url: f.download_url, fileName: f.name, date: name.match(/^(\d{8})/)?.[1] || '', category: c, title: t, id: i };
+                    return { url: f.download_url, fileName: f.name, date: name.match(/^(\d{8})/)?.[1] || '', category: c, title: name.replace(/^\d+_/, '').replace(/\[.*?\]/, '').replace(/_/g, ' ').trim(), id: i };
                 });
-
                 document.getElementById('category-list').innerHTML = `<li class="cat-item active" id="cat-ALL" onclick="filterCategory('ALL', this)">ALL</li>` + 
                     Array.from(cats).map(c => `<li class="cat-item" id="cat-${c}" onclick="filterCategory('${c}', this)">${c}</li>`).join('');
-
                 renderList(postsData);
-                checkParams();
+                const p = new URLSearchParams(window.location.search);
+                if (p.get('post')) { const idx = postsData.findIndex(i => i.fileName === p.get('post')); if(idx !== -1) openPost(idx); }
             } catch (e) { console.error(e); }
-        }
-
-        function checkParams() {
-            const p = new URLSearchParams(window.location.search);
-            const post = p.get('post');
-            const cat = p.get('cat');
-            if (post) { const idx = postsData.findIndex(i => i.fileName === post); if(idx !== -1) openPost(idx); }
-            else if (cat) { const el = document.getElementById(`cat-${cat}`); if(el) filterCategory(cat, el); }
         }
 
         function renderList(data) {
             document.getElementById('blog-list').innerHTML = data.map(p => `
                 <article class="blog-card" data-cat="${p.category}" onclick="openPost(${p.id})">
-                    <span class="date-text" style="font-size:0.7rem;">${p.date}</span> <span class="category-label">${p.category}</span>
-                    <h3 style="font-size:1.1rem; margin-top:8px;">${p.title}</h3>
+                    <span style="color:#00aeef; font-size:0.7rem; font-family:'Orbitron';">${p.date}</span> <span class="category-label">${p.category}</span>
+                    <h3 style="margin:10px 0 0; font-size:1.1rem;">${p.title}</h3>
                 </article>
             `).join('');
         }
@@ -145,14 +173,9 @@
             window.history.replaceState(null, null, `?post=${post.fileName}`);
             document.getElementById('blog-viewer').style.display = 'block';
             document.body.style.overflow = 'hidden';
-
             const res = await fetch(`${post.url}?t=${Date.now()}`);
-            let md = await res.text();
-            let html = marked.parse(md);
-
-            // スライダー変換
-            const temp = document.createElement('div');
-            temp.innerHTML = html;
+            let html = marked.parse(await res.text());
+            const temp = document.createElement('div'); temp.innerHTML = html;
             const imgs = temp.querySelectorAll('img');
             if (imgs.length >= 2) {
                 const s = document.createElement('div'); s.className = 'photo-slider';
@@ -161,31 +184,25 @@
                 imgs.forEach((img, i) => { if(i > 0) img.remove(); });
                 html = temp.innerHTML;
             }
-
-            if (!isAuth) html += `<p style="color:#ff4d4d; border:1px solid #ff4d4d; padding:15px; margin-top:30px; border-radius:10px; text-align:center;">ログインで画像保存が可能</p>`;
             document.getElementById('post-content').innerHTML = html;
-            
             document.getElementById('post-navigation').innerHTML = `
-                <button class="nav-btn" onclick="openPost(${index + 1})" ${!postsData[index+1] ? 'style="display:none"' : ''}>PREV</button>
-                <button class="nav-btn" onclick="openPost(${index - 1})" ${!postsData[index-1] ? 'style="display:none"' : ''}>NEXT</button>
+                <button class="nav-btn" onclick="openPost(${index + 1})" ${!postsData[index+1]?'style="display:none"':''}>PREV</button>
+                <button class="nav-btn" onclick="openPost(${index - 1})" ${!postsData[index-1]?'style="display:none"':''}>NEXT</button>
             `;
         }
 
         function closePost() { window.history.replaceState(null, null, window.location.pathname); document.getElementById('blog-viewer').style.display = 'none'; document.body.style.overflow = 'auto'; }
-
+        
         function filterCategory(cat, el) {
             document.querySelectorAll('.cat-item').forEach(i => i.classList.remove('active')); el.classList.add('active');
             document.querySelectorAll('.blog-card').forEach(c => { c.style.display = (cat === 'ALL' || c.dataset.cat === cat) ? 'block' : 'none'; });
-            window.history.replaceState(null, null, cat === 'ALL' ? window.location.pathname : `?cat=${cat}`);
         }
 
         async function copyURL() {
             await navigator.clipboard.writeText(window.location.href);
-            const b = document.getElementById('copy-btn'); b.innerText = "COPIED!"; b.classList.add('copy-success');
-            setTimeout(() => { b.innerText = "SHARE URL"; b.classList.remove('copy-success'); }, 2000);
+            document.getElementById('copy-toast').style.display = 'block';
+            setTimeout(() => { document.getElementById('copy-toast').style.display = 'none'; }, 2000);
         }
-
-        setInterval(initBlog, 300000);
     </script>
 </body>
 </html>
