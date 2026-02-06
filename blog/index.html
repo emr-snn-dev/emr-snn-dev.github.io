@@ -10,42 +10,43 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.0/marked.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Noto+Sans+JP:wght@400;900&display=swap" rel="stylesheet">
     <style id="security-styles">
-        /* デフォルトはガード状態 */
-        body { 
-            background: #0b1d2e; color: white; margin: 0; 
-            font-family: 'Noto Sans JP', sans-serif;
-            -webkit-user-select: none; user-select: none;
-        }
+        body { background: #0b1d2e; color: white; margin: 0; font-family: 'Noto Sans JP', sans-serif; -webkit-user-select: none; user-select: none; }
         .markdown-body img { pointer-events: none; -webkit-touch-callout: none; }
     </style>
     <style>
         .main-layout { display: grid; grid-template-columns: 1fr 300px; gap: 40px; max-width: 1200px; margin: 0 auto; padding: 120px 20px 60px; }
-        
-        /* サイドバー */
         .sidebar { position: sticky; top: 100px; height: fit-content; }
         .side-widget { background: rgba(16, 42, 67, 0.5); border: 1px solid #1e3a5f; border-radius: 15px; padding: 20px; margin-bottom: 25px; }
         .widget-title { font-family: 'Orbitron'; font-size: 0.9rem; color: #00aeef; border-bottom: 1px solid #1e3a5f; padding-bottom: 10px; margin-bottom: 15px; letter-spacing: 2px; }
         .cat-list { list-style: none; padding: 0; margin: 0; }
         .cat-item { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; color: #94a3b8; font-size: 0.8rem; border-radius: 5px; transition: 0.3s; }
-        .cat-item:hover { background: rgba(0, 174, 239, 0.1); color: #00aeef; }
         .cat-item.active { background: #00aeef; color: white; font-weight: 900; }
 
-        /* ブログカード */
         .blog-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
         .blog-card { background: rgba(16, 42, 67, 0.4); border-radius: 12px; border: 1px solid #1e3a5f; padding: 25px; cursor: pointer; transition: 0.3s; }
         .blog-card:hover { border-color: #00aeef; transform: translateY(-3px); }
         .category-label { background: #00aeef; font-size: 0.65rem; font-family: 'Orbitron'; padding: 3px 12px; border-radius: 4px; color: white; }
         .date-text { color: #00aeef; font-family: 'Orbitron'; font-size: 0.8rem; }
 
-        /* ビューワー */
+        /* 写真スライダー機能 */
+        .photo-slider { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 10px; padding: 10px 0; scrollbar-width: none; }
+        .photo-slider::-webkit-scrollbar { display: none; }
+        .photo-slider img { flex: 0 0 80%; scroll-snap-align: center; border-radius: 10px; object-fit: cover; aspect-ratio: 16/9; border: 1px solid #1e3a5f; }
+
+        /* 前の記事・次の記事ナビゲーション */
+        .post-nav { display: flex; justify-content: space-between; margin-top: 40px; padding-top: 20px; border-top: 1px solid #1e3a5f; }
+        .nav-btn { background: rgba(0, 174, 239, 0.1); border: 1px solid #00aeef; color: #00aeef; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 0.8rem; font-family: 'Orbitron'; transition: 0.3s; text-decoration: none; }
+        .nav-btn:hover { background: #00aeef; color: white; }
+        .nav-btn.disabled { opacity: 0.3; cursor: default; pointer-events: none; }
+
         #blog-viewer { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 15, 25, 0.98); z-index: 10000; overflow-y: auto; backdrop-filter: blur(15px); }
         .viewer-inner { max-width: 800px; margin: 40px auto; background: #0b1d2e; padding: 40px; border-radius: 20px; border: 1px solid #1e3a5f; }
-        .markdown-body img { display: block; max-width: 100%; height: auto; border-radius: 10px; margin: 25px auto; }
         .close-btn { float: right; background: #ff4d4d; color: white; border: none; padding: 10px 25px; border-radius: 50px; cursor: pointer; font-family: 'Orbitron'; font-weight: 900; }
 
         @media (max-width: 900px) {
             .main-layout { grid-template-columns: 1fr; padding-top: 80px; }
             .sidebar { order: -1; position: static; }
+            .photo-slider img { flex: 0 0 95%; }
         }
     </style>
 </head>
@@ -65,7 +66,7 @@
                     <li class="cat-item active" onclick="filterCategory('ALL', this)">ALL POSTS</li>
                 </ul>
             </div>
-            <div class="side-widget" id="auth-info-widget">
+            <div class="side-widget">
                 <h2 class="widget-title">STATUS</h2>
                 <p id="status-text" style="font-size: 0.8rem; color: #94a3b8;">CHECKING...</p>
             </div>
@@ -76,6 +77,7 @@
         <div class="viewer-inner">
             <button class="close-btn" onclick="closePost()">CLOSE</button>
             <div id="post-content" class="markdown-body"></div>
+            <div class="post-nav" id="post-navigation"></div>
         </div>
     </div>
 
@@ -83,9 +85,10 @@
 
     <script>
         let isAuthUser = false;
+        let currentPostIndex = -1;
+        let postsData = [];
         const REPO = "emr-snn-dev/emr-snn-dev.github.io";
 
-        // セキュリティ制御とステータス表示
         firebase.auth().onAuthStateChanged((user) => {
             const styleTag = document.getElementById('security-styles');
             const statusBox = document.getElementById('status-text');
@@ -93,11 +96,11 @@
                 isAuthUser = true;
                 styleTag.innerHTML = `body { background: #0b1d2e; color: white; margin: 0; font-family: 'Noto Sans JP', sans-serif; }`;
                 document.oncontextmenu = null;
-                statusBox.innerHTML = `<span style="color:#00aeef; font-weight:900;">AUTHENTICATED</span><br>${user.displayName || 'MEMBER'}`;
+                statusBox.innerHTML = `<span style="color:#00aeef; font-weight:900;">MEMBER MODE</span>`;
             } else {
                 isAuthUser = false;
-                document.oncontextmenu = () => { alert("ログインするとダウンロードが可能になります。"); return false; };
-                statusBox.innerHTML = `<span style="color:#ff4d4d;">GUEST MODE</span><br>READ ONLY`;
+                document.oncontextmenu = () => { return false; };
+                statusBox.innerHTML = `<span style="color:#ff4d4d;">GUEST MODE</span>`;
             }
             initBlog();
         });
@@ -109,16 +112,15 @@
                 const mdFiles = files.filter(f => f.name.endsWith('.md')).reverse();
                 const categories = new Set();
                 
-                const posts = mdFiles.map(f => {
+                postsData = mdFiles.map((f, index) => {
                     const name = f.name.replace('.md', '');
                     const cat = name.match(/\[(.*?)\]/)?.[1] || 'TECH';
                     const title = name.replace(/^\d+_/, '').replace(/\[.*?\]/, '').replace(/_/g, ' ');
                     const date = name.match(/^(\d{8})/)?.[1] || '';
                     categories.add(cat);
-                    return { url: f.download_url, date, category: cat, title };
+                    return { url: f.download_url, date, category: cat, title, id: index };
                 });
 
-                // カテゴリー生成
                 const catList = document.getElementById('category-list');
                 catList.innerHTML = '<li class="cat-item active" onclick="filterCategory(\'ALL\', this)">ALL POSTS</li>';
                 categories.forEach(c => {
@@ -128,19 +130,20 @@
                     catList.appendChild(li);
                 });
 
-                // リスト表示
-                document.getElementById('blog-list').innerHTML = posts.map(p => `
-                    <article class="blog-card" data-cat="${p.category}" onclick="openPost('${p.url}')">
-                        <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
-                            <span class="date-text">${p.date}</span>
-                            <span class="category-label">${p.category}</span>
-                        </div>
-                        <h3>${p.title}</h3>
-                    </article>
-                `).join('');
-            } catch (e) {
-                document.getElementById('blog-list').innerHTML = "記事の取得に失敗しました。";
-            }
+                renderList(postsData);
+            } catch (e) { console.error(e); }
+        }
+
+        function renderList(data) {
+            document.getElementById('blog-list').innerHTML = data.map(p => `
+                <article class="blog-card" data-cat="${p.category}" onclick="openPost(${p.id})">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                        <span class="date-text">${p.date}</span>
+                        <span class="category-label">${p.category}</span>
+                    </div>
+                    <h3>${p.title}</h3>
+                </article>
+            `).join('');
         }
 
         function filterCategory(cat, el) {
@@ -151,19 +154,44 @@
             });
         }
 
-        async function openPost(url) {
+        async function openPost(index) {
+            currentPostIndex = index;
+            const post = postsData[index];
             document.getElementById('blog-viewer').style.display = 'block';
             document.body.style.overflow = 'hidden';
-            const res = await fetch(url);
-            const md = await res.text();
-            let html = marked.parse(md);
             
-            if (!isAuthUser) {
-                html += `<div style="margin-top:40px; padding:20px; background:rgba(255,77,77,0.1); border:1px solid #ff4d4d; border-radius:10px; color:#ff4d4d; text-align:center; font-weight:bold;">
-                    ログインすると画像の保存が可能になります。
-                </div>`;
+            const res = await fetch(post.url);
+            let md = await res.text();
+            
+            // カルーセル変換: 画像が連続している部分をスライダーにする
+            let html = marked.parse(md);
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
+            const imgs = tempDiv.querySelectorAll('img');
+            
+            if (imgs.length >= 2) {
+                const slider = document.createElement('div');
+                slider.className = 'photo-slider';
+                imgs.forEach(img => slider.appendChild(img.cloneNode(true)));
+                // 最初の画像の場所にスライダーを挿入し、他の画像は消す
+                imgs[0].parentNode.replaceChild(slider, imgs[0]);
+                imgs.forEach((img, i) => { if(i > 0) img.remove(); });
+                html = tempDiv.innerHTML;
             }
+
             document.getElementById('post-content').innerHTML = html;
+            updateNavigation();
+        }
+
+        function updateNavigation() {
+            const nav = document.getElementById('post-navigation');
+            const prev = postsData[currentPostIndex + 1];
+            const next = postsData[currentPostIndex - 1];
+
+            nav.innerHTML = `
+                <button class="nav-btn ${!prev ? 'disabled' : ''}" onclick="openPost(${currentPostIndex + 1})">PREV</button>
+                <button class="nav-btn ${!next ? 'disabled' : ''}" onclick="openPost(${currentPostIndex - 1})">NEXT</button>
+            `;
         }
 
         function closePost() { 
