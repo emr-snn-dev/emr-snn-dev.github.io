@@ -10,121 +10,148 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.0/marked.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Noto+Sans+JP:wght@400;900&display=swap" rel="stylesheet">
     <style>
-        body { background: #0b1d2e; color: white; margin: 0; font-family: 'Noto Sans JP', sans-serif; }
-        .main-layout { display: grid; grid-template-columns: 1fr 300px; gap: 40px; max-width: 1200px; margin: 0 auto; padding: 120px 20px 60px; }
-        
-        /* Sidebar Styles */
-        .sidebar { position: sticky; top: 100px; height: fit-content; }
-        .side-widget { background: rgba(16, 42, 67, 0.5); border: 1px solid #1e3a5f; border-radius: 15px; padding: 20px; margin-bottom: 25px; }
-        .widget-title { font-family: 'Orbitron'; font-size: 0.9rem; color: #00aeef; border-bottom: 1px solid #1e3a5f; padding-bottom: 10px; margin-bottom: 15px; letter-spacing: 2px; }
-        .cat-list { list-style: none; padding: 0; margin: 0; }
-        .cat-item { padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; transition: 0.3s; color: #94a3b8; font-size: 0.9rem; }
-        .cat-item:hover { color: #00aeef; }
-        .cat-item.active { color: #00aeef; font-weight: 900; }
-        
-        /* Blog Card Styles */
-        .blog-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
-        .blog-card { background: rgba(16, 42, 67, 0.4); border-radius: 12px; border: 1px solid #1e3a5f; transition: 0.3s; cursor: pointer; padding: 25px; }
-        .blog-card:hover { border-color: #00aeef; background: rgba(16, 42, 67, 0.6); }
-        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .category-label { background: #00aeef; font-size: 0.65rem; font-family: 'Orbitron'; padding: 2px 10px; border-radius: 4px; font-weight: 900; color: white; }
-        .date-text { font-size: 0.75rem; color: #00aeef; font-family: 'Orbitron'; }
-        .blog-card h3 { font-size: 1.2rem; margin: 0; color: #fff; line-height: 1.4; }
+        /* 基礎設定 & セキュリティ */
+        body { 
+            background: #0b1d2e; color: white; margin: 0; 
+            font-family: 'Noto Sans JP', sans-serif;
+            -webkit-user-select: none; user-select: none;
+            overflow-x: hidden;
+        }
 
-        /* Viewer Styles */
-        #blog-viewer { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 15, 25, 0.98); z-index: 10000; overflow-y: auto; backdrop-filter: blur(15px); }
-        .viewer-inner { max-width: 800px; margin: 40px auto; background: #0b1d2e; padding: 40px; border-radius: 20px; border: 1px solid #1e3a5f; }
-        .markdown-body img { display: block; max-width: 100%; height: auto; border-radius: 10px; margin: 25px auto; border: 1px solid #1e3a5f; }
+        /* 印刷・スクショ対策 */
+        @media print { body { display: none !important; } }
 
-        @media (max-width: 900px) {
-            .main-layout { grid-template-columns: 1fr; padding-top: 80px; }
-            .sidebar { order: -1; position: static; }
+        /* レイアウト */
+        .main-layout { max-width: 1200px; margin: 0 auto; padding: 100px 15px 120px; }
+
+        /* カテゴリー：スマホでは横スクロール、PCではサイドバー風 */
+        .category-container {
+            position: sticky; top: 70px; z-index: 100;
+            background: rgba(11, 29, 46, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 10px 0; margin-bottom: 20px;
+            overflow-x: auto; white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+        .cat-list { display: inline-flex; gap: 10px; list-style: none; padding: 0 5px; margin: 0; }
+        .cat-item { 
+            padding: 6px 15px; border-radius: 20px; border: 1px solid #1e3a5f;
+            color: #94a3b8; font-size: 0.8rem; cursor: pointer; transition: 0.3s;
+        }
+        .cat-item.active { background: #00aeef; color: white; border-color: #00aeef; font-weight: 900; }
+
+        /* ブログカード */
+        .blog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; }
+        .blog-card { 
+            background: rgba(16, 42, 67, 0.4); border-radius: 12px; border: 1px solid #1e3a5f;
+            padding: 20px; cursor: pointer; position: relative; overflow: hidden;
+        }
+        .blog-card h3 { font-size: 1rem; margin: 10px 0 0; line-height: 1.5; color: #fff; }
+        .category-label { background: #00aeef; font-size: 0.6rem; padding: 2px 8px; border-radius: 4px; font-family: 'Orbitron'; }
+        .date-text { color: #00aeef; font-family: 'Orbitron'; font-size: 0.75rem; }
+
+        /* ビューワー */
+        #blog-viewer { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0b1d2e; z-index: 20000; overflow-y: auto; }
+        .viewer-inner { max-width: 800px; margin: 0 auto; padding: 80px 20px 40px; position: relative; }
+        
+        /* 盗撮防止ガードレイヤー */
+        .viewer-inner::before {
+            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: repeating-linear-gradient(45deg, rgba(0,0,0,0) 0px, rgba(0,0,0,0) 2px, rgba(255,255,255,0.01) 3px);
+            pointer-events: none; z-index: 20001;
+        }
+
+        .markdown-body img { 
+            display: block; max-width: 100%; height: auto; border-radius: 8px; margin: 20px auto;
+            pointer-events: none; -webkit-touch-callout: none;
+        }
+
+        .close-btn { 
+            position: fixed; top: 20px; right: 20px; z-index: 21000;
+            background: #ff4d4d; color: white; border: none; padding: 10px 20px; 
+            border-radius: 50px; font-family: 'Orbitron'; font-weight: 900;
+        }
+
+        /* 警告表示 */
+        .auth-lock { 
+            background: rgba(255, 77, 77, 0.1); border: 1px solid #ff4d4d; 
+            color: #ff4d4d; padding: 20px; border-radius: 10px; text-align: center;
+            font-size: 0.9rem; margin-top: 50px;
+        }
+
+        /* スマホ向け調整 */
+        @media (max-width: 600px) {
+            .blog-grid { grid-template-columns: 1fr; }
+            .viewer-inner { padding-top: 70px; }
+            .main-layout { padding-top: 80px; }
         }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;" onselectstart="return false;" onkeydown="return false_keys(event);">
+
     <div id="nav-container"></div>
 
-    <main class="main-layout">
-        <section class="content-area">
-            <div id="blog-list" class="blog-grid">
-                <p>LOADING ARTICLES...</p>
-            </div>
-        </section>
+    <div class="category-container">
+        <ul class="cat-list" id="category-list">
+            <li class="cat-item active" onclick="filterCategory('ALL', this)">ALL</li>
+        </ul>
+    </div>
 
-        <aside class="sidebar">
-            <div class="side-widget">
-                <h2 class="widget-title">CATEGORIES</h2>
-                <ul class="cat-list" id="category-list">
-                    <li class="cat-item active" data-cat="ALL" onclick="filterCategory('ALL', this)">ALL POSTS</li>
-                </ul>
-            </div>
-        </aside>
+    <main class="main-layout">
+        <div id="blog-list" class="blog-grid">記事を読み込み中...</div>
     </main>
 
     <div id="blog-viewer">
+        <button class="close-btn" onclick="closePost()">CLOSE</button>
         <div class="viewer-inner">
-            <button onclick="closePost()" style="float:right; background:#ff4d4d; color:white; border:none; padding:10px 25px; border-radius:50px; cursor:pointer; font-family:'Orbitron'; font-weight:900;">CLOSE</button>
             <div id="post-content" class="markdown-body"></div>
         </div>
     </div>
 
     <script src="/menu.js"></script>
-
     <script>
-        const REPO = "emr-snn-dev/emr-snn-dev.github.io";
-        let allPosts = [];
-
-        async function initBlog() {
-            try {
-                const res = await fetch(`https://api.github.com/repos/${REPO}/contents/blog`);
-                const files = await res.json();
-                const mdFiles = files.filter(f => f.name.endsWith('.md')).reverse();
-                const categories = new Set();
-
-                allPosts = mdFiles.map(f => {
-                    const fileName = f.name.replace('.md', '');
-                    
-                    // カテゴリー抽出: [大会] などを取得
-                    const catMatch = fileName.match(/\[(.*?)\]/);
-                    const category = catMatch ? catMatch[1] : 'TECH';
-                    
-                    // タイトル抽出: 日付と[]を除去
-                    const title = fileName
-                        .replace(/^\d+_/, '')
-                        .replace(/\[.*?\]/, '')
-                        .replace(/_/g, ' ')
-                        .trim();
-
-                    // 日付抽出: 先頭8桁
-                    const dateMatch = fileName.match(/^(\d{8})/);
-                    const date = dateMatch ? dateMatch[1] : '20260206';
-
-                    categories.add(category);
-                    return { url: f.download_url, date, category, title };
-                });
-
-                // カテゴリーリスト生成
-                const catList = document.getElementById('category-list');
-                categories.forEach(cat => {
-                    const li = document.createElement('li');
-                    li.className = 'cat-item';
-                    li.innerText = cat;
-                    li.onclick = () => filterCategory(cat, li);
-                    catList.appendChild(li);
-                });
-
-                renderPosts(allPosts);
-            } catch (e) {
-                document.getElementById('blog-list').innerHTML = "Failed to load articles.";
+        function false_keys(e) {
+            if (e.ctrlKey && (e.keyCode === 67 || e.keyCode === 85 || e.keyCode === 83 || e.keyCode === 80) || e.keyCode === 123) {
+                alert("セキュリティ保護のため禁止されています。盗撮厳禁。");
+                return false;
             }
         }
 
-        function renderPosts(data) {
-            const list = document.getElementById('blog-list');
-            list.innerHTML = data.map(p => `
+        const REPO = "emr-snn-dev/emr-snn-dev.github.io";
+        let isUserAuth = false;
+
+        firebase.auth().onAuthStateChanged((user) => {
+            isUserAuth = !!user;
+            initBlog();
+        });
+
+        async function initBlog() {
+            const res = await fetch(`https://api.github.com/repos/${REPO}/contents/blog`);
+            const files = await res.json();
+            const mdFiles = files.filter(f => f.name.endsWith('.md')).reverse();
+            const cats = new Set();
+            
+            const posts = mdFiles.map(f => {
+                const name = f.name.replace('.md', '');
+                const c = name.match(/\[(.*?)\]/)?.[1] || 'TECH';
+                const t = name.replace(/^\d+_/, '').replace(/\[.*?\]/, '').replace(/_/g, ' ');
+                const d = name.match(/^(\d{8})/)?.[1] || '';
+                cats.add(c);
+                return { url: f.download_url, date: d, category: c, title: t };
+            });
+
+            const cl = document.getElementById('category-list');
+            cl.innerHTML = '<li class="cat-item active" onclick="filterCategory(\'ALL\', this)">ALL</li>';
+            cats.forEach(c => {
+                const li = document.createElement('li');
+                li.className = 'cat-item'; li.innerText = c;
+                li.onclick = () => filterCategory(c, li);
+                cl.appendChild(li);
+            });
+
+            document.getElementById('blog-list').innerHTML = posts.map(p => `
                 <article class="blog-card" data-cat="${p.category}" onclick="openPost('${p.url}')">
-                    <div class="card-header">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
                         <span class="date-text">${p.date}</span>
                         <span class="category-label">${p.category}</span>
                     </div>
@@ -136,30 +163,30 @@
         function filterCategory(cat, el) {
             document.querySelectorAll('.cat-item').forEach(i => i.classList.remove('active'));
             el.classList.add('active');
-            
             document.querySelectorAll('.blog-card').forEach(card => {
-                if (cat === 'ALL' || card.getAttribute('data-cat') === cat) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
+                card.style.display = (cat === 'ALL' || card.dataset.cat === cat) ? 'block' : 'none';
             });
         }
 
         async function openPost(url) {
-            document.getElementById('blog-viewer').style.display = 'block';
+            const v = document.getElementById('blog-viewer');
+            v.style.display = 'block';
             document.body.style.overflow = 'hidden';
+            const area = document.getElementById('post-content');
+            
+            if (!isUserAuth) {
+                area.innerHTML = '<div class="auth-lock">部員専用です。ログインしてください。盗撮・保存は厳禁です。</div>';
+                return;
+            }
             const res = await fetch(url);
             const md = await res.text();
-            document.getElementById('post-content').innerHTML = marked.parse(md);
+            area.innerHTML = marked.parse(md);
         }
 
-        function closePost() {
-            document.getElementById('blog-viewer').style.display = 'none';
+        function closePost() { 
+            document.getElementById('blog-viewer').style.display = 'none'; 
             document.body.style.overflow = 'auto';
         }
-
-        window.onload = initBlog;
     </script>
 </body>
 </html>
