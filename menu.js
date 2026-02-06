@@ -1,5 +1,5 @@
 (function() {
-    // 1. Firebase Configuration (完全版)
+    // 1. Firebase Configuration
     const firebaseConfig = {
         apiKey: "AIzaSyBwT-Df-5F4Wdyg-nJfg1OPolTMNUN0srg",
         authDomain: "shinonoi-gizyutu.firebaseapp.com",
@@ -33,6 +33,7 @@
                     <li><a href="/index.html">HOME</a></li>
                     <li><a href="/about.html">ABOUT</a></li>
                     <li><a href="/portfolio.html">PORTFOLIO</a></li>
+                    <li><a href="/blog/index.html">BLOG</a></li>
                     <li><a href="/team/index.html">MEMBER</a></li>
                     <li style="position:relative;">
                         <a href="/activity-log.html">LOG</a>
@@ -45,10 +46,11 @@
                 <div style="display:inline-flex; gap:12px; padding:15px 20px; align-items:center; height:100%; box-sizing:border-box;">
                     <a href="/index.html" class="m-chip" style="display:inline-block; padding:10px 24px; background:#f1f5f9; color:#475569; border-radius:20px; text-decoration:none; font-weight:900; font-size:14px; border:1px solid #e2e8f0;">Home</a>
                     <a href="/about.html" class="m-chip" style="display:inline-block; padding:10px 24px; background:#f1f5f9; color:#475569; border-radius:20px; text-decoration:none; font-weight:900; font-size:14px; border:1px solid #e2e8f0;">About</a>
+                    <a href="/blog/index.html" class="m-chip" style="display:inline-block; padding:10px 24px; background:#00aeef; color:#fff; border-radius:20px; text-decoration:none; font-weight:900; font-size:14px; border:1px solid #00aeef;">Blog</a>
                     <a href="/portfolio.html" class="m-chip" style="display:inline-block; padding:10px 24px; background:#f1f5f9; color:#475569; border-radius:20px; text-decoration:none; font-weight:900; font-size:14px; border:1px solid #e2e8f0;">Portfolio</a>
                     <a href="/team/index.html" class="m-chip" style="display:inline-block; padding:10px 24px; background:#f1f5f9; color:#475569; border-radius:20px; text-decoration:none; font-weight:900; font-size:14px; border:1px solid #e2e8f0;">Member</a>
                     <a href="/activity-log.html" class="m-chip" style="display:inline-block; padding:10px 24px; background:#f1f5f9; color:#475569; border-radius:20px; text-decoration:none; font-weight:900; font-size:14px; border:1px solid #e2e8f0;">Log</a>
-                    <a href="/downloads.html" class="m-chip" style="display:inline-block; padding:10px 24px; background:#f1f5f9; color:#475569; border-radius:20px; text-decoration:none; font-weight:900; font-size:14px; border:1px solid #e2e8f0;">download</a>
+                    <a href="/downloads.html" class="m-chip" style="display:inline-block; padding:10px 24px; background:#f1f5f9; color:#475569; border-radius:20px; text-decoration:none; font-weight:900; font-size:14px; border:1px solid #e2e8f0;">Download</a>
                 </div>
             </div>`;
         
@@ -60,13 +62,11 @@
         const handleResize = () => {
             const width = window.innerWidth;
             if (width <= 768) {
-                // Smartphone Mode
                 if (lineMenu) lineMenu.style.display = 'block';
                 if (toggleBtn) toggleBtn.style.display = 'none';
                 if (navMenu) navMenu.style.display = 'none';
                 document.body.style.paddingBottom = '75px';
             } else {
-                // PC Mode
                 if (lineMenu) lineMenu.style.display = 'none';
                 if (toggleBtn) toggleBtn.style.display = 'none'; 
                 if (navMenu) {
@@ -81,7 +81,7 @@
         window.addEventListener('resize', handleResize);
         handleResize();
 
-        // 5. Secret Gate Logic (Hidden Command)
+        // 5. Secret Gate Logic
         let tapCount = 0;
         let tapTimer;
         const gate = document.getElementById('secret-gate');
@@ -108,7 +108,6 @@
         const statusText = document.getElementById('log-status-text');
 
         if (user) {
-            // Logged In State
             const name = user.displayName || "MEMBER";
             const userDisplay = `<span style="color:#00aeef; font-weight:900; border-left:2px solid #00aeef; padding-left:10px;">${name}</span>`;
             
@@ -119,7 +118,6 @@
             createWatermark(name);
             if (document.getElementById('auto-gallery')) loadGithubImages(true);
         } else {
-            // Guest State
             const urlParams = new URLSearchParams(window.location.search);
             const isSecret = (urlParams.get('code') === 'SNN_2026');
             
@@ -137,7 +135,7 @@
         }
     });
 
-    // 7. Github Contents Loader (Activity Log)
+    // 7. Github Contents Loader
     async function loadGithubImages(isHighRes) {
         const githubEndpoint = `https://api.github.com/repos/emr-snn-dev/emr-snn-dev.github.io/contents/images`;
         try {
@@ -214,5 +212,5 @@
         }
     });
 
-    console.log("SHINONO-I Navigation System v2026.1 Initialized.");
+    console.log("SHINONO-I Navigation System v2026.2.5 Fully Initialized.");
 })();
