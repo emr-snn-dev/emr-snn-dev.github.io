@@ -7,47 +7,49 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Noto+Sans+JP:wght@400;900&display=swap" rel="stylesheet">
     <style>
-        body { background: #f8fafc; color: #1e293b; margin: 0; font-family: 'Noto Sans JP', sans-serif; }
-        .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+        body { background: #f8fafc; color: #1e293b; margin: 0; font-family: 'Noto Sans JP', sans-serif; display: flex; flex-direction: column; min-height: 100vh; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; flex: 1; }
 
-        .translate-wrapper { text-align: right; padding: 15px; background: #fff; border-bottom: 1px solid #e2e8f0; }
-        #google_translate_element { display: inline-block; }
-
-        /* もてぎ大会カウントダウン */
+        /* カウントダウン */
         .countdown-area {
             background: #0f172a; color: white; padding: 50px 20px; text-align: center;
             border-bottom: 5px solid #00aeef;
         }
         .countdown-label { font-family: 'Orbitron'; font-size: 0.85rem; color: #00aeef; letter-spacing: 4px; margin-bottom: 15px; display: block; }
         .timer-display { font-family: 'Orbitron'; font-size: 3.5rem; font-weight: 900; letter-spacing: 2px; }
-        .timer-unit { font-size: 0.9rem; margin-right: 15px; color: #94a3b8; letter-spacing: 1px; }
+        .timer-unit { font-size: 0.9rem; margin-right: 15px; color: #94a3b8; }
 
         header { text-align: center; padding: 60px 20px; background: #fff; }
         header h1 { font-family: 'Orbitron'; font-size: 2.5rem; margin: 0; letter-spacing: 8px; color: #0f172a; }
         .sub-header { color: #00aeef; font-weight: 900; letter-spacing: 4px; margin-top: 5px; font-size: 0.9rem; }
 
-        .category-section { margin-top: 60px; display: none; }
+        /* カテゴリー */
+        .category-section { margin-top: 60px; }
         .category-header { border-bottom: 3px solid #0f172a; margin-bottom: 30px; display: flex; align-items: baseline; gap: 15px; }
         .category-header h2 { font-size: 1.5rem; margin: 0; color: #0f172a; padding-bottom: 5px; }
-        .category-header span { font-family: 'Orbitron'; font-size: 0.75rem; color: #94a3b8; letter-spacing: 2px; }
 
-        .sponsor-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+        .sponsor-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin-bottom: 40px; }
         .sponsor-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 25px; transition: 0.4s; display: flex; flex-direction: column; }
         .sponsor-card:hover { transform: translateY(-5px); border-color: #00aeef; box-shadow: 0 15px 30px rgba(0,0,0,0.05); }
+        
+        /* サンプル用 */
+        .sample-card { border: 2px dashed #cbd5e1; background: #f1f5f9; opacity: 0.7; }
+        .sample-badge { background: #64748b; color: white; font-size: 0.6rem; padding: 2px 8px; border-radius: 4px; margin-bottom: 10px; width: fit-content; }
+
         .partner-name { font-weight: 900; font-size: 1.2rem; color: #0f172a; margin-bottom: 15px; display: block; }
         .partner-desc { font-size: 0.85rem; color: #64748b; line-height: 1.8; border-top: 1px solid #f1f5f9; padding-top: 15px; flex-grow: 1; }
+        .web-link { display: inline-block; margin-top: 20px; padding: 10px 15px; background: #f1f5f9; color: #475569; text-decoration: none; border-radius: 6px; font-size: 0.75rem; font-weight: 900; text-align: center; border: 1px solid #e2e8f0; }
 
-        .web-link { display: inline-block; margin-top: 20px; padding: 10px 15px; background: #f1f5f9; color: #475569; text-decoration: none; border-radius: 6px; font-size: 0.75rem; font-weight: 900; text-align: center; transition: 0.3s; border: 1px solid #e2e8f0; }
-        .web-link:hover { background: #00aeef; color: #fff; border-color: #00aeef; }
+        /* フッターエリア（翻訳ボタン） */
+        footer { background: #fff; border-top: 1px solid #e2e8f0; padding: 40px 20px; text-align: center; margin-top: 80px; }
+        #google_translate_element { margin-bottom: 20px; }
 
-        .sys-ver { position: fixed; bottom: 12px; right: 20px; font-family: 'Orbitron'; font-size: 0.6rem; color: #cbd5e1; }
+        .sys-ver { position: fixed; bottom: 12px; right: 20px; font-family: 'Orbitron'; font-size: 0.6rem; color: #cbd5e1; z-index: 100; }
     </style>
 </head>
 <body>
 
-<div class="translate-wrapper">
-    <div id="google_translate_element"></div>
-</div>
+<div id="nav-container"></div>
 
 <div class="countdown-area">
     <span class="countdown-label">COUNTDOWN TO MOTEGI 05.30</span>
@@ -58,10 +60,6 @@
     <p style="color: #64748b; font-size: 0.75rem; margin-top: 15px; font-weight: 900;">2026年5月30日 もてぎ大会まで</p>
 </div>
 
-<div class="sys-ver">v4.5.0 / MOTEGI-FINAL</div>
-
-<div id="nav-container"></div>
-
 <header>
     <h1>PARTNERS</h1>
     <div class="sub-header">挑戦を支えるパートナーシップ</div>
@@ -69,66 +67,75 @@
 
 <main class="container">
     <section id="sec-logistics" class="category-section">
-        <div class="category-header"><h2>輸送・移動協力</h2><span>LOGISTICS</span></div>
-        <div class="sponsor-grid"></div>
+        <div class="category-header"><h2>輸送・移動協力</h2></div>
+        <div class="sponsor-grid" id="grid-logistics">
+            <div class="sponsor-card sample-card">
+                <div class="sample-badge">SAMPLE</div>
+                <span class="partner-name">サンプル運送株式会社</span>
+                <div class="partner-desc">もてぎ大会への機材輸送サポートの表示例です。</div>
+                <a href="#" class="web-link">ウェブサイトを見る</a>
+            </div>
+        </div>
     </section>
+
     <section id="sec-material" class="category-section">
-        <div class="category-header"><h2>資材・物品提供</h2><span>MATERIAL</span></div>
-        <div class="sponsor-grid"></div>
-    </section>
-    <section id="sec-tech" class="category-section">
-        <div class="category-header"><h2>技術指導・メンター</h2><span>TECHNOLOGY</span></div>
-        <div class="sponsor-grid"></div>
-    </section>
-    <section id="sec-other" class="category-section">
-        <div class="category-header"><h2>その他ご支援</h2><span>OTHERS</span></div>
-        <div class="sponsor-grid"></div>
+        <div class="category-header"><h2>資材・物品提供</h2></div>
+        <div class="sponsor-grid" id="grid-material">
+            <div class="sponsor-card sample-card">
+                <div class="sample-badge">SAMPLE</div>
+                <span class="partner-name">サンプルメタル工業</span>
+                <div class="partner-desc">アルミ材やボルト等の資材提供の表示例です。</div>
+            </div>
+        </div>
     </section>
 </main>
 
-<script type="text/javascript">
+<footer>
+    <div id="google_translate_element"></div>
+    <p style="font-size: 0.7rem; color: #94a3b8;">&copy; 篠ノ井技術クラブ - SHINONOI TECH CLUB</p>
+</footer>
+
+<div class="sys-ver">v4.7.0 / FOOTER-TRANS</div>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="menu.js"></script> <script type="text/javascript">
 function googleTranslateElementInit() {
   new google.translate.TranslateElement({pageLanguage: 'ja', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
 }
 </script>
 <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-<script src="menu.js"></script>
-
 <script>
-// カウントダウン：2026年5月30日
+// カウントダウン
 function updateTimer() {
     const target = new Date("May 30, 2026 00:00:00").getTime();
     const now = new Date().getTime();
     const diff = target - now;
-
-    if (diff <= 0) {
-        document.getElementById("timer").innerHTML = "RACE DAY";
-        return;
-    }
-
-    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-
+    const d = Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
+    const h = Math.max(0, Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
     document.getElementById("days").innerText = d.toString().padStart(2, '0');
     document.getElementById("hours").innerText = h.toString().padStart(2, '0');
 }
-setInterval(updateTimer, 1000);
-updateTimer();
+setInterval(updateTimer, 1000); updateTimer();
 
-// スポンサー取得
-const USER_ID = "emr-snn-dev"; 
-const REPO_ID = "emr-snn-dev.github.io";
+// スポンサー読み込み
+const USER = "emr-snn-dev"; 
+const REPO = "emr-snn-dev.github.io";
 
 async function loadSponsors() {
     try {
-        const response = await fetch(`https://api.github.com/repos/${USER_ID}/${REPO_ID}/contents/sponsors`);
+        const response = await fetch(`https://api.github.com/repos/${USER}/${REPO}/contents/sponsors`);
         if (!response.ok) return;
         const files = await response.json();
         
+        const logGrid = document.getElementById('grid-logistics');
+        const matGrid = document.getElementById('grid-material');
+        let hasRealData = false;
+
         for (const file of files) {
             if (!file.name.endsWith('.md')) continue;
+            if (!hasRealData) { logGrid.innerHTML = ""; matGrid.innerHTML = ""; hasRealData = true; }
+
             const raw = await fetch(file.download_url).then(r => r.text());
             const url = raw.match(/https?:\/\/[\w/:%#\$&\?\(\)~\.=\+\-]+/g);
             const webUrl = url ? url[0] : null;
@@ -136,17 +143,12 @@ async function loadSponsors() {
             const fileName = file.name.replace('.md', '');
             let cat = "その他"; let name = fileName;
             if (fileName.includes('-')) { const p = fileName.split('-'); cat = p[0]; name = p[1]; }
+            
             const btn = webUrl ? `<a href="${webUrl}" target="_blank" class="web-link">ウェブサイトを見る</a>` : "";
             const html = `<div class="sponsor-card"><span class="partner-name">${name}</span><div class="partner-desc">${marked.parse(desc)}</div>${btn}</div>`;
 
-            let tid = "";
-            if (cat.includes("輸送") || cat.includes("移動")) tid = "sec-logistics";
-            else if (cat.includes("資材") || cat.includes("物品")) tid = "sec-material";
-            else if (cat.includes("技術") || cat.includes("指導")) tid = "sec-tech";
-            else tid = "sec-other";
-
-            const sec = document.getElementById(tid);
-            if (sec) { sec.querySelector('.sponsor-grid').insertAdjacentHTML('beforeend', html); sec.style.display = 'block'; }
+            if (cat.includes("輸送") || cat.includes("移動")) logGrid.insertAdjacentHTML('beforeend', html);
+            else matGrid.insertAdjacentHTML('beforeend', html);
         }
     } catch (e) {}
 }
