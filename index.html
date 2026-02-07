@@ -7,119 +7,115 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Noto+Sans+JP:wght@400;900&display=swap" rel="stylesheet">
     <style>
-        /* --- サイバーパンク・ダークテーマ --- */
-        body { background: #050a0f; color: #fff; margin: 0; font-family: 'Noto Sans JP', sans-serif; overflow-x: hidden; }
-        
-        /* 背景グリッド */
-        body::before {
-            content: ""; position: fixed; inset: 0;
-            background-image: linear-gradient(rgba(0, 174, 239, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 174, 239, 0.05) 1px, transparent 1px);
-            background-size: 30px 30px; z-index: -1;
-        }
-
+        /* クリーン・テック・デザイン（白背景） */
+        body { background: #f8fafc; color: #1e293b; margin: 0; font-family: 'Noto Sans JP', sans-serif; }
         .container { max-width: 900px; margin: 0 auto; padding: 0 20px; }
 
-        /* --- 【緊急】アラートデザイン（圧倒的インパクト） --- */
+        /* 緊急アラート（最上部・赤） */
         #emergency-wrap:not(:empty) { margin-top: 20px; }
         .emergency-banner {
-            background: rgba(255, 0, 0, 0.15);
-            border: 2px solid #ff0000;
-            padding: 25px;
-            border-radius: 4px;
-            position: relative;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
-            animation: alert-glow 2s infinite;
+            background: #fff5f5; border: 2px solid #f87171; border-radius: 12px;
+            padding: 25px; color: #991b1b; box-shadow: 0 10px 20px rgba(248, 113, 113, 0.1);
+            animation: alert-in 0.5s ease-out;
         }
-        @keyframes alert-glow { 0%, 100% { border-color: #ff0000; } 50% { border-color: #ff8888; box-shadow: 0 0 40px rgba(255, 0, 0, 0.5); } }
-        
-        .emergency-banner h3 { 
-            color: #ff0000; font-family: 'Orbitron'; margin: 0 0 10px; font-size: 1.4rem; 
-            display: flex; align-items: center; letter-spacing: 3px;
+        @keyframes alert-in { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        .emergency-banner h3 { margin: 0 0 10px; font-family: 'Orbitron'; color: #ef4444; display: flex; align-items: center; letter-spacing: 2px; }
+        .emergency-banner h3::before { content: "⚠️ EMERGENCY"; margin-right: 15px; }
+
+        /* メインヘッダー */
+        header { text-align: center; padding: 100px 20px 60px; background: white; border-bottom: 1px solid #e2e8f0; }
+        header h1 { font-family: 'Orbitron'; font-size: 3.5rem; margin: 0; letter-spacing: 10px; color: #0f172a; }
+        header p { color: #00aeef; font-weight: 900; letter-spacing: 6px; margin-top: 10px; font-size: 1.1rem; }
+
+        /* フィルターエリア */
+        .filter-area { display: flex; gap: 10px; margin: 50px 0 20px; align-items: center; overflow-x: auto; padding-bottom: 5px; }
+        .filter-btn {
+            background: white; border: 1px solid #e2e8f0; color: #64748b;
+            padding: 8px 22px; border-radius: 25px; cursor: pointer; font-family: 'Orbitron'; font-size: 0.8rem; transition: 0.3s;
         }
-        .emergency-banner h3::before { content: "⚠️ SYSTEM CRITICAL"; margin-right: 15px; animation: blink 0.8s infinite; }
-        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.2; } }
+        .filter-btn.active { background: #00aeef; color: white; border-color: #00aeef; box-shadow: 0 4px 15px rgba(0, 174, 239, 0.3); }
 
-        /* --- 共通カード（透過パネル） --- */
-        .glass-panel {
-            background: rgba(16, 42, 67, 0.6);
-            border: 1px solid rgba(0, 174, 239, 0.3);
-            backdrop-filter: blur(10px);
-            padding: 30px;
-            margin-bottom: 30px;
-            position: relative;
+        /* セクション見出し */
+        h2 { font-family: 'Orbitron'; font-size: 1.4rem; color: #0f172a; margin: 40px 0 25px; border-left: 6px solid #00aeef; padding-left: 15px; letter-spacing: 3px; }
+
+        /* ニュースカード（最新表示） */
+        .news-card {
+            background: white; border: 1px solid #e2e8f0; border-radius: 12px;
+            padding: 30px; margin-bottom: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            transition: 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
-        .glass-panel::before {
-            content: ""; position: absolute; top: 0; left: 0; width: 15px; height: 15px;
-            border-top: 2px solid #00aeef; border-left: 2px solid #00aeef;
+        .news-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.06); border-color: #00aeef; }
+        .news-card h4 { font-family: 'Orbitron'; color: #00aeef; margin: 0 0 10px; font-size: 0.9rem; }
+
+        /* 全履歴への誘導リンク */
+        .more-news-btn {
+            display: block; text-align: center; padding: 18px; background: #f1f5f9;
+            border: 2px dashed #cbd5e1; border-radius: 10px; color: #64748b;
+            text-decoration: none; font-weight: 900; margin-top: 30px; transition: 0.3s;
+        }
+        .more-news-btn:hover { background: #e2e8f0; color: #0f172a; border-style: solid; }
+
+        /* バージョン表示（右下固定） */
+        .sys-ver {
+            position: fixed; bottom: 15px; right: 20px; font-family: 'Orbitron';
+            font-size: 0.7rem; color: #94a3b8; background: rgba(255,255,255,0.9);
+            padding: 4px 10px; border-radius: 6px; border: 1px solid #e2e8f0; z-index: 1000;
         }
 
-        /* --- ニュース & 履歴の仕分け --- */
-        h2 { font-family: 'Orbitron'; font-size: 1.6rem; color: #00aeef; letter-spacing: 5px; margin: 60px 0 20px; display: flex; align-items: center; }
-        h2::after { content: ""; flex-grow: 1; height: 1px; background: linear-gradient(90deg, #00aeef, transparent); margin-left: 20px; }
-
-        .news-card { border-left: 4px solid #00aeef; margin-bottom: 15px; background: rgba(0, 174, 239, 0.05); padding: 20px; }
-        .news-card h4 { color: #00aeef; font-family: 'Orbitron'; margin: 0 0 5px; font-size: 0.9rem; }
-
-        .log-row { 
-            display: flex; padding: 12px; border-bottom: 1px solid rgba(0, 174, 239, 0.1); 
-            font-size: 0.9rem; color: #94a3b8; transition: 0.3s;
-        }
-        .log-row:hover { background: rgba(0, 174, 239, 0.1); color: #fff; }
-        .log-date { font-family: 'Orbitron'; width: 120px; color: #5c7080; }
-
-        /* --- ボタン・ヘッダー --- */
+        /* 共通ボタン */
         .btn {
-            border: 1px solid #00aeef; color: #00aeef; padding: 12px 30px; text-decoration: none;
-            font-family: 'Orbitron'; font-weight: 900; display: inline-block; transition: 0.4s;
+            display: inline-block; background: #0f172a; color: white; padding: 12px 35px;
+            text-decoration: none; border-radius: 8px; font-weight: 900; transition: 0.3s;
         }
-        .btn:hover { background: #00aeef; color: #fff; box-shadow: 0 0 20px #00aeef; }
+        .btn:hover { background: #00aeef; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 174, 239, 0.4); }
 
-        header { text-align: center; padding: 100px 20px; }
-        header h1 { font-family: 'Orbitron'; font-size: clamp(3rem, 10vw, 5rem); margin: 0; letter-spacing: 15px; text-shadow: 0 0 25px rgba(0, 174, 239, 0.6); }
-
-        #loading { position: fixed; inset: 0; background: #050a0f; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: 0.8s; }
+        #loading { position: fixed; inset: 0; background: white; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: 0.6s; }
     </style>
 </head>
 <body>
 
-<div id="loading"><h1 style="font-family:'Orbitron'; color:#00aeef;">SYSTEM LOADING...</h1></div>
+<div id="loading"><h1 style="font-family:'Orbitron'; color:#00aeef; letter-spacing:10px;">BOOTING</h1></div>
+<div class="sys-ver">SYS_VER 2.8.5</div>
+
+<div id="nav-container"></div>
 
 <header>
     <h1>SHINONOI</h1>
-    <p style="letter-spacing: 8px; color: #00aeef; font-weight: 900; margin-top: 10px;">篠ノ井技術クラブ</p>
+    <p>篠ノ井技術クラブ</p>
 </header>
 
 <main class="container">
     <div id="emergency-wrap"></div>
 
     <section>
-        <h2>LATEST NEWS</h2>
-        <div id="news-list"></div>
-    </section>
+        <div class="filter-area">
+            <span style="font-family:'Orbitron'; font-weight:900; font-size:0.75rem; color:#94a3b8; margin-right:10px;">YEAR FILTER:</span>
+            <button class="filter-btn active" onclick="updateFilter('all', this)">ALL</button>
+            <button class="filter-btn" onclick="updateFilter('2026', this)">2026</button>
+            <button class="filter-btn" onclick="updateFilter('2025', this)">2025</button>
+        </div>
 
-    <section>
-        <h2>UPDATE LOGS</h2>
-        <div class="glass-panel" id="log-list" style="padding: 10px 20px;"></div>
+        <h2>LATEST NOTICES</h2>
+        <div id="news-list">取得中...</div>
+        
+        <a href="news.html" class="more-news-btn">全ての更新履歴・お知らせを見る</a>
     </section>
 
     <section style="margin-top: 80px;">
-        <div class="glass-panel">
-            <h2>ABOUT US</h2>
-            <p style="font-size: 1.2rem; line-height: 1.8; font-weight: 800;">
-                僕たちは、エコカー制作や大会に挑む中学生チームです。
+        <div class="news-card" style="border-left: 6px solid #0f172a;">
+            <h2 style="border:none; margin:0; padding:0; font-size:1.6rem;">MISSION</h2>
+            <p style="font-size: 1.15rem; line-height: 1.8; color: #334155; font-weight: 500;">
+                効率と技術の極限へ。僕たちは中学生チームとしてエコカー開発に挑み、もてぎ全国大会などの舞台で結果を残すために活動しています。
             </p>
-            <p style="color: #94a3b8; margin-bottom: 25px;">
-                「もてぎ大会」や「エコマラソン長野」に向け、日々マシンを磨いています。
-            </p>
-            <a href="about.html" class="btn">VIEW DETAIL</a>
+            <a href="about.html" class="btn">ABOUT THE TEAM</a>
         </div>
     </section>
 
     <div id="dynamic-banner"></div>
 </main>
 
-<footer style="text-align: center; padding: 100px 20px; color: #2a3b4c; font-family: 'Orbitron'; font-size: 0.8rem; letter-spacing: 3px;">
-    &copy; 2026 SHINOI TECHNOLOGY CLUB. ALL RIGHTS RESERVED.
+<footer style="text-align: center; padding: 100px 20px; color: #94a3b8; font-size: 0.8rem; font-family: 'Orbitron';">
+    &copy; 2026 SHINONOI TECHNOLOGY CLUB.
 </footer>
 
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
@@ -131,87 +127,99 @@
 <script>
     const GITHUB_REPO = "emr-snn-dev/emr-snn-dev.github.io";
     const ADMIN_EMAIL = "YOUR_EMAIL@example.com"; 
+    let newsFiles = [];
 
-    // Firebase初期化済みと想定
+    // --- 1. Firebase メンテナンス & ログイン監視 ---
     const db = firebase.database();
     firebase.auth().onAuthStateChanged((user) => {
         const isAdmin = user && user.email === ADMIN_EMAIL;
+        
+        // メンテナンスモード自動転送
         db.ref('config/maintenanceMode').on('value', (snap) => {
-            if (snap.val() === true && !isAdmin) window.location.href = 'maintenance.html';
+            if (snap.val() === true && !isAdmin) {
+                window.location.href = 'maintenance.html';
+            }
         });
+
+        // ログインバナー
         if (user) {
             document.getElementById('dynamic-banner').innerHTML = `
-                <div class="glass-panel" style="border-color:#00aeef; margin-top:50px;">
-                    <h2>MEMBER ACCESS</h2>
-                    <p>AUTHENTICATED: ${user.email}</p>
-                    <a href="/team/index.html" class="btn">DASHBOARD</a>
+                <div class="news-card" style="border-color:#00aeef; margin-top:50px;">
+                    <h4 style="color:#00aeef;">AUTHENTICATED MEMBER</h4>
+                    <p>USER: ${user.email}</p>
+                    <a href="/team/index.html" class="btn" style="background:#00aeef;">DASHBOARD</a>
                 </div>`;
         }
     });
 
+    // --- 2. ローディング解除 ---
     window.addEventListener('load', () => {
-        setTimeout(() => { document.getElementById('loading').style.opacity = '0'; }, 500);
-        setTimeout(() => { document.getElementById('loading').style.display = 'none'; }, 1300);
+        setTimeout(() => { document.getElementById('loading').style.opacity = '0'; }, 300);
+        setTimeout(() => { document.getElementById('loading').style.display = 'none'; }, 900);
     });
 
-    async function loadNotices() {
+    // --- 3. フォルダ同期コンテンツ取得 ---
+    async function initSite() {
         const cache = `?t=${Date.now()}`;
 
-        // 【緊急】notices/emergency.md の取得
+        // A. 緊急 (notices/emergency.md)
         try {
-            const res = await fetch(`https://raw.githubusercontent.com/${GITHUB_REPO}/main/notices/emergency.md${cache}`);
-            if (res.ok) {
-                const text = await res.text();
+            const emRes = await fetch(`https://raw.githubusercontent.com/${GITHUB_REPO}/main/notices/emergency.md${cache}`);
+            if (emRes.ok) {
+                const text = await emRes.text();
                 if (text.trim()) {
                     document.getElementById('emergency-wrap').innerHTML = `
                         <div class="emergency-banner">
-                            <h3>EMERGENCY</h3>
-                            <div style="color:#fff;">${marked.parse(text)}</div>
+                            <h3>緊急お知らせ</h3>
+                            ${marked.parse(text)}
                         </div>`;
                 }
             }
-        } catch (e) {}
+        } catch(e) {}
 
-        // 【ニュース & 履歴】news/ フォルダの取得
+        // B. ニュース一覧取得 (news/ フォルダ)
         try {
-            const res = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/news`);
-            const files = await res.json();
-            files.sort((a, b) => b.name.localeCompare(a.name)); // 降順
-
-            const newsBox = document.getElementById('news-list');
-            const logBox = document.getElementById('log-list');
-            newsBox.innerHTML = "";
-            logBox.innerHTML = "";
-
-            for (let i = 0; i < files.length; i++) {
-                const f = files[i];
-                if (!f.name.endsWith('.md')) continue;
-
-                if (i < 3) {
-                    // 最新3件：カード表示
-                    const cRes = await fetch(f.download_url + cache);
-                    const md = await cRes.text();
-                    const div = document.createElement('div');
-                    div.className = 'glass-panel news-card';
-                    div.innerHTML = marked.parse(md);
-                    newsBox.appendChild(div);
-                } else {
-                    // 4件目以降：一行履歴表示
-                    const date = f.name.substring(0, 10);
-                    const title = f.name.replace('.md', '').substring(11);
-                    const row = document.createElement('div');
-                    row.className = 'log-row';
-                    row.innerHTML = `<span class="log-date">${date}</span><span>${title}</span>`;
-                    logBox.appendChild(row);
-                }
-            }
-            if(newsBox.innerHTML === "") newsBox.innerHTML = "<p>お知らせはありません。</p>";
-        } catch (e) {
-            document.getElementById('news-list').innerHTML = "<p>データ取得エラー</p>";
+            const listRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/news`);
+            newsFiles = await listRes.json();
+            newsFiles.sort((a, b) => b.name.localeCompare(a.name));
+            renderNews('all');
+        } catch(e) {
+            document.getElementById('news-list').innerHTML = "<p>お知らせを取得できませんでした。</p>";
         }
     }
 
-    loadNotices();
+    // --- 4. フィルター表示機能 ---
+    async function renderNews(year) {
+        const box = document.getElementById('news-list');
+        box.innerHTML = "";
+
+        const filtered = newsFiles.filter(f => (year === 'all' || f.name.startsWith(year)) && f.name.endsWith('.md'));
+
+        // index.htmlには最新の3件のみを表示
+        const limit = 3;
+        for (let i = 0; i < Math.min(filtered.length, limit); i++) {
+            const f = filtered[i];
+            const content = await fetch(f.download_url);
+            const mdText = await content.text();
+            
+            const card = document.createElement('div');
+            card.className = 'news-card';
+            card.innerHTML = `<h4>${f.name.replace('.md', '')}</h4>` + marked.parse(mdText);
+            box.appendChild(card);
+        }
+
+        if (box.innerHTML === "") {
+            box.innerHTML = "<p style='color:#94a3b8;'>該当するお知らせはありません。</p>";
+        }
+    }
+
+    function updateFilter(year, btn) {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderNews(year);
+    }
+
+    initSite();
 </script>
 </body>
 </html>
