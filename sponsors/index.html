@@ -9,12 +9,11 @@
     <style>
         body { background: #f8fafc; color: #1e293b; margin: 0; font-family: 'Noto Sans JP', sans-serif; display: flex; flex-direction: column; min-height: 100vh; }
         
-        /* menu.js用のコンテナを最上部に固定する場合の余白調整（必要に応じて） */
-        #nav-container { width: 100%; position: relative; z-index: 1000; }
+        /* menu.js用のコンテナ */
+        #nav-container { width: 100%; position: relative; z-index: 1000; min-height: 50px; background: #fff; }
 
         .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; flex: 1; }
 
-        /* カウントダウン：メニューのすぐ下に配置 */
         .countdown-area { 
             background: #0f172a; color: white; padding: 40px 20px; text-align: center;
             border-bottom: 5px solid #00aeef;
@@ -32,14 +31,19 @@
         .sponsor-card:hover { transform: translateY(-5px); border-color: #00aeef; box-shadow: 0 15px 30px rgba(0,0,0,0.05); }
 
         .partner-name { font-weight: 900; font-size: 1.3rem; color: #0f172a; margin-bottom: 10px; display: block; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px; }
+        
+        /* 本文内の1行目（#見出し）を太くするスタイル */
+        .partner-desc h1, .partner-desc h2 { font-size: 1.1rem; color: #0f172a; margin-top: 0; margin-bottom: 10px; }
+        .partner-desc strong { color: #0f172a; }
+
         .cat-tag { font-family: 'Orbitron', 'Noto Sans JP'; font-size: 0.6rem; color: #00aeef; background: #f0f9ff; padding: 3px 10px; border-radius: 4px; font-weight: 900; margin-bottom: 15px; width: fit-content; }
         .partner-desc { font-size: 0.85rem; color: #64748b; line-height: 1.8; flex-grow: 1; }
         
         .web-link { display: inline-block; margin-top: 20px; padding: 12px; background: #0f172a; color: #fff; text-decoration: none; border-radius: 6px; font-size: 0.75rem; font-weight: 900; text-align: center; transition: 0.3s; }
         .web-link:hover { background: #00aeef; }
 
-        footer { background: #fff; border-top: 1px solid #e2e8f0; padding: 40px 20px; text-align: center; }
-        #google_translate_element { margin-bottom: 20px; }
+        footer { background: #fff; border-top: 1px solid #e2e8f0; padding: 40px 20px; text-align: center; margin-top: auto; }
+        #google_translate_element { margin-bottom: 20px; border: 1px solid #e2e8f0; display: inline-block; padding: 10px; border-radius: 8px; }
         .sys-ver { position: fixed; bottom: 12px; right: 20px; font-family: 'Orbitron'; font-size: 0.6rem; color: #cbd5e1; pointer-events: none; }
     </style>
 </head>
@@ -61,8 +65,7 @@
 </header>
 
 <main class="container">
-    <div id="sponsor-list" class="sponsor-grid">
-        </div>
+    <div id="sponsor-list" class="sponsor-grid"></div>
 </main>
 
 <footer>
@@ -70,7 +73,7 @@
     <p style="font-size: 0.7rem; color: #94a3b8;">&copy; 篠ノ井技術クラブ</p>
 </footer>
 
-<div class="sys-ver">v4.9.0 / TOP-MENU-LAYOUT</div>
+<div class="sys-ver">v5.0.0 / FIXED-MENU</div>
 
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script src="menu.js"></script>
@@ -83,7 +86,14 @@ function googleTranslateElementInit() {
 <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 <script>
-// カウントダウン処理
+// メニューの強制描画チェック（menu.jsが自動実行しない場合用）
+window.addEventListener('DOMContentLoaded', () => {
+    if (typeof initMenu === 'function') {
+        initMenu(); // menu.jsに初期化関数がある場合
+    }
+});
+
+// カウントダウン
 function updateTimer() {
     const target = new Date("May 30, 2026 00:00:00").getTime();
     const now = new Date().getTime();
@@ -133,7 +143,7 @@ async function loadSponsors() {
             list.insertAdjacentHTML('beforeend', html);
         }
     } catch (e) {
-        list.innerHTML = "<p>準備中...</p>";
+        list.innerHTML = "<p>データを読み込めませんでした。</p>";
     }
 }
 loadSponsors();
