@@ -7,184 +7,211 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Noto+Sans+JP:wght@400;900&display=swap" rel="stylesheet">
     <style>
-        /* ベースレイアウト：背景を少し暗くして技術部感を出す */
-        body { background: #0b1d2e; color: #fff; margin: 0; font-family: 'Noto Sans JP', sans-serif; overflow-x: hidden; }
+        /* --- サイバーパンク・ダークテーマ --- */
+        body { background: #050a0f; color: #fff; margin: 0; font-family: 'Noto Sans JP', sans-serif; overflow-x: hidden; }
         
-        /* 透過デザインカード：白い四角を廃止 */
-        .card, .news-card, .emergency-box {
-            background: rgba(16, 42, 67, 0.4); /* 透過 */
-            border: 1px solid rgba(0, 174, 239, 0.3); /* 青い細線 */
-            border-radius: 4px;
-            padding: 30px;
-            margin-bottom: 25px;
-            backdrop-filter: blur(12px); /* 背景ぼかし */
-            position: relative;
-            transition: 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        /* 背景グリッド */
+        body::before {
+            content: ""; position: fixed; inset: 0;
+            background-image: linear-gradient(rgba(0, 174, 239, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 174, 239, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px; z-index: -1;
         }
 
-        /* 装飾用の角：これがあるだけでカッコよくなります */
-        .card::before, .news-card::before {
-            content: ""; position: absolute; top: -1px; left: -1px; width: 15px; height: 15px;
+        .container { max-width: 900px; margin: 0 auto; padding: 0 20px; }
+
+        /* --- 【緊急】アラートデザイン（圧倒的インパクト） --- */
+        #emergency-wrap:not(:empty) { margin-top: 20px; }
+        .emergency-banner {
+            background: rgba(255, 0, 0, 0.15);
+            border: 2px solid #ff0000;
+            padding: 25px;
+            border-radius: 4px;
+            position: relative;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+            animation: alert-glow 2s infinite;
+        }
+        @keyframes alert-glow { 0%, 100% { border-color: #ff0000; } 50% { border-color: #ff8888; box-shadow: 0 0 40px rgba(255, 0, 0, 0.5); } }
+        
+        .emergency-banner h3 { 
+            color: #ff0000; font-family: 'Orbitron'; margin: 0 0 10px; font-size: 1.4rem; 
+            display: flex; align-items: center; letter-spacing: 3px;
+        }
+        .emergency-banner h3::before { content: "⚠️ SYSTEM CRITICAL"; margin-right: 15px; animation: blink 0.8s infinite; }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.2; } }
+
+        /* --- 共通カード（透過パネル） --- */
+        .glass-panel {
+            background: rgba(16, 42, 67, 0.6);
+            border: 1px solid rgba(0, 174, 239, 0.3);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        .glass-panel::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 15px; height: 15px;
             border-top: 2px solid #00aeef; border-left: 2px solid #00aeef;
         }
-        .card::after, .news-card::after {
-            content: ""; position: absolute; bottom: -1px; right: -1px; width: 15px; height: 15px;
-            border-bottom: 2px solid #00aeef; border-right: 2px solid #00aeef;
+
+        /* --- ニュース & 履歴の仕分け --- */
+        h2 { font-family: 'Orbitron'; font-size: 1.6rem; color: #00aeef; letter-spacing: 5px; margin: 60px 0 20px; display: flex; align-items: center; }
+        h2::after { content: ""; flex-grow: 1; height: 1px; background: linear-gradient(90deg, #00aeef, transparent); margin-left: 20px; }
+
+        .news-card { border-left: 4px solid #00aeef; margin-bottom: 15px; background: rgba(0, 174, 239, 0.05); padding: 20px; }
+        .news-card h4 { color: #00aeef; font-family: 'Orbitron'; margin: 0 0 5px; font-size: 0.9rem; }
+
+        .log-row { 
+            display: flex; padding: 12px; border-bottom: 1px solid rgba(0, 174, 239, 0.1); 
+            font-size: 0.9rem; color: #94a3b8; transition: 0.3s;
         }
+        .log-row:hover { background: rgba(0, 174, 239, 0.1); color: #fff; }
+        .log-date { font-family: 'Orbitron'; width: 120px; color: #5c7080; }
 
-        .card:hover, .news-card:hover {
-            background: rgba(0, 174, 239, 0.1);
-            border-color: #00aeef;
-            box-shadow: 0 0 30px rgba(0, 174, 239, 0.2);
-            transform: translateY(-5px);
-        }
-
-        /* 緊急お知らせ（レッド） */
-        .emergency-box { background: rgba(255, 77, 77, 0.05); border: 1px solid #ff4d4d; color: #ff4d4d; }
-        .emergency-box::before { border-top: 2px solid #ff4d4d; border-left: 2px solid #ff4d4d; content: ""; position: absolute; top: -1px; left: -1px; width: 15px; height: 15px; }
-        .emergency-box h3 { font-family: 'Orbitron'; margin: 0 0 10px 0; display: flex; align-items: center; }
-        .emergency-box h3::before { content: "⚡"; margin-right: 10px; animation: pulse 1s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
-
-        /* テキスト・見出し */
-        h2 { font-family: 'Orbitron'; font-size: 1.5rem; letter-spacing: 5px; color: #00aeef; margin-bottom: 20px; }
-        .notices-container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
-        .news-card h3 { font-size: 0.8rem; color: #00aeef; font-family: 'Orbitron'; background: rgba(0, 174, 239, 0.1); display: inline-block; padding: 2px 10px; border-radius: 2px; }
-        
+        /* --- ボタン・ヘッダー --- */
         .btn {
-            background: transparent; border: 1px solid #00aeef; color: #00aeef;
-            padding: 12px 30px; text-decoration: none; font-weight: 900; font-family: 'Orbitron';
-            font-size: 0.8rem; letter-spacing: 2px; display: inline-block; transition: 0.3s;
+            border: 1px solid #00aeef; color: #00aeef; padding: 12px 30px; text-decoration: none;
+            font-family: 'Orbitron'; font-weight: 900; display: inline-block; transition: 0.4s;
         }
         .btn:hover { background: #00aeef; color: #fff; box-shadow: 0 0 20px #00aeef; }
 
-        /* ローディングアニメ */
-        #loading { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0b1d2e; display: flex; align-items: center; justify-content: center; z-index: 10000; transition: 0.5s; }
-        #loading h1 { font-family: 'Orbitron'; color: #00aeef; letter-spacing: 10px; }
+        header { text-align: center; padding: 100px 20px; }
+        header h1 { font-family: 'Orbitron'; font-size: clamp(3rem, 10vw, 5rem); margin: 0; letter-spacing: 15px; text-shadow: 0 0 25px rgba(0, 174, 239, 0.6); }
+
+        #loading { position: fixed; inset: 0; background: #050a0f; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: 0.8s; }
     </style>
 </head>
 <body>
-    <div id="loading"><h1>LOADING</h1></div>
-    <div id="nav-container"></div>
 
-    <header style="text-align: center; padding: 100px 20px 60px;">
-        <h1 style="font-family: 'Orbitron'; font-size: 4rem; margin: 0; letter-spacing: 15px; color: #fff; text-shadow: 0 0 20px #00aeef;">SHINONOI</h1>
-        <p style="letter-spacing: 8px; font-weight: 900; color: #00aeef;">篠ノ井技術クラブ</p>
-    </header>
+<div id="loading"><h1 style="font-family:'Orbitron'; color:#00aeef;">SYSTEM LOADING...</h1></div>
 
-    <main>
-        <div id="emergency-wrap" class="notices-container"></div>
+<header>
+    <h1>SHINONOI</h1>
+    <p style="letter-spacing: 8px; color: #00aeef; font-weight: 900; margin-top: 10px;">篠ノ井技術クラブ</p>
+</header>
 
-        <section class="notices-container">
-            <div class="card">
-                <h2>ABOUT</h2>
-                <p style="font-size: 1.1rem; font-weight: 800; color: #fff; margin-bottom: 15px;">
-                    僕たちは、エコカー制作や大会に挑む中学生チームです。
-                </p>
-                <p style="color: #94a3b8;">
-                    「もてぎ大会」や「エコマラソン長野」に向け、日々マシンを磨いています。
-                </p>
-                <a href="about.html" class="btn" style="margin-top: 25px;">DETAIL</a>
-            </div>
-        </section>
+<main class="container">
+    <div id="emergency-wrap"></div>
 
-        <section class="notices-container">
-            <h2>NEWS / LOGS</h2>
-            <div id="news-list">取得中...</div>
-        </section>
+    <section>
+        <h2>LATEST NEWS</h2>
+        <div id="news-list"></div>
+    </section>
 
-        <div id="dynamic-banner"></div>
+    <section>
+        <h2>UPDATE LOGS</h2>
+        <div class="glass-panel" id="log-list" style="padding: 10px 20px;"></div>
+    </section>
 
-        <section id="recruit" class="notices-container">
-            <div class="card" style="border-style: dashed; background: rgba(0, 174, 239, 0.02);">
-                <h2>RECRUIT</h2>
-                <p style="font-weight: 800; color: #fff;">一緒に挑戦する仲間を募集しています。</p>
-                <a href="/team/login.html" class="btn" style="margin-top: 20px;">JOIN US</a>
-            </div>
-        </section>
-    </main>
+    <section style="margin-top: 80px;">
+        <div class="glass-panel">
+            <h2>ABOUT US</h2>
+            <p style="font-size: 1.2rem; line-height: 1.8; font-weight: 800;">
+                僕たちは、エコカー制作や大会に挑む中学生チームです。
+            </p>
+            <p style="color: #94a3b8; margin-bottom: 25px;">
+                「もてぎ大会」や「エコマラソン長野」に向け、日々マシンを磨いています。
+            </p>
+            <a href="about.html" class="btn">VIEW DETAIL</a>
+        </div>
+    </section>
 
-    <footer style="text-align: center; padding: 80px 20px; color: #334155; font-family: 'Orbitron'; font-size: 0.7rem;">
-        <p>&copy; 2026 SHINOI TECHNOLOGY CLUB</p>
-    </footer>
+    <div id="dynamic-banner"></div>
+</main>
 
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="menu.js"></script>
+<footer style="text-align: center; padding: 100px 20px; color: #2a3b4c; font-family: 'Orbitron'; font-size: 0.8rem; letter-spacing: 3px;">
+    &copy; 2026 SHINOI TECHNOLOGY CLUB. ALL RIGHTS RESERVED.
+</footer>
 
-    <script>
-        const GITHUB_REPO = "emr-snn-dev/emr-snn-dev.github.io";
-        const ADMIN_EMAIL = "YOUR_EMAIL@example.com"; // 自分のメールアドレスに変更
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="menu.js"></script>
 
-        // --- 1. メンテナンス & ログイン状態監視 ---
-        const db = firebase.database();
-        firebase.auth().onAuthStateChanged((user) => {
-            const isAdmin = user && user.email === ADMIN_EMAIL;
-            
-            // メンテナンスモード監視（Realtime Database）
-            db.ref('config/maintenanceMode').on('value', (snapshot) => {
-                if (snapshot.val() === true && !isAdmin) {
-                    window.location.href = 'maintenance.html';
-                }
-            });
+<script>
+    const GITHUB_REPO = "emr-snn-dev/emr-snn-dev.github.io";
+    const ADMIN_EMAIL = "YOUR_EMAIL@example.com"; 
 
-            // メンバーバナー
-            if (user) {
-                document.getElementById('dynamic-banner').innerHTML = `
-                    <div class="notices-container"><div class="card" style="border-color:#00aeef;">
-                        <h2>MEMBER AREA</h2><p>アクセス許可: ${user.email}</p>
-                        <a href="/team/index.html" class="btn">DASHBOARD</a>
-                    </div></div>`;
-            }
+    // Firebase初期化済みと想定
+    const db = firebase.database();
+    firebase.auth().onAuthStateChanged((user) => {
+        const isAdmin = user && user.email === ADMIN_EMAIL;
+        db.ref('config/maintenanceMode').on('value', (snap) => {
+            if (snap.val() === true && !isAdmin) window.location.href = 'maintenance.html';
         });
-
-        // --- 2. ローディング解除 ---
-        window.addEventListener('load', () => {
-            const loader = document.getElementById('loading');
-            loader.style.opacity = '0';
-            setTimeout(() => { loader.style.visibility = 'hidden'; }, 500);
-        });
-
-        // --- 3. Markdown読み込み（送ってくれたフォルダ構成に対応） ---
-        async function loadAllContent() {
-            const timeBox = `?t=${Date.now()}`;
-            
-            // A. 緊急 (notices/emergency.md)
-            try {
-                const res = await fetch(`https://raw.githubusercontent.com/${GITHUB_REPO}/main/notices/emergency.md${timeBox}`);
-                if (res.ok) {
-                    const text = await res.text();
-                    if (text.trim().length > 0) {
-                        document.getElementById('emergency-wrap').innerHTML = `<div class="emergency-box">${marked.parse(text)}</div>`;
-                    }
-                }
-            } catch (e) { }
-
-            // B. 通常ニュース (news/ フォルダ内を全取得)
-            try {
-                const listRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/news`);
-                const files = await listRes.json();
-                files.sort((a, b) => b.name.localeCompare(a.name)); // 新しい順
-
-                const container = document.getElementById('news-list');
-                container.innerHTML = "";
-                for (const file of files) {
-                    if (file.name.endsWith('.md')) {
-                        const contentRes = await fetch(file.download_url + timeBox);
-                        const mdText = await contentRes.text();
-                        const card = document.createElement('div');
-                        card.className = 'news-card';
-                        card.innerHTML = marked.parse(mdText);
-                        container.appendChild(card);
-                    }
-                }
-            } catch (e) {
-                document.getElementById('news-list').innerHTML = "<p>お知らせはありません。</p>";
-            }
+        if (user) {
+            document.getElementById('dynamic-banner').innerHTML = `
+                <div class="glass-panel" style="border-color:#00aeef; margin-top:50px;">
+                    <h2>MEMBER ACCESS</h2>
+                    <p>AUTHENTICATED: ${user.email}</p>
+                    <a href="/team/index.html" class="btn">DASHBOARD</a>
+                </div>`;
         }
-        loadAllContent();
-    </script>
+    });
+
+    window.addEventListener('load', () => {
+        setTimeout(() => { document.getElementById('loading').style.opacity = '0'; }, 500);
+        setTimeout(() => { document.getElementById('loading').style.display = 'none'; }, 1300);
+    });
+
+    async function loadNotices() {
+        const cache = `?t=${Date.now()}`;
+
+        // 【緊急】notices/emergency.md の取得
+        try {
+            const res = await fetch(`https://raw.githubusercontent.com/${GITHUB_REPO}/main/notices/emergency.md${cache}`);
+            if (res.ok) {
+                const text = await res.text();
+                if (text.trim()) {
+                    document.getElementById('emergency-wrap').innerHTML = `
+                        <div class="emergency-banner">
+                            <h3>EMERGENCY</h3>
+                            <div style="color:#fff;">${marked.parse(text)}</div>
+                        </div>`;
+                }
+            }
+        } catch (e) {}
+
+        // 【ニュース & 履歴】news/ フォルダの取得
+        try {
+            const res = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/news`);
+            const files = await res.json();
+            files.sort((a, b) => b.name.localeCompare(a.name)); // 降順
+
+            const newsBox = document.getElementById('news-list');
+            const logBox = document.getElementById('log-list');
+            newsBox.innerHTML = "";
+            logBox.innerHTML = "";
+
+            for (let i = 0; i < files.length; i++) {
+                const f = files[i];
+                if (!f.name.endsWith('.md')) continue;
+
+                if (i < 3) {
+                    // 最新3件：カード表示
+                    const cRes = await fetch(f.download_url + cache);
+                    const md = await cRes.text();
+                    const div = document.createElement('div');
+                    div.className = 'glass-panel news-card';
+                    div.innerHTML = marked.parse(md);
+                    newsBox.appendChild(div);
+                } else {
+                    // 4件目以降：一行履歴表示
+                    const date = f.name.substring(0, 10);
+                    const title = f.name.replace('.md', '').substring(11);
+                    const row = document.createElement('div');
+                    row.className = 'log-row';
+                    row.innerHTML = `<span class="log-date">${date}</span><span>${title}</span>`;
+                    logBox.appendChild(row);
+                }
+            }
+            if(newsBox.innerHTML === "") newsBox.innerHTML = "<p>お知らせはありません。</p>";
+        } catch (e) {
+            document.getElementById('news-list').innerHTML = "<p>データ取得エラー</p>";
+        }
+    }
+
+    loadNotices();
+</script>
 </body>
 </html>
