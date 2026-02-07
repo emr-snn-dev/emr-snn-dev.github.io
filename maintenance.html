@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>SYSTEM MAINTENANCE | 篠ノ井技術クラブ</title>
+    <title>システムメンテナンス | 篠ノ井技術クラブ</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Noto+Sans+JP:wght@400;900&display=swap" rel="stylesheet">
     <style>
         body {
@@ -20,59 +20,79 @@
             text-align: center;
             position: relative;
             z-index: 2;
+            padding: 20px;
         }
-        .glitch-title {
-            font-family: 'Orbitron';
-            font-size: 3.5rem;
+        .warning-icon {
+            font-size: 3rem;
             color: #ff4d4d;
-            letter-spacing: 10px;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .main-title {
+            font-family: 'Orbitron';
+            font-size: 2.5rem;
+            color: #ff4d4d;
+            letter-spacing: 5px;
             margin: 0;
-            text-shadow: 0 0 20px rgba(255, 77, 77, 0.5);
+            text-shadow: 0 0 15px rgba(255, 77, 77, 0.4);
+        }
+        .sub-title {
+            font-size: 1.2rem;
+            font-weight: 900;
+            margin: 10px 0 30px;
+            letter-spacing: 2px;
         }
         .status-box {
-            margin-top: 30px;
-            padding: 20px;
-            border: 1px solid #ff4d4d;
-            background: rgba(255, 77, 77, 0.05);
-            display: inline-block;
-            border-radius: 10px;
+            padding: 25px;
+            border: 1px solid rgba(255, 77, 77, 0.3);
+            background: rgba(16, 42, 67, 0.4);
+            border-radius: 15px;
             backdrop-filter: blur(10px);
+            max-width: 500px;
+            margin: 0 auto;
         }
-        .status-msg {
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: #ff4d4d;
+            color: white;
             font-family: 'Orbitron';
-            font-size: 0.8rem;
-            color: #00aeef;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
+            font-size: 0.7rem;
+            border-radius: 4px;
+            margin-bottom: 15px;
         }
-        .loading-bar {
-            width: 200px;
+        .message-text {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            line-height: 1.8;
+            margin: 0;
+        }
+        .loading-container {
+            width: 100%;
             height: 2px;
             background: #1e3a5f;
-            margin: 15px auto;
+            margin: 25px 0 10px;
             position: relative;
             overflow: hidden;
         }
-        .loading-bar::after {
-            content: "";
+        .loading-bar {
             position: absolute;
             left: -100%;
             width: 100%;
             height: 100%;
             background: #ff4d4d;
-            animation: loading 2s infinite linear;
+            animation: slide 2.5s infinite linear;
         }
-        @keyframes loading {
+        @keyframes slide {
             0% { left: -100%; }
             100% { left: 100%; }
         }
-        /* 背景装飾 */
         .bg-grid {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background-image: linear-gradient(rgba(0, 174, 239, 0.05) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(0, 174, 239, 0.05) 1px, transparent 1px);
-            background-size: 50px 50px;
+            background-image: linear-gradient(rgba(0, 174, 239, 0.03) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(0, 174, 239, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
             z-index: 1;
         }
     </style>
@@ -80,13 +100,29 @@
 <body>
     <div class="bg-grid"></div>
     <div class="container">
-        <h1 class="glitch-title">UNDER MAINTENANCE</h1>
+        <span class="warning-icon">⚠️</span>
+        <h1 class="main-title">MAINTENANCE</h1>
+        <p class="sub-title">システムメンテナンス中</p>
+        
         <div class="status-box">
-            <div class="status-msg">SYSTEM STATUS: OFFLINE</div>
-            <div class="loading-bar"></div>
-            <p style="font-size: 0.75rem; color: #94a3b8; margin: 0;">現在、部員がシステムのアップグレードを行っています。<br>完了までしばらくお待ちください。</p>
+            <span class="status-badge">STATUS: OFFLINE</span>
+            <p class="message-text">
+                現在、篠ノ井技術クラブのウェブサイトは<br>
+                システムの更新および保守作業を行っています。<br>
+                <br>
+                作業完了まで、しばらくお待ちください。
+            </p>
+            <div class="loading-container">
+                <div class="loading-bar"></div>
+            </div>
+            <p style="font-size: 0.65rem; color: #5c7080; margin: 0;">UPDATE IN PROGRESS...</p>
         </div>
-        <p style="margin-top: 40px; font-family: 'Orbitron'; font-size: 0.6rem; color: #1e3a5f;">SHINOI TECHNOLOGY CLUB | DEVELOPMENT TEAM</p>
+
+        <div style="margin-top: 50px;">
+            <p style="font-family: 'Orbitron'; font-size: 0.7rem; color: #1e3a5f; letter-spacing: 3px;">
+                SHINOI TECHNOLOGY CLUB | ADMIN
+            </p>
+        </div>
     </div>
 </body>
 </html>
