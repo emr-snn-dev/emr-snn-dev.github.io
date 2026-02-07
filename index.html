@@ -7,22 +7,22 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Noto+Sans+JP:wght@400;900&display=swap" rel="stylesheet">
     <style>
-        /* ベースレイアウト */
+        /* ベースレイアウト：背景を少し暗くして技術部感を出す */
         body { background: #0b1d2e; color: #fff; margin: 0; font-family: 'Noto Sans JP', sans-serif; overflow-x: hidden; }
         
-        /* 共通カードデザイン */
+        /* 透過デザインカード：白い四角を廃止 */
         .card, .news-card, .emergency-box {
-            background: rgba(16, 42, 67, 0.4);
-            border: 1px solid rgba(0, 174, 239, 0.3);
+            background: rgba(16, 42, 67, 0.4); /* 透過 */
+            border: 1px solid rgba(0, 174, 239, 0.3); /* 青い細線 */
             border-radius: 4px;
             padding: 30px;
             margin-bottom: 25px;
-            backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px); /* 背景ぼかし */
             position: relative;
             transition: 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
-        /* メカニカル・フレーム装飾 */
+        /* 装飾用の角：これがあるだけでカッコよくなります */
         .card::before, .news-card::before {
             content: ""; position: absolute; top: -1px; left: -1px; width: 15px; height: 15px;
             border-top: 2px solid #00aeef; border-left: 2px solid #00aeef;
@@ -39,20 +39,18 @@
             transform: translateY(-5px);
         }
 
-        /* 緊急お知らせ */
+        /* 緊急お知らせ（レッド） */
         .emergency-box { background: rgba(255, 77, 77, 0.05); border: 1px solid #ff4d4d; color: #ff4d4d; }
         .emergency-box::before { border-top: 2px solid #ff4d4d; border-left: 2px solid #ff4d4d; content: ""; position: absolute; top: -1px; left: -1px; width: 15px; height: 15px; }
         .emergency-box h3 { font-family: 'Orbitron'; margin: 0 0 10px 0; display: flex; align-items: center; }
         .emergency-box h3::before { content: "⚡"; margin-right: 10px; animation: pulse 1s infinite; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
 
-        /* 見出し・テキスト */
+        /* テキスト・見出し */
         h2 { font-family: 'Orbitron'; font-size: 1.5rem; letter-spacing: 5px; color: #00aeef; margin-bottom: 20px; }
         .notices-container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
-        .news-card h3 { font-size: 0.8rem; color: #00aeef; font-family: 'Orbitron'; background: rgba(0, 174, 239, 0.1); display: inline-block; padding: 2px 10px; }
-        .news-card img { max-width: 100%; border-radius: 4px; margin-top: 15px; }
-
-        /* ボタン */
+        .news-card h3 { font-size: 0.8rem; color: #00aeef; font-family: 'Orbitron'; background: rgba(0, 174, 239, 0.1); display: inline-block; padding: 2px 10px; border-radius: 2px; }
+        
         .btn {
             background: transparent; border: 1px solid #00aeef; color: #00aeef;
             padding: 12px 30px; text-decoration: none; font-weight: 900; font-family: 'Orbitron';
@@ -60,7 +58,7 @@
         }
         .btn:hover { background: #00aeef; color: #fff; box-shadow: 0 0 20px #00aeef; }
 
-        /* ローディング */
+        /* ローディングアニメ */
         #loading { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0b1d2e; display: flex; align-items: center; justify-content: center; z-index: 10000; transition: 0.5s; }
         #loading h1 { font-family: 'Orbitron'; color: #00aeef; letter-spacing: 10px; }
     </style>
@@ -80,8 +78,13 @@
         <section class="notices-container">
             <div class="card">
                 <h2>ABOUT</h2>
-                <p>僕たちは、エコカー制作や大会に挑む中学生チームです。</p>
-                <a href="about.html" class="btn">DETAIL</a>
+                <p style="font-size: 1.1rem; font-weight: 800; color: #fff; margin-bottom: 15px;">
+                    僕たちは、エコカー制作や大会に挑む中学生チームです。
+                </p>
+                <p style="color: #94a3b8;">
+                    「もてぎ大会」や「エコマラソン長野」に向け、日々マシンを磨いています。
+                </p>
+                <a href="about.html" class="btn" style="margin-top: 25px;">DETAIL</a>
             </div>
         </section>
 
@@ -93,13 +96,17 @@
         <div id="dynamic-banner"></div>
 
         <section id="recruit" class="notices-container">
-            <div class="card" style="border-style: dashed;">
+            <div class="card" style="border-style: dashed; background: rgba(0, 174, 239, 0.02);">
                 <h2>RECRUIT</h2>
-                <p>一緒に挑戦する仲間を募集しています。</p>
-                <a href="/team/login.html" class="btn">JOIN US</a>
+                <p style="font-weight: 800; color: #fff;">一緒に挑戦する仲間を募集しています。</p>
+                <a href="/team/login.html" class="btn" style="margin-top: 20px;">JOIN US</a>
             </div>
         </section>
     </main>
+
+    <footer style="text-align: center; padding: 80px 20px; color: #334155; font-family: 'Orbitron'; font-size: 0.7rem;">
+        <p>&copy; 2026 SHINOI TECHNOLOGY CLUB</p>
+    </footer>
 
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
@@ -109,69 +116,58 @@
 
     <script>
         const GITHUB_REPO = "emr-snn-dev/emr-snn-dev.github.io";
-        const ADMIN_EMAIL = "YOUR_EMAIL@example.com"; // あなたのメアドに変更
+        const ADMIN_EMAIL = "YOUR_EMAIL@example.com"; // 自分のメールアドレスに変更
 
-        // 1. メンテナンスモード & ログイン監視
+        // --- 1. メンテナンス & ログイン状態監視 ---
         const db = firebase.database();
         firebase.auth().onAuthStateChanged((user) => {
             const isAdmin = user && user.email === ADMIN_EMAIL;
             
-            // メンテナンスモード監視
+            // メンテナンスモード監視（Realtime Database）
             db.ref('config/maintenanceMode').on('value', (snapshot) => {
-                const isMt = snapshot.val();
-                if (isMt && !isAdmin) {
+                if (snapshot.val() === true && !isAdmin) {
                     window.location.href = 'maintenance.html';
                 }
             });
 
-            // メンバーエリア表示
-            const banner = document.getElementById('dynamic-banner');
+            // メンバーバナー
             if (user) {
-                banner.innerHTML = `
+                document.getElementById('dynamic-banner').innerHTML = `
                     <div class="notices-container"><div class="card" style="border-color:#00aeef;">
-                        <h2>MEMBER AREA</h2><p>ログイン中: ${user.email}</p>
+                        <h2>MEMBER AREA</h2><p>アクセス許可: ${user.email}</p>
                         <a href="/team/index.html" class="btn">DASHBOARD</a>
                     </div></div>`;
             }
         });
 
-        // 2. ローディング解除
+        // --- 2. ローディング解除 ---
         window.addEventListener('load', () => {
             const loader = document.getElementById('loading');
             loader.style.opacity = '0';
             setTimeout(() => { loader.style.visibility = 'hidden'; }, 500);
         });
 
-        // 3. Markdownお知らせ取得 (緊急 & 通常)
-        async function loadNotices() {
+        // --- 3. Markdown読み込み（送ってくれたフォルダ構成に対応） ---
+        async function loadAllContent() {
             const timeBox = `?t=${Date.now()}`;
             
-            // 緊急フォルダ読み込み
+            // A. 緊急 (notices/emergency.md)
             try {
-                const emListRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/notices/emergency`);
-                if (emListRes.ok) {
-                    const emFiles = await emListRes.json();
-                    const emWrap = document.getElementById('emergency-wrap');
-                    for (const file of emFiles) {
-                        if (file.name.endsWith('.md')) {
-                            const res = await fetch(file.download_url + timeBox);
-                            const text = await res.text();
-                            if (text.trim().length > 0) {
-                                const div = document.createElement('div');
-                                div.className = 'emergency-box';
-                                div.innerHTML = marked.parse(text);
-                                emWrap.appendChild(div);
-                            }
-                        }
+                const res = await fetch(`https://raw.githubusercontent.com/${GITHUB_REPO}/main/notices/emergency.md${timeBox}`);
+                if (res.ok) {
+                    const text = await res.text();
+                    if (text.trim().length > 0) {
+                        document.getElementById('emergency-wrap').innerHTML = `<div class="emergency-box">${marked.parse(text)}</div>`;
                     }
                 }
-            } catch (e) { console.log("No emergency."); }
+            } catch (e) { }
 
-            // 通常ニュースフォルダ読み込み
+            // B. 通常ニュース (news/ フォルダ内を全取得)
             try {
-                const listRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/notices/news`);
+                const listRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/news`);
                 const files = await listRes.json();
-                files.sort((a, b) => b.name.localeCompare(a.name));
+                files.sort((a, b) => b.name.localeCompare(a.name)); // 新しい順
+
                 const container = document.getElementById('news-list');
                 container.innerHTML = "";
                 for (const file of files) {
@@ -185,11 +181,10 @@
                     }
                 }
             } catch (e) {
-                document.getElementById('news-list').innerHTML = "<p>NO NEWS.</p>";
+                document.getElementById('news-list').innerHTML = "<p>お知らせはありません。</p>";
             }
         }
-
-        loadNotices();
+        loadAllContent();
     </script>
 </body>
 </html>
