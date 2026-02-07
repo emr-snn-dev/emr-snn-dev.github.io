@@ -32,7 +32,6 @@
                 <ul class="nav-links" id="nav-menu">
                     <li><a href="/index.html">HOME</a></li>
                     <li><a href="/about.html">ABOUT</a></li>
-                    <li><a href="/portfolio.html">PORTFOLIO</a></li>
                     <li><a href="/blog/index.html">BLOG</a></li>
                     <li><a href="/team/index.html">MEMBER</a></li>
                     <li style="position:relative;">
