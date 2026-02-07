@@ -7,75 +7,71 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Noto+Sans+JP:wght@400;900&display=swap" rel="stylesheet">
     <style>
-        /* クリーン・テック・デザイン（白背景） */
-        body { background: #f8fafc; color: #1e293b; margin: 0; font-family: 'Noto Sans JP', sans-serif; }
+        /* デザインベース：クリーン・テック */
+        body { background: #f8fafc; color: #1e293b; margin: 0; font-family: 'Noto Sans JP', sans-serif; line-height: 1.6; }
         .container { max-width: 900px; margin: 0 auto; padding: 0 20px; }
 
-        /* 緊急アラート（最上部・赤） */
-        #emergency-wrap:not(:empty) { margin-top: 20px; }
+        /* 緊急バナー：notices/emergency.md がある場合のみ表示 */
+        #emergency-wrap:not(:empty) { margin-top: 25px; }
         .emergency-banner {
             background: #fff5f5; border: 2px solid #f87171; border-radius: 12px;
-            padding: 25px; color: #991b1b; box-shadow: 0 10px 20px rgba(248, 113, 113, 0.1);
-            animation: alert-in 0.5s ease-out;
+            padding: 25px; color: #991b1b; box-shadow: 0 8px 20px rgba(248, 113, 113, 0.1);
         }
-        @keyframes alert-in { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
         .emergency-banner h3 { margin: 0 0 10px; font-family: 'Orbitron'; color: #ef4444; display: flex; align-items: center; letter-spacing: 2px; }
-        .emergency-banner h3::before { content: "⚠️ EMERGENCY"; margin-right: 15px; }
+        .emergency-banner h3::before { content: "⚠️ EMERGENCY"; margin-right: 15px; font-weight: 900; }
 
-        /* メインヘッダー */
-        header { text-align: center; padding: 100px 20px 60px; background: white; border-bottom: 1px solid #e2e8f0; }
-        header h1 { font-family: 'Orbitron'; font-size: 3.5rem; margin: 0; letter-spacing: 10px; color: #0f172a; }
-        header p { color: #00aeef; font-weight: 900; letter-spacing: 6px; margin-top: 10px; font-size: 1.1rem; }
+        /* ヘッダー */
+        header { text-align: center; padding: 80px 20px; background: white; border-bottom: 1px solid #e2e8f0; }
+        header h1 { font-family: 'Orbitron'; font-size: 3rem; margin: 0; letter-spacing: 10px; color: #0f172a; }
+        header p { color: #00aeef; font-weight: 900; letter-spacing: 6px; margin-top: 10px; }
 
-        /* フィルターエリア */
-        .filter-area { display: flex; gap: 10px; margin: 50px 0 20px; align-items: center; overflow-x: auto; padding-bottom: 5px; }
+        /* フィルターボタン */
+        .filter-area { display: flex; gap: 10px; margin: 40px 0 20px; overflow-x: auto; padding-bottom: 10px; align-items: center; }
         .filter-btn {
             background: white; border: 1px solid #e2e8f0; color: #64748b;
-            padding: 8px 22px; border-radius: 25px; cursor: pointer; font-family: 'Orbitron'; font-size: 0.8rem; transition: 0.3s;
+            padding: 8px 22px; border-radius: 25px; cursor: pointer; font-family: 'Orbitron'; font-size: 0.8rem; transition: 0.3s; white-space: nowrap;
         }
-        .filter-btn.active { background: #00aeef; color: white; border-color: #00aeef; box-shadow: 0 4px 15px rgba(0, 174, 239, 0.3); }
+        .filter-btn.active { background: #00aeef; color: white; border-color: #00aeef; box-shadow: 0 4px 12px rgba(0, 174, 239, 0.3); }
 
-        /* セクション見出し */
-        h2 { font-family: 'Orbitron'; font-size: 1.4rem; color: #0f172a; margin: 40px 0 25px; border-left: 6px solid #00aeef; padding-left: 15px; letter-spacing: 3px; }
-
-        /* ニュースカード（最新表示） */
+        /* ニュースカード */
+        h2 { font-family: 'Orbitron'; font-size: 1.4rem; color: #0f172a; margin: 40px 0 25px; border-left: 6px solid #00aeef; padding-left: 15px; }
         .news-card {
-            background: white; border: 1px solid #e2e8f0; border-radius: 12px;
+            background: white; border: 1px solid #e2e8f0; border-radius: 15px;
             padding: 30px; margin-bottom: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-            transition: 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            transition: 0.4s; position: relative;
         }
-        .news-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.06); border-color: #00aeef; }
-        .news-card h4 { font-family: 'Orbitron'; color: #00aeef; margin: 0 0 10px; font-size: 0.9rem; }
+        .news-card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0,0,0,0.06); border-color: #00aeef; }
+        .news-card h4 { font-family: 'Orbitron'; color: #00aeef; margin: 0 0 12px; font-size: 0.9rem; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; }
 
-        /* 全履歴への誘導リンク */
-        .more-news-btn {
-            display: block; text-align: center; padding: 18px; background: #f1f5f9;
-            border: 2px dashed #cbd5e1; border-radius: 10px; color: #64748b;
+        /* 全履歴へのリンクボタン */
+        .more-link {
+            display: block; text-align: center; padding: 20px; background: #f1f5f9;
+            border: 2px dashed #cbd5e1; border-radius: 12px; color: #64748b;
             text-decoration: none; font-weight: 900; margin-top: 30px; transition: 0.3s;
         }
-        .more-news-btn:hover { background: #e2e8f0; color: #0f172a; border-style: solid; }
+        .more-link:hover { background: #e2e8f0; color: #0f172a; border-style: solid; }
 
-        /* バージョン表示（右下固定） */
-        .sys-ver {
-            position: fixed; bottom: 15px; right: 20px; font-family: 'Orbitron';
-            font-size: 0.7rem; color: #94a3b8; background: rgba(255,255,255,0.9);
+        /* システムバージョン（右下） */
+        .ver-info {
+            position: fixed; bottom: 12px; right: 20px; font-family: 'Orbitron';
+            font-size: 0.65rem; color: #94a3b8; background: rgba(255,255,255,0.9);
             padding: 4px 10px; border-radius: 6px; border: 1px solid #e2e8f0; z-index: 1000;
         }
 
-        /* 共通ボタン */
-        .btn {
+        /* 共通ボタン（アバウト用など） */
+        .btn-main {
             display: inline-block; background: #0f172a; color: white; padding: 12px 35px;
             text-decoration: none; border-radius: 8px; font-weight: 900; transition: 0.3s;
         }
-        .btn:hover { background: #00aeef; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 174, 239, 0.4); }
+        .btn-main:hover { background: #00aeef; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 174, 239, 0.4); }
 
-        #loading { position: fixed; inset: 0; background: white; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: 0.6s; }
+        #loading { position: fixed; inset: 0; background: white; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: 0.5s; }
     </style>
 </head>
 <body>
 
-<div id="loading"><h1 style="font-family:'Orbitron'; color:#00aeef; letter-spacing:10px;">BOOTING</h1></div>
-<div class="sys-ver">SYS_VER 2.8.5</div>
+<div id="loading"><h2 style="font-family:'Orbitron'; color:#00aeef; letter-spacing:5px;">SYSTEM BOOTING</h2></div>
+<div class="ver-info">v2.9.8 / STC-OFFICIAL</div>
 
 <div id="nav-container"></div>
 
@@ -87,27 +83,26 @@
 <main class="container">
     <div id="emergency-wrap"></div>
 
-    <section>
-        <div class="filter-area">
-            <span style="font-family:'Orbitron'; font-weight:900; font-size:0.75rem; color:#94a3b8; margin-right:10px;">YEAR FILTER:</span>
-            <button class="filter-btn active" onclick="updateFilter('all', this)">ALL</button>
-            <button class="filter-btn" onclick="updateFilter('2026', this)">2026</button>
-            <button class="filter-btn" onclick="updateFilter('2025', this)">2025</button>
-        </div>
+    <div class="filter-area">
+        <span style="font-family:'Orbitron'; font-weight:900; font-size:0.75rem; color:#94a3b8; margin-right:5px;">YEAR:</span>
+        <button class="filter-btn active" onclick="updateView('all', this)">ALL</button>
+        <button class="filter-btn" onclick="updateView('2026', this)">2026</button>
+        <button class="filter-btn" onclick="updateView('2025', this)">2025</button>
+    </div>
 
+    <section>
         <h2>LATEST NOTICES</h2>
-        <div id="news-list">取得中...</div>
-        
-        <a href="news.html" class="more-news-btn">全ての更新履歴・お知らせを見る</a>
+        <div id="news-list">読み込み中...</div>
+        <a href="news.html" class="more-link">すべての更新履歴・お知らせを見る</a>
     </section>
 
-    <section style="margin-top: 80px;">
+    <section style="margin: 80px 0;">
         <div class="news-card" style="border-left: 6px solid #0f172a;">
             <h2 style="border:none; margin:0; padding:0; font-size:1.6rem;">MISSION</h2>
-            <p style="font-size: 1.15rem; line-height: 1.8; color: #334155; font-weight: 500;">
-                効率と技術の極限へ。僕たちは中学生チームとしてエコカー開発に挑み、もてぎ全国大会などの舞台で結果を残すために活動しています。
+            <p style="font-size: 1.1rem; color: #475569; margin: 20px 0 30px;">
+                効率の極限へ。僕たちは中学生によるエコカー開発チームとして、もてぎ全国大会などの舞台に挑戦し、技術の研鑽を続けています。
             </p>
-            <a href="about.html" class="btn">ABOUT THE TEAM</a>
+            <a href="about.html" class="btn-main">チーム詳細を見る</a>
         </div>
     </section>
 
@@ -125,48 +120,44 @@
 <script src="menu.js"></script>
 
 <script>
-    const GITHUB_REPO = "emr-snn-dev/emr-snn-dev.github.io";
+    // GitHub環境設定（画像から正確に反映）
+    const GITHUB_USER = "emr-snn-dev";
+    const GITHUB_REPO = "emr-snn-dev.github.io";
     const ADMIN_EMAIL = "YOUR_EMAIL@example.com"; 
-    let newsFiles = [];
+    let allNewsData = [];
 
-    // --- 1. Firebase メンテナンス & ログイン監視 ---
+    // 1. Firebase 全機能（メンテナンス & ログインバナー）
     const db = firebase.database();
     firebase.auth().onAuthStateChanged((user) => {
         const isAdmin = user && user.email === ADMIN_EMAIL;
-        
-        // メンテナンスモード自動転送
         db.ref('config/maintenanceMode').on('value', (snap) => {
-            if (snap.val() === true && !isAdmin) {
-                window.location.href = 'maintenance.html';
-            }
+            if (snap.val() === true && !isAdmin) window.location.href = 'maintenance.html';
         });
-
-        // ログインバナー
         if (user) {
             document.getElementById('dynamic-banner').innerHTML = `
                 <div class="news-card" style="border-color:#00aeef; margin-top:50px;">
-                    <h4 style="color:#00aeef;">AUTHENTICATED MEMBER</h4>
-                    <p>USER: ${user.email}</p>
-                    <a href="/team/index.html" class="btn" style="background:#00aeef;">DASHBOARD</a>
+                    <h4 style="color:#00aeef;">AUTH: LOGGED IN</h4>
+                    <p>メンバー限定ページへアクセス可能です: ${user.email}</p>
+                    <a href="/team/index.html" class="btn-main" style="background:#00aeef;">メンバー用ダッシュボード</a>
                 </div>`;
         }
     });
 
-    // --- 2. ローディング解除 ---
-    window.addEventListener('load', () => {
+    // 2. ローディング解除
+    window.onload = () => {
         setTimeout(() => { document.getElementById('loading').style.opacity = '0'; }, 300);
-        setTimeout(() => { document.getElementById('loading').style.display = 'none'; }, 900);
-    });
+        setTimeout(() => { document.getElementById('loading').style.display = 'none'; }, 800);
+    };
 
-    // --- 3. フォルダ同期コンテンツ取得 ---
-    async function initSite() {
+    // 3. GitHub API 取得機能（緊急 + ニュース）
+    async function initSystem() {
         const cache = `?t=${Date.now()}`;
 
-        // A. 緊急 (notices/emergency.md)
+        // A. 緊急お知らせ (notices/emergency.md)
         try {
-            const emRes = await fetch(`https://raw.githubusercontent.com/${GITHUB_REPO}/main/notices/emergency.md${cache}`);
-            if (emRes.ok) {
-                const text = await emRes.text();
+            const res = await fetch(`https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/notices/emergency.md${cache}`);
+            if (res.ok) {
+                const text = await res.text();
                 if (text.trim()) {
                     document.getElementById('emergency-wrap').innerHTML = `
                         <div class="emergency-banner">
@@ -175,51 +166,50 @@
                         </div>`;
                 }
             }
-        } catch(e) {}
+        } catch(e) { console.warn("Emergency file not found."); }
 
-        // B. ニュース一覧取得 (news/ フォルダ)
+        // B. ニュースリスト (news/ フォルダ)
         try {
-            const listRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/news`);
-            newsFiles = await listRes.json();
-            newsFiles.sort((a, b) => b.name.localeCompare(a.name));
+            const res = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/news`);
+            if (!res.ok) throw new Error("API Limit or Private Repo");
+            allNewsData = await res.json();
+            allNewsData = allNewsData.filter(f => f.name.endsWith('.md')).sort((a, b) => b.name.localeCompare(a.name));
             renderNews('all');
         } catch(e) {
-            document.getElementById('news-list').innerHTML = "<p>お知らせを取得できませんでした。</p>";
+            document.getElementById('news-list').innerHTML = "<p>取得に失敗しました。リポジトリがPublicになっているか、ファイル名を確認してください。</p>";
         }
     }
 
-    // --- 4. フィルター表示機能 ---
+    // 4. 表示・フィルター機能（最新3件表示）
     async function renderNews(year) {
         const box = document.getElementById('news-list');
         box.innerHTML = "";
+        
+        const filtered = allNewsData.filter(f => year === 'all' || f.name.startsWith(year));
+        const limit = 3; // トップページは最新3件のみ表示
 
-        const filtered = newsFiles.filter(f => (year === 'all' || f.name.startsWith(year)) && f.name.endsWith('.md'));
-
-        // index.htmlには最新の3件のみを表示
-        const limit = 3;
         for (let i = 0; i < Math.min(filtered.length, limit); i++) {
             const f = filtered[i];
-            const content = await fetch(f.download_url);
-            const mdText = await content.text();
+            const contentRes = await fetch(f.download_url);
+            const md = await contentRes.text();
             
             const card = document.createElement('div');
             card.className = 'news-card';
-            card.innerHTML = `<h4>${f.name.replace('.md', '')}</h4>` + marked.parse(mdText);
+            // ファイル名から「.md」を除去して見出しにする
+            card.innerHTML = `<h4>${f.name.replace('.md', '')}</h4>` + marked.parse(md);
             box.appendChild(card);
         }
-
-        if (box.innerHTML === "") {
-            box.innerHTML = "<p style='color:#94a3b8;'>該当するお知らせはありません。</p>";
-        }
+        
+        if (box.innerHTML === "") box.innerHTML = "<p>お知らせはありません。</p>";
     }
 
-    function updateFilter(year, btn) {
+    function updateView(year, btn) {
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         renderNews(year);
     }
 
-    initSite();
+    initSystem();
 </script>
 </body>
 </html>
