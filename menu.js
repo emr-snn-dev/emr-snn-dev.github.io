@@ -33,7 +33,7 @@
                     <li><a href="/index.html">HOME</a></li>
                     <li><a href="/about.html">ABOUT</a></li>
                     <li><a href="/blog/index.html">BLOG</a></li>
-                    <li><a href="/downloads.htmll">download</a></li>
+                    <li><a href="/downloads.html">download</a></li>
                     <li><a href="/team/index.html">MEMBER</a></li>
                     <li style="position:relative;">
                         <a href="/activity-log.html">LOG</a>
