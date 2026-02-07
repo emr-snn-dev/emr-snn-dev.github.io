@@ -3,134 +3,153 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PARTNERSHIP | 篠ノ井技術クラブ</title>
+    <title>パートナーシップ | 篠ノ井技術クラブ</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Noto+Sans+JP:wght@400;900&display=swap" rel="stylesheet">
     <style>
         body { background: #f8fafc; color: #1e293b; margin: 0; font-family: 'Noto Sans JP', sans-serif; }
-        .container { max-width: 900px; margin: 0 auto; padding: 0 20px; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
 
-        header { text-align: center; padding: 80px 20px; background: white; border-bottom: 1px solid #e2e8f0; }
-        header h1 { font-family: 'Orbitron'; font-size: 3rem; margin: 0; letter-spacing: 10px; color: #0f172a; }
-        header p { color: #00aeef; font-weight: 900; letter-spacing: 5px; margin-top: 10px; }
+        .translate-wrapper { text-align: right; padding: 15px; background: #fff; border-bottom: 1px solid #e2e8f0; }
+        #google_translate_element { display: inline-block; }
 
-        h2 { font-family: 'Orbitron'; font-size: 1.5rem; color: #0f172a; margin: 60px 0 25px; border-left: 6px solid #00aeef; padding-left: 15px; }
+        header { text-align: center; padding: 60px 20px; background: #fff; }
+        header h1 { font-family: 'Orbitron'; font-size: 2.5rem; margin: 0; letter-spacing: 8px; color: #0f172a; }
+        .sub-header { color: #00aeef; font-weight: 900; letter-spacing: 4px; margin-top: 5px; font-size: 0.9rem; }
 
-        /* スポンサーロゴ一覧エリア */
-        .sponsor-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 50px;
+        .category-section { margin-top: 60px; display: none; }
+        .category-header { border-bottom: 3px solid #0f172a; margin-bottom: 30px; display: flex; align-items: baseline; gap: 15px; }
+        .category-header h2 { font-size: 1.5rem; margin: 0; color: #0f172a; padding-bottom: 5px; }
+        .category-header span { font-family: 'Orbitron'; font-size: 0.75rem; color: #94a3b8; letter-spacing: 2px; }
+
+        .sponsor-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+        .sponsor-card { 
+            background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; 
+            padding: 25px; transition: 0.4s; position: relative;
+            display: flex; flex-direction: column;
         }
-        .sponsor-card {
-            background: white; border: 1px solid #e2e8f0; border-radius: 12px;
-            padding: 20px; text-align: center; transition: 0.3s;
-        }
-        .sponsor-card:hover { transform: translateY(-5px); border-color: #00aeef; }
-        .sponsor-card img { max-width: 100%; height: auto; filter: grayscale(100%); transition: 0.3s; }
-        .sponsor-card:hover img { filter: grayscale(0%); }
-        .sponsor-name { display: block; margin-top: 10px; font-weight: 900; font-size: 0.9rem; color: #0f172a; }
+        .sponsor-card:hover { transform: translateY(-5px); border-color: #00aeef; box-shadow: 0 15px 30px rgba(0,0,0,0.05); }
+        .partner-label { font-family: 'Orbitron'; font-size: 0.6rem; color: #00aeef; font-weight: 900; display: block; margin-bottom: 10px; }
+        .partner-name { font-weight: 900; font-size: 1.2rem; color: #0f172a; margin-bottom: 15px; display: block; }
+        .partner-desc { font-size: 0.85rem; color: #64748b; line-height: 1.8; border-top: 1px solid #f1f5f9; padding-top: 15px; flex-grow: 1; }
 
-        /* 募集セクション */
-        .logistics-banner {
-            background: #0f172a; color: white; border-radius: 20px; padding: 40px;
-            margin: 40px 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;
+        /* リンクボタンのスタイル */
+        .web-link {
+            display: inline-block; margin-top: 20px; padding: 10px 15px;
+            background: #f1f5f9; color: #475569; text-decoration: none;
+            border-radius: 6px; font-size: 0.75rem; font-weight: 900;
+            text-align: center; transition: 0.3s; border: 1px solid #e2e8f0;
         }
-        .logistics-card { border-left: 1px solid rgba(255,255,255,0.1); padding-left: 25px; }
-        .logistics-card h3 { font-family: 'Orbitron'; color: #00aeef; margin: 0 0 15px; font-size: 1.4rem; }
-        .icon { font-size: 2.5rem; margin-bottom: 15px; display: block; }
-
-        .cta { text-align: center; margin: 80px 0 120px; padding: 60px 20px; background: white; border: 2px dashed #e2e8f0; border-radius: 20px; }
-        .btn-mail {
-            display: inline-block; background: #00aeef; color: white; padding: 18px 60px;
-            text-decoration: none; border-radius: 8px; font-weight: 900; margin-top: 30px;
-            font-family: 'Orbitron'; letter-spacing: 2px; transition: 0.3s;
-        }
+        .web-link:hover { background: #00aeef; color: #fff; border-color: #00aeef; }
+        .web-link::before { content: "🔗"; margin-right: 8px; }
 
         .sys-ver { position: fixed; bottom: 12px; right: 20px; font-family: 'Orbitron'; font-size: 0.6rem; color: #cbd5e1; }
     </style>
 </head>
 <body>
 
-<div class="sys-ver">v3.7.0 / SPONSOR-DB</div>
+<div class="translate-wrapper">
+    <div id="google_translate_element"></div>
+</div>
+
+<div class="sys-ver">v4.2.0 / PARTNER-LINK-GEN</div>
 <div id="nav-container"></div>
 
 <header>
-    <h1>PARTNERSHIP</h1>
-    <p>篠ノ井技術クラブ パートナーシップ</p>
+    <h1>PARTNERS</h1>
+    <div class="sub-header">パートナーシップ・支援協力</div>
 </header>
 
 <main class="container">
-    <section>
-        <h2>CURRENT PARTNERS</h2>
-        <div id="sponsor-display" class="sponsor-list">
-            読み込み中...
-        </div>
+    <section id="sec-logistics" class="category-section">
+        <div class="category-header"><h2>輸送協力</h2><span>LOGISTICS</span></div>
+        <div class="sponsor-grid"></div>
     </section>
 
-    <section>
-        <h2>WANTED: LOGISTICS</h2>
-        <div class="logistics-banner">
-            <div class="logistics-card" style="border:none;">
-                <span class="icon">🚚</span>
-                <h3>TRUCK / 運搬</h3>
-                <p>自作エコカーの大会会場（もてぎ）への運搬サポートを募集しています。</p>
-            </div>
-            <div class="logistics-card">
-                <span class="icon">🚌</span>
-                <h3>BUS / 移動</h3>
-                <p>部員およびスタッフの往復移動を支えていただけるパートナーを募集しています。</p>
-            </div>
-        </div>
+    <section id="sec-material" class="category-section">
+        <div class="category-header"><h2>資材・物品提供</h2><span>MATERIAL</span></div>
+        <div class="sponsor-grid"></div>
     </section>
 
-    <div class="cta">
-        <h2>JOIN OUR CHALLENGE</h2>
-        <p style="color: #64748b;">技術支援・物資提供・輸送協力に関するお問い合わせはこちら</p>
-        <a href="contact.html" class="btn-mail">CONTACT US</a>
-    </div>
+    <section id="sec-tech" class="category-section">
+        <div class="category-header"><h2>技術指導・メンター</h2><span>TECHNOLOGY</span></div>
+        <div class="sponsor-grid"></div>
+    </section>
+
+    <section id="sec-other" class="category-section">
+        <div class="category-header"><h2>その他ご支援</h2><span>OTHERS</span></div>
+        <div class="sponsor-grid"></div>
+    </section>
 </main>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'ja', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+}
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script src="menu.js"></script>
 
 <script>
-    const GITHUB_USER = "emr-snn-dev";
-    const GITHUB_REPO = "emr-snn-dev.github.io";
+const GITHUB_ACCOUNT = "emr-snn-dev"; 
+const REPO_TITLE = "emr-snn-dev.github.io";
 
-    async function loadSponsors() {
-        const box = document.getElementById('sponsor-display');
-        try {
-            const res = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/sponsors`);
-            if (!res.ok) throw new Error();
-            const files = await res.json();
+async function loadSponsorsWithLinks() {
+    try {
+        const response = await fetch(`https://api.github.com/repos/${GITHUB_ACCOUNT}/${REPO_TITLE}/contents/sponsors`);
+        const files = await response.json();
+        
+        for (const file of files) {
+            if (!file.name.endsWith('.md')) continue;
+
+            const rawContent = await fetch(file.download_url).then(r => r.text());
             
-            box.innerHTML = ""; // 読み込み中を消す
-
-            for (const file of files) {
-                if (file.name.endsWith('.md')) {
-                    const contentRes = await fetch(file.download_url);
-                    const md = await contentRes.text();
-                    
-                    // ファイル名から「01_」などの数字と「.md」を消して名前にする
-                    const displayName = file.name.replace(/^\d+_/, '').replace('.md', '').toUpperCase();
-                    
-                    const card = document.createElement('div');
-                    card.className = 'sponsor-card';
-                    card.innerHTML = `
-                        <div class="sponsor-name">${displayName}</div>
-                        <div style="font-size:0.7rem; color:#64748b; margin-top:10px;">${marked.parse(md)}</div>
-                    `;
-                    box.appendChild(card);
-                }
+            // URLを抽出（httpから始まる文字列を探す）
+            const urlMatch = rawContent.match(/https?:\/\/[\w/:%#\$&\?\(\)~\.=\+\-]+/g);
+            const webUrl = urlMatch ? urlMatch[0] : null;
+            
+            // URLを除いたテキストを説明文にする
+            const cleanDescription = rawContent.replace(webUrl, "").trim();
+            
+            const rawFileName = file.name.replace('.md', '');
+            let catType = "その他";
+            let compName = rawFileName;
+            if (rawFileName.includes('-')) {
+                const parts = rawFileName.split('-');
+                catType = parts[0];
+                compName = parts[1];
             }
-        } catch (e) {
-            box.innerHTML = "<p>パートナー情報は現在準備中です。</p>";
-        }
-    }
 
-    loadSponsors();
+            // リンクがある場合のみボタンを生成
+            const linkButton = webUrl ? `<a href="${webUrl}" target="_blank" class="web-link">ウェブサイトを見る</a>` : "";
+
+            const cardHtml = `
+                <div class="sponsor-card">
+                    <span class="partner-label">OFFICIAL PARTNER</span>
+                    <span class="partner-name">${compName}</span>
+                    <div class="partner-desc">${marked.parse(cleanDescription)}</div>
+                    ${linkButton}
+                </div>
+            `;
+
+            let targetId = "";
+            if (catType.includes("輸送")) targetId = "sec-logistics";
+            else if (catType.includes("資材") || catType.includes("物品")) targetId = "sec-material";
+            else if (catType.includes("技術") || catType.includes("指導")) targetId = "sec-tech";
+            else targetId = "sec-other";
+
+            const section = document.getElementById(targetId);
+            section.querySelector('.sponsor-grid').insertAdjacentHTML('beforeend', cardHtml);
+            section.style.display = 'block';
+        }
+    } catch (err) {
+        console.log("データの読み込みエラー");
+    }
+}
+
+loadSponsorsWithLinks();
 </script>
 </body>
 </html>
