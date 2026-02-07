@@ -13,6 +13,15 @@
         .translate-wrapper { text-align: right; padding: 15px; background: #fff; border-bottom: 1px solid #e2e8f0; }
         #google_translate_element { display: inline-block; }
 
+        /* もてぎ大会カウントダウン */
+        .countdown-area {
+            background: #0f172a; color: white; padding: 50px 20px; text-align: center;
+            border-bottom: 5px solid #00aeef;
+        }
+        .countdown-label { font-family: 'Orbitron'; font-size: 0.85rem; color: #00aeef; letter-spacing: 4px; margin-bottom: 15px; display: block; }
+        .timer-display { font-family: 'Orbitron'; font-size: 3.5rem; font-weight: 900; letter-spacing: 2px; }
+        .timer-unit { font-size: 0.9rem; margin-right: 15px; color: #94a3b8; letter-spacing: 1px; }
+
         header { text-align: center; padding: 60px 20px; background: #fff; }
         header h1 { font-family: 'Orbitron'; font-size: 2.5rem; margin: 0; letter-spacing: 8px; color: #0f172a; }
         .sub-header { color: #00aeef; font-weight: 900; letter-spacing: 4px; margin-top: 5px; font-size: 0.9rem; }
@@ -23,25 +32,13 @@
         .category-header span { font-family: 'Orbitron'; font-size: 0.75rem; color: #94a3b8; letter-spacing: 2px; }
 
         .sponsor-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
-        .sponsor-card { 
-            background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; 
-            padding: 25px; transition: 0.4s; position: relative;
-            display: flex; flex-direction: column;
-        }
+        .sponsor-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 25px; transition: 0.4s; display: flex; flex-direction: column; }
         .sponsor-card:hover { transform: translateY(-5px); border-color: #00aeef; box-shadow: 0 15px 30px rgba(0,0,0,0.05); }
-        .partner-label { font-family: 'Orbitron'; font-size: 0.6rem; color: #00aeef; font-weight: 900; display: block; margin-bottom: 10px; }
         .partner-name { font-weight: 900; font-size: 1.2rem; color: #0f172a; margin-bottom: 15px; display: block; }
         .partner-desc { font-size: 0.85rem; color: #64748b; line-height: 1.8; border-top: 1px solid #f1f5f9; padding-top: 15px; flex-grow: 1; }
 
-        /* リンクボタンのスタイル */
-        .web-link {
-            display: inline-block; margin-top: 20px; padding: 10px 15px;
-            background: #f1f5f9; color: #475569; text-decoration: none;
-            border-radius: 6px; font-size: 0.75rem; font-weight: 900;
-            text-align: center; transition: 0.3s; border: 1px solid #e2e8f0;
-        }
+        .web-link { display: inline-block; margin-top: 20px; padding: 10px 15px; background: #f1f5f9; color: #475569; text-decoration: none; border-radius: 6px; font-size: 0.75rem; font-weight: 900; text-align: center; transition: 0.3s; border: 1px solid #e2e8f0; }
         .web-link:hover { background: #00aeef; color: #fff; border-color: #00aeef; }
-        .web-link::before { content: "🔗"; margin-right: 8px; }
 
         .sys-ver { position: fixed; bottom: 12px; right: 20px; font-family: 'Orbitron'; font-size: 0.6rem; color: #cbd5e1; }
     </style>
@@ -52,30 +49,37 @@
     <div id="google_translate_element"></div>
 </div>
 
-<div class="sys-ver">v4.2.0 / PARTNER-LINK-GEN</div>
+<div class="countdown-area">
+    <span class="countdown-label">COUNTDOWN TO MOTEGI 05.30</span>
+    <div class="timer-display">
+        <span id="days">00</span><span class="timer-unit">DAYS</span>
+        <span id="hours">00</span><span class="timer-unit">HRS</span>
+    </div>
+    <p style="color: #64748b; font-size: 0.75rem; margin-top: 15px; font-weight: 900;">2026年5月30日 もてぎ大会まで</p>
+</div>
+
+<div class="sys-ver">v4.5.0 / MOTEGI-FINAL</div>
+
 <div id="nav-container"></div>
 
 <header>
     <h1>PARTNERS</h1>
-    <div class="sub-header">パートナーシップ・支援協力</div>
+    <div class="sub-header">挑戦を支えるパートナーシップ</div>
 </header>
 
 <main class="container">
     <section id="sec-logistics" class="category-section">
-        <div class="category-header"><h2>輸送協力</h2><span>LOGISTICS</span></div>
+        <div class="category-header"><h2>輸送・移動協力</h2><span>LOGISTICS</span></div>
         <div class="sponsor-grid"></div>
     </section>
-
     <section id="sec-material" class="category-section">
         <div class="category-header"><h2>資材・物品提供</h2><span>MATERIAL</span></div>
         <div class="sponsor-grid"></div>
     </section>
-
     <section id="sec-tech" class="category-section">
         <div class="category-header"><h2>技術指導・メンター</h2><span>TECHNOLOGY</span></div>
         <div class="sponsor-grid"></div>
     </section>
-
     <section id="sec-other" class="category-section">
         <div class="category-header"><h2>その他ご支援</h2><span>OTHERS</span></div>
         <div class="sponsor-grid"></div>
@@ -93,63 +97,60 @@ function googleTranslateElementInit() {
 <script src="menu.js"></script>
 
 <script>
-const GITHUB_ACCOUNT = "emr-snn-dev"; 
-const REPO_TITLE = "emr-snn-dev.github.io";
+// カウントダウン：2026年5月30日
+function updateTimer() {
+    const target = new Date("May 30, 2026 00:00:00").getTime();
+    const now = new Date().getTime();
+    const diff = target - now;
 
-async function loadSponsorsWithLinks() {
+    if (diff <= 0) {
+        document.getElementById("timer").innerHTML = "RACE DAY";
+        return;
+    }
+
+    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+    document.getElementById("days").innerText = d.toString().padStart(2, '0');
+    document.getElementById("hours").innerText = h.toString().padStart(2, '0');
+}
+setInterval(updateTimer, 1000);
+updateTimer();
+
+// スポンサー取得
+const USER_ID = "emr-snn-dev"; 
+const REPO_ID = "emr-snn-dev.github.io";
+
+async function loadSponsors() {
     try {
-        const response = await fetch(`https://api.github.com/repos/${GITHUB_ACCOUNT}/${REPO_TITLE}/contents/sponsors`);
+        const response = await fetch(`https://api.github.com/repos/${USER_ID}/${REPO_ID}/contents/sponsors`);
+        if (!response.ok) return;
         const files = await response.json();
         
         for (const file of files) {
             if (!file.name.endsWith('.md')) continue;
+            const raw = await fetch(file.download_url).then(r => r.text());
+            const url = raw.match(/https?:\/\/[\w/:%#\$&\?\(\)~\.=\+\-]+/g);
+            const webUrl = url ? url[0] : null;
+            const desc = raw.replace(webUrl, "").trim();
+            const fileName = file.name.replace('.md', '');
+            let cat = "その他"; let name = fileName;
+            if (fileName.includes('-')) { const p = fileName.split('-'); cat = p[0]; name = p[1]; }
+            const btn = webUrl ? `<a href="${webUrl}" target="_blank" class="web-link">ウェブサイトを見る</a>` : "";
+            const html = `<div class="sponsor-card"><span class="partner-name">${name}</span><div class="partner-desc">${marked.parse(desc)}</div>${btn}</div>`;
 
-            const rawContent = await fetch(file.download_url).then(r => r.text());
-            
-            // URLを抽出（httpから始まる文字列を探す）
-            const urlMatch = rawContent.match(/https?:\/\/[\w/:%#\$&\?\(\)~\.=\+\-]+/g);
-            const webUrl = urlMatch ? urlMatch[0] : null;
-            
-            // URLを除いたテキストを説明文にする
-            const cleanDescription = rawContent.replace(webUrl, "").trim();
-            
-            const rawFileName = file.name.replace('.md', '');
-            let catType = "その他";
-            let compName = rawFileName;
-            if (rawFileName.includes('-')) {
-                const parts = rawFileName.split('-');
-                catType = parts[0];
-                compName = parts[1];
-            }
+            let tid = "";
+            if (cat.includes("輸送") || cat.includes("移動")) tid = "sec-logistics";
+            else if (cat.includes("資材") || cat.includes("物品")) tid = "sec-material";
+            else if (cat.includes("技術") || cat.includes("指導")) tid = "sec-tech";
+            else tid = "sec-other";
 
-            // リンクがある場合のみボタンを生成
-            const linkButton = webUrl ? `<a href="${webUrl}" target="_blank" class="web-link">ウェブサイトを見る</a>` : "";
-
-            const cardHtml = `
-                <div class="sponsor-card">
-                    <span class="partner-label">OFFICIAL PARTNER</span>
-                    <span class="partner-name">${compName}</span>
-                    <div class="partner-desc">${marked.parse(cleanDescription)}</div>
-                    ${linkButton}
-                </div>
-            `;
-
-            let targetId = "";
-            if (catType.includes("輸送")) targetId = "sec-logistics";
-            else if (catType.includes("資材") || catType.includes("物品")) targetId = "sec-material";
-            else if (catType.includes("技術") || catType.includes("指導")) targetId = "sec-tech";
-            else targetId = "sec-other";
-
-            const section = document.getElementById(targetId);
-            section.querySelector('.sponsor-grid').insertAdjacentHTML('beforeend', cardHtml);
-            section.style.display = 'block';
+            const sec = document.getElementById(tid);
+            if (sec) { sec.querySelector('.sponsor-grid').insertAdjacentHTML('beforeend', html); sec.style.display = 'block'; }
         }
-    } catch (err) {
-        console.log("データの読み込みエラー");
-    }
+    } catch (e) {}
 }
-
-loadSponsorsWithLinks();
+loadSponsors();
 </script>
 </body>
 </html>
