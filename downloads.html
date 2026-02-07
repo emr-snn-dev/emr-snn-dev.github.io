@@ -19,17 +19,17 @@
         .filter-btn { background: #162a43; border: 1px solid #334155; color: #94a3b8; padding: 8px 20px; border-radius: 30px; font-family: 'Orbitron'; font-size: 0.7rem; cursor: pointer; transition: 0.3s; font-weight: 900; }
         .filter-btn.active { background: #00aeef; color: white; border-color: #00aeef; }
 
-        #auth-msg { background: rgba(0, 174, 239, 0.1); border: 1px solid #00aeef; color: #00aeef; padding: 15px; text-align: center; border-radius: 8px; margin-bottom: 30px; font-size: 0.8rem; font-weight: bold; display: none; }
-        
         .dl-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         .dl-card { background: rgba(16, 42, 67, 0.8); border: 1px solid #333; padding: 15px; border-radius: 15px; transition: 0.4s; display: flex; flex-direction: column; position: relative; overflow: hidden; }
 
-        .preview-box { width: 100%; aspect-ratio: 16/9; background: #05101a; border-radius: 8px; margin-bottom: 15px; overflow: hidden; position: relative; cursor: pointer; }
-        .preview-img { width: 100%; height: 100%; object-fit: cover; transition: 1.0s filter ease; filter: blur(25px) brightness(0.7); }
+        /* プレビューエリア */
+        .preview-box { width: 100%; aspect-ratio: 16/9; background: #05101a; border-radius: 8px; margin-bottom: 15px; overflow: hidden; position: relative; }
+        .preview-img { width: 100%; height: 100%; object-fit: cover; transition: 0.8s filter ease; filter: blur(30px) brightness(0.5); }
         .is-authenticated .preview-img { filter: blur(0px) brightness(1); }
 
-        .lock-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.2); transition: 0.5s; pointer-events: none; }
-        .is-authenticated .lock-overlay { opacity: 0; }
+        .lock-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.3); transition: 0.5s; z-index: 5; }
+        .is-authenticated .lock-overlay { opacity: 0; pointer-events: none; }
+        .lock-icon { font-size: 1.5rem; }
         
         .tag { font-family: 'Orbitron'; font-size: 0.55rem; padding: 2px 8px; border-radius: 4px; margin-bottom: 10px; display: inline-block; width: fit-content; font-weight: 900; border: 1px solid; }
         .tag-photo { background: rgba(0, 174, 239, 0.1); color: #00aeef; border-color: #00aeef; }
@@ -37,17 +37,16 @@
 
         .file-name { font-weight: 900; font-size: 1rem; margin-bottom: 15px; line-height: 1.3; color: #fff; min-height: 2.6em; }
         
-        /* ボタン類 */
         .btn-group { display: flex; gap: 8px; margin-top: auto; }
         .btn-dl { flex: 1; padding: 12px; border-radius: 6px; text-align: center; text-decoration: none; font-weight: 900; font-family: 'Orbitron'; transition: 0.3s; font-size: 0.7rem; border: none; }
         .btn-locked { background: #1e293b; color: #475569; cursor: not-allowed; width: 100%; }
         .btn-active { background: #00aeef; color: white; cursor: pointer; }
-        .btn-view { background: #334155; color: white; }
+        .btn-view { background: #334155; color: white; cursor: pointer; }
 
-        /* モーダルビューアー */
-        #pdf-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 20000; flex-direction: column; }
-        #pdf-frame { width: 100%; flex-grow: 1; border: none; }
-        .modal-close { background: #ff4d4d; color: white; padding: 15px; text-align: center; font-weight: 900; cursor: pointer; font-family: 'Orbitron'; }
+        /* モーダル */
+        #pdf-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 20000; flex-direction: column; }
+        #pdf-frame { width: 100%; flex-grow: 1; border: none; background: white; }
+        .modal-close { background: #ff4d4d; color: white; padding: 15px; text-align: center; font-weight: 900; cursor: pointer; font-family: 'Orbitron'; letter-spacing: 2px; }
     </style>
 </head>
 <body oncontextmenu="return false;">
@@ -59,20 +58,18 @@
             <p id="log-status-text" style="color:#00aeef; font-weight:900; font-size: 0.7rem; margin-top: 10px; letter-spacing: 2px;">SECURE ACCESS MODE</p>
         </header>
 
-        <div id="auth-msg">⚠ 会員ログインで閲覧・ぼかし解除が可能です</div>
-
         <div id="filter-area" class="filter-group">
             <button class="filter-btn active" onclick="applyFilter('all', this)">ALL</button>
             <button class="filter-btn" onclick="applyFilter('PHOTO', this)">PHOTO</button>
             <button class="filter-btn" onclick="applyFilter('FILE', this)">FILE</button>
         </div>
 
-        <div id="main-grid" class="dl-grid"></div>
+        <div id="main-grid" class="dl-grid">データを取得中...</div>
     </main>
 
     <div id="pdf-modal">
         <div class="modal-close" onclick="closeModal()">CLOSE PREVIEW</div>
-        <iframe id="pdf-frame"></iframe>
+        <iframe id="pdf-frame" src=""></iframe>
     </div>
 
     <script src="/menu.js"></script>
@@ -81,15 +78,23 @@
         let masterData = [];
 
         async function syncFiles() {
-            const [docs, imgs] = await Promise.all([
-                fetch(`https://api.github.com/repos/${REPO}/contents/docs`).then(r => r.ok ? r.json() : []),
-                fetch(`https://api.github.com/repos/${REPO}/contents/images`).then(r => r.ok ? r.json() : [])
-            ]);
-            masterData = [
-                ...docs.filter(f => f.type === 'file').map(f => ({...f, category: 'FILE'})),
-                ...imgs.filter(f => f.type === 'file' && f.name.match(/\.(jpg|jpeg|png|webp|gif)$/i)).map(f => ({...f, category: 'PHOTO'}))
-            ];
-            render();
+            try {
+                const [docsRes, imgsRes] = await Promise.all([
+                    fetch(`https://api.github.com/repos/${REPO}/contents/docs?t=${Date.now()}`),
+                    fetch(`https://api.github.com/repos/${REPO}/contents/images?t=${Date.now()}`)
+                ]);
+                
+                const docs = docsRes.ok ? await docsRes.json() : [];
+                const imgs = imgsRes.ok ? await imgsRes.json() : [];
+
+                masterData = [
+                    ...docs.filter(f => f.type === 'file').map(f => ({...f, category: 'FILE'})),
+                    ...imgs.filter(f => f.type === 'file' && f.name.match(/\.(jpg|jpeg|png|webp|gif)$/i)).map(f => ({...f, category: 'PHOTO'}))
+                ];
+                render();
+            } catch (e) {
+                document.getElementById('main-grid').innerText = "データの取得に失敗しました。";
+            }
         }
 
         function render() {
@@ -97,15 +102,22 @@
             const grid = document.getElementById('main-grid');
             document.body.classList.toggle('is-authenticated', !!user);
 
+            if (masterData.length === 0) {
+                grid.innerHTML = "<p>ファイルが見つかりません。</p>";
+                return;
+            }
+
             grid.innerHTML = masterData.map(file => {
                 const isPhoto = file.category === 'PHOTO';
                 const isPdf = file.name.toLowerCase().endsWith('.pdf');
                 const cleanName = file.name.split('.')[0].replace(/_/g, ' ');
-                const previewSrc = isPhoto ? file.download_url : 'https://placehold.jp/24/162a43/94a3b8/300x168.png?text=' + file.name.split('.').pop().toUpperCase();
+                
+                // プレビューURL生成
+                const previewSrc = isPhoto ? file.download_url : `https://placehold.jp/24/162a43/94a3b8/300x168.png?text=${file.name.split('.').pop().toUpperCase()}`;
 
                 return `
                     <div class="dl-card" data-cat="${file.category}">
-                        <div class="preview-box" onclick="${user && isPhoto ? `window.open('${file.download_url}')` : ''}">
+                        <div class="preview-box">
                             <img src="${previewSrc}" class="preview-img" loading="lazy">
                             <div class="lock-overlay"><span class="lock-icon">🔒</span></div>
                         </div>
@@ -114,6 +126,7 @@
                         <div class="btn-group">
                             ${user ? `
                                 ${isPdf ? `<button class="btn-dl btn-view" onclick="openPdf('${file.download_url}')">VIEW</button>` : ''}
+                                ${isPhoto ? `<button class="btn-dl btn-view" onclick="window.open('${file.download_url}')">VIEW</button>` : ''}
                                 <a href="${file.download_url}" class="btn-dl btn-active" download="${file.name}">GET</a>
                             ` : `
                                 <div class="btn-dl btn-locked">LOGIN REQUIRED</div>
@@ -125,7 +138,9 @@
         }
 
         function openPdf(url) {
-            document.getElementById('pdf-frame').src = url;
+            // Google Docs Viewerを使用してPDFを表示（GitHubの直リンク対策）
+            const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(url)}&embedded=true`;
+            document.getElementById('pdf-frame').src = viewerUrl;
             document.getElementById('pdf-modal').style.display = 'flex';
             document.body.style.overflow = 'hidden';
         }
