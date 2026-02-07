@@ -11,72 +11,128 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.0/marked.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Noto+Sans+JP:wght@400;900&display=swap" rel="stylesheet">
     <style id="security-styles">
-        body { background: #0b1d2e; color: white; margin: 0; font-family: 'Noto Sans JP', sans-serif; -webkit-user-select: none; user-select: none; }
-        .camera-guard { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: repeating-linear-gradient(0deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 2px); pointer-events: none; z-index: 99999; }
-        .markdown-body img { pointer-events: none; -webkit-touch-callout: none; }
+        body { 
+            background: #0b1d2e; 
+            color: white; 
+            margin: 0; 
+            font-family: 'Noto Sans JP', sans-serif;
+            /* 基本的なコピー禁止設定 */
+            -webkit-user-select: none; 
+            user-select: none; 
+            -webkit-touch-callout: none;
+        }
+        /* 写真盗作防止用の透明ガードレイヤー */
+        .img-guard {
+            position: relative;
+            display: inline-block;
+        }
+        .img-guard::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0);
+            z-index: 10;
+        }
+        img {
+            pointer-events: none; /* クリックやドラッグを無効化 */
+        }
     </style>
     <style>
-        .main-layout { display: grid; grid-template-columns: 1fr 300px; gap: 40px; max-width: 1200px; margin: 0 auto; padding: 120px 20px 60px; }
-        .sidebar { position: sticky; top: 100px; height: fit-content; }
-        .side-widget { background: rgba(16, 42, 67, 0.5); border: 1px solid #1e3a5f; border-radius: 15px; padding: 20px; margin-bottom: 25px; }
+        /* レイアウト */
+        .main-layout { display: grid; grid-template-columns: 1fr 300px; gap: 30px; max-width: 1200px; margin: 0 auto; padding: 140px 20px 60px; }
+        .content-area { min-width: 0; }
+        .sidebar { position: sticky; top: 120px; height: fit-content; z-index: 50; }
+        .side-widget { background: rgba(16, 42, 67, 0.6); border: 1px solid #1e3a5f; border-radius: 15px; padding: 20px; margin-bottom: 25px; backdrop-filter: blur(10px); }
         .widget-title { font-family: 'Orbitron'; font-size: 0.8rem; color: #00aeef; border-bottom: 1px solid #1e3a5f; padding-bottom: 10px; margin-bottom: 15px; letter-spacing: 2px; font-weight: 900; }
         
-        /* 閲覧数 */
-        .live-counter { background: rgba(255, 0, 0, 0.1); color: #ff4d4d; border: 1px solid #ff4d4d; padding: 5px 12px; border-radius: 5px; font-family: 'Orbitron'; font-size: 0.75rem; font-weight: 900; display: inline-block; margin-bottom: 15px; }
-        .live-dot { height: 8px; width: 8px; background-color: #ff4d4d; border-radius: 50%; display: inline-block; margin-right: 5px; animation: blink 1s infinite; }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-
-        /* カレンダー予定 */
+        /* スケジュール */
         .event-item { display: flex; gap: 15px; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .event-day { display: block; font-family: 'Orbitron'; font-size: 1.1rem; color: #00aeef; font-weight: 900; line-height: 1; }
+        .event-day { display: block; font-family: 'Orbitron'; font-size: 1.1rem; color: #00aeef; font-weight: 900; }
         .event-month { display: block; font-family: 'Orbitron'; font-size: 0.5rem; color: #94a3b8; }
-        .event-title { display: block; font-size: 0.8rem; font-weight: 900; color: white; line-height: 1.3; }
+        .event-title { font-size: 0.8rem; font-weight: 900; color: white; line-height: 1.3; }
 
-        /* 広告 */
-        .ad-widget { border: 1px solid #00aeef; box-shadow: 0 0 10px rgba(0, 174, 239, 0.2); background: rgba(0, 174, 239, 0.05); }
-        .ad-content img { width: 100%; border-radius: 8px; filter: brightness(0.8); cursor: pointer; transition: 0.3s; }
+        /* カテゴリーボタン */
+        .cat-list { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+        .cat-item { padding: 6px 12px; border: 1px solid #1e3a5f; cursor: pointer; color: #94a3b8; font-size: 0.75rem; border-radius: 5px; transition: 0.2s; background: rgba(0,0,0,0.2); }
+        .cat-item.active { background: #00aeef; color: white; border-color: #00aeef; font-weight: 900; box-shadow: 0 0 10px rgba(0, 174, 239, 0.4); }
 
         /* ブログカード */
         .blog-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
-        .blog-card { background: rgba(16, 42, 67, 0.4); border-radius: 12px; border: 1px solid #1e3a5f; padding: 25px; cursor: pointer; transition: 0.3s; }
-        .blog-card:hover { border-color: #00aeef; transform: translateY(-3px); }
-        .category-label { display: inline-block; background: #00aeef; color: white; font-family: 'Orbitron'; font-size: 0.6rem; font-weight: 900; padding: 2px 10px; border-radius: 4px; }
-        .cat-list { list-style: none; padding: 0; margin: 0; }
-        .cat-item { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; color: #94a3b8; font-size: 0.8rem; border-radius: 5px; }
-        .cat-item.active { background: #00aeef; color: white; font-weight: 900; }
+        .blog-card { background: rgba(16, 42, 67, 0.4); border-radius: 12px; border: 1px solid #1e3a5f; padding: 25px; cursor: pointer; transition: 0.3s; position: relative; }
+        .blog-card:hover { border-color: #00aeef; transform: translateY(-3px); background: rgba(16, 42, 67, 0.6); }
+        .category-label { display: inline-block; background: #00aeef; color: white; font-family: 'Orbitron'; font-size: 0.6rem; font-weight: 900; padding: 2px 10px; border-radius: 4px; margin-left: 10px; }
 
-        /* スライダー & ビューワー */
-        .photo-slider { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 10px; padding: 10px 0; scrollbar-width: none; }
-        .photo-slider img { flex: 0 0 85%; scroll-snap-align: center; max-height: 50vh; object-fit: contain; background: #050f19; margin: 0; }
-        #blog-viewer { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 15, 25, 0.98); z-index: 10000; overflow-y: auto; backdrop-filter: blur(15px); }
-        .viewer-inner { max-width: 850px; margin: 40px auto; background: #0b1d2e; padding: 40px; border-radius: 20px; border: 1px solid #1e3a5f; position: relative; }
-        .close-btn { position: sticky; top: 0; float: right; background: #ff4d4d; color: white; border: none; padding: 10px 25px; border-radius: 50px; cursor: pointer; z-index: 10001; font-family: 'Orbitron'; font-weight: 900; }
-        #copy-toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: #00aeef; color: white; padding: 12px 30px; border-radius: 50px; display: none; z-index: 200000; font-weight: 900; animation: fadeInUp 0.3s; }
+        /* 写真サイズ・スライダー調整（大きすぎないよう修正） */
+        .photo-slider { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 15px; padding: 10px 0; scrollbar-width: none; }
+        .photo-slider img { 
+            flex: 0 0 auto; 
+            scroll-snap-align: center; 
+            max-width: 100%; 
+            max-height: 400px; /* 高さを400pxに制限 */
+            width: auto;
+            height: auto;
+            border-radius: 12px; 
+            border: 1px solid #1e3a5f;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
 
-        @media (max-width: 900px) { .main-layout { grid-template-columns: 1fr; } .sidebar { order: -1; } }
+        /* 記事内画像の単体表示設定 */
+        .markdown-body img:not(.photo-slider img) {
+            max-width: 100%;
+            max-height: 400px;
+            height: auto;
+            border-radius: 8px;
+            display: block;
+            margin: 20px auto;
+        }
+
+        /* 改善版ナビゲーションボタン */
+        .post-nav-container { display: flex; justify-content: space-between; gap: 20px; margin-top: 50px; border-top: 1px solid #1e3a5f; padding-top: 30px; }
+        .nav-btn { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 18px; border: 1px solid #1e3a5f; border-radius: 12px; background: rgba(30, 58, 95, 0.2); color: #00aeef; cursor: pointer; transition: 0.3s; max-width: 48%; }
+        .nav-btn:hover { background: rgba(0, 174, 239, 0.1); border-color: #00aeef; box-shadow: 0 0 20px rgba(0, 174, 239, 0.3); }
+        .nav-btn .nav-label { font-family: 'Orbitron'; font-size: 0.65rem; font-weight: 900; color: #94a3b8; margin-bottom: 8px; letter-spacing: 1px; }
+        .nav-btn .nav-arrow { font-size: 1.4rem; font-weight: 900; }
+        .nav-btn.disabled { visibility: hidden; pointer-events: none; }
+
+        /* ビューワー本体 */
+        #blog-viewer { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 15, 25, 0.99); z-index: 100000; overflow-y: auto; backdrop-filter: blur(20px); }
+        .viewer-inner { max-width: 800px; margin: 60px auto; background: #0b1d2e; padding: 50px; border-radius: 24px; border: 1px solid #1e3a5f; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
+        .close-btn { position: sticky; top: 20px; float: right; background: #ff4d4d; color: white; border: none; padding: 12px 24px; border-radius: 50px; cursor: pointer; z-index: 100001; font-family: 'Orbitron'; font-weight: 900; box-shadow: 0 4px 15px rgba(255, 77, 77, 0.3); }
+
+        @media (max-width: 900px) {
+            .main-layout { grid-template-columns: 1fr; padding-top: 100px; }
+            .sidebar { order: -1; position: relative; top: 0; }
+            .viewer-inner { margin: 15px; padding: 25px; border-radius: 15px; }
+            .photo-slider img { max-height: 300px; }
+        }
     </style>
 </head>
-<body oncontextmenu="return false;">
+<body oncontextmenu="return false;" onselectstart="return false;" ondragstart="return false;">
 
-    <div class="camera-guard"></div>
     <div id="nav-container"></div>
 
     <main class="main-layout">
-        <section class="content-area"><div id="blog-list" class="blog-grid">UPDATING...</div></section>
+        <section class="content-area">
+            <div id="blog-list" class="blog-grid">データを同期中...</div>
+        </section>
         
         <aside class="sidebar">
-            <div class="side-widget ad-widget">
-                <h2 class="widget-title">SPONSOR</h2>
-                <div class="ad-content"><img src="https://via.placeholder.com/300x150/1e3a5f/00aeef?text=SHINOI+ECO-CAR" alt="AD"></div>
+            <div class="side-widget">
+                <h2 class="widget-title">SCHEDULE</h2>
+                <div id="event-display">読み込み中...</div>
             </div>
 
             <div class="side-widget">
-                <div class="live-counter"><span class="live-dot"></span>LIVE: <span id="online-count">1</span> USERS</div>
-                <h2 class="widget-title">SCHEDULE</h2>
-                <div id="event-display">LOADING...</div>
+                <h2 class="widget-title">CATEGORIES</h2>
+                <ul class="cat-list" id="category-list"></ul>
             </div>
 
-            <div class="side-widget"><h2 class="widget-title">CATEGORIES</h2><ul class="cat-list" id="category-list"></ul></div>
+            <div class="side-widget ad-widget">
+                <h2 class="widget-title">SPONSOR</h2>
+                <div class="ad-content">
+                    <img src="https://via.placeholder.com/300x150/1e3a5f/00aeef?text=SHINOI+ECO-CAR" alt="AD" style="width:100%; border-radius:8px;">
+                </div>
+            </div>
         </aside>
     </main>
 
@@ -84,37 +140,30 @@
         <div class="viewer-inner">
             <button class="close-btn" onclick="closePost()">CLOSE</button>
             <div id="post-content" class="markdown-body"></div>
-            <div style="text-align:center; margin:30px 0;"><button style="background:none; border:1px solid #00aeef; color:#00aeef; padding:10px 25px; border-radius:50px; cursor:pointer;" onclick="copyURL()" id="copy-btn">SHARE URL</button></div>
-            <div id="post-navigation" style="display:flex; justify-content:space-between;"></div>
+            
+            <div class="post-nav-container" id="post-navigation"></div>
+
+            <div style="text-align:center; margin-top:50px;">
+                <button id="copy-btn" style="background:none; border:1px solid #1e3a5f; color:#5c7080; padding:12px 30px; border-radius:50px; cursor:pointer; font-family:'Orbitron'; font-size:0.65rem; letter-spacing:2px;" onclick="copyURL()">SHARE POST URL</button>
+            </div>
         </div>
     </div>
 
-    <div id="copy-toast">URLをコピーしました</div>
+    <div id="copy-toast" style="position:fixed; bottom:50px; left:50%; transform:translateX(-50%); background:#00aeef; color:white; padding:12px 25px; border-radius:50px; display:none; z-index:200000; font-family:'Orbitron'; font-weight:900; box-shadow:0 0 20px rgba(0,174,239,0.5);">COPIED</div>
 
     <script src="/menu.js"></script>
 
     <script>
         const REPO = "emr-snn-dev/emr-snn-dev.github.io";
         const CAL_ID = "373a1a4fda869bb27bafd57df85f2736ac20bb224e6733897f74bc1e221647a@group.calendar.google.com";
-        const API_K = "AQ.Ab8RN6LfDBSjoikeSI1C0D09OaytknKr9IfWrwNvx0dpoz45OA"; // ユーザー提供のキー
+        const API_K = "AQ.Ab8RN6LfDBSjoikeSI1C0D09OaytknKr9IfWrwNvx0dpoz45OA";
 
-        let isAuth = false;
         let postsData = [];
 
-        // 閲覧数
-        function initLiveCounter() {
-            const db = firebase.database();
-            const onlineRef = db.ref('.info/connected');
-            const userRef = db.ref('presence').push();
-            onlineRef.on('value', snap => { if(snap.val()) { userRef.onDisconnect().remove(); userRef.set(true); } });
-            db.ref('presence').on('value', snap => { document.getElementById('online-count').innerText = snap.numChildren(); });
-        }
-
-        // カレンダー自動取得
         async function fetchCalendar() {
             try {
                 const now = new Date().toISOString();
-                const url = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(CAL_ID)}/events?key=${API_K}&timeMin=${now}&maxResults=5&singleEvents=true&orderBy=startTime`;
+                const url = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(CAL_ID)}/events?key=${API_K}&timeMin=${now}&maxResults=3&singleEvents=true&orderBy=startTime`;
                 const res = await fetch(url);
                 const data = await res.json();
                 const container = document.getElementById('event-display');
@@ -123,18 +172,12 @@
                         const start = new Date(item.start.dateTime || item.start.date);
                         return `<div class="event-item"><div><span class="event-day">${start.getDate()}</span><span class="event-month">${start.toLocaleString('en-us',{month:'SHORT'}).toUpperCase()}</span></div><div><span class="event-title">${item.summary}</span></div></div>`;
                     }).join('');
-                } else { container.innerHTML = '<p style="font-size:0.7rem; color:#94a3b8;">予定なし</p>'; }
-            } catch (e) { document.getElementById('event-display').innerHTML = '<p style="font-size:0.7rem; color:#ff4d4d;">LOAD ERROR</p>'; }
+                } else { container.innerHTML = '<p style="font-size:0.7rem; color:#94a3b8;">NO SCHEDULE</p>'; }
+            } catch (e) { document.getElementById('event-display').innerHTML = 'LOAD ERROR'; }
         }
 
         firebase.auth().onAuthStateChanged((user) => {
-            isAuth = !!user;
-            if (user) {
-                document.getElementById('security-styles').innerHTML = `body { background: #0b1d2e; color: white; margin: 0; font-family: 'Noto Sans JP'; }`;
-                document.oncontextmenu = null;
-            }
             initBlog();
-            initLiveCounter();
             fetchCalendar();
         });
 
@@ -155,14 +198,15 @@
                 renderList(postsData);
                 const p = new URLSearchParams(window.location.search);
                 if (p.get('post')) { const idx = postsData.findIndex(i => i.fileName === p.get('post')); if(idx !== -1) openPost(idx); }
-            } catch (e) { console.error(e); }
+            } catch (e) { document.getElementById('blog-list').innerText = "取得失敗"; }
         }
 
         function renderList(data) {
             document.getElementById('blog-list').innerHTML = data.map(p => `
                 <article class="blog-card" data-cat="${p.category}" onclick="openPost(${p.id})">
-                    <span style="color:#00aeef; font-size:0.7rem; font-family:'Orbitron';">${p.date}</span> <span class="category-label">${p.category}</span>
-                    <h3 style="margin:10px 0 0; font-size:1.1rem;">${p.title}</h3>
+                    <span style="color:#00aeef; font-size:0.7rem; font-family:'Orbitron'; font-weight:900;">${p.date}</span>
+                    <span class="category-label">${p.category}</span>
+                    <h3 style="margin:10px 0 0; font-size:1.1rem; line-height:1.4;">${p.title}</h3>
                 </article>
             `).join('');
         }
@@ -176,19 +220,37 @@
             const res = await fetch(`${post.url}?t=${Date.now()}`);
             let html = marked.parse(await res.text());
             const temp = document.createElement('div'); temp.innerHTML = html;
+            
+            // 画像盗作防止・サイズ調整の適用
             const imgs = temp.querySelectorAll('img');
+            imgs.forEach(img => {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'img-guard';
+                img.parentNode.insertBefore(wrapper, img);
+                wrapper.appendChild(img);
+            });
+
             if (imgs.length >= 2) {
                 const s = document.createElement('div'); s.className = 'photo-slider';
-                imgs.forEach(img => s.appendChild(img.cloneNode(true)));
-                imgs[0].parentNode.replaceChild(s, imgs[0]);
-                imgs.forEach((img, i) => { if(i > 0) img.remove(); });
+                imgs.forEach(img => s.appendChild(img.parentNode)); // ガードごとスライダーへ
+                const firstChild = temp.firstChild;
+                temp.insertBefore(s, firstChild);
                 html = temp.innerHTML;
             }
             document.getElementById('post-content').innerHTML = html;
+            
+            // ナビゲーション：左が前(index+1)、右が次(index-1)
             document.getElementById('post-navigation').innerHTML = `
-                <button class="nav-btn" onclick="openPost(${index + 1})" ${!postsData[index+1]?'style="display:none"':''}>PREV</button>
-                <button class="nav-btn" onclick="openPost(${index - 1})" ${!postsData[index-1]?'style="display:none"':''}>NEXT</button>
+                <div class="nav-btn ${!postsData[index+1] ? 'disabled' : ''}" onclick="openPost(${index + 1})">
+                    <span class="nav-label">PREV POST</span>
+                    <span class="nav-arrow">←</span>
+                </div>
+                <div class="nav-btn ${!postsData[index-1] ? 'disabled' : ''}" onclick="openPost(${index - 1})">
+                    <span class="nav-label">NEXT POST</span>
+                    <span class="nav-arrow">→</span>
+                </div>
             `;
+            document.getElementById('blog-viewer').scrollTo(0,0);
         }
 
         function closePost() { window.history.replaceState(null, null, window.location.pathname); document.getElementById('blog-viewer').style.display = 'none'; document.body.style.overflow = 'auto'; }
@@ -200,8 +262,8 @@
 
         async function copyURL() {
             await navigator.clipboard.writeText(window.location.href);
-            document.getElementById('copy-toast').style.display = 'block';
-            setTimeout(() => { document.getElementById('copy-toast').style.display = 'none'; }, 2000);
+            const t = document.getElementById('copy-toast'); t.style.display = 'block';
+            setTimeout(() => { t.style.display = 'none'; }, 2000);
         }
     </script>
 </body>
