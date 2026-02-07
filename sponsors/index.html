@@ -1,148 +1,109 @@
 <!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>パートナーシップ | 篠ノ井技術クラブ</title>
-    <link rel="stylesheet" href="../style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Noto+Sans+JP:wght@400;900&display=swap" rel="stylesheet">
-    <style>
-        body { background: #f8fafc; color: #1e293b; margin: 0; font-family: 'Noto Sans JP', sans-serif; display: flex; flex-direction: column; min-height: 100vh; }
-        
-        /* メニュー表示エリア */
-        #nav-container { width: 100%; position: relative; z-index: 9999; background: #fff; min-height: 50px; }
 
-        .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; flex: 1; }
+<html lang="ja"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>パートナーシップ | 篠ノ井技術クラブ</title> <link rel="stylesheet" href="../style.css"> <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Noto+Sans+JP:wght@400;900&display=swap" rel="stylesheet"> <style> body { background: #f8fafc; color: #1e293b; margin: 0; font-family: 'Noto Sans JP', sans-serif; display: flex; flex-direction: column; min-height: 100vh; }
 
-        .countdown-area { 
-            background: #0f172a; color: white; padding: 40px 20px; text-align: center;
-            border-bottom: 5px solid #00aeef;
-        }
-        .countdown-label { font-family: 'Orbitron'; font-size: 0.8rem; color: #00aeef; letter-spacing: 4px; margin-bottom: 10px; display: block; }
-        .timer-display { font-family: 'Orbitron'; font-size: 3rem; font-weight: 900; letter-spacing: 2px; }
-        .timer-unit { font-size: 0.8rem; margin-right: 15px; color: #94a3b8; }
+    #nav-container { width: 100%; position: relative; z-index: 9999; background: #fff; min-height: 60px; }
 
-        header { text-align: center; padding: 60px 20px; background: #fff; }
-        header h1 { font-family: 'Orbitron'; font-size: 2.2rem; margin: 0; letter-spacing: 8px; color: #0f172a; }
-        .sub-header { color: #00aeef; font-weight: 900; letter-spacing: 4px; margin-top: 5px; font-size: 0.85rem; }
+    .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; flex: 1; }
 
-        .sponsor-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; margin-top: 20px; margin-bottom: 60px; }
-        .sponsor-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 25px; transition: 0.4s; display: flex; flex-direction: column; }
-        
-        .partner-name { font-weight: 900; font-size: 1.3rem; color: #0f172a; margin-bottom: 10px; display: block; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px; }
-        .partner-desc h1 { font-size: 1.2rem; font-weight: 900; color: #0f172a; margin: 10px 0; border-left: 5px solid #00aeef; padding-left: 10px; }
-        
-        .cat-tag { font-family: 'Orbitron', 'Noto Sans JP'; font-size: 0.6rem; color: #00aeef; background: #f0f9ff; padding: 3px 10px; border-radius: 4px; font-weight: 900; margin-bottom: 15px; width: fit-content; }
-        .web-link { display: inline-block; margin-top: 20px; padding: 12px; background: #0f172a; color: #fff; text-decoration: none; border-radius: 6px; font-size: 0.75rem; font-weight: 900; text-align: center; }
+    .countdown-area { 
+        background: #0f172a; color: white; padding: 40px 20px; text-align: center;
+        border-bottom: 5px solid #00aeef;
+    }
+    .countdown-label { font-family: 'Orbitron'; font-size: 0.8rem; color: #00aeef; letter-spacing: 4px; margin-bottom: 10px; display: block; }
+    .timer-display { font-family: 'Orbitron'; font-size: 3.5rem; font-weight: 900; letter-spacing: 2px; }
+    .timer-unit { font-size: 0.8rem; margin-right: 15px; color: #94a3b8; }
 
-        footer { background: #fff; border-top: 1px solid #e2e8f0; padding: 40px 20px; text-align: center; margin-top: auto; }
-        .sys-ver { position: fixed; bottom: 12px; right: 20px; font-family: 'Orbitron'; font-size: 0.6rem; color: #cbd5e1; pointer-events: none; }
-    </style>
-</head>
-<body>
+    header { text-align: center; padding: 60px 20px; background: #fff; }
+    header h1 { font-family: 'Orbitron'; font-size: 2.2rem; margin: 0; letter-spacing: 8px; color: #0f172a; }
+    .sub-header { color: #00aeef; font-weight: 900; letter-spacing: 4px; margin-top: 5px; font-size: 0.85rem; }
+
+    .sponsor-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; margin-top: 20px; margin-bottom: 60px; }
+    .sponsor-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 25px; transition: 0.4s; display: flex; flex-direction: column; text-align: left; }
+    .sponsor-card:hover { transform: translateY(-5px); border-color: #00aeef; box-shadow: 0 15px 30px rgba(0,0,0,0.05); }
+    
+    .partner-name { font-weight: 900; font-size: 1.3rem; color: #0f172a; margin-bottom: 15px; display: block; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px; }
+    
+    .partner-desc { font-size: 0.85rem; color: #64748b; line-height: 1.8; }
+    /* Markdownの # を太く大きく、青いアクセントを付ける */
+    .partner-desc h1 { font-size: 1.2rem; font-weight: 900; color: #0f172a; margin: 0 0 15px 0; border-left: 5px solid #00aeef; padding-left: 12px; line-height: 1.4; }
+    .partner-desc p { margin-bottom: 15px; }
+
+    .cat-tag { font-family: 'Orbitron', 'Noto Sans JP'; font-size: 0.6rem; color: #00aeef; background: #f0f9ff; padding: 4px 10px; border-radius: 4px; font-weight: 900; margin-bottom: 15px; width: fit-content; }
+    .web-link { display: inline-block; margin-top: auto; padding: 12px; background: #0f172a; color: #fff; text-decoration: none; border-radius: 6px; font-size: 0.75rem; font-weight: 900; text-align: center; transition: 0.3s; }
+    .web-link:hover { background: #00aeef; }
+
+    footer { background: #fff; border-top: 1px solid #e2e8f0; padding: 40px 20px; text-align: center; margin-top: auto; }
+    .sys-ver { position: fixed; bottom: 12px; right: 20px; font-family: 'Orbitron'; font-size: 0.6rem; color: #cbd5e1; pointer-events: none; }
+</style>
+</head> <body>
 
 <div id="nav-container"></div>
 
-<div class="countdown-area">
-    <span class="countdown-label">COUNTDOWN TO MOTEGI 05.30</span>
-    <div class="timer-display">
-        <span id="days">00</span><span class="timer-unit">DAYS</span>
-        <span id="hours">00</span><span class="timer-unit">HRS</span>
-    </div>
-</div>
+<div class="countdown-area"> <span class="countdown-label">COUNTDOWN TO MOTEGI 05.30</span> <div class="timer-display"> <span id="days">00</span><span class="timer-unit">DAYS</span> <span id="hours">00</span><span class="timer-unit">HRS</span> </div> </div>
 
-<header>
-    <h1>PARTNERS</h1>
-    <div class="sub-header">もてぎ大会 挑戦パートナーシップ</div>
-</header>
+<header> <h1>PARTNERS</h1> <div class="sub-header">もてぎ大会 挑戦パートナーシップ</div> </header>
 
-<main class="container">
-    <div id="sponsor-list" class="sponsor-grid">
-        <p>スポンサー情報を読み込み中...</p>
-    </div>
-</main>
+<main class="container"> <div id="sponsor-list" class="sponsor-grid"></div> </main>
 
-<footer>
-    <div id="google_translate_element"></div>
-    <p style="font-size: 0.7rem; color: #94a3b8;">&copy; 篠ノ井技術クラブ</p>
-</footer>
+<footer> <div id="google_translate_element"></div> <p style="font-size: 0.7rem; color: #94a3b8;">&copy; 篠ノ井技術クラブ</p> </footer>
 
-<div class="sys-ver">v5.7.0 / SPONSORS-DIR-FIX</div>
+<div class="sys-ver">v5.9.0 / FINAL-STRUCTURE</div>
 
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-<script src="../menu.js" defer></script>
+<script src="../menu.js"></script>
 
-<script type="text/javascript">
-function googleTranslateElementInit() {
-  new google.translate.TranslateElement({pageLanguage: 'ja', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
-}
-</script>
+<script type="text/javascript"> function googleTranslateElementInit() { new google.translate.TranslateElement({pageLanguage: 'ja', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element'); } </script>
+
 <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
-<script>
-window.addEventListener('load', () => {
-    updateTimer();
-    setInterval(updateTimer, 1000);
-    loadSponsors();
-});
+<script> window.addEventListener('DOMContentLoaded', () => { updateTimer(); setInterval(updateTimer, 1000); loadSponsors(); });
 
-function updateTimer() {
-    const target = new Date("May 30, 2026 00:00:00").getTime();
-    const now = new Date().getTime();
-    const diff = target - now;
-    const d = Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
-    const h = Math.max(0, Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
-    document.getElementById("days").innerText = d.toString().padStart(2, '0');
-    document.getElementById("hours").innerText = h.toString().padStart(2, '0');
-}
+function updateTimer() { const target = new Date("May 30, 2026 00:00:00").getTime(); const now = new Date().getTime(); const diff = target - now; const d = Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24))); const h = Math.max(0, Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))); const dEl = document.getElementById("days"); const hEl = document.getElementById("hours"); if(dEl && hEl) { dEl.innerText = d.toString().padStart(2, '0'); hEl.innerText = h.toString().padStart(2, '0'); } }
 
-async function loadSponsors() {
-    const list = document.getElementById('sponsor-list');
-    const USER = "emr-snn-dev"; 
-    const REPO = "emr-snn-dev.github.io";
+async function loadSponsors() { const list = document.getElementById('sponsor-list'); const USER = "emr-snn-dev"; const REPO = "emr-snn-dev.github.io";
+
+try {
+    const response = await fetch(`https://api.github.com/repos/${USER}/${REPO}/contents/sponsors`);
+    if (!response.ok) return;
+    const files = await response.json();
     
-    try {
-        // sponsorsフォルダの中身を取得
-        const response = await fetch(`https://api.github.com/repos/${USER}/${REPO}/contents/sponsors`);
-        if (!response.ok) return;
-        const files = await response.json();
+    list.innerHTML = &quot;&quot;;
+    const mdFiles = files.filter(f =&gt; f.name.endsWith(&#39;.md&#39;));
+
+    for (const file of mdFiles) {
+        const raw = await fetch(file.download_url).then(r =&gt; r.text());
+        const displayTitle = file.name.replace(&#39;.md&#39;, &#39;&#39;).replace(&#39;その他-&#39;, &#39;&#39;);
         
-        // 自分自身（index.html）以外の .md ファイルを取得
-        const mdFiles = files.filter(f => f.name.endsWith('.md'));
+        const urlMatch = raw.match(/https?:\/\/[\w/:%#\$&amp;\?\(\)~\.=\+\-]+/g);
+        let webUrl = urlMatch ? urlMatch[0] : null;
 
-        if (mdFiles.length > 0) {
-            list.innerHTML = "";
-            for (const file of mdFiles) {
-                const raw = await fetch(file.download_url).then(r => r.text());
-                const displayTitle = file.name.replace('.md', '').replace('その他-', '');
-                
-                const urlMatch = raw.match(/https?:\/\/[\w/:%#\$&\?\(\)~\.=\+\-]+/g);
-                let webUrl = urlMatch ? urlMatch[0] : null;
-
-                if (webUrl) {
-                    const sep = webUrl.includes('?') ? '&' : '?';
-                    webUrl = `${webUrl}${sep}id=${encodeURIComponent(displayTitle)}`;
-                }
-
-                const desc = raw.replace(urlMatch ? urlMatch[0] : "", "").trim();
-                const html = `
-                    <div class="sponsor-card">
-                        <span class="cat-tag">OFFICIAL PARTNER</span>
-                        <span class="partner-name">${displayTitle}</span>
-                        <div class="partner-desc">${marked.parse(desc)}</div>
-                        ${webUrl ? `<a href="${webUrl}" target="_blank" class="web-link">WEBSITE</a>` : ""}
-                    </div>
-                `;
-                list.insertAdjacentHTML('beforeend', html);
-            }
-        } else {
-            list.innerHTML = "<p>パートナー募集中です。</p>";
+        if (webUrl) {
+            const sep = webUrl.includes(&#39;?&#39;) ? &#39;&amp;&#39; : &#39;?&#39;;
+            webUrl = `${webUrl}${sep}id=${encodeURIComponent(displayTitle)}`;
         }
-    } catch (e) {
-        list.innerHTML = "<p>読み込みエラーが発生しました。</p>";
+
+        const desc = raw.replace(urlMatch ? urlMatch[0] : &quot;&quot;, &quot;&quot;).trim();
+        
+        let tag = &quot;OFFICIAL PARTNER&quot;;
+        if (raw.includes(&quot;輸送&quot;)) tag = &quot;LOGISTICS SUPPORT&quot;;
+        if (raw.includes(&quot;資材&quot;)) tag = &quot;MATERIAL SUPPORT&quot;;
+        if (raw.includes(&quot;指導&quot;)) tag = &quot;TECH ADVISOR&quot;;
+
+        const html = `
+            &lt;div class=&quot;sponsor-card&quot;&gt;
+                &lt;span class=&quot;cat-tag&quot;&gt;${tag}&lt;/span&gt;
+                &lt;span class=&quot;partner-name&quot;&gt;${displayTitle}&lt;/span&gt;
+                &lt;div class=&quot;partner-desc&quot;&gt;${marked.parse(desc)}&lt;/div&gt;
+                ${webUrl ? `&lt;a href=&quot;${webUrl}&quot; target=&quot;_blank&quot; class=&quot;web-link&quot;&gt;WEBSITE&lt;/a&gt;` : &quot;&quot;}
+            &lt;/div&gt;
+        `;
+        list.insertAdjacentHTML(&#39;beforeend&#39;, html);
     }
+} catch (e) {
+    list.innerHTML = &quot;&lt;p&gt;読み込みエラーが発生しました。&lt;/p&gt;&quot;;
 }
-</script>
-</body>
-</html>
+} </script>
+
+</body> </html>
