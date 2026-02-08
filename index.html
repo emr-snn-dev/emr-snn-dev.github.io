@@ -4,175 +4,203 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>篠ノ井技術クラブ | 公式サイト</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        /* --- デザイン：白と水色の清潔感 ＋ でっかい丸め --- */
-        body { 
-            background-color: #eef9ff; 
-            color: #1e293b; 
-            margin: 0; 
-            font-family: 'Noto Sans JP', sans-serif; 
-            overflow-x: hidden; 
-            padding-bottom: 120px; 
-            line-height: 1.7;
+        :root {
+            --primary-blue: #00aeef;
+            --bg-blue: #eef9ff;
+            --text-dark: #0f172a;
+            --card-white: #ffffff;
+            --soft-gray: #f8fafc;
+            /* ナビゲーションの高さ分を定義 */
+            --nav-height: 80px; 
         }
 
-        #nav-container { width: 100%; position: fixed; top: 0; z-index: 9999; }
+        body {
+            background-color: var(--bg-blue);
+            color: var(--text-dark);
+            margin: 0;
+            padding: 0;
+            font-family: 'Noto Sans JP', sans-serif;
+            overflow-x: hidden;
+            padding-bottom: 150px; 
+            line-height: 1.8;
+        }
 
-        /* --- 緊急連絡エリア (notices/emergency.md) --- */
+        /* --- ナビゲーション --- */
+        #nav-container { 
+            width: 100%; 
+            position: fixed; 
+            top: 0; 
+            left: 0;
+            z-index: 9999; 
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+        }
+
+        /* --- 重なりを解消するためのメインコンテナ --- */
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            /* 上部メニューと重ならないよう特大の余白を設定 */
+            padding-top: calc(var(--nav-height) + 60px); 
+            box-sizing: border-box;
+        }
+
+        /* --- 緊急アラート (notices/emergency.md) --- */
         #emergency-area {
             display: none;
-            width: 92%;
-            max-width: 650px;
-            margin: 110px auto 20px auto;
+            width: 90%;
+            max-width: 700px;
+            margin-bottom: 40px;
             background: #fff5f5;
             border: 3px solid #ff4d4d;
             border-radius: 40px;
-            padding: 25px;
+            padding: 30px;
             box-sizing: border-box;
             text-align: center;
-            box-shadow: 0 15px 30px rgba(255, 77, 77, 0.1);
+            box-shadow: 0 15px 40px rgba(255, 77, 77, 0.15);
         }
 
-        .emer-tag {
+        .emer-badge {
             background: #ff4d4d;
-            color: white;
-            padding: 4px 15px;
+            color: #fff;
+            padding: 5px 20px;
             border-radius: 50px;
-            font-size: 0.8rem;
             font-weight: 900;
+            font-size: 0.9rem;
             display: inline-block;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
 
-        /* --- メインビジュアル --- */
-        .hero { 
-            min-height: 100vh; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            background: radial-gradient(circle at top, #ffffff 0%, #eef9ff 100%);
-            padding: 40px 20px; 
-            text-align: center; 
+        /* --- タイトル部分 (重ならないよう設計) --- */
+        .title-section {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 0 20px;
         }
 
-        .hero h1 { 
-            font-size: clamp(2.5rem, 10vw, 4.8rem); 
-            margin: 0; 
-            font-weight: 900; 
-            color: #0f172a; 
+        .title-section h1 {
+            font-size: clamp(2.5rem, 10vw, 4.8rem);
+            font-weight: 900;
+            color: var(--text-dark);
+            margin: 0;
             letter-spacing: -2px;
+            line-height: 1.2;
         }
 
-        .tagline { 
-            color: #00aeef; 
-            font-weight: 900; 
-            font-size: 1.2rem; 
-            margin-top: 10px; 
-            margin-bottom: 40px;
-            letter-spacing: 2px;
+        .tagline {
+            color: var(--primary-blue);
+            font-weight: 900;
+            font-size: 1.3rem;
+            margin-top: 15px;
+            letter-spacing: 3px;
         }
 
-        /* --- メインカード (特大角丸) --- */
+        /* --- メインカード (特大の余白と丸み) --- */
         .main-card {
-            background: #ffffff;
-            padding: 50px 40px;
-            border-radius: 60px;
-            box-shadow: 0 20px 50px rgba(0, 174, 239, 0.12);
-            max-width: 600px;
-            width: 100%;
+            background: var(--card-white);
+            padding: 60px 50px;
+            border-radius: 70px;
+            box-shadow: 0 30px 60px rgba(0, 174, 239, 0.15);
+            max-width: 650px;
+            width: 90%;
             display: flex;
             flex-direction: column;
-            gap: 25px;
+            gap: 40px; 
             box-sizing: border-box;
-            border: 1px solid rgba(255,255,255,0.8);
+            border: 1px solid rgba(255,255,255,0.9);
+            margin-bottom: 50px;
         }
 
-        /* --- 自動更新ニュースリスト --- */
+        /* --- ニュースエリア (記号除去機能付き) --- */
         .news-section { width: 100%; text-align: left; }
-        .section-title {
-            font-size: 1.3rem;
-            font-weight: 900;
-            margin-bottom: 20px;
+        .section-header {
             display: flex;
             align-items: center;
-            gap: 12px;
-            color: #0f172a;
+            gap: 15px;
+            margin-bottom: 30px;
         }
-        .section-title::before {
-            content: "";
-            width: 8px;
-            height: 24px;
-            background: #00aeef;
-            border-radius: 4px;
+        .blue-bar {
+            width: 10px;
+            height: 35px;
+            background: var(--primary-blue);
+            border-radius: 5px;
         }
+        .section-header h2 { font-size: 1.6rem; font-weight: 900; margin: 0; }
 
         .news-item {
             display: block;
-            padding: 20px;
-            background: #f8fafc;
-            border-radius: 25px;
+            padding: 25px;
+            background: var(--soft-gray);
+            border-radius: 35px;
             text-decoration: none;
             color: inherit;
-            margin-bottom: 15px;
-            border: 1px solid #e2e8f0;
-            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin-bottom: 25px;
+            border: 2px solid transparent;
+            transition: all 0.4s ease;
         }
-        .news-item:hover { 
-            transform: scale(1.03); 
-            border-color: #00aeef; 
-            background: #ffffff;
-            box-shadow: 0 10px 20px rgba(0, 174, 239, 0.05);
+        .news-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-blue);
+            background: #fff;
         }
-        .news-date { font-size: 0.85rem; color: #00aeef; font-weight: 900; }
-        .news-title { font-size: 1.1rem; font-weight: 900; margin-top: 5px; display: block; color: #334155; }
+        .news-date {
+            font-size: 0.95rem;
+            color: var(--primary-blue);
+            font-weight: 900;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .news-title {
+            font-size: 1.15rem;
+            font-weight: 900;
+            line-height: 1.5;
+        }
 
-        /* --- ボタンデザイン (日本語) --- */
-        .btn {
+        /* --- ボタン --- */
+        .big-btn {
             display: flex;
             justify-content: center;
             align-items: center;
             width: 100%;
-            height: 80px;
-            background: #ffffff;
-            color: #334155;
-            border-radius: 30px;
+            height: 90px;
+            background: var(--soft-gray);
+            color: var(--text-dark);
+            border-radius: 35px;
             text-decoration: none;
-            font-size: 1.3rem;
+            font-size: 1.5rem;
             font-weight: 900;
-            border: 2px solid #e2e8f0;
+            border: 3px solid #e2e8f0;
             transition: 0.3s;
         }
-        .btn:hover { background: #00aeef; color: #ffffff; border-color: #00aeef; transform: translateY(-5px); }
-
-        .btn-primary { background: #00aeef; color: white; border: none; }
-
-        /* --- 募集案内 --- */
-        .recruit-banner {
-            background: linear-gradient(135deg, #fff9e6 0%, #fff3cd 100%);
-            border-radius: 35px;
-            padding: 30px;
-            border: 2px dashed #ffcf33;
-            text-align: center;
+        .big-btn:hover {
+            background: var(--primary-blue);
+            color: #fff;
+            border-color: var(--primary-blue);
         }
-        .recruit-banner h3 { margin: 0; color: #856404; font-weight: 900; font-size: 1.2rem; }
 
-        /* --- 固定メニュー (Home消失対策) --- */
+        .primary-btn { background: var(--primary-blue); color: #fff; border: none; }
+
+        /* --- 下部メニュー --- */
         #mobile-line-menu {
-            display: flex !important; position: fixed !important; bottom: 0 !important; width: 100% !important; height: 100px !important;
-            background: rgba(255, 255, 255, 0.98) !important; backdrop-filter: blur(20px) !important; border-top: 1px solid #e2e8f0 !important;
+            display: flex !important; position: fixed !important; bottom: 0 !important; width: 100% !important; height: 110px !important;
+            background: rgba(255, 255, 255, 0.95) !important; backdrop-filter: blur(25px) !important;
             z-index: 10006 !important; align-items: center !important; justify-content: center !important;
+            border-top: 1px solid rgba(0,0,0,0.05) !important;
         }
-        .m-chip { 
-            display: inline-block !important; padding: 15px 25px !important; background: #f1f5f9 !important; border-radius: 20px !important; 
-            text-decoration: none !important; font-weight: 900 !important; margin: 0 8px !important; flex-shrink: 0 !important; 
-            border: 1px solid #e2e8f0 !important; color: #334155 !important;
+        .m-chip {
+            display: inline-block !important; padding: 18px 30px !important; background: #fff !important; border-radius: 25px !important;
+            font-weight: 900 !important; margin: 0 10px !important; border: 2px solid #e2e8f0 !important; text-decoration: none !important; color: var(--text-dark) !important;
         }
 
         @media (max-width: 600px) {
-            .hero h1 { font-size: 2.5rem; }
-            .main-card { padding: 30px 20px; border-radius: 45px; }
+            main { padding-top: 120px; }
+            .main-card { padding: 40px 25px; border-radius: 50px; }
+            .big-btn { height: 80px; font-size: 1.2rem; }
             #mobile-line-menu { justify-content: flex-start; overflow-x: auto; padding-left: 20px; }
         }
     </style>
@@ -181,126 +209,113 @@
 
 <div id="nav-container"></div>
 
-<section class="hero">
+<main>
     <div id="emergency-area">
-        <span class="emer-tag">緊急</span>
+        <span class="emer-badge">緊急</span>
         <div id="emergency-content" style="font-weight:900;"></div>
     </div>
 
-    <h1>篠ノ井技術クラブ</h1>
-    <p class="tagline">モノづくりで、未来を創る。</p>
-    
+    <div class="title-section">
+        <h1>篠ノ井技術クラブ</h1>
+        <p class="tagline">モノづくりで、未来を創る。</p>
+    </div>
+
     <div class="main-card">
         <div class="news-section">
-            <h2 class="section-title">最新のお知らせ</h2>
-            <div id="news-list">
-                <p style="text-align:center; color:#94a3b8;">お知らせを確認しています...</p>
+            <div class="section-header">
+                <div class="blue-bar"></div>
+                <h2>最新のお知らせ</h2>
             </div>
-            <a href="news.html" style="display:block; text-align:right; font-size:0.9rem; color:#94a3b8; text-decoration:none; margin-top:10px; font-weight:900;">一覧を見る ＞</a>
+            <div id="auto-news-container">
+                <p style="text-align:center; color:#94a3b8; font-weight:500;">読み込み中...</p>
+            </div>
+            <a href="news.html" style="display:block; text-align:right; font-size:1rem; color:#94a3b8; text-decoration:none; margin-top:15px; font-weight:900;">すべて見る ＞</a>
         </div>
 
-        <a href="about.html" class="btn">クラブの紹介</a>
+        <a href="about.html" class="big-btn">クラブについて</a>
         
-        <div class="recruit-banner">
-            <h3>🤝 メンバー募集中</h3>
-            <p style="margin:5px 0 0; font-size:0.9rem; color:#856404;">初心者から経験者まで歓迎します！</p>
+        <div style="background: linear-gradient(135deg, #fff9e6 0%, #fff3cd 100%); border-radius: 40px; padding: 35px; border: 3px dashed #ffcf33; text-align: center;">
+            <p style="margin:0; font-weight:900; color:#856404; font-size:1.3rem;">🤝 メンバー募集中</p>
         </div>
 
-        <a href="team/index.html" id="hero-mypage-btn" class="btn btn-primary" style="display:none;">メンバー専用ページ</a>
+        <a href="team/index.html" id="mypage-btn" class="big-btn primary-btn" style="display:none;">メンバー専用マイページ</a>
     </div>
-</section>
+</main>
 
 <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
 <script src="menu.js" defer></script>
 
 <script>
-    /**
-     * 【重要】自動反映ロジック
-     * フォルダをスキャンできない静的環境で「自動」を実現するため、
-     * GitHubのAPIを使用してnews/フォルダ内のファイルを自動取得します。
-     */
-    async function autoLoadNews() {
-        const newsList = document.getElementById('news-list');
-        
-        // --- 緊急連絡の読み込み ---
+    // 記号（#や*）を消す関数
+    function cleanText(text) {
+        if (!text) return "";
+        return text.replace(/[#*`]/g, '').trim();
+    }
+
+    async function init() {
+        // 1. 緊急通知
         try {
             const eRes = await fetch('notices/emergency.md');
             if (eRes.ok) {
                 const eText = await eRes.text();
                 if (eText.trim()) {
                     document.getElementById('emergency-area').style.display = 'block';
-                    document.getElementById('emergency-content').innerText = eText.split('\n')[0];
+                    document.getElementById('emergency-content').innerText = cleanText(eText.split('\n')[0]);
                 }
             }
-        } catch (err) {}
+        } catch (e) {}
 
-        // --- ニュースの自動取得 (GitHubリポジトリの情報を利用) ---
-        // あなたのリポジトリ構成に合わせて自動でファイルを拾います
+        // 2. ニュース自動取得 (GitHub API)
         try {
-            // 現在のパスからリポジトリ名等を推測してAPIを叩く
-            // 注意: ファイルが増えれば増えるほど、ここが自動で最新を拾うようになります
-            const repoUrl = "https://api.github.com/repos/篠ノ井技術クラブ/リポジトリ名/contents/news"; // ここを自分のリポジトリ名に変えると完全自動化
+            const path = window.location.pathname.split('/');
+            const repo = path[1] || "";
+            const user = window.location.hostname.split('.')[0];
+            const apiUrl = `https://api.github.com/repos/${user}/${repo}/contents/news`;
+
+            const res = await fetch(apiUrl);
+            if (!res.ok) throw new Error();
+            const files = await res.json();
+            const mdFiles = files.filter(f => f.name.endsWith('.md')).reverse().slice(0, 3);
             
-            // APIが使えない場合のフォールバック（直近の日付をスキャン）
-            const today = new Date();
-            const scanTargets = [];
-            for(let i=0; i<7; i++) { // 直近7日分の日付をファイル名として予測スキャン
-                const d = new Date(today);
-                d.setDate(d.getDate() - i);
-                const dateStr = d.toISOString().split('T')[0];
-                scanTargets.push(`news/${dateStr}-welcome.md`); // 命名規則に合わせる
+            const container = document.getElementById('auto-news-container');
+            container.innerHTML = '';
+
+            for (const f of mdFiles) {
+                const cRes = await fetch(f.download_url);
+                const raw = await cRes.text();
+                const lines = raw.split('\n').filter(l => l.trim());
+
+                const card = document.createElement('a');
+                card.href = `news.html?file=${f.name}`;
+                card.className = 'news-item';
+                card.innerHTML = `
+                    <span class="news-date">${cleanText(lines[0])}</span>
+                    <span class="news-title">${cleanText(lines[1])}</span>
+                `;
+                container.appendChild(card);
             }
-
-            // 決め打ちのファイル（確実に存在する最新のもの）
-            const knownFiles = ['news/2026-02-07-welcome.md']; 
-            const allTargets = [...new Set([...knownFiles, ...scanTargets])];
-
-            let foundCount = 0;
-            newsList.innerHTML = '';
-
-            for (const file of allTargets) {
-                if (foundCount >= 3) break; // 最大3件
-                try {
-                    const res = await fetch(file);
-                    if (res.ok) {
-                        const content = await res.text();
-                        const lines = content.split('\n').map(l => l.trim()).filter(l => l);
-                        
-                        const item = document.createElement('a');
-                        item.href = `news.html?file=${file}`;
-                        item.className = 'news-item';
-                        item.innerHTML = `
-                            <span class="news-date">${lines[0]}</span>
-                            <span class="news-title">${lines[1]}</span>
-                        `;
-                        newsList.appendChild(item);
-                        foundCount++;
-                    }
-                } catch (e) {}
-            }
-            if (foundCount === 0) newsList.innerHTML = '<p style="text-align:center; color:#94a3b8;">現在、新しいお知らせはありません。</p>';
         } catch (e) {
-            newsList.innerHTML = '<p style="text-align:center; color:#94a3b8;">読み込みに失敗しました。</p>';
+            document.getElementById('auto-news-container').innerHTML = '<p style="text-align:center; color:#94a3b8;">お知らせはありません。</p>';
         }
     }
 
     window.addEventListener('load', () => {
-        autoLoadNews();
-
-        firebase.auth().onAuthStateChanged((user) => {
-            if (user) document.getElementById('hero-mypage-btn').style.display = 'flex';
+        init();
+        firebase.auth().onAuthStateChanged(user => {
+            if (user) document.getElementById('mypage-btn').style.display = 'flex';
         });
 
-        // スマホメニュー：Homeを「ホーム」に強制置換して死守する
+        // 下部メニューの日本語固定
         setInterval(() => {
             const m = document.getElementById('mobile-line-menu');
             if (m) {
                 m.style.setProperty('display', 'flex', 'important');
-                const chips = m.querySelectorAll('.m-chip');
-                chips.forEach(c => {
-                    c.style.setProperty('display', 'inline-block', 'important');
-                    if (c.innerText.trim().toLowerCase() === 'home') c.innerText = 'ホーム';
+                m.querySelectorAll('.m-chip').forEach(chip => {
+                    chip.style.setProperty('display', 'inline-block', 'important');
+                    const txt = chip.innerText.trim().toLowerCase();
+                    if (txt === 'home') chip.innerText = 'ホーム';
+                    if (txt === 'about') { chip.innerText = 'クラブについて'; chip.href = 'about.html'; }
                 });
             }
         }, 500);
