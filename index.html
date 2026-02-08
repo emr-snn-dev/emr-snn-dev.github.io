@@ -1,120 +1,119 @@
 <!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>篠ノ井技術クラブ | OFFICIAL SITE</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Noto+Sans+JP:wght@400;900&display=swap" rel="stylesheet">
-    <style>
-        body { background: #0f172a; color: #fff; margin: 0; font-family: 'Noto Sans JP', sans-serif; overflow-x: hidden; }
-        #nav-container { width: 100%; position: fixed; top: 0; z-index: 9999; }
 
-        .hero { 
-            height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; 
-            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
-            text-align: center; padding: 0 20px;
-        }
+<html lang="ja"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>篠ノ井技術クラブ | OFFICIAL SITE</title> <link rel="stylesheet" href="style.css"> <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Noto+Sans+JP:wght@400;900&display=swap" rel="stylesheet"> <style> body { background: #0f172a; color: #fff; margin: 0; font-family: 'Noto Sans JP', sans-serif; overflow-x: hidden; padding-bottom: 90px; /* 下部メニューの高さ分確保 */ }
 
-        .hero h1 { font-family: 'Orbitron'; font-size: clamp(2rem, 8vw, 5rem); margin: 0; letter-spacing: 15px; font-weight: 900; }
-        .hero p { color: #00aeef; font-weight: 900; letter-spacing: 5px; margin-top: 20px; font-size: 1.2rem; }
+    #nav-container { width: 100%; position: fixed; top: 0; z-index: 9999; }
 
-        /* マイページボタンのスタイル（初期状態は隠す） */
-        #hero-mypage-btn {
-            display: none;
-            margin-top: 30px;
-            padding: 15px 40px;
-            background: transparent;
-            color: #00aeef;
-            border: 2px solid #00aeef;
-            border-radius: 50px;
-            font-family: 'Orbitron';
-            font-weight: 900;
-            text-decoration: none;
-            transition: 0.3s;
-            animation: pulse 2s infinite;
-        }
-        #hero-mypage-btn:hover { background: #00aeef; color: #fff; box-shadow: 0 0 20px rgba(0, 174, 239, 0.5); }
+    .hero { 
+        height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; 
+        background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+        text-align: center; padding: 0 20px;
+    }
 
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(0, 174, 239, 0.7); }
-            70% { box-shadow: 0 0 0 15px rgba(0, 174, 239, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(0, 174, 239, 0); }
-        }
+    .hero h1 { font-family: 'Orbitron'; font-size: clamp(2.5rem, 10vw, 6rem); margin: 0; letter-spacing: 15px; font-weight: 900; color: #fff; text-shadow: 0 0 25px rgba(0, 174, 239, 0.6); }
+    .hero p { color: #00aeef; font-weight: 900; letter-spacing: 5px; margin-top: 20px; font-size: 1.2rem; }
 
-        .main-content { max-width: 1200px; margin: 0 auto; padding: 100px 20px; }
-        .section-title { font-family: 'Orbitron'; font-size: 2rem; border-left: 5px solid #00aeef; padding-left: 20px; margin-bottom: 50px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 40px; border-radius: 15px; transition: 0.3s; text-decoration: none; color: inherit; }
-        .card:hover { background: rgba(0, 174, 239, 0.1); border-color: #00aeef; transform: translateY(-10px); }
-        .card h3 { font-family: 'Orbitron'; font-size: 1.5rem; margin-bottom: 15px; color: #00aeef; }
+    /* 中央のログイン連動ボタン */
+    #hero-mypage-btn {
+        display: none;
+        margin-top: 40px;
+        padding: 18px 45px;
+        background: rgba(0, 174, 239, 0.1);
+        color: #00aeef;
+        border: 2px solid #00aeef;
+        border-radius: 50px;
+        font-family: 'Orbitron';
+        font-weight: 900;
+        text-decoration: none;
+        transition: 0.3s;
+        animation: pulse 2s infinite;
+        z-index: 10;
+    }
 
-        footer { padding: 60px 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); }
-    </style>
-</head>
-<body>
+    @keyframes pulse {
+        0% { box-shadow: 0 0 0 0 rgba(0, 174, 239, 0.7); }
+        70% { box-shadow: 0 0 0 20px rgba(0, 174, 239, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(0, 174, 239, 0); }
+    }
+
+    /* menu.jsの下部メニューをPCでも強制的に出す設定 */
+    #mobile-line-menu {
+        display: flex !important; 
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        transform: translateY(0) !important;
+        width: 100% !important;
+        height: 85px !important;
+        background: rgba(15, 23, 42, 0.95) !important;
+        backdrop-filter: blur(15px) !important;
+        border-top: 1px solid rgba(0, 174, 239, 0.3) !important;
+        z-index: 10006 !important;
+        justify-content: center !important;
+        align-items: center !important;
+        box-shadow: 0 -10px 30px rgba(0,0,0,0.5) !important;
+    }
+
+    /* 下部メニューの中のボタンを見やすく調整 */
+    .m-chip {
+        border: 1px solid rgba(255,255,255,0.1) !important;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.4) !important;
+    }
+
+    .main-content { max-width: 1200px; margin: 0 auto; padding: 100px 20px; }
+    .section-title { font-family: 'Orbitron'; font-size: 2rem; border-left: 5px solid #00aeef; padding-left: 20px; margin-bottom: 50px; color: #fff; }
+
+    footer { padding: 120px 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); background: #0f172a; }
+</style>
+</head> <body>
 
 <div id="nav-container"></div>
 
-<section class="hero">
-    <h1>SHINONOI</h1>
-    <p>ENGINEERING CLUB</p>
-    
-    <a href="team/index.html" id="hero-mypage-btn">ENTER MY PAGE</a>
+<section class="hero"> <h1>SHINONOI</h1> <p>ENGINEERING CLUB</p>
 
-    <div style="margin-top: 40px;">
-        <span id="log-status-text" style="font-family:'Orbitron'; font-size:0.7rem; color:#475569;">STATUS: INITIALIZING...</span>
-    </div>
+<a href="team/index.html" id="hero-mypage-btn">OPEN DASHBOARD</a>
+
+<div style="margin-top: 50px;">
+    <span id="log-status-text" style="font-family:'Orbitron'; font-size:0.75rem; color:#64748b; letter-spacing: 3px;">INITIALIZING SYSTEM...</span>
+</div>
 </section>
 
-<main class="main-content">
-    <h2 class="section-title">PROJECTS</h2>
-    <div class="grid">
-        <a href="about.html" class="card">
-            <h3>ABOUT</h3>
-            <p>篠ノ井技術クラブの理念と活動内容。</p>
-        </a>
-        <a href="sponsors/index.html" class="card">
-            <h3>PARTNERS</h3>
-            <p>挑戦を支えるパートナー企業のご紹介。</p>
-        </a>
-        <a href="blog/index.html" class="card">
-            <h3>BLOG</h3>
-            <p>開発記録ともてぎ大会への進捗状況。</p>
-        </a>
-    </div>
-</main>
+<main class="main-content"> <h2 class="section-title">PROJECTS</h2> <div style="height: 200px; border: 1px dashed #1e293b; border-radius: 20px; display: flex; justify-content: center; align-items: center; color: #334155; font-family: 'Orbitron'; letter-spacing: 5px;"> SYSTEM READY </div> </main>
 
-<footer>
-    <div id="google_translate_element"></div>
-    <p style="font-family:'Orbitron'; font-size:0.8rem; margin-top:20px;">&copy; 2026 SHINONOI ENGINEERING CLUB</p>
-</footer>
+<footer> <div id="google_translate_element"></div> <p style="font-family:'Orbitron'; font-size:0.8rem; margin-top:25px; color: #475569; letter-spacing: 2px;">&copy; 2026 SHINONOI ENGINEERING CLUB</p> </footer>
 
 <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+
 <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+
 <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
+
 <script src="menu.js" defer></script>
 
-<script>
-    // Firebaseの状態変化を監視してトップページのボタンを出し入れする
-    window.addEventListener('load', () => {
-        firebase.auth().onAuthStateChanged((user) => {
-            const myPageBtn = document.getElementById('hero-mypage-btn');
-            if (user) {
-                // ログイン中ならボタンを表示
-                myPageBtn.style.display = 'inline-block';
-            } else {
-                // ログアウト中なら隠す
-                myPageBtn.style.display = 'none';
-            }
-        });
-    });
+<script> window.addEventListener('load', () => { // Firebaseの状態を監視 firebase.auth().onAuthStateChanged((user) => { const btn = document.getElementById('hero-mypage-btn'); if (user) { // ログインしていたら中央のボタンを表示 if(btn) btn.style.display = 'inline-block'; } else { if(btn) btn.style.display = 'none'; } });
 
-    function googleTranslateElementInit() {
-      new google.translate.TranslateElement({pageLanguage: 'ja', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
-    }
+    // menu.js が生成した下部メニューの強制的な最終調整
+    setTimeout(() =&gt; {
+        const bottomNav = document.getElementById(&#39;mobile-line-menu&#39;);
+        if (bottomNav) {
+            bottomNav.style.setProperty(&#39;display&#39;, &#39;flex&#39;, &#39;important&#39;);
+            // リンクの文字を白く、背景を少し暗くして視認性を上げる
+            const chips = bottomNav.querySelectorAll(&#39;.m-chip&#39;);
+            chips.forEach(chip =&gt; {
+                if(!chip.style.background.includes(&#39;00aeef&#39;)) {
+                    chip.style.background = &quot;#1e293b&quot;;
+                    chip.style.color = &quot;#cbd5e1&quot;;
+                }
+            });
+        }
+    }, 600);
+});
+
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: &#39;ja&#39;, layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, &#39;google_translate_element&#39;);
+}
 </script>
+
 <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
-</body>
-</html>
+</body> </html>
