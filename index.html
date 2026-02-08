@@ -1,122 +1,159 @@
 <!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>篠ノ井技術クラブ | OFFICIAL SITE</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Noto+Sans+JP:wght@400;900&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            background: #eef9ff; 
+            color: #1e293b; 
+            margin: 0; 
+            font-family: 'Noto Sans JP', sans-serif; 
+            overflow-x: hidden; 
+            padding-bottom: 100px;
+        }
+        
+        #nav-container { width: 100%; position: fixed; top: 0; z-index: 9999; }
 
-<html lang="ja"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>篠ノ井技術クラブ | OFFICIAL SITE</title> <link rel="stylesheet" href="style.css"> <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Noto+Sans+JP:wght@400;900&display=swap" rel="stylesheet"> <style> body { background: #eef9ff; /* 薄い水色 */ color: #1e293b; margin: 0; font-family: 'Noto Sans JP', sans-serif; overflow-x: hidden; padding-bottom: 90px; }
+        .hero { 
+            height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; 
+            background: linear-gradient(180deg, #ffffff 0%, #eef9ff 100%);
+            text-align: center; padding: 0 20px;
+        }
 
-    #nav-container { width: 100%; position: fixed; top: 0; z-index: 9999; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .hero h1 { font-family: 'Orbitron'; font-size: clamp(2.5rem, 10vw, 5.5rem); margin: 0; letter-spacing: 12px; font-weight: 900; color: #0f172a; }
+        .hero p { color: #00aeef; font-weight: 900; letter-spacing: 4px; margin-top: 15px; font-size: 1.1rem; margin-bottom: 40px; }
 
-    .hero { 
-        height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; 
-        background: linear-gradient(180deg, #ffffff 0%, #eef9ff 100%);
-        text-align: center; padding: 0 20px;
-    }
+        /* でっかい丸めがある白いボックス
+        */
+        .main-round-card {
+            background: #ffffff;
+            padding: 40px 60px;
+            border-radius: 40px; /* ここででっかく丸めています */
+            box-shadow: 0 10px 30px rgba(0, 174, 239, 0.08);
+            border: 2px solid #fff;
+            max-width: 500px;
+            width: 90%;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
 
-    .hero h1 { font-family: 'Orbitron'; font-size: clamp(2.5rem, 10vw, 5.5rem); margin: 0; letter-spacing: 12px; font-weight: 900; color: #0f172a; }
-    .hero p { color: #00aeef; font-weight: 900; letter-spacing: 4px; margin-top: 15px; font-size: 1.1rem; }
+        /* ABOUTボタン */
+        .btn-about {
+            display: inline-block;
+            width: 100%;
+            padding: 18px 0;
+            background: #00aeef;
+            color: #fff;
+            border-radius: 20px; /* ボタンも丸めを強く */
+            text-decoration: none;
+            font-family: 'Orbitron';
+            font-weight: 900;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            transition: 0.3s;
+        }
+        .btn-about:hover {
+            background: #008cc2;
+            transform: scale(1.02);
+        }
 
-    /* 丸みのある四角で囲ったステータスエリア */
-    .status-box {
-        margin-top: 50px;
-        padding: 15px 30px;
-        background: #fff;
-        border: 2px solid #00aeef;
-        border-radius: 12px; /* 丸みのある四角 */
-        display: inline-block;
-        min-width: 280px;
-        box-shadow: 0 4px 15px rgba(0, 174, 239, 0.1);
-    }
+        /* ステータス表示をカード内に配置 */
+        #log-status-text {
+            font-family: 'Orbitron';
+            font-size: 0.75rem;
+            color: #94a3b8;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
 
-    #log-status-text {
-        font-family: 'Orbitron', sans-serif;
-        font-size: 0.8rem;
-        color: #00aeef;
-        font-weight: 700;
-        letter-spacing: 1px;
-    }
+        /* ログイン時ボタン（カード内） */
+        #hero-mypage-btn {
+            display: none;
+            width: 100%;
+            padding: 15px 0;
+            background: #0f172a;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 20px;
+            font-family: 'Orbitron';
+            font-weight: 900;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
 
-    /* ログイン時のみ出現するボタン */
-    #hero-mypage-btn {
-        display: none;
-        margin-top: 25px;
-        padding: 12px 35px;
-        background: #00aeef;
-        color: #fff;
-        text-decoration: none;
-        border-radius: 8px;
-        font-family: 'Orbitron';
-        font-weight: 900;
-        font-size: 0.9rem;
-        transition: 0.3s;
-    }
-    #hero-mypage-btn:hover { background: #008cc2; transform: translateY(-2px); }
+        /* スマホメニュー強制表示 */
+        #mobile-line-menu {
+            display: flex !important; 
+            position: fixed !important;
+            bottom: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 85px !important;
+            background: rgba(255, 255, 255, 0.98) !important;
+            backdrop-filter: blur(15px) !important;
+            border-top: 1px solid #e2e8f0 !important;
+            z-index: 10006 !important;
+            justify-content: center !important;
+            align-items: center !important;
+        }
 
-    /* 下部メニューをスマホでもPCでも強制表示 */
-    #mobile-line-menu {
-        display: flex !important; 
-        position: fixed !important;
-        bottom: 0 !important;
-        left: 0 !important;
-        width: 100% !important;
-        height: 80px !important;
-        background: rgba(255, 255, 255, 0.95) !important;
-        backdrop-filter: blur(10px) !important;
-        border-top: 1px solid #e2e8f0 !important;
-        z-index: 10006 !important;
-        justify-content: center !important;
-        align-items: center !important;
-        box-shadow: 0 -5px 20px rgba(0,0,0,0.05) !important;
-    }
-
-    /* メニュー内のボタン（チップ）の調整 */
-    .m-chip {
-        background: #f1f5f9 !important;
-        color: #475569 !important;
-        border: 1px solid #e2e8f0 !important;
-        border-radius: 10px !important; /* 少し角丸 */
-        font-weight: 900 !important;
-    }
-
-    footer { padding: 80px 20px; text-align: center; border-top: 1px solid #e2e8f0; background: #fff; }
-</style>
-</head> <body>
+        footer { padding: 40px 20px; text-align: center; color: #cbd5e1; }
+    </style>
+</head>
+<body>
 
 <div id="nav-container"></div>
 
-<section class="hero"> <h1>SHINONOI</h1> <p>ENGINEERING CLUB</p>
+<section class="hero">
+    <h1>SHINONOI</h1>
+    <p>ENGINEERING CLUB</p>
+    
+    <div class="main-round-card">
+        <span id="log-status-text">SYSTEM STANDBY</span>
+        
+        <a href="about.html" class="btn-about">VIEW ABOUT</a>
 
-<div class="status-box">
-    <span id="log-status-text">CONNECTING SYSTEM...</span>
-</div>
-
-<a href="team/index.html" id="hero-mypage-btn">MEMBER PAGE</a>
+        <a href="team/index.html" id="hero-mypage-btn">MEMBER DASHBOARD</a>
+    </div>
 </section>
 
-<footer> <div id="google_translate_element"></div> <p style="font-family:'Orbitron'; font-size:0.7rem; color: #94a3b8; letter-spacing: 2px;">&copy; 2026 SHINONOI ENGINEERING CLUB</p> </footer>
+<footer>
+    <p style="font-family:'Orbitron'; font-size:0.7rem;">&copy; 2026 SHINONOI ENGINEERING CLUB</p>
+</footer>
 
 <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
-
 <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
-
 <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
-
 <script src="menu.js" defer></script>
 
-<script> window.addEventListener('load', () => { firebase.auth().onAuthStateChanged((user) => { const btn = document.getElementById('hero-mypage-btn'); const statusBox = document.querySelector('.status-box'); if (user) { if(btn) btn.style.display = 'inline-block'; // ログイン時は枠線の色を変える if(statusBox) statusBox.style.borderColor = "#00aeef"; } else { if(btn) btn.style.display = 'none'; } });
+<script>
+    window.addEventListener('load', () => {
+        firebase.auth().onAuthStateChanged((user) => {
+            const btn = document.getElementById('hero-mypage-btn');
+            const status = document.getElementById('log-status-text');
+            if (user) {
+                if(btn) btn.style.display = 'block';
+                if(status) status.style.color = "#00aeef";
+            }
+        });
 
-    // 下部メニューが消えないように強制チェック
-    setInterval(() =&gt; {
-        const bottomNav = document.getElementById(&#39;mobile-line-menu&#39;);
-        if (bottomNav &amp;&amp; bottomNav.style.display === &#39;none&#39;) {
-            bottomNav.style.setProperty(&#39;display&#39;, &#39;flex&#39;, &#39;important&#39;);
-            document.body.style.paddingBottom = &#39;80px&#39;;
-        }
-    }, 1000);
-});
-
-function googleTranslateElementInit() {
-  new google.translate.TranslateElement({pageLanguage: &#39;ja&#39;, layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, &#39;google_translate_element&#39;);
-}
+        // スマホメニュー消失対策
+        const forceMenu = () => {
+            const menu = document.getElementById('mobile-line-menu');
+            if (menu) {
+                menu.style.setProperty('display', 'flex', 'important');
+            }
+        };
+        setInterval(forceMenu, 500);
+    });
 </script>
 
-<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
-</body> </html>
+</body>
+</html>
