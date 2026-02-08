@@ -1,26 +1,21 @@
 <!DOCTYPE html>
 
-<html lang="ja"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>MEMBER LOGIN | 篠ノ井技術クラブ</title> <link rel="stylesheet" href="/style.css"> <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script> <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script> <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&display=swap" rel="stylesheet"> <style> body { background: #0b1d2e; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; font-family: sans-serif; } .login-card { background: rgba(16, 42, 67, 0.9); padding: 40px; border-radius: 24px; border: 1px solid #486581; box-shadow: 0 0 40px rgba(0, 0, 0, 0.3); text-align: center; width: 90%; max-width: 400px; backdrop-filter: blur(10px); transition: 0.5s; margin: 20px; } .login-card.unlocked { border-color: #00aeef; box-shadow: 0 0 40px rgba(0, 174, 239, 0.2); } .club-logo { width: 80px; height: 80px; margin-bottom: 10px; filter: grayscale(1); opacity: 0.5; transition: 0.5s; } .unlocked .club-logo { filter: drop-shadow(0 0 15px #00aeef); opacity: 1; } .club-title { font-family: 'Orbitron'; color: #486581; font-size: 1.1rem; margin-bottom: 25px; letter-spacing: 2px; } .unlocked .club-title { color: #00aeef; }
+<html lang="ja"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>MEMBER LOGIN | 篠ノ井技術クラブ</title> <link rel="stylesheet" href="/style.css"> <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script> <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script> <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&display=swap" rel="stylesheet"> <style> body { background: #0b1d2e; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; font-family: sans-serif; } .login-card { background: rgba(16, 42, 67, 0.9); padding: 40px; border-radius: 24px; border: 1px solid #486581; box-shadow: 0 0 40px rgba(0, 0, 0, 0.3); text-align: center; width: 90%; max-width: 400px; backdrop-filter: blur(10px); transition: 0.5s; } .login-card.unlocked { border-color: #00aeef; box-shadow: 0 0 40px rgba(0, 174, 239, 0.2); } .club-logo { width: 80px; height: 80px; margin-bottom: 10px; filter: grayscale(1); opacity: 0.5; transition: 0.5s; } .unlocked .club-logo { filter: drop-shadow(0 0 15px #00aeef); opacity: 1; } .club-title { font-family: 'Orbitron'; color: #486581; font-size: 1.1rem; margin-bottom: 25px; letter-spacing: 2px; } .unlocked .club-title { color: #00aeef; }
 
     .input-group { margin-bottom: 15px; text-align: left; }
     label { color: #8ba3b8; font-size: 0.75rem; margin-bottom: 5px; display: block; margin-left: 5px; }
-    input { width: 100%; padding: 12px; background: #0b1d2e; border: 1px solid #486581; border-radius: 10px; color: white; box-sizing: border-box; outline: none; font-size: 0.95rem; transition: 0.3s; }
-    input:focus { border-color: #00aeef; box-shadow: 0 0 8px rgba(0, 174, 239, 0.3); }
+    input { width: 100%; padding: 12px; background: #0b1d2e; border: 1px solid #486581; border-radius: 10px; color: white; box-sizing: border-box; outline: none; font-size: 0.95rem; }
+    input:focus { border-color: #00aeef; }
     
     .auth-gate { display: none; opacity: 0; transition: 0.5s; transform: translateY(10px); }
     .auth-gate.active { display: block; opacity: 1; transform: translateY(0); }
     
     .btn { width: 100%; padding: 13px; border: none; border-radius: 10px; font-weight: 900; cursor: pointer; transition: 0.3s; font-size: 0.85rem; margin-bottom: 10px; }
     .btn-primary { background: #00aeef; color: white; margin-top: 10px; }
-    .btn-primary:hover { background: #0082b3; }
-    
-    .divider { display: flex; align-items: center; margin: 20px 0; color: #486581; font-size: 0.65rem; }
-    .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: #1a3a5a; margin: 0 10px; }
-    
     .btn-google { background: white; color: #757575; display: flex; align-items: center; justify-content: center; gap: 10px; }
     .btn-google img { width: 18px; }
 
-    #lock-msg { color: #ff4d4d; font-size: 0.7rem; margin-top: 10px; display: none; background: rgba(255, 77, 77, 0.1); padding: 8px; border-radius: 8px; text-align: center; }
+    #lock-msg { color: #ff4d4d; font-size: 0.7rem; margin-top: 10px; display: none; text-align: center; }
     #gate-msg { color: #00aeef; font-size: 0.75rem; margin-bottom: 15px; font-weight: bold; display: none; text-align: center; }
 </style>
 </head> <body>
@@ -31,12 +26,12 @@
     
     <div id="pass-section">
         <div class="input-group">
-            <input type="password" id="club-pass" placeholder="合言葉を入力して解除">
+            <input type="password" id="club-pass" placeholder="合言葉を入力">
         </div>
-        <div id="lock-msg">セキュリティロック中（残り5分）</div>
+        <div id="lock-msg">セキュリティロック中</div>
     </div>
 
-    <div id="gate-msg">認証完了：ログインしてください</div>
+    <div id="gate-msg">認証完了：ログイン情報を入力済みです</div>
 
     <div id="auth-gate" class="auth-gate">
         <div class="input-group">
@@ -48,8 +43,8 @@
             <input type="password" id="user-pass" placeholder="••••••••">
         </div>
         <button class="btn btn-primary" onclick="loginWithEmail()">SIGN IN</button>
-
-        <div class="divider">OR USE GOOGLE</div>
+        
+        <div style="color: #486581; font-size: 0.65rem; margin: 15px 0;">OR USE GOOGLE</div>
         
         <button class="btn btn-google" onclick="loginWithGoogle()">
             <img src="[https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg](https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg)" alt="G">
@@ -60,18 +55,8 @@
 
 <script src="/menu.js"></script>
 <script>
-    const MAX_ATTEMPTS = 10;
-    const LOCK_TIME = 5 * 60 * 1000;
     const HASHED_KEY = "84285703716616e2578508e82647043376045142171f1627883a48e8940e4f88"; // shino2026
 
-    // SHA-256変換
-    async function sha256(text) {
-        const msgUint8 = new TextEncoder().encode(text);
-        const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
-        return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
-    }
-
-    // ロック解除
     function unlockUI() {
         document.getElementById('pass-section').style.display = 'none';
         document.getElementById('gate-msg').style.display = 'block';
@@ -79,67 +64,59 @@
         document.getElementById('card').classList.add('unlocked');
     }
 
-    // QRコード判定（URLに ?skip=qr2026 があれば解除）
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('skip') === 'qr2026') {
-        unlockUI();
+    // URLパラメータを取得して自動入力する処理
+    window.onload = function() {
+        const params = new URLSearchParams(window.location.search);
+        
+        // 合言葉スキップ判定
+        if (params.get('skip') === 'qr2026') {
+            unlockUI();
+        }
+
+        // メアド・パスワードの自動補完
+        const paramEmail = params.get('email');
+        const paramPass = params.get('pass');
+        
+        if (paramEmail) {
+            document.getElementById('user-email').value = paramEmail;
+        }
+        if (paramPass) {
+            document.getElementById('user-pass').value = paramPass;
+        }
+
+        // もし両方入っていたら自動でログイン試行まで行く場合は、以下を有効にする
+        // if (paramEmail && paramPass && params.get('skip') === 'qr2026') {
+        //     loginWithEmail();
+        // }
+    };
+
+    async function sha256(text) {
+        const msgUint8 = new TextEncoder().encode(text);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+        return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
     }
 
-    // 合言葉判定
     document.getElementById('club-pass').addEventListener('input', async (e) => {
-        const lockUntil = localStorage.getItem('login_lock_until');
-        if (lockUntil && Date.now() < lockUntil) return;
-
-        const val = e.target.value;
-        if (val.length >= 9) {
-            if (await sha256(val) === HASHED_KEY) {
-                localStorage.removeItem('login_attempts');
+        if (e.target.value.length >= 9) {
+            if (await sha256(e.target.value) === HASHED_KEY) {
                 unlockUI();
-            } else {
-                let attempts = parseInt(localStorage.getItem('login_attempts') || 0) + 1;
-                localStorage.setItem('login_attempts', attempts);
-                if (attempts >= MAX_ATTEMPTS) {
-                    localStorage.setItem('login_lock_until', Date.now() + LOCK_TIME);
-                    location.reload();
-                } else {
-                    e.target.value = "";
-                    alert("合言葉が違います。残り " + (MAX_ATTEMPTS - attempts) + "回");
-                }
             }
         }
     });
 
-    // ログイン処理: Email/Pass
     function loginWithEmail() {
         const email = document.getElementById('user-email').value;
         const pass = document.getElementById('user-pass').value;
-        if(!email || !pass) return alert("入力してください");
-        
         firebase.auth().signInWithEmailAndPassword(email, pass)
             .then(() => { window.location.href = "/activity-log.html"; })
             .catch(err => { alert("ログイン失敗: " + err.message); });
     }
 
-    // ログイン処理: Google
     function loginWithGoogle() {
         const provider = new firebase.auth.GoogleAuthProvider();
         firebase.auth().signInWithPopup(provider)
             .then(() => { window.location.href = "/activity-log.html"; })
             .catch(err => { alert("Google認証エラー"); });
     }
-
-    // ロック表示の定期確認
-    setInterval(() => {
-        const lockUntil = localStorage.getItem('login_lock_until');
-        const msg = document.getElementById('lock-msg');
-        const input = document.getElementById('club-pass');
-        if (lockUntil && Date.now() < lockUntil) {
-            msg.style.display = 'block';
-            if(input) input.disabled = true;
-        } else {
-            msg.style.display = 'none';
-            if(input) input.disabled = false;
-        }
-    }, 1000);
 </script>
 </body> </html>
