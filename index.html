@@ -1,455 +1,85 @@
-<!DOCTYPE html>
-
-<html lang="ja"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>篠ノ井技術クラブ | SHINONOI TECH CLUB</title>
-
-<link rel="preconnect" href="[https://fonts.googleapis.com](https://fonts.googleapis.com)">
-<link rel="preconnect" href="[https://fonts.gstatic.com](https://fonts.gstatic.com)" crossorigin>
-<link href="[https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=Montserrat:wght@900&display=swap](https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=Montserrat:wght@900&display=swap)" rel="stylesheet">
-
-<style>
-    /* --- 1. Root & Variables --- */
-    :root {
-        --glass-bg: rgba(255, 255, 255, 0.35);
-        --glass-border: rgba(255, 255, 255, 0.5);
-        --blur-val: blur(25px);
-        --accent: #00aeef;
-        --text-dark: #0f172a;
-        --text-sub: #475569;
-        --header-h: 110px;
-        --transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>篠ノ井技術クラブ</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=Montserrat:wght@900&display=swap" rel="stylesheet"><style>:root {--glass-bg: rgba(255, 255, 255, 0.35);--glass-border: rgba(255, 255, 255, 0.5);--blur-val: blur(30px);--accent: #00aeef;--text-dark: #0f172a;--header-h: 110px;}html, body {margin: 0; padding: 0; width: 100%; min-height: 100vh;background: linear-gradient(135deg, #f0f9ff 0%, #ffffff 50%, #e0f2fe 100%);background-attachment: fixed; font-family: 'Noto Sans JP', sans-serif;color: var(--text-dark); overflow-x: hidden; line-height: 1.8;}#nav-container {position: fixed; top: 0; left: 0; width: 100%; height: var(--header-h);display: flex; align-items: center; justify-content: space-between;padding: 0 40px; z-index: 10000; box-sizing: border-box;background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px);border-bottom: 1px solid rgba(0,0,0,0.05);}.logo-box { display: flex; align-items: center; }.logo-main {font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 32px;letter-spacing: 2px; color: var(--text-dark); text-decoration: none;}/* ログインゲート：ロゴの一部に偽装 */.gate-i {color: var(--text-dark); font-family: 'Montserrat', sans-serif; font-weight: 900;font-size: 32px; text-decoration: none; border-left: 1px solid rgba(0,0,0,0.1);padding-left: 10px; margin-left: 4px; transition: color 0.3s; cursor: default;}.gate-i:hover { color: var(--accent); cursor: pointer; }.sub-tag { font-size: 11px; color: var(--accent); font-weight: 900; margin-left: 20px; white-space: nowrap; }    .pc-nav { display: flex; gap: 20px; align-items: center; }
+    .pc-nav a {
+        text-decoration: none; color: var(--text-dark); font-weight: 900;
+        font-size: 0.9rem; transition: 0.3s; text-transform: uppercase;
     }
+    .pc-nav a:hover { color: var(--accent); }
+    .pc-nav a.highlight { color: var(--accent); }
 
-    /* --- 2. Base Style --- */
-    html, body {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        min-height: 100vh;
-        background: linear-gradient(135deg, #f0f9ff 0%, #ffffff 50%, #e0f2fe 100%);
-        background-attachment: fixed;
-        font-family: 'Noto Sans JP', sans-serif;
-        color: var(--text-dark);
-        overflow-x: hidden;
-        line-height: 1.8;
-        word-break: break-all;
-    }
-
-    /* --- 3. Header & Logo --- */
-    #nav-container {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: var(--header-h);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 50px;
-        z-index: 10000;
-        box-sizing: border-box;
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(15px);
-        border-bottom: 2px solid var(--accent);
-    }
-
-    .logo-box {
-        display: flex;
-        align-items: center;
-    }
-
-    .logo-main {
-        font-family: 'Montserrat', sans-serif;
-        font-weight: 900;
-        font-size: 32px;
-        letter-spacing: 2px;
-        color: var(--text-dark);
-        text-decoration: none;
-        transition: var(--transition);
-    }
-
-    /* SHINONOIの「I」を独立したログインボタンに */
-    .login-trigger-i {
-        display: inline-block;
-        color: var(--accent);
-        font-family: 'Montserrat', sans-serif;
-        font-weight: 900;
-        font-size: 32px;
-        text-decoration: none;
-        border-left: 3px solid #000;
-        padding-left: 12px;
-        margin-left: 8px;
-        transition: var(--transition);
-        cursor: pointer;
-    }
-
-    .login-trigger-i:hover {
-        transform: scale(1.2);
-        filter: drop-shadow(0 0 8px var(--accent));
-    }
-
-    .logo-sub-text {
-        font-size: 13px;
-        font-weight: 900;
-        color: var(--accent);
-        margin-left: 20px;
-        white-space: nowrap;
-    }
-
-    /* --- 4. PC Navigation --- */
-    .pc-nav-list {
-        display: flex;
-        gap: 25px;
-        align-items: center;
-    }
-
-    .pc-nav-list a {
-        text-decoration: none;
-        color: var(--text-dark);
-        font-weight: 900;
-        font-size: 0.95rem;
-        text-transform: uppercase;
-        padding: 10px 5px;
-        transition: var(--transition);
-        position: relative;
-    }
-
-    .pc-nav-list a::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 0;
-        height: 3px;
-        background: var(--accent);
-        transition: var(--transition);
-    }
-
-    .pc-nav-list a:hover { color: var(--accent); }
-    .pc-nav-list a:hover::after { width: 100%; }
-
-    .pc-nav-list a.nav-active { color: var(--accent); }
-    .pc-nav-list a.nav-active::after { width: 100%; }
-
-    /* --- 5. Main Layout --- */
-    .content-wrapper {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: calc(var(--header-h) + 60px) 24px 180px;
+    .wrapper {
+        max-width: 1100px; margin: 0 auto;
+        padding: calc(var(--header-h) + 40px) 24px 180px;
         box-sizing: border-box;
     }
-
-    /* Emergency Area */
-    #emergency-banner {
-        display: none;
-        background: rgba(255, 77, 77, 0.08);
-        border: 2px solid rgba(255, 77, 77, 0.3);
-        backdrop-filter: var(--blur-val);
-        border-radius: 40px;
-        padding: 35px;
-        margin-bottom: 60px;
-        text-align: center;
-        animation: slideDown 0.6s ease-out;
+    #eme-wrap {
+        display: none; margin-bottom: 40px; padding: 25px; text-align: center;
+        border-radius: 40px; background: rgba(255, 77, 77, 0.04);
+        border: 1px solid rgba(255, 77, 77, 0.1); backdrop-filter: var(--blur-val);
     }
-
-    .eme-tag {
-        color: #ff4d4d;
-        font-weight: 900;
-        letter-spacing: 3px;
-        display: block;
-        margin-bottom: 10px;
-        font-size: 1.2rem;
-    }
-
-    /* Hero Section */
-    .page-header {
-        text-align: center;
-        margin-bottom: 100px;
-    }
-
-    .page-header h1 {
-        font-size: clamp(3rem, 12vw, 7rem);
-        font-weight: 900;
-        margin: 0;
-        letter-spacing: -3px;
-        background: linear-gradient(to bottom, #0f172a 30%, #64748b 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+    .hero { text-align: center; margin-bottom: 80px; }
+    .hero h1 {
+        font-size: clamp(3rem, 11vw, 7rem); font-weight: 900; margin: 0;
+        background: linear-gradient(to bottom, #0f172a, #475569);
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         line-height: 1.1;
     }
+    .hero p { letter-spacing: 8px; font-weight: 900; color: var(--accent); margin-top: 25px; font-size: 1.2rem; }
 
-    .page-header p {
-        font-weight: 900;
-        color: var(--accent);
-        letter-spacing: 10px;
-        text-transform: uppercase;
-        margin-top: 25px;
-        font-size: 1.4rem;
+    .glass-card {
+        background: var(--glass-bg); backdrop-filter: var(--blur-val);
+        border: 1px solid var(--glass-border); border-radius: 70px;
+        padding: 70px 50px; box-shadow: 0 40px 100px rgba(0, 0, 0, 0.03);
+        margin-bottom: 40px;
     }
-
-    /* Glass Container */
-    .main-card {
-        background: var(--glass-bg);
-        backdrop-filter: var(--blur-val);
-        border: 1px solid var(--glass-border);
-        border-radius: 80px;
-        padding: 80px 60px;
-        box-shadow: 0 50px 100px rgba(0, 0, 0, 0.05);
-    }
-
     .sec-title {
-        font-size: 2rem;
-        font-weight: 900;
-        margin-bottom: 50px;
-        display: flex;
-        align-items: center;
-        gap: 25px;
+        font-size: 2rem; font-weight: 900; margin-bottom: 40px;
+        display: flex; align-items: center; gap: 20px;
     }
+    .sec-title::before { content: ''; width: 45px; height: 8px; background: var(--accent); border-radius: 4px; }
 
-    .sec-title::before {
-        content: '';
-        width: 60px;
-        height: 8px;
-        background: var(--accent);
-        border-radius: 4px;
+    /* 私たちについてセクション */
+    .about-link-box {
+        display: block; text-decoration: none; color: inherit;
+        padding: 40px; border-radius: 40px; background: rgba(255,255,255,0.2);
+        border: 1px solid rgba(255,255,255,0.4); transition: 0.3s;
+        margin-bottom: 80px;
     }
+    .about-link-box:hover { transform: translateY(-5px); background: rgba(255,255,255,0.5); }
+    .about-link-box h3 { font-size: 1.6rem; font-weight: 900; margin: 0 0 10px 0; color: var(--accent); }
+    .about-link-box p { font-size: 1.1rem; font-weight: 700; opacity: 0.7; margin: 0; }
 
-    /* News List */
-    .news-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 40px 0;
-        border-bottom: 1px solid rgba(0,0,0,0.06);
-        text-decoration: none;
-        color: inherit;
-        transition: var(--transition);
+    /* お知らせリスト */
+    .news-row {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 35px 0; text-decoration: none; color: inherit;
+        border-bottom: 1px solid rgba(0,0,0,0.05); transition: 0.3s;
     }
+    .news-row:hover { transform: translateX(20px); color: var(--accent); }
+    .news-date { font-size: 0.9rem; opacity: 0.4; font-weight: 900; }
+    .news-title { font-size: 1.7rem; font-weight: 900; display: block; line-height: 1.3; }
 
-    .news-item:last-child { border: none; }
-
-    .news-item:hover {
-        transform: translateX(25px);
-        color: var(--accent);
+    .footer {
+        background: rgba(255, 255, 255, 0.5); padding: 80px 20px;
+        text-align: center; border-top: 1px solid rgba(0,0,0,0.05);
     }
+    #mobile-nav { display: none; }
 
-    .news-meta {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .news-date {
-        font-size: 1rem;
-        font-weight: 900;
-        opacity: 0.4;
-    }
-
-    .news-text {
-        font-size: 1.8rem;
-        font-weight: 900;
-        line-height: 1.3;
-    }
-
-    /* --- 6. Footer --- */
-    .global-footer {
-        background: rgba(255, 255, 255, 0.6);
-        padding: 100px 24px;
-        text-align: center;
-        border-top: 1px solid rgba(0,0,0,0.05);
-    }
-
-    .footer-logo {
-        font-family: 'Montserrat', sans-serif;
-        font-weight: 900;
-        font-size: 1.8rem;
-        margin-bottom: 15px;
-    }
-
-    .copy-text {
-        font-size: 0.9rem;
-        color: var(--text-sub);
-        font-weight: 700;
-    }
-
-    /* --- 7. Mobile Navigation (Floating) --- */
-    #mobile-dock {
-        display: none;
-    }
-
-    /* --- 8. Responsive --- */
     @media (max-width: 1024px) {
-        #nav-container { padding: 0 20px; height: 90px; }
-        .pc-nav-list { display: none; }
-        .logo-sub-text { display: none; }
-        
-        .content-wrapper { padding-top: 130px; }
-        .main-card { padding: 50px 25px; border-radius: 50px; }
-        .news-text { font-size: 1.4rem; }
-
-        #mobile-dock {
-            display: flex;
-            position: fixed;
-            bottom: 25px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 92%;
-            max-width: 600px;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(20px);
-            border-radius: 50px;
-            padding: 12px 5px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
-            z-index: 10005;
-            justify-content: space-around;
-            border: 1px solid rgba(255,255,255,0.8);
+        .pc-nav, .sub-tag { display: none; }
+        #nav-container { padding: 0 20px; }
+        .wrapper { padding-top: 130px; }
+        .glass-card { padding: 40px 20px; border-radius: 40px; }
+        .news-title { font-size: 1.3rem; }
+        #mobile-nav {
+            display: flex; position: fixed; bottom: 20px; left: 50%;
+            transform: translateX(-50%); background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px); width: 94%; max-width: 650px;
+            padding: 15px 5px; border-radius: 45px; z-index: 10001;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15); justify-content: space-around;
         }
-
-        .dock-item {
-            text-decoration: none;
-            color: var(--text-dark);
-            font-weight: 900;
-            font-size: 0.7rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            flex: 1;
-        }
-
-        .dock-item.active { color: var(--accent); }
-    }
-
-    @keyframes slideDown {
-        from { opacity: 0; transform: translateY(-30px); }
-        to { opacity: 1; transform: translateY(0); }
+        .m-link { text-decoration: none; color: var(--text-dark); font-weight: 900; font-size: 0.75rem; }
     }
 </style>
-</head> <body>
-
-<header id="nav-container"> <div class="logo-box"> <a href="index.html" class="logo-main">SHINONO</a> <a href="login.html" class="login-trigger-i" title="ログイン">I</a> <span class="logo-sub-text">篠ノ井EMC サイト開発チーム</span> </div>
-
-<nav class="pc-nav-list">
-    <a href="index.html" class="nav-active">HOME</a>
-    <a href="about.html">ABOUT</a>
-    <a href="news.html">BLOG</a>
-    <a href="download.html">download</a>
-    <a href="team/index.html">MEMBER</a>
-    <a href="log.html">LOG</a>
-    <a href="mypage.html" style="color:var(--accent);">MY PAGE</a>
-</nav>
-</header>
-
-<div class="content-wrapper"> <div id="emergency-banner"> <span class="eme-tag">IMPORTANT NOTICE</span> <div id="eme-message" style="font-weight:900; font-size:1.3rem;"></div> </div>
-
-<div class="page-header">
-    <h1>篠ノ井技術クラブ</h1>
-    <p>Engineering the Future</p>
-</div>
-
-<main class="main-card">
-    <section>
-        <h2 class="sec-title">最新のお知らせ</h2>
-        <div id="news-feed">
-            <p style="text-align:center; opacity:0.3; padding:50px; font-weight:900;">
-                お知らせを取得中...
-            </p>
-        </div>
-    </section>
-
-    <section id="auth-portal" style="display:none; margin-top:60px; padding-top:60px; border-top:2px solid rgba(0,0,0,0.05);">
-        <h2 class="sec-title">メンバーエリア</h2>
-        <a href="team/index.html" style="font-size:2rem; font-weight:900; color:var(--accent); text-decoration:none; display:inline-block; transition:0.3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-            ポータルサイトへ移動する →
-        </a>
-    </section>
-</main>
-</div>
-
-<footer class="global-footer"> <div class="footer-logo">SHINONOI<span style="color:var(--accent)">I</span> TECH CLUB</div> <div class="copy-text">&copy; 2026 篠ノ井技術クラブ | All Rights Reserved.</div> </footer>
-
-<nav id="mobile-dock"> <a href="index.html" class="dock-item active">HOME</a> <a href="about.html" class="dock-item">ABOUT</a> <a href="news.html" class="dock-item">BLOG</a> <a href="download.html" class="dock-item">DL</a> <a href="team/index.html" class="dock-item">TEAM</a> <a href="log.html" class="dock-item">LOG</a> <a href="mypage.html" class="dock-item" style="color:var(--accent)">MY</a> </nav>
-
-<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
-
-<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
-
-<script> /** * 文字列クリーンアップ / function fmt(s) { if(!s) return ""; return s.replace(/[#`]/g, '').trim(); }
-
-/**
- * 統合起動ロジック
- */
-async function systemBoot() {
-    const feed = document.getElementById(&#39;news-feed&#39;);
-
-    // 1. GitHub API連携でニュース取得
-    try {
-        // URLからユーザー名とリポジトリ名を推測
-        const h = window.location.hostname.split(&#39;.&#39;);
-        const u = h[0];
-        const p = window.location.pathname.split(&#39;/&#39;);
-        const r = p[1] || &quot;&quot;;
-
-        const api = `https://api.github.com/repos/${u}/${r}/contents/news`;
-        const res = await fetch(api);
-
-        if(res.status === 200) {
-            const files = await res.json();
-            const mds = files.filter(f =&gt; f.name.endsWith(&#39;.md&#39;)).reverse().slice(0, 3);
-            
-            if(mds.length &gt; 0) feed.innerHTML = &#39;&#39;;
-
-            for(const f of mds) {
-                const cRes = await fetch(f.download_url);
-                if(cRes.ok) {
-                    const raw = await cRes.text();
-                    const lines = raw.split(&#39;\n&#39;).filter(l =&gt; l.trim());
-                    
-                    const item = document.createElement(&#39;a&#39;);
-                    item.href = `news.html?file=${f.name}`;
-                    item.className = &#39;news-item&#39;;
-                    item.innerHTML = `
-                        &lt;div class=&quot;news-meta&quot;&gt;
-                            &lt;span class=&quot;news-date&quot;&gt;${fmt(lines[0])}&lt;/span&gt;
-                            &lt;span class=&quot;news-text&quot;&gt;${fmt(lines[1])}&lt;/span&gt;
-                        &lt;/div&gt;
-                        &lt;div style=&quot;font-size:2.5rem; opacity:0.1; font-weight:900;&quot;&gt;→&lt;/div&gt;
-                    `;
-                    feed.appendChild(item);
-                }
-            }
-        } else {
-            // 400系、500系エラー時の表示
-            feed.innerHTML = `&lt;p style=&quot;text-align:center; opacity:0.4; font-weight:900;&quot;&gt;現在、新着情報はありません (${res.status})&lt;/p&gt;`;
-        }
-    } catch (err) {
-        feed.innerHTML = &#39;&lt;p style=&quot;text-align:center; opacity:0.4;&quot;&gt;接続エラーが発生しました&lt;/p&gt;&#39;;
-    }
-
-    // 2. 緊急通知の取得
-    try {
-        const eRes = await fetch(&#39;notices/emergency.md&#39;);
-        if(eRes.status === 200) {
-            const txt = await eRes.text();
-            if(txt.trim().length &gt; 5) {
-                document.getElementById(&#39;emergency-banner&#39;).style.display = &#39;block&#39;;
-                document.getElementById(&#39;eme-message&#39;).innerText = fmt(txt.split(&#39;\n&#39;)[0]);
-            }
-        }
-    } catch(e) {}
-
-    // 3. Firebaseログイン状態の監視
-    if(typeof firebase !== &#39;undefined&#39;) {
-        firebase.auth().onAuthStateChanged(user =&gt; {
-            if(user) {
-                const portal = document.getElementById(&#39;auth-portal&#39;);
-                if(portal) portal.style.display = &#39;block&#39;;
-            }
-        });
-    }
-}
-
-// ページ読み込み完了時に実行
-document.addEventListener(&#39;DOMContentLoaded&#39;, systemBoot);
-</script>
-
-</body> </html>
+</head><body><header id="nav-container"><div class="logo-box"><a href="index.html" class="logo-main">SHINONO</a><a href="login.html" class="gate-i">I</a><span class="sub-tag">篠ノ井EMC 開発チーム</span></div><nav class="pc-nav"><a href="index.html">HOME</a><a href="about.html">ABOUT</a><a href="news.html">BLOG</a><a href="download.html">download</a><a href="team/index.html">MEMBER</a><a href="log.html">LOG</a><a href="mypage.html" class="highlight">MY PAGE</a></nav></header><div class="wrapper"><div id="eme-wrap"><span style="color:#ff4d4d; font-weight:900;">ALERT</span><div id="eme-text" style="font-weight:900;"></div></div><div class="hero"><h1>篠ノ井技術クラブ</h1><p>ENGINEERING THE FUTURE</p></div><main class="glass-card"><section><h2 class="sec-title">私たちについて</h2><a href="about.html" class="about-link-box"><h3>クラブの理念と活動内容</h3><p>篠ノ井技術クラブの目的や、私たちが取り組んでいる最新のプロジェクトについて詳しくはこちらをご覧ください。 →</p></a></section><section><h2 class="sec-title">最新のお知らせ</h2><div id="news-container"><p style="text-align:center; opacity:0.3; padding:40px;">取得中...</p></div></section><section id="auth-check" style="display:none; margin-top:60px; padding-top:60px; border-top:1px solid rgba(0,0,0,0.05);"><a href="team/index.html" style="font-size:1.8rem; font-weight:900; color:var(--accent); text-decoration:none;">メンバーポータルへ →</a></section></main></div><footer class="footer"><div style="font-family:'Montserrat',sans-serif; font-weight:900; font-size:1.2rem; margin-bottom:10px;">SHINONO<span style="opacity:0.3">I</span> TECH CLUB</div><div style="font-size:0.8rem; opacity:0.5;">&copy; 2026 篠ノ井技術クラブ All Rights Reserved.</div></footer><nav id="mobile-nav"><a href="index.html" class="m-link">HOME</a><a href="about.html" class="m-link">ABOUT</a><a href="news.html" class="m-link">BLOG</a><a href="download.html" class="m-link">DL</a><a href="team/index.html" class="m-link">TEAM</a><a href="log.html" class="m-link">LOG</a><a href="mypage.html" class="m-link" style="color:var(--accent);">MY</a></nav><script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script><script>const clean = (s) => s ? s.replace(/[#*]/g, &#39;&#39;).trim() : &quot;&quot;; async function boot() { const con = document.getElementById(&#39;news-container&#39;); try { const h = window.location.hostname.split(&#39;.&#39;)[0]; const r = window.location.pathname.split(&#39;/&#39;)[1] || &quot;&quot;; const apiRes = await fetch(https://www.google.com/search?q=https://api.github.com/repos/${h}/${r}/contents/news); if(apiRes.ok) { const files = await apiRes.json(); const mds = files.filter(f =&gt; f.name.endsWith(&#39;.md&#39;)).reverse().slice(0, 3); const results = await Promise.all(mds.map(f =&gt; fetch(f.download_url).then(res =&gt; res.text()))); if(results.length &gt; 0) con.innerHTML = &#39;&#39;; results.forEach((text, i) =&gt; { const lines = text.split(&#39;\n&#39;).filter(l =&gt; l.trim()); const row = document.createElement(&#39;a&#39;); row.href = news.html?file=${mds[i].name}`;
+row.className = &#39;news-row&#39;;
+row.innerHTML = `&lt;div&gt;&lt;span class=&quot;news-date&quot;&gt;${clean(lines[0])}</span><span class="news-title">${clean(lines[1])}</span></div><div style="font-size:2rem; opacity:0.1; font-weight:900;">→</div>`;con.appendChild(row);});} else { con.innerHTML = '<p style="text-align:center; opacity:0.3;">現在、新着情報はありません</p>'; }} catch (e) { console.error("API error"); }try {const e = await fetch('notices/emergency.md');if(e.ok) {const t = await e.text();if(t.trim().length > 5) {document.getElementById('eme-wrap').style.display = 'block';document.getElementById('eme-text').innerText = clean(t.split('\n')[0]);}}} catch(e) {}if(typeof firebase !== 'undefined') {firebase.auth().onAuthStateChanged(u => { if(u) document.getElementById('auth-check').style.display = 'block'; });}}document.addEventListener('DOMContentLoaded', boot);</script></body></html>
