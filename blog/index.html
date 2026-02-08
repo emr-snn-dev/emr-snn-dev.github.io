@@ -1,238 +1,144 @@
 <!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>BLOG | 篠ノ井技術クラブ</title>
-    <link rel="stylesheet" href="/style.css">
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.0/marked.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Noto+Sans+JP:wght@400;900&display=swap" rel="stylesheet">
-    <style id="security-styles">
-        body { 
-            background: #0b1d2e; 
-            color: white; 
-            margin: 0; 
-            font-family: 'Noto Sans JP', sans-serif;
-            -webkit-user-select: none; 
-            user-select: none; 
-            -webkit-touch-callout: none;
-        }
-        .img-guard {
-            position: relative;
-            display: inline-block;
-        }
-        .img-guard::after {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0);
-            z-index: 10;
-        }
-        img {
-            pointer-events: none;
-        }
-    </style>
-    <style>
-        /* レイアウト */
-        .main-layout { display: grid; grid-template-columns: 1fr 300px; gap: 30px; max-width: 1200px; margin: 0 auto; padding: 140px 20px 60px; }
-        .content-area { min-width: 0; }
-        .sidebar { position: sticky; top: 120px; height: fit-content; z-index: 50; }
-        .side-widget { background: rgba(16, 42, 67, 0.6); border: 1px solid #1e3a5f; border-radius: 15px; padding: 20px; margin-bottom: 25px; backdrop-filter: blur(10px); }
-        .widget-title { font-family: 'Orbitron'; font-size: 0.8rem; color: #00aeef; border-bottom: 1px solid #1e3a5f; padding-bottom: 10px; margin-bottom: 15px; letter-spacing: 2px; font-weight: 900; }
-        
-        /* 警告ウィジェット用スタイル */
-        .warning-box { border: 1px solid #ff4d4d; background: rgba(255, 77, 77, 0.1); padding: 15px; border-radius: 10px; }
-        .warning-text { font-size: 0.75rem; color: #ffb3b3; line-height: 1.5; margin: 0; }
-        .security-link { display: block; margin-top: 10px; color: #00aeef; font-family: 'Orbitron'; font-size: 0.7rem; font-weight: 900; text-decoration: none; transition: 0.3s; }
-        .security-link:hover { text-shadow: 0 0 10px #00aeef; }
 
-        /* スケジュール表示 */
-        .event-item { display: flex; gap: 15px; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .event-day { display: block; font-family: 'Orbitron'; font-size: 1.1rem; color: #00aeef; font-weight: 900; }
-        .event-month { display: block; font-family: 'Orbitron'; font-size: 0.5rem; color: #94a3b8; }
-        .event-title { font-size: 0.8rem; font-weight: 900; color: white; line-height: 1.3; }
+<html lang="ja"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> <title>BLOG | 篠ノ井技術クラブ</title> <link rel="stylesheet" href="/style.css"> <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script> <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script> <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script> <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.0/marked.min.js"></script> <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Noto+Sans+JP:wght@400;900&display=swap" rel="stylesheet"> <style id="security-styles"> body { background: #0b1d2e; color: white; margin: 0; font-family: 'Noto Sans JP', sans-serif; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; } /* 画像がはみ出さないための修正 / #post-content img { max-width: 100%; height: auto; border-radius: 12px; margin: 10px 0; display: block; } .img-guard { position: relative; display: inline-block; max-width: 100%; } .img-guard::after { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0); z-index: 10; } img { pointer-events: none; max-width: 100%; height: auto; } </style> <style> / レイアウト */ .main-layout { display: grid; grid-template-columns: 1fr 300px; gap: 30px; max-width: 1200px; margin: 0 auto; padding: 140px 20px 60px; } .content-area { min-width: 0; } .sidebar { position: sticky; top: 120px; height: fit-content; z-index: 50; } .side-widget { background: rgba(16, 42, 67, 0.6); border: 1px solid #1e3a5f; border-radius: 15px; padding: 20px; margin-bottom: 25px; backdrop-filter: blur(10px); } .widget-title { font-family: 'Orbitron'; font-size: 0.8rem; color: #00aeef; border-bottom: 1px solid #1e3a5f; padding-bottom: 10px; margin-bottom: 15px; letter-spacing: 2px; font-weight: 900; }
 
-        /* カテゴリーボタン */
-        .cat-list { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px; }
-        .cat-item { padding: 6px 12px; border: 1px solid #1e3a5f; cursor: pointer; color: #94a3b8; font-size: 0.75rem; border-radius: 5px; transition: 0.2s; background: rgba(0,0,0,0.2); }
-        .cat-item.active { background: #00aeef; color: white; border-color: #00aeef; font-weight: 900; box-shadow: 0 0 10px rgba(0, 174, 239, 0.4); }
+    .warning-box { border: 1px solid #ff4d4d; background: rgba(255, 77, 77, 0.1); padding: 15px; border-radius: 10px; }
+    .warning-text { font-size: 0.75rem; color: #ffb3b3; line-height: 1.5; margin: 0; }
+    .security-link { display: block; margin-top: 10px; color: #00aeef; font-family: 'Orbitron'; font-size: 0.7rem; font-weight: 900; text-decoration: none; transition: 0.3s; }
+    
+    .event-item { display: flex; gap: 15px; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .event-day { display: block; font-family: 'Orbitron'; font-size: 1.1rem; color: #00aeef; font-weight: 900; }
+    .event-month { display: block; font-family: 'Orbitron'; font-size: 0.5rem; color: #94a3b8; }
+    .event-title { font-size: 0.8rem; font-weight: 900; color: white; line-height: 1.3; }
 
-        /* ブログカード */
-        .blog-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
-        .blog-card { background: rgba(16, 42, 67, 0.4); border-radius: 12px; border: 1px solid #1e3a5f; padding: 25px; cursor: pointer; transition: 0.3s; position: relative; }
-        .blog-card:hover { border-color: #00aeef; transform: translateY(-3px); background: rgba(16, 42, 67, 0.6); }
-        .category-label { display: inline-block; background: #00aeef; color: white; font-family: 'Orbitron'; font-size: 0.6rem; font-weight: 900; padding: 2px 10px; border-radius: 4px; margin-left: 10px; }
+    .cat-list { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+    .cat-item { padding: 6px 12px; border: 1px solid #1e3a5f; cursor: pointer; color: #94a3b8; font-size: 0.75rem; border-radius: 5px; transition: 0.2s; background: rgba(0,0,0,0.2); }
+    .cat-item.active { background: #00aeef; color: white; border-color: #00aeef; font-weight: 900; }
 
-        /* ビューワー */
-        #blog-viewer { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 15, 25, 0.99); z-index: 100000; overflow-y: auto; backdrop-filter: blur(20px); }
-        .viewer-inner { max-width: 800px; margin: 60px auto; background: #0b1d2e; padding: 50px; border-radius: 24px; border: 1px solid #1e3a5f; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
-        .close-btn { position: sticky; top: 20px; float: right; background: #ff4d4d; color: white; border: none; padding: 12px 24px; border-radius: 50px; cursor: pointer; z-index: 100001; font-family: 'Orbitron'; font-weight: 900; box-shadow: 0 4px 15px rgba(255, 77, 77, 0.3); }
+    .blog-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+    .blog-card { background: rgba(16, 42, 67, 0.4); border-radius: 12px; border: 1px solid #1e3a5f; padding: 25px; cursor: pointer; transition: 0.3s; position: relative; }
+    .blog-card:hover { border-color: #00aeef; transform: translateY(-3px); }
+    .category-label { display: inline-block; background: #00aeef; color: white; font-family: 'Orbitron'; font-size: 0.6rem; font-weight: 900; padding: 2px 10px; border-radius: 4px; margin-left: 10px; }
 
-        @media (max-width: 900px) {
-            .main-layout { grid-template-columns: 1fr; padding-top: 100px; }
-            .sidebar { order: -1; position: relative; top: 0; }
-            .viewer-inner { margin: 15px; padding: 25px; border-radius: 15px; }
-        }
-    </style>
-</head>
-<body oncontextmenu="return false;" onselectstart="return false;" ondragstart="return false;">
+    #blog-viewer { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 15, 25, 0.99); z-index: 100000; overflow-y: auto; backdrop-filter: blur(20px); }
+    .viewer-inner { max-width: 800px; margin: 60px auto; background: #0b1d2e; padding: 50px; border-radius: 24px; border: 1px solid #1e3a5f; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
+    .close-btn { position: sticky; top: 20px; float: right; background: #ff4d4d; color: white; border: none; padding: 12px 24px; border-radius: 50px; cursor: pointer; z-index: 100001; font-family: 'Orbitron'; font-weight: 900; }
 
-    <div id="nav-container"></div>
+    @media (max-width: 900px) {
+        .main-layout { grid-template-columns: 1fr; padding-top: 100px; }
+        .sidebar { order: -1; position: relative; top: 0; }
+        .viewer-inner { margin: 15px; padding: 25px; border-radius: 15px; }
+    }
+</style>
+</head> <body oncontextmenu="return false;" onselectstart="return false;" ondragstart="return false;">
 
-    <main class="main-layout">
-        <section class="content-area">
-            <div id="blog-list" class="blog-grid">データを同期中...</div>
-        </section>
-        
-        <aside class="sidebar">
-            <div class="side-widget">
-                <h2 class="widget-title">SCHEDULE</h2>
-                <div id="event-display">読み込み中...</div>
-            </div>
+<div id="nav-container"></div>
 
-            <div class="side-widget">
-                <h2 class="widget-title">CATEGORIES</h2>
-                <ul class="cat-list" id="category-list"></ul>
-            </div>
+<main class="main-layout">
+    <section class="content-area">
+        <div id="blog-list" class="blog-grid">データを同期中...</div>
+    </section>
+    
+    <aside class="sidebar">
+        <div class="side-widget">
+            <h2 class="widget-title">SCHEDULE</h2>
+            <div id="event-display">読み込み中...</div>
+        </div>
 
-            <div class="side-widget">
-                <h2 class="widget-title">SECURITY</h2>
-                <div class="warning-box">
-                    <p class="warning-text">
-                        ⚠️ <strong>警告</strong><br>
-                        当サイト内の画像・文章の無断転載および二次利用は固く禁じています。すべての操作は監視・制限されています。
-                    </p>
-                    <a href="/copyright.html" class="security-link">VIEW POLICY ></a>
-                </div>
-            </div>
+        <div class="side-widget">
+            <h2 class="widget-title">CATEGORIES</h2>
+            <ul class="cat-list" id="category-list"></ul>
+        </div>
 
-            <div class="side-widget ad-widget">
-                <h2 class="widget-title">SPONSOR</h2>
-                <div class="ad-content">
-                    <img src="https://via.placeholder.com/300x150/1e3a5f/00aeef?text=SHINOI+ECO-CAR" alt="AD" style="width:100%; border-radius:8px;">
-                </div>
-            </div>
-        </aside>
-    </main>
-
-    <div id="blog-viewer">
-        <div class="viewer-inner">
-            <button class="close-btn" onclick="closePost()">CLOSE</button>
-            <div id="post-content" class="markdown-body"></div>
-            <div class="post-nav-container" id="post-navigation"></div>
-            <div style="text-align:center; margin-top:50px;">
-                <button id="copy-btn" style="background:none; border:1px solid #1e3a5f; color:#5c7080; padding:12px 30px; border-radius:50px; cursor:pointer; font-family:'Orbitron'; font-size:0.65rem; letter-spacing:2px;" onclick="copyURL()">SHARE POST URL</button>
+        <div class="side-widget">
+            <h2 class="widget-title">SECURITY</h2>
+            <div class="warning-box">
+                <p class="warning-text">
+                    ⚠️ <strong>警告</strong><br>
+                    当サイト内の画像・文章の無断転載および二次利用は固く禁じています。
+                </p>
+                <a href="/copyright.html" class="security-link">VIEW POLICY ></a>
             </div>
         </div>
+
+        <div class="side-widget ad-widget">
+            <h2 class="widget-title">SPONSOR</h2>
+            <div class="ad-content">
+                <img src="[https://via.placeholder.com/300x150/1e3a5f/00aeef?text=SHINOI+ECO-CAR](https://via.placeholder.com/300x150/1e3a5f/00aeef?text=SHINOI+ECO-CAR)" alt="AD" style="width:100%; border-radius:8px;">
+            </div>
+        </div>
+    </aside>
+</main>
+
+<div id="blog-viewer">
+    <div class="viewer-inner">
+        <button class="close-btn" onclick="closePost()">CLOSE</button>
+        <div id="post-content" class="markdown-body"></div>
     </div>
+</div>
 
-    <div id="copy-toast" style="position:fixed; bottom:50px; left:50%; transform:translateX(-50%); background:#00aeef; color:white; padding:12px 25px; border-radius:50px; display:none; z-index:200000; font-family:'Orbitron'; font-weight:900; box-shadow:0 0 20px rgba(0,174,239,0.5);">COPIED</div>
+<script src="/menu.js"></script>
 
-    <script src="/menu.js"></script>
-
-    <script>
-        // 不正操作警告
-        document.addEventListener('keydown', (e) => {
-            if (e.ctrlKey && (e.key === 's' || e.key === 'u' || e.key === 'i' || e.key === 'j')) {
-                e.preventDefault();
-                alert("SECURITY ERROR: Unauthorized action.");
-            }
-        });
-
-        const REPO = "emr-snn-dev/emr-snn-dev.github.io";
-        const CAL_ID = "373a1a4fda869bb27bafd57df85f2736ac20bb224e6733897f74bc1e221647a@group.calendar.google.com";
-        // APIキーはGoogle Cloud Consoleで作成した完全なものを入力してください
-        const API_K = "YOUR_FULL_API_KEY_HERE"; 
-
-        let postsData = [];
-
-        async function fetchCalendar() {
-            const container = document.getElementById('event-display');
-            try {
-                const now = new Date().toISOString();
-                const url = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(CAL_ID)}/events?key=${API_K}&timeMin=${now}&maxResults=3&singleEvents=true&orderBy=startTime`;
-                
-                const res = await fetch(url);
-                if (!res.ok) throw new Error('Network response was not ok');
-                
-                const data = await res.json();
-                if (data.items && data.items.length > 0) {
-                    container.innerHTML = data.items.map(item => {
-                        const start = new Date(item.start.dateTime || item.start.date);
-                        return `
-                            <div class="event-item">
-                                <div>
-                                    <span class="event-day">${start.getDate()}</span>
-                                    <span class="event-month">${start.toLocaleString('en-us',{month:'SHORT'}).toUpperCase()}</span>
-                                </div>
-                                <div>
-                                    <span class="event-title">${item.summary}</span>
-                                </div>
-                            </div>`;
-                    }).join('');
-                } else {
-                    container.innerHTML = '<p style="font-size:0.7rem; color:#94a3b8;">NO SCHEDULE FOUND</p>';
-                }
-            } catch (e) {
-                console.error('Calendar Load Error:', e);
-                container.innerHTML = '<p style="font-size:0.7rem; color:#ff4d4d;">LOAD ERROR: Check API Settings</p>';
-            }
+<script>
+    document.addEventListener('keydown', (e) => {
+        if (e.ctrlKey && (e.key === 's' || e.key === 'u' || e.key === 'i' || e.key === 'j')) {
+            e.preventDefault();
+            alert("SECURITY ERROR");
         }
+    });
 
-        firebase.auth().onAuthStateChanged((user) => {
-            initBlog();
-            fetchCalendar();
-        });
+    const REPO = "emr-snn-dev/emr-snn-dev.github.io";
+    let postsData = [];
 
-        async function initBlog() {
-            try {
-                const res = await fetch(`https://api.github.com/repos/${REPO}/contents/blog?t=${Date.now()}`);
-                const files = await res.json();
-                const mdFiles = files.filter(f => f.name.endsWith('.md')).reverse();
-                const cats = new Set();
-                postsData = mdFiles.map((f, i) => {
-                    const name = f.name.replace('.md', '');
-                    const c = name.match(/\[(.*?)\]/)?.[1] || 'ETC';
-                    cats.add(c);
-                    return { url: f.download_url, fileName: f.name, date: name.match(/^(\d{8})/)?.[1] || '', category: c, title: name.replace(/^\d+_/, '').replace(/\[.*?\]/, '').replace(/_/g, ' ').trim(), id: i };
-                });
-                document.getElementById('category-list').innerHTML = `<li class="cat-item active" id="cat-ALL" onclick="filterCategory('ALL', this)">ALL</li>` + 
-                    Array.from(cats).map(c => `<li class="cat-item" id="cat-${c}" onclick="filterCategory('${c}', this)">${c}</li>`).join('');
-                renderList(postsData);
-            } catch (e) {
-                document.getElementById('blog-list').innerText = "取得失敗";
-            }
+    firebase.auth().onAuthStateChanged((user) => {
+        initBlog();
+    });
+
+    async function initBlog() {
+        try {
+            const res = await fetch(`https://api.github.com/repos/${REPO}/contents/blog?t=${Date.now()}`);
+            const files = await res.json();
+            const mdFiles = files.filter(f => f.name.endsWith('.md')).reverse();
+            const cats = new Set();
+            postsData = mdFiles.map((f, i) => {
+                const name = f.name.replace('.md', '');
+                const c = name.match(/\[(.*?)\]/)?.[1] || 'ETC';
+                cats.add(c);
+                return { url: f.download_url, fileName: f.name, date: name.match(/^(\d{8})/)?.[1] || '', category: c, title: name.replace(/^\d+_/, '').replace(/\[.*?\]/, '').replace(/_/g, ' ').trim(), id: i };
+            });
+            document.getElementById('category-list').innerHTML = `<li class="cat-item active" onclick="filterCategory('ALL', this)">ALL</li>` + 
+                Array.from(cats).map(c => `<li class="cat-item" onclick="filterCategory('${c}', this)">${c}</li>`).join('');
+            renderList(postsData);
+        } catch (e) {
+            document.getElementById('blog-list').innerText = "取得失敗";
         }
+    }
 
-        function renderList(data) {
-            document.getElementById('blog-list').innerHTML = data.map(p => `
-                <article class="blog-card" data-cat="${p.category}" onclick="openPost(${p.id})">
-                    <span style="color:#00aeef; font-size:0.7rem; font-family:'Orbitron'; font-weight:900;">${p.date}</span>
-                    <span class="category-label">${p.category}</span>
-                    <h3 style="margin:10px 0 0; font-size:1.1rem; line-height:1.4;">${p.title}</h3>
-                </article>
-            `).join('');
-        }
+    function renderList(data) {
+        document.getElementById('blog-list').innerHTML = data.map(p => `
+            <article class="blog-card" data-cat="${p.category}" onclick="openPost(${p.id})">
+                <span style="color:#00aeef; font-size:0.7rem; font-family:'Orbitron'; font-weight:900;">${p.date}</span>
+                <span class="category-label">${p.category}</span>
+                <h3 style="margin:10px 0 0; font-size:1.1rem; line-height:1.4;">${p.title}</h3>
+            </article>
+        `).join('');
+    }
 
-        async function openPost(index) {
-            const post = postsData[index];
-            if (!post) return;
-            document.getElementById('blog-viewer').style.display = 'block';
-            document.body.style.overflow = 'hidden';
-            const res = await fetch(`${post.url}?t=${Date.now()}`);
-            let html = marked.parse(await res.text());
-            document.getElementById('post-content').innerHTML = html;
-        }
+    async function openPost(index) {
+        const post = postsData[index];
+        if (!post) return;
+        document.getElementById('blog-viewer').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+        const res = await fetch(`${post.url}?t=${Date.now()}`);
+        let html = marked.parse(await res.text());
+        document.getElementById('post-content').innerHTML = html;
+    }
 
-        function closePost() { document.getElementById('blog-viewer').style.display = 'none'; document.body.style.overflow = 'auto'; }
+    function closePost() { document.getElementById('blog-viewer').style.display = 'none'; document.body.style.overflow = 'auto'; }
 
-        function filterCategory(cat, el) {
-            document.querySelectorAll('.cat-item').forEach(i => i.classList.remove('active')); el.classList.add('active');
-            document.querySelectorAll('.blog-card').forEach(c => { c.style.display = (cat === 'ALL' || c.dataset.cat === cat) ? 'block' : 'none'; });
-        }
-    </script>
-</body>
-</html>
+    function filterCategory(cat, el) {
+        document.querySelectorAll('.cat-item').forEach(i => i.classList.remove('active')); el.classList.add('active');
+        document.querySelectorAll('.blog-card').forEach(c => { c.style.display = (cat === 'ALL' || c.dataset.cat === cat) ? 'block' : 'none'; });
+    }
+</script>
+</body> </html>
