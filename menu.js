@@ -33,7 +33,7 @@
                     <li><a href="/index.html">HOME</a></li>
                     <li><a href="/about.html">ABOUT</a></li>
                     <li><a href="/blog/index.html">BLOG</a></li>
-                    <li><a href="/downloads.html">download</a></li>
+                    <li><a href="downloads.html">downloads</a></li>
                     <li><a href="/team/index.html">MEMBER</a></li>
                     <li style="position:relative;">
                         <a href="/activity-log.html">LOG</a>
@@ -49,7 +49,7 @@
                     <a href="/blog/index.html" class="m-chip" style="display:inline-block; padding:10px 24px; background:#00aeef; color:#fff; border-radius:20px; text-decoration:none; font-weight:900; font-size:14px; border:1px solid #00aeef;">Blog</a>
                     <a href="/team/index.html" class="m-chip" style="display:inline-block; padding:10px 24px; background:#f1f5f9; color:#475569; border-radius:20px; text-decoration:none; font-weight:900; font-size:14px; border:1px solid #e2e8f0;">Member</a>
                     <a href="/activity-log.html" class="m-chip" style="display:inline-block; padding:10px 24px; background:#f1f5f9; color:#475569; border-radius:20px; text-decoration:none; font-weight:900; font-size:14px; border:1px solid #e2e8f0;">Log</a>
-                    <a href="/downloads.html" class="m-chip" style="display:inline-block; padding:10px 24px; background:#f1f5f9; color:#475569; border-radius:20px; text-decoration:none; font-weight:900; font-size:14px; border:1px solid #e2e8f0;">Download</a>
+                    <a href="downloads.html" class="m-chip" style="display:inline-block; padding:10px 24px; background:#f1f5f9; color:#475569; border-radius:20px; text-decoration:none; font-weight:900; font-size:14px; border:1px solid #e2e8f0;">Downloads</a>
                 </div>
             </div>`;
         
