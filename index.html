@@ -1,4 +1,8 @@
-<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>篠ノ井技術クラブ</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=Montserrat:wght@900&display=swap" rel="stylesheet"><style>:root {--glass-bg: rgba(255, 255, 255, 0.35);--glass-border: rgba(255, 255, 255, 0.5);--blur-val: blur(30px);--accent: #00aeef;--text-dark: #0f172a;--header-h: 110px;}html, body {margin: 0; padding: 0; width: 100%; min-height: 100vh;background: linear-gradient(135deg, #f0f9ff 0%, #ffffff 50%, #e0f2fe 100%);background-attachment: fixed; font-family: 'Noto Sans JP', sans-serif;color: var(--text-dark); overflow-x: hidden; line-height: 1.8;}#nav-container {position: fixed; top: 0; left: 0; width: 100%; height: var(--header-h);display: flex; align-items: center; justify-content: space-between;padding: 0 40px; z-index: 10000; box-sizing: border-box;background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px);border-bottom: 1px solid rgba(0,0,0,0.05);}.logo-box { display: flex; align-items: center; }.logo-main {font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 32px;letter-spacing: 2px; color: var(--text-dark); text-decoration: none;}.gate-i {color: var(--text-dark); font-family: 'Montserrat', sans-serif; font-weight: 900;font-size: 32px; text-decoration: none; border-left: 1px solid rgba(0,0,0,0.1);padding-left: 10px; margin-left: 4px; transition: color 0.3s; cursor: default;}.gate-i:hover { color: var(--accent); cursor: pointer; }.sub-tag { font-size: 11px; color: var(--accent); font-weight: 900; margin-left: 20px; white-space: nowrap; }    .pc-nav { display: flex; gap: 20px; align-items: center; }
+<!DOCTYPE html>
+
+<html lang="ja"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>篠ノ井技術クラブ</title> <link rel="preconnect" href="https://fonts.googleapis.com"> <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=Montserrat:wght@900&display=swap" rel="stylesheet"> <style> :root { --glass-bg: rgba(255, 255, 255, 0.35); --glass-border: rgba(255, 255, 255, 0.5); --blur-val: blur(30px); --accent: #00aeef; --text-dark: #0f172a; --header-h: 110px; } html, body { margin: 0; padding: 0; width: 100%; min-height: 100vh; background: linear-gradient(135deg, #f0f9ff 0%, #ffffff 50%, #e0f2fe 100%); background-attachment: fixed; font-family: 'Noto Sans JP', sans-serif; color: var(--text-dark); overflow-x: hidden; line-height: 1.8; } #nav-container { position: fixed; top: 0; left: 0; width: 100%; height: var(--header-h); display: flex; align-items: center; justify-content: space-between; padding: 0 40px; z-index: 10000; box-sizing: border-box; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(0,0,0,0.05); } .logo-box { display: flex; align-items: center; } .logo-main { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 32px; letter-spacing: 2px; color: var(--text-dark); text-decoration: none; } /* 裏ログイン：ロゴに溶け込む「I」 */ .gate-i { color: var(--text-dark); font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 32px; text-decoration: none; border-left: 1px solid rgba(0,0,0,0.1); padding-left: 10px; margin-left: 4px; transition: color 0.3s; cursor: default; } .gate-i:hover { color: var(--accent); cursor: pointer; } .sub-tag { font-size: 11px; color: var(--accent); font-weight: 900; margin-left: 20px; white-space: nowrap; }
+
+    .pc-nav { display: flex; gap: 20px; align-items: center; }
     .pc-nav a {
         text-decoration: none; color: var(--text-dark); font-weight: 900;
         font-size: 0.9rem; transition: 0.3s; text-transform: uppercase;
@@ -78,6 +82,52 @@
         .m-link { text-decoration: none; color: var(--text-dark); font-weight: 900; font-size: 0.75rem; }
     }
 </style>
-</head><body><header id="nav-container"><div class="logo-box"><a href="index.html" class="logo-main">SHINONO</a><a href="login.html" class="gate-i">I</a><span class="sub-tag">篠ノ井EMC 開発チーム</span></div><nav class="pc-nav"><a href="index.html">HOME</a><a href="about.html">ABOUT</a><a href="news.html">BLOG</a><a href="download.html">download</a><a href="team/index.html">MEMBER</a><a href="log.html">LOG</a><a href="mypage.html" style="color:var(--accent);">MY PAGE</a></nav></header><div class="wrapper"><div id="eme-wrap"><span style="color:#ff4d4d; font-weight:900;">ALERT</span><div id="eme-text" style="font-weight:900;"></div></div><div class="hero"><h1>篠ノ井技術クラブ</h1><p>ENGINEERING THE FUTURE</p></div><main class="glass-card"><section><h2 class="sec-title">私たちについて</h2><a href="about.html" class="card-link-box"><h3>クラブの理念と活動内容</h3><p>篠ノ井技術クラブの目的や、活動内容についてはこちらをご覧ください。 →</p></a></section><section id="news-section"><h2 id="news-sec-title" class="sec-title">お知らせ</h2><div id="news-container"><p style="text-align:center; opacity:0.3; padding:40px;">確認中...</p></div></section><section id="auth-check" style="display:none; margin-top:60px; padding-top:60px; border-top:1px solid rgba(0,0,0,0.05);"><a href="team/index.html" style="font-size:1.8rem; font-weight:900; color:var(--accent); text-decoration:none;">メンバーポータルへ →</a></section></main></div><footer class="footer"><div style="font-family:'Montserrat',sans-serif; font-weight:900; font-size:1.2rem; margin-bottom:10px;">SHINONO<span style="opacity:0.3">I</span> TECH CLUB</div><div style="font-size:0.8rem; opacity:0.5;">&copy; 2026 篠ノ井技術クラブ All Rights Reserved.</div></footer><nav id="mobile-nav"><a href="index.html" class="m-link">HOME</a><a href="about.html" class="m-link">ABOUT</a><a href="news.html" class="m-link">BLOG</a><a href="download.html" class="m-link">DL</a><a href="team/index.html" class="m-link">TEAM</a><a href="log.html" class="m-link">LOG</a><a href="mypage.html" class="m-link" style="color:var(--accent);">MY</a></nav><script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script><script>const clean = (s) => s ? s.replace(/[#*]/g, &#39;&#39;).trim() : &quot;&quot;; async function boot() { const con = document.getElementById(&#39;news-container&#39;); const tit = document.getElementById(&#39;news-sec-title&#39;); try { const h = window.location.hostname.split(&#39;.&#39;)[0]; const r = window.location.pathname.split(&#39;/&#39;)[1] || &quot;&quot;; const apiRes = await fetch(https://www.google.com/search?q=https://api.github.com/repos/${h}/${r}/contents/news); if(apiRes.ok) { const files = await apiRes.json(); const mds = files.filter(f =&gt; f.name.endsWith(&#39;.md&#39;)).reverse().slice(0, 3); if(mds.length &gt; 0) { tit.innerText = &quot;最新のお知らせがあります&quot;; const results = await Promise.all(mds.map(f =&gt; fetch(f.download_url).then(res =&gt; res.text()))); con.innerHTML = &#39;&#39;; results.forEach((text, i) =&gt; { const lines = text.split(&#39;\n&#39;).filter(l =&gt; l.trim()); const row = document.createElement(&#39;a&#39;); row.href = news.html?file=${mds[i].name}`;
-row.className = &#39;news-row&#39;;
-row.innerHTML = `&lt;div&gt;&lt;span class=&quot;news-date&quot;&gt;${clean(lines[0])}</span><span class="news-title">${clean(lines[1])}</span></div><div style="font-size:2rem; opacity:0.1; font-weight:900;">→</div>; con.appendChild(row); }); } else { throw new Error(); } } else { throw new Error(); } } catch (e) { tit.innerText = &quot;お知らせ&quot;; con.innerHTML = <a href="news.html" class="card-link-box"><h3>お知らせはこちら</h3><p>過去のニュースや更新情報の一覧はこちらからご確認いただけます。 →</p></a>`;}try {const e = await fetch('notices/emergency.md');if(e.ok) {const t = await e.text();if(t.trim().length > 5) {document.getElementById('eme-wrap').style.display = 'block';document.getElementById('eme-text').innerText = clean(t.split('\n')[0]);}}} catch(e) {}if(typeof firebase !== 'undefined') {firebase.auth().onAuthStateChanged(u => { if(u) document.getElementById('auth-check').style.display = 'block'; });}}document.addEventListener('DOMContentLoaded', boot);</script></body></html>
+</head> <body> <header id="nav-container"> <div class="logo-box"> <a href="index.html" class="logo-main">SHINONO</a> <a href="login.html" class="gate-i">I</a> <span class="sub-tag">篠ノ井EMC 開発チーム</span> </div> <nav class="pc-nav"> <a href="index.html">HOME</a> <a href="about.html">ABOUT</a> <a href="news.html">BLOG</a> <a href="download.html">download</a> <a href="team/index.html">MEMBER</a> <a href="log.html">LOG</a> <a href="mypage.html" style="color:var(--accent);">MY PAGE</a> </nav> </header> <div class="wrapper"> <div id="eme-wrap"><span style="color:#ff4d4d; font-weight:900;">ALERT</span><div id="eme-text" style="font-weight:900;"></div></div> <div class="hero"><h1>篠ノ井技術クラブ</h1><p>ENGINEERING THE FUTURE</p></div> <main class="glass-card"> <section> <h2 class="sec-title">私たちについて</h2> <a href="about.html" class="card-link-box"> <h3>クラブの理念と活動内容</h3> <p>篠ノ井技術クラブの目的や、活動内容についてはこちらをご覧ください。 →</p> </a> </section> <section id="news-section"> <h2 id="news-sec-title" class="sec-title">お知らせ</h2> <div id="news-container"> <a href="news.html" class="card-link-box"> <h3>お知らせはこちら</h3> <p>過去のニュースや更新情報の一覧はこちらからご確認いただけます。 →</p> </a> </div> </section> <section id="auth-check" style="display:none; margin-top:60px; padding-top:60px; border-top:1px solid rgba(0,0,0,0.05);"><a href="team/index.html" style="font-size:1.8rem; font-weight:900; color:var(--accent); text-decoration:none;">メンバーポータルへ →</a></section> </main> </div> <footer class="footer"><div style="font-family:'Montserrat',sans-serif; font-weight:900; font-size:1.2rem; margin-bottom:10px;">SHINONO<span style="opacity:0.3">I</span> TECH CLUB</div><div style="font-size:0.8rem; opacity:0.5;">&copy; 2026 篠ノ井技術クラブ All Rights Reserved.</div></footer> <nav id="mobile-nav"> <a href="index.html" class="m-link">HOME</a><a href="about.html" class="m-link">ABOUT</a><a href="news.html" class="m-link">BLOG</a><a href="download.html" class="m-link">DL</a><a href="team/index.html" class="m-link">TEAM</a><a href="log.html" class="m-link">LOG</a><a href="mypage.html" class="m-link" style="color:var(--accent);">MY</a> </nav> <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script> <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script> <script> const clean = (s) => s ? s.replace(/[#*`]/g, '').trim() : ""; async function boot() { const con = document.getElementById('news-container'); const tit = document.getElementById('news-sec-title');
+
+    // 1. お知らせの取得ロジック
+    try {
+        const h = window.location.hostname.split('.')[0];
+        const r = window.location.pathname.split('/')[1] || "";
+        const apiRes = await fetch(`https://api.github.com/repos/${h}/${r}/contents/news`);
+        
+        if(apiRes.ok) {
+            const files = await apiRes.json();
+            const mds = files.filter(f => f.name.endsWith('.md')).reverse().slice(0, 3);
+            
+            if(mds.length > 0) {
+                // お知らせがある場合：タイトル書き換え & リスト表示
+                tit.innerText = "最新のお知らせがあります";
+                const results = await Promise.all(mds.map(f => fetch(f.download_url).then(res => res.text())));
+                con.innerHTML = '';
+                results.forEach((text, i) => {
+                    const lines = text.split('\n').filter(l => l.trim());
+                    const row = document.createElement('a');
+                    row.href = `news.html?file=${mds[i].name}`;
+                    row.className = 'news-row';
+                    row.innerHTML = `<div><span class="news-date">${clean(lines[0])}</span><span class="news-title">${clean(lines[1])}</span></div><div style="font-size:2rem; opacity:0.1; font-weight:900;">→</div>`;
+                    con.appendChild(row);
+                });
+            }
+            // お知らせがない（またはMDがない）場合は初期状態（お知らせはこちら）を維持
+        }
+    } catch (e) { console.error("API error"); }
+
+    // 2. 緊急通知の取得
+    try {
+        const e = await fetch('notices/emergency.md');
+        if(e.ok) {
+            const t = await e.text();
+            if(t.trim().length > 5) {
+                document.getElementById('eme-wrap').style.display = 'block';
+                document.getElementById('eme-text').innerText = clean(t.split('\n')[0]);
+            }
+        }
+    } catch(e) {}
+
+    // 3. Authチェック
+    if(typeof firebase !== 'undefined') {
+        firebase.auth().onAuthStateChanged(u => { if(u) document.getElementById('auth-check').style.display = 'block'; });
+    }
+}
+document.addEventListener('DOMContentLoaded', boot);
+</script> </body> </html>
