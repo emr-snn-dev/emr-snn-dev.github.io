@@ -1,425 +1,387 @@
 <!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>篠ノ井技術クラブ</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=Montserrat:wght@900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
 
-    <style>
-        /* =========================================
-           CORE SYSTEM: グラスモルフィズム
-           ========================================= */
-        :root {
-            --glass-bg: rgba(255, 255, 255, 0.3);
-            --glass-border: rgba(255, 255, 255, 0.4);
-            --blur-val: blur(25px);
-            --accent: #00aeef;
-            --text-dark: #0f172a;
-            --text-sub: #475569;
-            --header-h: 100px;
-        }
+<html lang="ja"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>篠ノ井技術クラブ</title>
 
-        /* 背景と上手くやる：動的なグラデーション */
-        html, body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #eef9ff 0%, #ffffff 50%, #e0f2fe 100%);
-            background-attachment: fixed;
-            font-family: 'Noto Sans JP', sans-serif;
-            color: var(--text-dark);
-            overflow-x: hidden;
-            line-height: 1.8;
-        }
+<link rel="preconnect" href="[https://fonts.googleapis.com](https://fonts.googleapis.com)">
+<link rel="preconnect" href="[https://fonts.gstatic.com](https://fonts.gstatic.com)" crossorigin>
+<link href="[https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=Montserrat:wght@900&display=swap](https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=Montserrat:wght@900&display=swap)" rel="stylesheet">
 
-        /* =========================================
-           PC NAVIGATION: 右上配置
-           ========================================= */
-        #nav-container {
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: 100%;
-            height: var(--header-h);
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            padding: 0 60px;
-            z-index: 10000;
-            box-sizing: border-box;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .pc-nav-links {
-            display: flex;
-            gap: 40px;
-        }
-
-        .pc-nav-links a {
-            text-decoration: none;
-            color: var(--text-dark);
-            font-weight: 900;
-            font-size: 1rem;
-            transition: 0.3s;
-            position: relative;
-        }
-
-        .pc-nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 3px;
-            background: var(--accent);
-            transition: 0.3s;
-        }
-
-        .pc-nav-links a:hover { color: var(--accent); }
-        .pc-nav-links a:hover::after { width: 100%; }
-
-        /* =========================================
-           MAIN LAYOUT: 重なり回避構造
-           ========================================= */
-        .wrapper {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding-top: calc(var(--header-h) + 60px);
-            padding-bottom: 150px;
-            padding-left: 24px;
-            padding-right: 24px;
-            box-sizing: border-box;
-        }
-
-        /* あるときだけ出す：緊急通知（透かしデザイン） */
-        #emergency-wrap {
-            display: none; /* 初期は非表示 */
-            margin-bottom: 60px;
-            padding: 30px;
-            text-align: center;
-            border-radius: 40px;
-            background: rgba(255, 77, 77, 0.05);
-            border: 1px solid rgba(255, 77, 77, 0.2);
-            backdrop-filter: var(--blur-val);
-            animation: fadeIn 1s ease;
-        }
-
-        .emer-title {
-            color: #ff4d4d;
-            font-weight: 900;
-            font-size: 1.4rem;
-            letter-spacing: 2px;
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        /* ヒーローエリア */
-        .hero {
-            text-align: center;
-            margin-bottom: 80px;
-        }
-
-        .hero h1 {
-            font-size: clamp(3.2rem, 12vw, 6.5rem);
-            font-weight: 900;
-            letter-spacing: -5px;
-            margin: 0;
-            background: linear-gradient(to bottom, #0f172a, #475569);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            line-height: 1;
-        }
-
-        .hero p.tagline {
-            font-weight: 900;
-            color: var(--accent);
-            margin-top: 20px;
-            font-size: 1.3rem;
-            letter-spacing: 8px;
-            text-transform: uppercase;
-        }
-
-        /* 四角くない透過デザイン：メインセクション */
-        .glass-island {
-            background: var(--glass-bg);
-            backdrop-filter: var(--blur-val);
-            -webkit-backdrop-filter: var(--blur-val);
-            border: 1px solid var(--glass-border);
-            border-radius: 80px;
-            padding: 90px 70px;
-            box-shadow: 0 40px 120px rgba(0, 0, 0, 0.04);
-            display: flex;
-            flex-direction: column;
-            gap: 80px;
-        }
-
-        /* ニュースセクション（3件限定） */
-        .section-box { width: 100%; text-align: left; }
-
-        .section-label {
-            font-size: 1.8rem;
-            font-weight: 900;
-            margin-bottom: 40px;
-            display: flex;
-            align-items: center;
-            gap: 25px;
-        }
-
-        .section-label::before {
-            content: '';
-            width: 60px;
-            height: 4px;
-            background: var(--accent);
-            border-radius: 2px;
-        }
-
-        .news-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 35px 0;
-            text-decoration: none;
-            color: inherit;
-            border-bottom: 1px solid rgba(0,0,0,0.06);
-            transition: 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-        }
-
-        .news-row:hover {
-            transform: translateX(20px);
-            color: var(--accent);
-        }
-
-        .news-info { display: flex; flex-direction: column; gap: 8px; }
-        
-        .news-date {
-            font-size: 0.9rem;
-            font-weight: 900;
-            opacity: 0.5;
-            letter-spacing: 1px;
-        }
-
-        .news-title {
-            font-size: 1.5rem;
-            font-weight: 900;
-            line-height: 1.4;
-        }
-
-        /* リンクボタン */
-        .huge-link {
-            font-size: clamp(1.8rem, 5vw, 2.5rem);
-            font-weight: 900;
-            color: var(--text-dark);
-            text-decoration: none;
-            transition: 0.4s;
-            display: inline-block;
-            position: relative;
-        }
-
-        .huge-link span { position: relative; z-index: 2; }
-
-        .huge-link:hover {
-            color: var(--accent);
-            transform: scale(1.05);
-        }
-
-        /* メンバー専用エリア */
-        .member-zone {
-            display: none;
-            text-align: left;
-            padding-top: 20px;
-            border-top: 1px solid rgba(0,0,0,0.05);
-        }
-
-        /* =========================================
-           MOBILE MENU: 透過フローティング
-           ========================================= */
-        #mobile-line-menu {
-            display: none !important;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* =========================================
-           RESPONSIVE
-           ========================================= */
-        @media (max-width: 1024px) {
-            #nav-container { display: none !important; }
-            .wrapper { padding-top: 100px; }
-            .glass-island { padding: 60px 30px; border-radius: 50px; }
-            
-            #mobile-line-menu {
-                display: flex !important;
-                position: fixed !important;
-                bottom: 30px !important;
-                left: 50% !important;
-                transform: translateX(-50%) !important;
-                background: rgba(255, 255, 255, 0.8) !important;
-                backdrop-filter: blur(15px) !important;
-                padding: 10px 25px !important;
-                border-radius: 40px !important;
-                box-shadow: 0 15px 45px rgba(0,0,0,0.1) !important;
-                z-index: 10006 !important;
-                border: 1px solid rgba(255,255,255,0.4) !important;
-                gap: 15px;
-            }
-            .m-chip {
-                text-decoration: none !important;
-                color: var(--text-dark) !important;
-                font-weight: 900 !important;
-                font-size: 0.9rem !important;
-                padding: 10px !important;
-            }
-        }
-    </style>
-</head>
-<body>
-
-<div id="nav-container">
-    <nav class="pc-nav-links">
-        <a href="index.html">ホーム</a>
-        <a href="about.html">クラブについて</a>
-        <a href="news.html">お知らせ</a>
-        <a href="team/index.html">メンバー</a>
-    </nav>
-</div>
-
-<div class="wrapper">
-    <div id="emergency-wrap">
-        <span class="emer-title">EMERGENCY</span>
-        <div id="emer-text" style="font-weight:900; font-size:1.2rem;"></div>
-    </div>
-
-    <header class="hero">
-        <h1>篠ノ井技術クラブ</h1>
-        <p class="tagline">Engineering the Future</p>
-    </header>
-
-    <main class="glass-island">
-        <section class="section-box">
-            <h2 class="section-label">最新のお知らせ</h2>
-            <div id="news-container">
-                <p style="text-align:center; opacity:0.3; font-weight:900; padding:40px;">
-                    現在お知らせはありません
-                </p>
-            </div>
-        </section>
-
-        <section class="section-box">
-            <a href="about.html" class="huge-link">
-                <span>クラブについて知る →</span>
-            </a>
-        </section>
-
-        <section id="member-portal" class="member-zone">
-            <a href="team/index.html" class="huge-link" style="color:var(--accent);">
-                <span>メンバーポータル →</span>
-            </a>
-        </section>
-    </main>
-</div>
-
-<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
-<script src="menu.js" defer></script>
-
-<script>
-    /**
-     * CLEANER: Markdown記号の除去
-     */
-    function clean(str) {
-        if (!str) return "";
-        return str.replace(/[#*`]/g, '').trim();
+<style>
+    :root {
+        --glass-bg: rgba(255, 255, 255, 0.3);
+        --glass-border: rgba(255, 255, 255, 0.4);
+        --blur-val: blur(25px);
+        --accent: #00aeef;
+        --text-dark: #0f172a;
+        --text-sub: #475569;
+        --header-h: 100px;
+        --footer-h: 70px;
     }
 
-    /**
-     * CORE ENGINE: データの自動取得と描画
-     */
-    async function boot() {
-        // 1. 緊急通知の処理
-        try {
-            const emerRes = await fetch('notices/emergency.md');
-            const emerTxt = await emerRes.text();
-            if (emerRes.ok && emerTxt.trim().length > 5) {
-                const wrap = document.getElementById('emergency-wrap');
-                const target = document.getElementById('emer-text');
-                wrap.style.display = 'block';
-                target.innerText = clean(emerTxt.split('\n')[0]);
-            }
-        } catch (e) { console.warn("Emergency file not found."); }
+    html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #eef9ff 0%, #ffffff 50%, #e0f2fe 100%);
+        background-attachment: fixed;
+        font-family: 'Noto Sans JP', sans-serif;
+        color: var(--text-dark);
+        overflow-x: hidden;
+        line-height: 1.8;
+    }
 
-        // 2. ニュース自動取得 (GitHub API経由)
-        try {
-            const pArr = window.location.pathname.split('/');
-            const repo = pArr[1] || "";
-            const user = window.location.hostname.split('.')[0];
-            const apiEndpoint = `https://api.github.com/repos/${user}/${repo}/contents/news`;
+    /* --- PC NAVIGATION --- */
+    #nav-container {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 100%;
+        height: var(--header-h);
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding: 0 60px;
+        z-index: 10000;
+        box-sizing: border-box;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
 
-            const res = await fetch(apiEndpoint);
-            if (!res.ok) throw new Error("API Error");
-            
+    .pc-nav-links {
+        display: flex;
+        gap: 40px;
+    }
+
+    .pc-nav-links a {
+        text-decoration: none;
+        color: var(--text-dark);
+        font-weight: 900;
+        font-size: 1rem;
+        transition: 0.3s;
+        position: relative;
+    }
+
+    .pc-nav-links a::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0;
+        height: 3px;
+        background: var(--accent);
+        transition: 0.3s;
+    }
+
+    .pc-nav-links a:hover { color: var(--accent); }
+    .pc-nav-links a:hover::after { width: 100%; }
+
+    /* --- MAIN LAYOUT --- */
+    .wrapper {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding-top: calc(var(--header-h) + 60px);
+        padding-bottom: 100px;
+        padding-left: 24px;
+        padding-right: 24px;
+        box-sizing: border-box;
+    }
+
+    #emergency-wrap {
+        display: none;
+        margin-bottom: 60px;
+        padding: 30px;
+        text-align: center;
+        border-radius: 40px;
+        background: rgba(255, 77, 77, 0.05);
+        border: 1px solid rgba(255, 77, 77, 0.2);
+        backdrop-filter: var(--blur-val);
+        animation: fadeIn 1s ease;
+    }
+
+    .emer-title {
+        color: #ff4d4d;
+        font-weight: 900;
+        font-size: 1.4rem;
+        letter-spacing: 2px;
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    .hero {
+        text-align: center;
+        margin-bottom: 80px;
+    }
+
+    .hero h1 {
+        font-size: clamp(3.2rem, 12vw, 6.5rem);
+        font-weight: 900;
+        letter-spacing: -5px;
+        margin: 0;
+        background: linear-gradient(to bottom, #0f172a, #475569);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        line-height: 1;
+    }
+
+    .hero p.tagline {
+        font-weight: 900;
+        color: var(--accent);
+        margin-top: 20px;
+        font-size: 1.3rem;
+        letter-spacing: 8px;
+        text-transform: uppercase;
+    }
+
+    .glass-island {
+        background: var(--glass-bg);
+        backdrop-filter: var(--blur-val);
+        -webkit-backdrop-filter: var(--blur-val);
+        border: 1px solid var(--glass-border);
+        border-radius: 80px;
+        padding: 90px 70px;
+        box-shadow: 0 40px 120px rgba(0, 0, 0, 0.04);
+        display: flex;
+        flex-direction: column;
+        gap: 80px;
+    }
+
+    .section-box { width: 100%; text-align: left; }
+
+    .section-label {
+        font-size: 1.8rem;
+        font-weight: 900;
+        margin-bottom: 40px;
+        display: flex;
+        align-items: center;
+        gap: 25px;
+    }
+
+    .section-label::before {
+        content: '';
+        width: 60px;
+        height: 4px;
+        background: var(--accent);
+        border-radius: 2px;
+    }
+
+    .news-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 35px 0;
+        text-decoration: none;
+        color: inherit;
+        border-bottom: 1px solid rgba(0,0,0,0.06);
+        transition: 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+
+    .news-row:hover {
+        transform: translateX(20px);
+        color: var(--accent);
+    }
+
+    .news-info { display: flex; flex-direction: column; gap: 8px; }
+    .news-date { font-size: 0.9rem; font-weight: 900; opacity: 0.5; letter-spacing: 1px; }
+    .news-title { font-size: 1.5rem; font-weight: 900; line-height: 1.4; }
+
+    .huge-link {
+        font-size: clamp(1.8rem, 5vw, 2.5rem);
+        font-weight: 900;
+        color: var(--text-dark);
+        text-decoration: none;
+        transition: 0.4s;
+        display: inline-block;
+        position: relative;
+    }
+
+    .huge-link span { position: relative; z-index: 2; }
+    .huge-link:hover { color: var(--accent); transform: scale(1.05); }
+
+    .member-zone {
+        display: none;
+        text-align: left;
+        padding-top: 20px;
+        border-top: 1px solid rgba(0,0,0,0.05);
+    }
+
+    /* --- FOOTER --- */
+    .site-footer {
+        background: rgba(255, 255, 255, 0.5);
+        backdrop-filter: blur(10px);
+        padding: 60px 24px;
+        text-align: center;
+        border-top: 1px solid rgba(255,255,255,0.4);
+        margin-top: 100px;
+    }
+
+    .footer-logo {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 900;
+        font-size: 1.5rem;
+        color: var(--text-dark);
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    .copyright {
+        font-size: 0.8rem;
+        color: var(--text-sub);
+        font-weight: 700;
+    }
+
+    /* --- MOBILE NAVIGATION --- */
+    #mobile-nav {
+        display: none;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* --- RESPONSIVE --- */
+    @media (max-width: 1024px) {
+        #nav-container { display: none; }
+        .wrapper { padding-top: 60px; padding-bottom: 120px; }
+        .glass-island { padding: 60px 30px; border-radius: 50px; }
+        
+        #mobile-nav {
+            display: flex;
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(15px);
+            padding: 8px 15px;
+            border-radius: 50px;
+            box-shadow: 0 15px 45px rgba(0,0,0,0.15);
+            z-index: 10006;
+            border: 1px solid rgba(255,255,255,0.5);
+            gap: 5px;
+            width: 90%;
+            max-width: 400px;
+            justify-content: space-around;
+        }
+
+        .m-link {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 900;
+            font-size: 0.75rem;
+            padding: 10px 5px;
+            flex: 1;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .m-link.active {
+            color: var(--accent);
+        }
+    }
+</style>
+</head> <body>
+
+<div id="nav-container"> <nav class="pc-nav-links"> <a href="index.html">ホーム</a> <a href="about.html">クラブについて</a> <a href="news.html">お知らせ</a> <a href="team/index.html">メンバー</a> </nav> </div>
+
+<div class="wrapper"> <div id="emergency-wrap"> <span class="emer-title">EMERGENCY</span> <div id="emer-text" style="font-weight:900; font-size:1.2rem;"></div> </div>
+
+<header class="hero">
+    <h1>篠ノ井技術クラブ</h1>
+    <p class="tagline">Engineering the Future</p>
+</header>
+
+<main class="glass-island">
+    <section class="section-box">
+        <h2 class="section-label">最新のお知らせ</h2>
+        <div id="news-container">
+            <p style="text-align:center; opacity:0.3; font-weight:900; padding:40px;">
+                現在お知らせはありません
+            </p>
+        </div>
+    </section>
+
+    <section class="section-box">
+        <a href="about.html" class="huge-link">
+            <span>クラブについて知る →</span>
+        </a>
+    </section>
+
+    <section id="member-portal" class="member-zone">
+        <a href="team/index.html" class="huge-link" style="color:var(--accent);">
+            <span>メンバーポータル →</span>
+        </a>
+    </section>
+</main>
+</div>
+
+<footer class="site-footer"> <span class="footer-logo">SHINONOI TECH CLUB</span> <p class="copyright">&copy; 2026 篠ノ井技術クラブ All Rights Reserved.</p> </footer>
+
+<nav id="mobile-nav"> <a href="index.html" class="m-link active">ホーム</a> <a href="about.html" class="m-link">クラブ</a> <a href="news.html" class="m-link">お知らせ</a> <a href="team/index.html" class="m-link">メンバー</a> </nav>
+
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+
+<script> function clean(str) { if (!str) return ""; return str.replace(/[#*`]/g, '').trim(); }
+
+async function boot() {
+    // 1. 緊急通知
+    try {
+        const emerRes = await fetch(&#39;notices/emergency.md&#39;);
+        const emerTxt = await emerRes.text();
+        if (emerRes.ok &amp;&amp; emerTxt.trim().length &gt; 5) {
+            const wrap = document.getElementById(&#39;emergency-wrap&#39;);
+            const target = document.getElementById(&#39;emer-text&#39;);
+            wrap.style.display = &#39;block&#39;;
+            target.innerText = clean(emerTxt.split(&#39;\n&#39;)[0]);
+        }
+    } catch (e) { console.warn(&quot;Emergency file not found.&quot;); }
+
+    // 2. ニュース自動取得
+    try {
+        const pathSegments = window.location.pathname.split(&#39;/&#39;);
+        const repo = pathSegments[1] || &quot;&quot;;
+        const user = window.location.hostname.split(&#39;.&#39;)[0];
+        const apiEndpoint = `https://api.github.com/repos/${user}/${repo}/contents/news`;
+
+        const res = await fetch(apiEndpoint);
+        if (res.ok) {
             const files = await res.json();
-            // mdファイルを最新順にソートして上位3件のみ抽出
-            const mdFiles = files.filter(f => f.name.endsWith('.md')).reverse().slice(0, 3);
-            
-            const container = document.getElementById('news-container');
-            if (mdFiles.length > 0) container.innerHTML = '';
+            const mdFiles = files.filter(f =&gt; f.name.endsWith(&#39;.md&#39;)).reverse().slice(0, 3);
+            const container = document.getElementById(&#39;news-container&#39;);
+            if (mdFiles.length &gt; 0) container.innerHTML = &#39;&#39;;
 
             for (const file of mdFiles) {
                 const cRes = await fetch(file.download_url);
                 const raw = await cRes.text();
-                const lines = raw.split('\n').filter(l => l.trim());
-
-                // ニュース行を生成
-                const row = document.createElement('a');
+                const lines = raw.split(&#39;\n&#39;).filter(l =&gt; l.trim());
+                const row = document.createElement(&#39;a&#39;);
                 row.href = `news.html?file=${file.name}`;
-                row.className = 'news-row';
+                row.className = &#39;news-row&#39;;
                 row.innerHTML = `
-                    <div class="news-info">
-                        <span class="news-date">${clean(lines[0])}</span>
-                        <span class="news-title">${clean(lines[1])}</span>
-                    </div>
-                    <div style="font-size:2rem; opacity:0.1; font-weight:900;">→</div>
+                    &lt;div class=&quot;news-info&quot;&gt;
+                        &lt;span class=&quot;news-date&quot;&gt;${clean(lines[0])}&lt;/span&gt;
+                        &lt;span class=&quot;news-title&quot;&gt;${clean(lines[1])}&lt;/span&gt;
+                    &lt;/div&gt;
+                    &lt;div style=&quot;font-size:2rem; opacity:0.1; font-weight:900;&quot;&gt;→&lt;/div&gt;
                 `;
                 container.appendChild(row);
             }
-        } catch (e) { console.error("News load failed."); }
+        }
+    } catch (e) { console.error(&quot;News load failed.&quot;); }
 
-        // 3. Auth状態による表示
-        firebase.auth().onAuthStateChanged(user => {
-            if (user) document.getElementById('member-portal').style.display = 'block';
+    // 3. Auth状態による表示
+    if (typeof firebase !== &#39;undefined&#39;) {
+        firebase.auth().onAuthStateChanged(user =&gt; {
+            if (user) document.getElementById(&#39;member-portal&#39;).style.display = &#39;block&#39;;
         });
-
-        // 4. スマホメニューの自動調整（日本語固定）
-        setInterval(() => {
-            const mMenu = document.getElementById('mobile-line-menu');
-            if (mMenu) {
-                const chips = mMenu.querySelectorAll('.m-chip');
-                chips.forEach(chip => {
-                    const text = chip.innerText.toLowerCase();
-                    if (text.includes('home')) chip.innerText = 'ホーム';
-                    if (text.includes('about')) {
-                        chip.innerText = 'クラブについて';
-                        chip.href = 'about.html';
-                    }
-                });
-            }
-        }, 500);
     }
+}
 
-    // 実行
-    document.addEventListener('DOMContentLoaded', boot);
+document.addEventListener(&#39;DOMContentLoaded&#39;, boot);
 </script>
 
-</body>
-</html>
+</body> </html>
