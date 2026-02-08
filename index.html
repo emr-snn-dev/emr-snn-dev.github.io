@@ -3,134 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>パートナーシップ | 篠ノ井技術クラブ</title>
-    <link rel="stylesheet" href="../style.css">
+    <title>篠ノ井技術クラブ | OFFICIAL SITE</title>
+    <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Noto+Sans+JP:wght@400;900&display=swap" rel="stylesheet">
     <style>
-        body { background: #f8fafc; color: #1e293b; margin: 0; font-family: 'Noto Sans JP', sans-serif; display: flex; flex-direction: column; min-height: 100vh; }
-        
-        /* メニュー表示エリア：menu.jsがここを書き換えます */
-        #nav-container { width: 100%; position: relative; z-index: 9999; background: #fff; min-height: 60px; }
+        body { background: #0f172a; color: #fff; margin: 0; font-family: 'Noto Sans JP', sans-serif; overflow-x: hidden; }
+        #nav-container { width: 100%; position: fixed; top: 0; z-index: 9999; }
 
-        .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; flex: 1; }
-        .countdown-area { background: #0f172a; color: white; padding: 40px 20px; text-align: center; border-bottom: 5px solid #00aeef; }
-        .countdown-label { font-family: 'Orbitron'; font-size: 0.8rem; color: #00aeef; letter-spacing: 4px; margin-bottom: 10px; display: block; }
-        .timer-display { font-family: 'Orbitron'; font-size: 3.5rem; font-weight: 900; letter-spacing: 2px; }
-        .timer-unit { font-size: 0.8rem; margin-right: 15px; color: #94a3b8; }
-        header { text-align: center; padding: 60px 20px; background: #fff; }
-        header h1 { font-family: 'Orbitron'; font-size: 2.2rem; margin: 0; letter-spacing: 8px; color: #0f172a; }
-        .sub-header { color: #00aeef; font-weight: 900; letter-spacing: 4px; margin-top: 5px; font-size: 0.85rem; }
-        .sponsor-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; margin-top: 20px; margin-bottom: 60px; }
-        .sponsor-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 25px; transition: 0.4s; display: flex; flex-direction: column; text-align: left; }
-        .sponsor-card:hover { transform: translateY(-5px); border-color: #00aeef; box-shadow: 0 15px 30px rgba(0,0,0,0.05); }
-        .partner-name { font-weight: 900; font-size: 1.3rem; color: #0f172a; margin-bottom: 15px; display: block; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px; }
-        .partner-desc h1 { font-size: 1.2rem; font-weight: 900; color: #0f172a; margin: 0 0 15px 0; border-left: 5px solid #00aeef; padding-left: 12px; line-height: 1.4; }
-        .cat-tag { font-family: 'Orbitron', 'Noto Sans JP'; font-size: 0.6rem; color: #00aeef; background: #f0f9ff; padding: 4px 10px; border-radius: 4px; font-weight: 900; margin-bottom: 15px; width: fit-content; }
-        .web-link { display: inline-block; margin-top: auto; padding: 12px; background: #0f172a; color: #fff; text-decoration: none; border-radius: 6px; font-size: 0.75rem; font-weight: 900; text-align: center; transition: 0.3s; }
-        footer { background: #fff; border-top: 1px solid #e2e8f0; padding: 40px 20px; text-align: center; margin-top: auto; }
-        .sys-ver { position: fixed; bottom: 12px; right: 20px; font-family: 'Orbitron'; font-size: 0.6rem; color: #cbd5e1; pointer-events: none; }
+        .hero { 
+            height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; 
+            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+            text-align: center; padding: 0 20px;
+        }
+
+        .hero h1 { font-family: 'Orbitron'; font-size: clamp(2rem, 8vw, 5rem); margin: 0; letter-spacing: 15px; font-weight: 900; }
+        .hero p { color: #00aeef; font-weight: 900; letter-spacing: 5px; margin-top: 20px; font-size: 1.2rem; }
+
+        /* マイページボタンのスタイル（初期状態は隠す） */
+        #hero-mypage-btn {
+            display: none;
+            margin-top: 30px;
+            padding: 15px 40px;
+            background: transparent;
+            color: #00aeef;
+            border: 2px solid #00aeef;
+            border-radius: 50px;
+            font-family: 'Orbitron';
+            font-weight: 900;
+            text-decoration: none;
+            transition: 0.3s;
+            animation: pulse 2s infinite;
+        }
+        #hero-mypage-btn:hover { background: #00aeef; color: #fff; box-shadow: 0 0 20px rgba(0, 174, 239, 0.5); }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 174, 239, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(0, 174, 239, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 174, 239, 0); }
+        }
+
+        .main-content { max-width: 1200px; margin: 0 auto; padding: 100px 20px; }
+        .section-title { font-family: 'Orbitron'; font-size: 2rem; border-left: 5px solid #00aeef; padding-left: 20px; margin-bottom: 50px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 40px; border-radius: 15px; transition: 0.3s; text-decoration: none; color: inherit; }
+        .card:hover { background: rgba(0, 174, 239, 0.1); border-color: #00aeef; transform: translateY(-10px); }
+        .card h3 { font-family: 'Orbitron'; font-size: 1.5rem; margin-bottom: 15px; color: #00aeef; }
+
+        footer { padding: 60px 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); }
     </style>
 </head>
 <body>
 
 <div id="nav-container"></div>
 
-<div class="countdown-area">
-    <span class="countdown-label">COUNTDOWN TO MOTEGI 05.30</span>
-    <div class="timer-display">
-        <span id="days">00</span><span class="timer-unit">DAYS</span>
-        <span id="hours">00</span><span class="timer-unit">HRS</span>
+<section class="hero">
+    <h1>SHINONOI</h1>
+    <p>ENGINEERING CLUB</p>
+    
+    <a href="team/index.html" id="hero-mypage-btn">ENTER MY PAGE</a>
+
+    <div style="margin-top: 40px;">
+        <span id="log-status-text" style="font-family:'Orbitron'; font-size:0.7rem; color:#475569;">STATUS: INITIALIZING...</span>
     </div>
-</div>
+</section>
 
-<header>
-    <h1>PARTNERS</h1>
-    <div class="sub-header">もてぎ大会 挑戦パートナーシップ</div>
-</header>
-
-<main class="container">
-    <div id="sponsor-list" class="sponsor-grid"></div>
+<main class="main-content">
+    <h2 class="section-title">PROJECTS</h2>
+    <div class="grid">
+        <a href="about.html" class="card">
+            <h3>ABOUT</h3>
+            <p>篠ノ井技術クラブの理念と活動内容。</p>
+        </a>
+        <a href="sponsors/index.html" class="card">
+            <h3>PARTNERS</h3>
+            <p>挑戦を支えるパートナー企業のご紹介。</p>
+        </a>
+        <a href="blog/index.html" class="card">
+            <h3>BLOG</h3>
+            <p>開発記録ともてぎ大会への進捗状況。</p>
+        </a>
+    </div>
 </main>
 
 <footer>
     <div id="google_translate_element"></div>
-    <p style="font-size: 0.7rem; color: #94a3b8;">&copy; 篠ノ井技術クラブ</p>
+    <p style="font-family:'Orbitron'; font-size:0.8rem; margin-top:20px;">&copy; 2026 SHINONOI ENGINEERING CLUB</p>
 </footer>
-
-<div class="sys-ver">v6.1.0 / AUTH-SAFE-NAV</div>
 
 <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
+<script src="menu.js" defer></script>
 
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+    // Firebaseの状態変化を監視してトップページのボタンを出し入れする
+    window.addEventListener('load', () => {
+        firebase.auth().onAuthStateChanged((user) => {
+            const myPageBtn = document.getElementById('hero-mypage-btn');
+            if (user) {
+                // ログイン中ならボタンを表示
+                myPageBtn.style.display = 'inline-block';
+            } else {
+                // ログアウト中なら隠す
+                myPageBtn.style.display = 'none';
+            }
+        });
+    });
 
-<script src="../menu.js" defer></script>
-
-<script type="text/javascript">
-function googleTranslateElementInit() {
-  new google.translate.TranslateElement({pageLanguage: 'ja', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
-}
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({pageLanguage: 'ja', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+    }
 </script>
 <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
-<script>
-window.addEventListener('load', () => {
-    updateTimer();
-    setInterval(updateTimer, 1000);
-    loadSponsors();
-});
-
-function updateTimer() {
-    const target = new Date("May 30, 2026 00:00:00").getTime();
-    const now = new Date().getTime();
-    const diff = target - now;
-    const d = Math.max(0, Math.floor(diff / (1000 * 60 * 60 * 24)));
-    const h = Math.max(0, Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
-    const dEl = document.getElementById("days");
-    const hEl = document.getElementById("hours");
-    if(dEl && hEl) {
-        dEl.innerText = d.toString().padStart(2, '0');
-        hEl.innerText = h.toString().padStart(2, '0');
-    }
-}
-
-async function loadSponsors() {
-    const list = document.getElementById('sponsor-list');
-    const USER = "emr-snn-dev"; 
-    const REPO = "emr-snn-dev.github.io";
-    try {
-        const response = await fetch(`https://api.github.com/repos/${USER}/${REPO}/contents/sponsors`);
-        if (!response.ok) return;
-        const files = await response.json();
-        list.innerHTML = "";
-        const mdFiles = files.filter(f => f.name.endsWith('.md'));
-
-        for (const file of mdFiles) {
-            const raw = await fetch(file.download_url).then(r => r.text());
-            const displayTitle = file.name.replace('.md', '').replace('その他-', '');
-            const urlMatch = raw.match(/https?:\/\/[\w/:%#\$&\?\(\)~\.=\+\-]+/g);
-            let webUrl = urlMatch ? urlMatch[0] : null;
-
-            if (webUrl) {
-                const sep = webUrl.includes('?') ? '&' : '?';
-                webUrl = `${webUrl}${sep}id=${encodeURIComponent(displayTitle)}`;
-            }
-            const desc = raw.replace(urlMatch ? urlMatch[0] : "").trim();
-            const html = `
-                <div class="sponsor-card">
-                    <span class="cat-tag">OFFICIAL PARTNER</span>
-                    <span class="partner-name">${displayTitle}</span>
-                    <div class="partner-desc">${marked.parse(desc)}</div>
-                    ${webUrl ? `<a href="${webUrl}" target="_blank" class="web-link">WEBSITE</a>` : ""}
-                </div>
-            `;
-            list.insertAdjacentHTML('beforeend', html);
-        }
-    } catch (e) {
-        list.innerHTML = "<p>読み込みエラー</p>";
-    }
-}
-</script>
 </body>
 </html>
