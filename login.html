@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+
+<html lang="ja"> <head> <meta charset="UTF-8"> <meta http-equiv="refresh" content="0;URL='/team/login.html'"> <title>REDIRECTING...</title> <style> body { background: #0b1d2e; color: #00aeef; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: 'Orbitron', sans-serif; letter-spacing: 2px; } </style> </head> <body> <div id="msg">REDIRECTING TO SECURE GATE...</div>
+
+<script>
+    // URLパラメータ（QRコードのスキップ用など）がある場合はそれも引き継いで転送する
+    const currentParams = window.location.search;
+    window.location.href = "/team/login.html" + currentParams;
+</script>
+</body> </html>
